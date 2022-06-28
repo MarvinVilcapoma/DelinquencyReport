@@ -1,0 +1,286 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+
+@{
+    ViewBag.Title = LocalResource.ViewTitle;
+}
+@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@GlobalResource.Cases</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Case", new { area = "Cases", id= ((string)Html.ViewContext.HttpContext.Request.QueryString["id"]) })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content project-manager">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@Model.Name</h5>
+                    <div class="ibox-tools">
+                        <a style="color:inherit;" href="@Url.Action("Edit", "Case", new { id = Model.WorkflowID, caseid = Model.CaseID, area = "Cases" })" class="btn btn-white btn-xs pull-right"> @GlobalResource.Edit </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel blank-panel">
+                        <div class="panel-heading">
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs" id="dvTabs">
+                                    <li class="active"><a id="tbDebts" href="#tabDebts" data-toggle="tab">@LocalResource.Debts </a></li>
+                                    <li><a id="tbPayments" href="#tabPayments" data-toggle="tab"> @GlobalResource.Payments </a></li>
+                                    <li><a id="tbHistory" href="#tabHistory" data-toggle="tab">@LocalResource.Activities </a></li>
+                                    <li><a id="tbAttachments" href="#tabAttachments" data-toggle="tab">@GlobalResource.Attachment </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane project-list active" id="tabDebts">
+                                    @Html.Partial("_Debts", Model)
+                                </div>
+                                <div class="tab-pane project-list" id="tabPayments">
+
+                                </div>
+                                <div class="tab-pane project-list" id="tabHistory">
+                                    @Html.Partial("_History")
+                                </div>
+                                <div class="tab-pane project-list" id="tabAttachments">
+                                    @Html.Partial("_Attachment")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5 class="text-description-field max-width-170">@Model.StatusName</h5>
+                    <div class="ibox-tools">
+                        <button class="btn btn-primary dropdown-toggle workflowSelected" name="btnAction" data-toggle="dropdown">
+                            @GlobalResource.Action
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="ddlStatusAction">
+                            @{
+                                if (Model.StatusActions != null && Model.StatusActions.Any())
+                                {
+                                    foreach (var item in Model.StatusActions)
+                                    {
+                                        <li><a data-statusid="@item.ID" data-formid="@(item.FormID ?? 0)">@item.Name</a></li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li><a data-statusid="-1" data-formid="-2">@GlobalResource.NoDataMessage</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="panel-group">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseDetails" aria-expanded="true" class="">@LocalResource.Details</a>
+                                </h5>
+                            </div>
+                            <div id="collapseDetails" class="panel-collapse collapse in" aria-expanded="true">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5 text-description-field max-width-170" title="@Model.Refrence">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Account:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.AccountName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Workflow:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.WorkFlowName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Reference:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5 text-description-field max-width-170" title="@Model.Refrence">
+                                            @Model.Refrence
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Note:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5 text-description-field max-width-170" title="@Model.Note">
+                                            @Model.Note
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @LocalResource.Priority:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.PriorityName
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @LocalResource.Weight:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.Weight
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Owner:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.Owner
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @LocalResource.AssignedTo:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.AssignedTo
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.LastUpdated:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.ModifiedDate.ToString("g")
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            <label class="control-label no-padding-left no-padding-right"> @GlobalResource.Created:</label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 no-padding-left no-padding-right paddin-left-5">
+                                            @Model.CreatedDate.ToString("g")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h5 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTimeline" aria-expanded="true" class="">@LocalResource.Timeline</a>
+                                </h5>
+                            </div>
+                            <div id="collapseTimeline" class="panel-collapse collapse @((Model.CaseModels != null && Model.CaseModels.Any())?"":"in")in" aria-expanded="true">
+                                <div class="panel-body fixed-panel">
+                                    @{
+                                        if (Model.CaseModels != null && Model.CaseModels.Any())
+                                        {
+                                            foreach (var item in Model.CaseModels)
+                                            {
+                                                <div class="vertical-timeline-block">
+                                                    <div class="vertical-timeline-icon gray-bg">
+                                                        <i class="fa fa-briefcase"></i>
+                                                    </div>
+                                                    <div class="vertical-timeline-content">
+                                                        <p class="no-margin-bottom"><strong>@item.StatusName</strong> @item.AssignedTo</p>
+                                                        <span class="vertical-date small text-muted">@item.CreatedDateInString</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Model")
+    @Html.Partial("_AddHistory", Model.CaseMeetingNotes)
+    @Html.Partial("_HeirInformation", new ArtSolutions.MUN.Web.Areas.Cases.Models.ContactViewModel())
+    @Html.Partial("_CRIMInformation", new ArtSolutions.MUN.Web.Areas.Cases.Models.ContactViewModel())
+    @Html.Partial("_EditHistory", Model.CaseMeetingNotes)
+    @Html.Partial("_ViewHistory", Model.CaseMeetingNotes)
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    <style>
+        .datepickerDate {
+            background-color: white !important;
+        }
+
+        @@media (min-width: 768px) {
+            .form-inline .form-control {
+                width: 100% !important;
+            }
+        }
+    </style>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    <script>
+        var caseID = "@ViewContext.RouteData.Values["caseid"]";
+        var workflowID = "@Model.WorkflowID";
+        var statusID = "@Model.StatusID";
+        if (isStringNullOrEmpty(caseID)) {
+            caseID = getParameterByName("caseid");
+        }
+        var meetingType = '@Html.Raw(LocalResource.MeetingType)'; 
+        var date ='@Html.Raw(GlobalResource.Date)';  
+        var notes ='@Html.Raw(GlobalResource.Note)';
+        var caseIDLocal ='@Html.Raw(LocalResource.CaseID)';  
+        var historyID ='@Html.Raw(GlobalResource.ID)'; 
+        var nodatamsg ='@Html.Raw(GlobalResource.NoDataMessage)';  
+        var actions ='@Html.Raw(GlobalResource.Actions)'; 
+        var view ='@Html.Raw(GlobalResource.View)'; 
+        var edit ='@Html.Raw(GlobalResource.Edit)'; 
+        var id ='@Html.Raw(GlobalResource.ID)'; 
+        var byUser ='@Html.Raw(LocalResource.ByUser)';  
+        var fileName ='@Html.Raw(GlobalResource.FileName)';  
+        var removefile ='@Html.Raw(GlobalResource.RemoveFile)'; 
+        var dropzonemessage ='@Html.Raw(GlobalResource.UploadfileInitialMessage)';        
+        var dropDownSelectMessage ='@Html.Raw(GlobalResource.DropDownSelectMessage)'; 
+        var requiredValidationMsg ='@Html.Raw(GlobalResource.RequiredValidationMsg)';  
+        var first ='@Html.Raw(GlobalResource.First)'; 
+        var last ='@Html.Raw(GlobalResource.Last)';  
+        var next ='@Html.Raw(GlobalResource.Next)'; 
+        var previous ='@Html.Raw(GlobalResource.Previous)'; 
+        Dropzone.autoDiscover = false;
+    </script>
+    <script src="~/Scripts/app/casecommentformadd.js"></script>
+    <script src="~/Scripts/app/caseviewattachments.js"></script>
+    <script src="~/Scripts/app/caseactivityedit.js"></script>
+    <script src="~/Scripts/app/caseview.js"></script>
+    <script src="~/Scripts/app/caseheirinfoadd.js"></script>
+    <script src="~/Scripts/app/casecrimeinfoadd.js"></script>
+   
+}

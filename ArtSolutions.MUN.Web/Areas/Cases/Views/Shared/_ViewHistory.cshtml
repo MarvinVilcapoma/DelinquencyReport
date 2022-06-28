@@ -1,0 +1,44 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseMeetingNotes
+
+<div class="modal inmodal" id="dvViewHistoryModel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <form id="editActivityForm">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 id="emailtitle">@LocalResource.ViewActivity</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label">@LocalResource.MeetingType</label>
+                                            @Html.TextBoxFor(m => Model.MeetingType, new { @class = "form-control", @readonly = "readonly", @id = "txtViewMeetingType" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.InitialDate</label>
+                                        @Html.TextBoxFor(m => Model.Date, new { @class = "form-control", @readonly = "readonly", @id = "txtViewDate" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.Note</label>
+                                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control textarea-vertical-resize", @readonly = "readonly", @rows = 10, @cols = 80, @id = "txtViewNote" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

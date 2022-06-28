@@ -1,0 +1,536 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PropertyTransferModel
+@using ArtSolutions.MUN.Web.Areas.Cases.Models
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Transfer
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    ViewBag.Title = LocalResource.ViewSplit;
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+    <style>
+        .break {
+            page-break-before: always;
+        }
+
+        table td hr {
+            border-color: black !important;
+        }
+
+        table {
+            font-size: small !important;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="center" rowspan="5" width="20%"><img src="@Html.Raw(ArtSolutions.MUN.Web.Common.FileURL + Model.Company.LogoID)" alt="Company Logo" class="img-responsive img-lg" /></td>
+                    <td class="bold center" colspan="3">
+                        <h2>@Model.Company.Name </h2>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td width="35%">&nbsp;</td>
+                    <td width="5%">&nbsp;</td>
+                    <td width="15%" class="right bg-gray bold">@LocalResource.TransferType</td>
+                    <td width="30%" class="right table-border-td">@Model.TransferType</td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="right bg-gray bold">@LocalResource.TransferDate</td>
+                    <td class="right table-border-td">@Model.FormattedTransferDate</td>
+                </tr>
+                <tr>
+                    <td colspan="4"></td>
+                </tr>
+                <tr>
+                    @{
+                        string FromaccntAddress = Model.AccountFrom.DisplayName;
+                        FromaccntAddress = FromaccntAddress + "<br/> " + Model.AccountFrom.Address1;
+                        if (!string.IsNullOrEmpty(Model.AccountFrom.Address2))
+                        {
+                            FromaccntAddress = FromaccntAddress + ", " + Model.AccountFrom.Address2;
+                        }
+                        FromaccntAddress = FromaccntAddress + ",<br/>";
+                        if (!string.IsNullOrEmpty(Model.AccountFrom.StateName))
+                        {
+                            FromaccntAddress = FromaccntAddress + Model.AccountFrom.StateName + ", ";
+                        }
+                        if (!string.IsNullOrEmpty(Model.AccountFrom.City))
+                        {
+                            FromaccntAddress = FromaccntAddress + Model.AccountFrom.City + ", ";
+                        }
+                        if (!string.IsNullOrEmpty(Model.AccountFrom.CountyCode))
+                        {
+                            FromaccntAddress = FromaccntAddress + " " + Model.AccountFrom.CountyCode;
+                        }
+                        if (!string.IsNullOrEmpty(Model.AccountFrom.ZipPostalCode))
+                        {
+                            FromaccntAddress = FromaccntAddress + " " + Model.AccountFrom.ZipPostalCode;
+                        }
+                        FromaccntAddress = FromaccntAddress + "<br/>";
+                        FromaccntAddress = FromaccntAddress + "P: " + Model.AccountFrom.PhoneNumber;
+                    }
+                    <td class="bg-gray bold">@LocalResource.FromAccountName</td>
+                    <td rowspan="5" class="table-border-td"><text>@Html.Raw(FromaccntAddress)</text></td>
+                    <td>&nbsp;</td>
+                    <td class="right bg-gray bold">@GlobalResource.Property</td>
+                    <td rowspan="5" class="right table-border-td">@Model.Property</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <h5>@GlobalResource.Property</h5>
+        <hr />
+        <table cellspacing="0" cellpadding="0" data-page="false" data-sort="false" class="table toggle-arrow-tiny">
+            <thead>
+                <tr>
+                    <th data-toggle="true" width="10%" class="center bg-gray bold table-border-td">@AccountPropertyResource.RightCode</th>
+                    <th width="40%" class="center bg-gray bold table-border-td">@AccountPropertyResource.Owner</th>
+                    <th width="10%" class="center bg-gray bold table-border-td">@AccountPropertyResource.Area (<em>m</em> <sup>2</sup>)</th>
+                    <th width="20%" class="center bg-gray bold table-border-td">@Html.Raw(@AccountPropertyResource.TerrainValue) </th>
+                    <th width="20%" class="center bg-gray bold table-border-td">@Html.Raw(@AccountPropertyResource.ConstructionValue) </th>
+                    <th data-hide="all">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.TransferAccountDetailList.Count() > 0)
+                {
+                    foreach (var item in Model.TransferAccountDetailList)
+                    {
+                        <tr>
+                            <td class="table-border-td center">
+                                @item.RigthNumber
+                            </td>
+                            <td class="table-border-td center">
+                                @item.Owner
+                            </td>
+                            <td class="table-border-td right">
+                                @item.Area.ToString(Common.DecimalPoints)
+                            </td>
+                            <td class="table-border-td right">
+                                @Html.Raw(item.TerrainValue.HasValue ? item.TerrainValue.Value.ToString("C") : 0.ToString("C"))
+                            </td>
+                            <td class="table-border-td right">
+                                @Html.Raw(item.TotalTerrainValue.HasValue ? item.TotalTerrainValue.Value.ToString("C") : 0.ToString("C"))
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-border-td" colspan="5">
+                                @if (Model != null && Model.TransferPropertyConstructionDetailList.Where(d => d.PropertyAccountID == item.ID).Count() > 0)
+                                {
+                                    foreach (var objItem in Model.TransferPropertyConstructionDetailList.Where(d => d.PropertyAccountID == item.ID))
+                                    {
+
+                                <table width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-11">
+                                                <table class="table no-borders">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @GlobalResource.Type :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.MaterialType
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.ConstructionType :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.ConstructionType
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.ConstructionYear :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.ConstructionYear
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @GlobalResource.Years :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.TotalYears
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @GlobalResource.Status :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Status
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.NoFloors :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Floors
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.NoChambers :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Chambers
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.InternalWalls :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.InternalWalls
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.ExternalWalls :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.ExternalWalls
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.Structure  :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Structure
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.Roof  :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Roof
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.Ceiling  :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Ceiling
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.Floors  :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Floor
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.Bathroom  :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.Bathroom
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @Html.Raw(AccountPropertyResource.BuildingArea) :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.BuildingArea.ToString(Common.DecimalPoints)
+                                                            </td>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @Html.Raw(AccountPropertyResource.UnitValue) :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @objItem.UnitValue.Value.ToString("C")
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="control-label text-right">
+                                                                <label class="control-label">
+                                                                    @AccountPropertyResource.TotalValue :
+                                                                </label>
+                                                            </td>
+                                                            <td class="text-left" colspan="7">
+                                                                @objItem.TotalValue.Value.ToString("C")
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="center">@GlobalResource.NoDataMessage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <h5>@GlobalResource.Services</h5>
+        <hr />
+        <div class="divServiceList">
+            <table cellspacing="0" cellpadding="0" data-page="false" data-sort="false" class="table toggle-arrow-tiny">
+                <thead>
+                    <tr>
+                        <th data-toggle="true" class="center bg-gray bold table-border-td">@GlobalResource.ServiceType</th>
+                        <th class="center bg-gray bold table-border-td">@GlobalResource.Service</th>
+                        <th class="center bg-gray bold table-border-td">@GlobalResource.AccountName</th>
+                        <th class="center bg-gray bold table-border-td">@ServiceResource.CustomField1</th>
+                        <th class="center bg-gray bold table-border-td">@ServiceResource.ServiceID</th>
+                        <th class="center bg-gray bold table-border-td">@GlobalResource.Property</th>
+                        <th class="center bg-gray bold table-border-td">@GlobalResource.Year</th>
+                        <th class="right bg-gray bold table-border-td">@ServiceResource.AmountToPay</th>
+                        <th data-hide="all">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.AccountServiceList.Count() > 0)
+                    {
+                        foreach (var item in Model.AccountServiceList.GroupBy(d => new { d.ID, d.LicenseType, d.ServiceName, d.CustomField1, d.LicenseNumber, d.Property, d.ServiceTypeID, d.FromAccountID, d.ServiceID, d.RowVersion64, d.Year, d.AccountPropertyID, d.FilingFormID, d.FormattedAnnualIncome, d.AccountName }).Select(d => new { d.Key.ID, d.Key.LicenseType, d.Key.ServiceName, d.Key.CustomField1, d.Key.LicenseNumber, d.Key.Property, d.Key.ServiceTypeID, d.Key.FromAccountID, d.Key.ServiceID, d.Key.RowVersion64, d.Key.Year, d.Key.AccountPropertyID, d.Key.FilingFormID, d.Key.FormattedAnnualIncome, d.Key.AccountName }))
+                        {
+                            <tr id="@item.ID" data-formid="@item.FilingFormID">
+                                <td class="table-border-td center">
+                                    @item.LicenseType
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.ServiceName
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.AccountName
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.CustomField1
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.LicenseNumber
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.Property
+                                </td>
+                                <td class="table-border-td center">
+                                    @item.Year
+                                </td>
+                                <td class="table-border-td right">
+                                    @item.FormattedAnnualIncome
+                                </td>
+                            </tr>
+                            if (item.FilingFormID == (int)EnFilingForm.PropertyTax)
+                            {
+                                <tr>
+                                    <td class="table-border-td" colspan="8">
+                                        <table class="table" data-page="false">
+                                            <thead>
+                                                <tr>
+                                                    <th class="center bg-gray bold table-border-td">@ServiceResource.ServicePeriodList</th>
+                                                    <th class="center bg-gray bold table-border-td">@GlobalResource.FilingDate</th>
+                                                    <th class="center bg-gray bold table-border-td">@GlobalResource.ReFillingDate</th>
+                                                    <th class="right bg-gray bold table-border-td">@GlobalResource.TotalValue</th>
+                                                    <th class="right bg-gray bold table-border-td">@ServiceResource.Rate</th>
+                                                    <th class="right bg-gray bold table-border-td">@GlobalResource.Principal</th>
+                                                    <th class="right bg-gray bold table-border-td">@GlobalResource.Penalties</th>
+                                                    <th class="right bg-gray bold table-border-td">@ServiceResource.Debt</th>
+                                                    <th class="right bg-gray bold table-border-td">@ServiceResource.Exemption</th>
+                                                    <th class="right bg-gray bold table-border-td">@GlobalResource.PaidAmount</th>
+                                                    <th class="right bg-gray bold table-border-td">@ServiceResource.Balance</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var objItem in Model.AccountServiceList.Where(d => d.ID == item.ID))
+                                                {
+                                                    <tr>
+                                                        <td class="table-border-td">
+                                                            @Html.Raw(objItem.ServiceName + " - " + String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", objItem.DueDate))
+                                                        </td>
+                                                        <td class="table-border-td">
+                                                            @if (objItem.FillingDate != null)
+                                                            {
+                                                                @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", objItem.FillingDate))
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw("-")
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td">
+                                                            @if (objItem.ReFillingDate != null)
+                                                            {
+                                                                @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", objItem.ReFillingDate))
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw("-")
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td">
+                                                            @{
+                                                                if (objItem.FillingDate != null)
+                                                                {
+                                                                    @objItem.SalesVolume.ToString(Common.DecimalPoints)
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span> - </span>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td right"> @objItem.GetFormattedCollectionRate </td>
+                                                        <td class="table-border-td right">@objItem.Principal.ToString("C")</td>
+                                                        <td class="table-border-td right">
+                                                            @if (objItem.Penalties > 0)
+                                                            {
+                                                                @objItem.Penalties.Value.ToString("C")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(0.ToString("C"))
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td right">
+                                                            @objItem.Debts.ToString("C")
+                                                        </td>
+                                                        <td class="table-border-td right">
+                                                            @if (objItem.Discounts > 0)
+                                                            {
+                                                                @objItem.Discounts.ToString("C")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(0.ToString("C"))
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td right">
+                                                            @if (objItem.PaidAmount > 0)
+                                                            {
+                                                                @objItem.PaidAmount.Value.ToString("C")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw(0.ToString("C"))
+                                                            }
+                                                        </td>
+                                                        <td class="table-border-td right">
+                                                            @objItem.Total.Value.ToString("C")
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="center">@GlobalResource.NoDataMessage</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <br />
+        <br />
+        <table>
+            <tbody>
+                <tr>
+                    <td width="20%">
+                        @GlobalResource.MadeBy:
+                    </td>
+                    <td width="40%"><hr /></td>
+                    <td width="40%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        @GlobalResource.Date:
+                    </td>
+                    <td><hr /></td>
+                    <td width="40%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        @GlobalResource.VBAdminTax:
+                    </td>
+                    <td><hr /></td>
+                    <td width="40%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        @GlobalResource.Date:
+                    </td>
+                    <td><hr /></td>
+                    <td width="40%">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.print();
+    });
+</script>

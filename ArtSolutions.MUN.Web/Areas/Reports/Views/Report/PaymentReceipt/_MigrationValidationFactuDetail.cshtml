@@ -1,0 +1,75 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationFactuModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblMigrationValidationFactu" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @DateTime.Now.Year - RULE
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @DateTime.Now.Year - SIM
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - RULE
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - SIM
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @DateTime.Now.Year - RULE - @GlobalResource.Amount
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @DateTime.Now.Year - SIM - @GlobalResource.Amount
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                        @GlobalResource.PastYear - RULE - @GlobalResource.Amount
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        @GlobalResource.PastYear - SIM - @GlobalResource.Amount
+                    </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/PaymentReceipt/_MigrationValidationFactuDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyMigrationValidationFactu">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                        <td></td> 
+                    <td class="text-right">
+                        <a id="migrationValidationFactuShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.MigrationValidationFactuList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreMigrationValidationFactu(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

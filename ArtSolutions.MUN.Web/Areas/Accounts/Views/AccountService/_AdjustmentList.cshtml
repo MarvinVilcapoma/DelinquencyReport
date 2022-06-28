@@ -1,0 +1,96 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Globalization;
+
+<div class="full-height-scroll">
+    <div class="ibox-content">
+        <div id="collectionadjustmentlist">
+            <div class="table-responsive m-t">
+                <table class="table footable" data-page="false" data-sort="false">
+                    <thead>
+                        <tr>
+                            <th class="text-left"> @GlobalResource.Date</th>
+                            <th class="text-left"> @LocalResource.ServicePeriodList</th>
+                            <th class="text-left"> @GlobalResource.CollectionRule</th>
+                            <th class="text-left"> @GlobalResource.Reason</th>
+                            <th class="text-right"> @GlobalResource.Amount</th>
+                            <th class="text-right">@GlobalResource.Action</th>
+                            <th class="text-right"> @GlobalResource.DeletedBy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.AdjustmentList.Count() == 0)
+                        {
+                            <tr>
+                                <td class="col-lg-12" colspan="7">
+                                    <center>    @GlobalResource.NoDataMessage</center>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.AdjustmentList)
+                            {
+                                <tr>
+                                    <td class="col-lg-1 text-left"> @item.CreatedDate.ToString("d") </td>
+                                    <td class="col-lg-3 text-left" align="left">
+                                        @*@item.ServiceName - @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language),"{0:MMMM, yyyy}", item.DueDate))*@
+                                        @if (item.FrequencyID < 6)
+                                        {
+                                            @Html.Raw(@item.ServiceName + " - " + String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate))
+                                        }
+                                        else
+                                        {
+                                            @item.ItemDescription
+                                        }
+                                    </td>
+                                    <td class="col-lg-2 text-left" align="left">
+                                        @item.Description
+                                    </td>
+                                    <td class="col-lg-2 text-left"> @item.AdjustmentReason </td>
+                                    <td class="col-lg-1 text-right"> @item.Debt.ToString("c") </td>
+                                    @if (item.IsDeleted == false && item.IsIVAApply == false && !(item.PaidAmount.HasValue && item.PaidAmount.Value > 0) && Model.IsLock == false)
+                                    {
+                                        <td class="col-lg-1 text-right">
+                                            <a href='javascript:void(0)' id="AdjustmentDelete" data-id="@item.ID" data-collectionidid="@item.AccountServiceCollectionDetailID" data-debt="@item.Debt" class="btn btn-white btn-sm m-l-xs btnAdjustmentDelete"><i class="fa fa-trash"></i> @GlobalResource.Delete </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="col-lg-1 text-right text-danger">
+                                            @Html.Raw(item.IsDeleted ? GlobalResource.Deleted : "")
+                                        </td>
+                                    }
+                                    <td class="col-lg-1 text-right">
+                                        @Html.Raw(item.IsDeleted ? item.DeletedBy : "")
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7" class="col-lg-12"></td>
+                        </tr>
+                        @if (Model.AdjustmentList.Count() > 0)
+                        {
+                            <tr>
+                                <td colspan="4" class="text-right">
+                                    <strong>@GlobalResource.Total.ToUpper() : </strong>
+                                </td>
+                                <td class="text-right border-bottom font-bold">
+                                    @Model.AdjustmentList.Sum(e => e.Debt).ToString("C")
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

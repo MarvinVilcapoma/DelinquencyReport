@@ -1,0 +1,142 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.SummaryAccountStatementModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    /**/
+
+    /**/
+
+    AddressModel addressModel = new AddressModel();
+    if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+    {
+        addressModel = Model.AccountModel.AddressList.Where(x => x.IsPrimary == true).SingleOrDefault();
+    }
+}
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-lg m-b-md">
+            <div class="col-lg-4 box-border">
+                <div class="col-lg-12 no-padding m-t-sm ">
+                    <strong> @Model.AccountModel.DisplayName </strong>
+                </div>
+                @if (addressModel != null)
+                {
+                    <div class="col-lg-12 no-padding ">
+                        @addressModel.AddressLine1
+                    </div>
+                    <div class="col-lg-12 no-padding ">
+                        @addressModel.AddressLine2
+                    </div>
+                    <div class="col-lg-12 no-padding m-b-sm">
+                        @addressModel.City , @addressModel.State , @addressModel.Country
+                        @if (!string.IsNullOrEmpty(addressModel.ZipPostalCode))
+                        {
+                            <span>, @addressModel.ZipPostalCode </span>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="row m-b-lg m-t-sm">
+                    <div class="col-lg-8 text-right"><strong> @GlobalResource.AccountNumber : </strong></div>
+                    <div class="col-lg-4 text-right border-bottom border-left border-right border-top"> @Model.AccountModel.TaxNumber</div>
+                </div>
+                <div class="row m-t-sm">
+                    <div class="col-lg-8 text-right"> <strong> @ReportResource.CreatedBy : </strong></div>
+                    <div class="col-lg-4 text-right border-bottom border-left border-right border-top"> @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    if (Model.IsInJudicialCollection != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 class="text-right text-danger bold">
+                    @GlobalResource.PersonHasaJudicialCollectionMsg
+                </h5>
+            </div>
+        </div>
+    }
+    <div class="table-responsive m-t">
+        <table id="summaryAccountStatementTable" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th style="min-width:300px;">
+                        @GlobalResource.Service
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Period
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Principal
+                    </th>
+                    <th style="min-width:150px;">
+                        @ReportResource.Surcharges
+                    </th>
+                    <th style="min-width:150px;">
+                        @ReportResource.PendingAmount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SummaryAccountStatementList != null && Model.SummaryAccountStatementList.Count() > 0)
+                {
+                    foreach (var objService in Model.SummaryAccountStatementList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td>
+                                <b>@objService</b>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        foreach (var item in Model.SummaryAccountStatementList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                <td class="text-center table-description-field" data-original-title="@item.Service">
+                                    @item.Service
+                                </td>
+                                <td class="text-center">@Html.Raw(@item.FormattedPeriod)</td>
+                                <td class="text-center">@item.FormattedPrincipal</td>
+                                <td class="text-center">@item.FormattedPenalties</td>
+                                <td class="text-center">@item.FormattedPendingAmount</td>
+                            </tr>
+                        }
+                        <tr class="sub-header font-bold">
+                            <td></td>
+                            <td class="text-center">@PaymentResource.TotalAmount</td>
+                            <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Where(d => d.Service == objService).Sum(x => x.Penalties).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Where(d => d.Service == objService).Sum(x => x.PendingAmount).ToString("C")</td>
+                        </tr>
+                    }
+                    <tr class="sub-header font-bold">
+                        <td></td>
+                        <td class="text-center">@PaymentResource.TotalAmount</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.Principal).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.Penalties).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.PendingAmount).ToString("C")</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="no-data">
+                        <td colspan="5" class="text-center">
+                            @ReportResource.DoesNotHavePendingPaymentsMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName).Replace("{2}", DateTime.Now.ToString("d"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

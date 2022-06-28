@@ -1,0 +1,11 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceExceptionModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+<tr>
+    <td class="text-left col-lg-8"> @Model.Description </td>
+    <td class="text-right col-lg-3"> @Model.ExceptionValue </td>    
+    <td class="text-right col-lg-2">
+        <a id="btnRemoveRule" class='btn btn-danger btn-xs btn-circle actioninput' title="@GlobalResource.Remove" onclick="removeException(this,@Model.SequenceID);" data-allowdelete="@Model.AllowDelete" data-nodeletemsg="@LocalResource.ServiceExceptionAlreadyInUse" >
+        <i class='fa fa-times'></i></a>
+    </td>
+</tr>

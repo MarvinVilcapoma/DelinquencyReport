@@ -1,0 +1,94 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AmnestyMovementReportModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Globalization
+
+@{
+    ViewBag.Title = ReportResource.AmnestyMovementReport;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th width="15%" class="table-border-center-th" colspan="2">
+                        @GlobalResource.Date
+                    </th>
+                    <th width="30%" class="table-border-center-th">
+                        @GlobalResource.Account
+                    </th>
+                    <th width="15%" class="table-border-center-th" colspan="2">
+                        @GlobalResource.Number
+                    </th>
+                    <th width="20%" class="table-border-center-th" colspan="2">
+                        @ReportResource.AmnestyAmount
+                    </th>
+                    <th width="20%" class="table-border-center-th" colspan="2">
+                        @ReportResource.PaymentAmount
+                    </th>
+                </tr>
+                @if (Model.AmnestyMovementReportList != null && Model.AmnestyMovementReportList.Count() > 0)
+                {
+                    foreach (var item in Model.AmnestyMovementReportList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" colspan="2">
+                                @item.DateOfMovement.ToString("d")
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.TaxpayerName
+                            </td>
+                            <td class="table-border-center-td" colspan="2">
+                                @item.Number
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat' colspan="2">
+                                @item.AmnestyAmount.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat' colspan="2">
+                                @item.TotalPayment.ToString(Common.NumberPoints)
+                            </td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td class="table-bg-bold-center-td" colspan="2"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td" colspan="2">@GlobalResource.Total : </td>
+                        <td class="table-bg-bold-center-td" colspan="2">@Model.AmnestyMovementReportList.Sum(x => x.AmnestyAmount).ToString(Common.NumberPoints)</td>
+                        <td class="table-bg-bold-center-td" colspan="2">@Model.AmnestyMovementReportList.Sum(x => x.TotalPayment).ToString(Common.NumberPoints)</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-border-td center">
+                            <center>
+                                <label>
+                                    @GlobalResource.NoDataMessage
+                                </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+﻿@using ArtSolutions.MUN.Web.Areas.ChatAndBot.Models;
+@using ArtSolutions.MUN.Web.Helpers;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - @ArtSolutions.MUN.Web.Resources.Global.ProjectTitle</title>
+    @Styles.Render("~/plugins/7strokeStyles")
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css")
+    @RenderSection("Styles", required: false)
+    @Styles.Render("~/plugins/toastrStyles")
+    @*@Styles.Render("~/plugins/flagiconStyle")*@
+    <link href="~/Content/plugins/flag-icon/flag-icon.css" rel="stylesheet">
+    <link rel='shortcut icon' type='image/x-icon' href='~/favicon.ico' />
+</head>
+<body class="md-skin pace-done mini-navbar">
+
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        @Html.Partial("_Navigation")
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            <!-- Main view  -->
+            @RenderBody()
+            @*<div class="row">
+                <div class="col-md-12 text-right">
+                    
+                </div>
+                </div>*@
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+
+            <!-- Chat -->
+            <div id="divChatTab">
+                @Html.Partial("_ChatBotTabs", new ServiceRequestModel())
+            </div>
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryGlobalize")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/plugins/metsiMenu")
+    @Scripts.Render("~/plugins/pace")
+    @Scripts.Render("~/plugins/slimScroll")
+    @Scripts.Render("~/bundles/inspinia")
+    @Scripts.Render("~/plugins/toastr")
+    @*@Scripts.Render("~/Culture")*@
+    @Scripts.Render("~/plugins/Chat")
+    @*@Scripts.Render("~/plugins/Cookie")*@
+    @Html.Partial("_MessageToastr")
+
+    <input type="hidden" id="hdnChatUserCompanyID" value='@UserSession.Current.CompanyID' />
+    <input type="hidden" id="hdnLanguage" value='@UserSession.Current.Language' />
+    <input type="hidden" id="hdnChatHubUrl" value="@Common.URLSignalR" />
+    <input type="hidden" id="hdnChatUserId" value='@UserSession.Current.Id' />
+
+    <script type="text/javascript">       
+        var chatHub;
+        var ROOTPath = (location.hostname === "localhost" || location.hostname === "127.0.0.1")? '':'@Url.Content("~/")';
+        var __dateFormat = '@System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern'.toLowerCase();
+        var __culture = '@System.Threading.Thread.CurrentThread.CurrentCulture';
+        var __decimalPoints = '@ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints';
+        var _currencySymbol = '@System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencySymbol'
+        var __currencyDecimalSeparator  = '@System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator'
+        var pageSize = parseInt('@Common.PageSize');
+
+        $.ajaxSetup({
+            statusCode: {
+                401: function () {
+                    window.location.href = '@Url.Action("Login", "Account", new { area = "" })';
+                }
+            },
+            complete: function () {
+                hideLoading();
+            }
+        });
+
+        $(document).ajaxStop(function () {
+            hideLoading();           
+        });
+
+        $(document).ajaxStart(function () {
+            showLoading();
+        });
+
+    </script>
+    <script>
+        var localeName = __culture.indexOf('-') != -1 ? __culture.substring(__culture.indexOf('-') + 1, __culture.length) : __culture;
+        if (localeName == "US" || localeName == "") { localeName = "EN"; }
+
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/supplemental/likelySubtags.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/supplemental/numberingSystems.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/main/' + localeName + '/numbers.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/main/' + localeName + '/ca-gregorian.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/main/' + localeName + '/timeZoneNames.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/supplemental/timeData.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+        $.ajax({ url: ROOTPath + '/Scripts/cldr/supplemental/weekData.min.json', type: 'GET', async: false, success: function (data) { Globalize.load(data); } });
+
+        Globalize.locale(__culture);        
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

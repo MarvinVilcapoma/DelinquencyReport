@@ -1,0 +1,107 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+<div class="row wrapper wrapper-content animated fadeInRight">
+    @using (Ajax.BeginForm("Add", "Case", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "form", data_ajax_mode = "replace-with" }))
+    {
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>@LocalResource.AddTitle</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Account <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(m => Model.AccountID, (Model.AccountModels == null ? Enumerable.Empty<SelectListItem>() : Model.AccountModels.Select(a => new SelectListItem { Text = (!string.IsNullOrWhiteSpace(a.TaxNumber) ? (a.TaxNumber + " - " + a.DisplayName) : a.DisplayName), Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown", @data_rule_selectRule = "true" })
+                            @Html.ValidationMessageFor(m => m.AccountID)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.License_IVU_Services <span class="text-danger">*</span></label>
+                            <table class="table table-stripped dataTables-example no-padding-bottom" id="tblAccountServices"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Workflow <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(m => Model.WorkflowID, (Model.DocumentWorkflow == null ? Enumerable.Empty<SelectListItem>() : Model.DocumentWorkflow.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown", @data_rule_selectRule = "true" })
+                            @Html.ValidationMessageFor(m => m.WorkflowID)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Name <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control required", @maxlength = "250", @Value = "" })
+                            @Html.ValidationMessageFor(m => m.Name)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Reference</label>
+                            @Html.TextBoxFor(m => m.Refrence, new { @class = "form-control", @maxlength = "50", @Value = "" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Note</label>
+                            @Html.TextAreaFor(m => m.Note, new { @class = "form-control textarea-vertical-resize", @maxlength = "5000", @row = 25, @col = 10 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Priority <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(m => Model.PriorityID, (Model.CasePriorityList == null ? Enumerable.Empty<SelectListItem>() : Model.CasePriorityList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown", @data_rule_selectRule = "true" })
+                            @Html.ValidationMessageFor(m => m.PriorityID)
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Weight</label>
+                            <div id="Weight" name="Weight"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Owner <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(m => Model.OwnerID, (Model.OwnerTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.OwnerTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.AssignedTo<span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(m => Model.AssignToID, (Model.CaseTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.CaseTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="button-group pull-right">
+                            <button type="button" id="btnNew" class="btn btn-primary as-btn-text">@GlobalResource.Add</button>
+                            <button type="button" id="btnCancel" class="btn btn-default as-btn-text">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+

@@ -1,0 +1,320 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.DepositEntryModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLDeposit
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    ViewBag.Title = LocalResource.NewDepositEntry;
+    bool? isViewMode = null;
+    if (ViewBag.IsViewMode != null)
+    {
+        isViewMode = true;
+        ViewBag.Title = LocalResource.ViewDepositEntry;
+    }
+    int ClosedEntryListCount = (Model == null ? 0 : Model.ClosedEntryList.Count);
+    int pagesize = ArtSolutions.MUN.Web.Common.PageSize;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.DepositEntry </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "DepositEntry", new {area = "Collections" })">@LocalResource.ListDepositEntry </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" id="dvdepositentry">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "DepositEntry", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "return onDepositBegin()",
+                    OnSuccess = "depositSuccessCallback(data)"
+                }, new
+                {
+                    @class = "form-horizontal",
+                    role = "form",
+                    id = "frmDeposit"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @if (!(isViewMode.HasValue && isViewMode.Value))
+                            {
+                                <button id="btnSave" type="button" name="actionType" value="1" tabindex="6" class="btn btn-primary" onclick="return confirmDeposit();">@GlobalResource.Save</button>
+                            }
+                            @*else if (isViewMode.HasValue && isViewMode.Value && Model.IsVoid == false)
+                                {
+                                    <button id="viewdepositentry_btnVoidDeposit" type="button" name="actionType" value="1" tabindex="6" class="btn btn-primary" onclick="$('#VoidReason').val('');$('#voidConfirmModal').modal('show');">@LocalResource.VoidDepositEntry</button>
+                                    @Html.Raw("&nbsp;")
+                                }*@
+                            @if (isViewMode.HasValue && isViewMode.Value)
+                            {
+                                <button type="button" class="btn btn-white" onclick="Print(@Model.ID)"><i class="fa fa-print"></i> @GlobalResource.Print</button>
+                            }
+                            <button class="btn btn-white" type="button" tabindex="7" onclick="window.location.href = '@Url.Action("Index", "DepositEntry")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.BankAccount<span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                <select class="form-control required select2dropdown" id="BankAccountID" name="BankAccountID" tabindex="3">
+                                    <option value="">@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+                                    @foreach (var item in Model.BankAccountList)
+                                    {
+                                        <option value="@item.ID"
+                                                data-financeaccountid="@item.AccountID"
+                                                data-financeaccountname="@item.FinanceAccount"
+                                                data-accountcode="@item.AccountNumber"
+                                                data-accountname="@item.Name"
+                                                data-name="@item.BankName" @Html.Raw(item.ID == Model.BankAccountID ? "selected" : "")>
+                                            @Html.Raw(string.Format("{0} - {1}", item.AccountNumber, item.Name))
+                                        </option>
+                                    }
+                                </select>
+
+                                @Html.HiddenFor(d => d.AccountID)
+                                @Html.HiddenFor(d => d.FinanceAccount)
+                                @Html.HiddenFor(d => d.BankAccountCode)
+                                @Html.HiddenFor(d => d.BankName)
+                                @Html.HiddenFor(d => d.BankAccountName)
+
+                                @Html.ValidationMessageFor(x => x.BankAccountID)
+                            </div>
+
+                            <label class="col-sm-2 control-label">@GlobalResource.Date</label>
+                            <div class="col-sm-4">
+                                @Html.TextBox("Date", Model.Date.ToString("d"), new
+                                {
+                                    @class = isViewMode == true ? "form-control" : "form-control inputdate",
+                                    tabindex = 2,
+                                    @disabled = true
+                                })
+                                @Html.ValidationMessageFor(x => x.Date)
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.DepositType</label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(x => x.DepositTypeID, Model.DepositTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 1 })
+                            </div>
+
+                            <label class="col-sm-2 control-label">@GlobalResource.Description</label>
+                            <div class="col-sm-4">
+                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", tabindex = 4 })
+                                @Html.ValidationMessageFor(x => x.Description)
+                            </div>
+                        </div>
+                        @*@if ((isViewMode.HasValue && isViewMode.Value))
+                            {
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@GlobalResource.Status</label>
+                                    <label class="col-sm-4 control-label" style="color:red;text-align:left;">
+                                        @Model.Status
+                                    </label>
+                                    @if (!string.IsNullOrEmpty(Model.VoidReason))
+                                    {
+                                        <label class="col-sm-2 control-label">@GlobalResource.VoidReason</label>
+                                        <label class="col-sm-4">
+                                            @Html.TextAreaFor(x => x.VoidReason, new { @class = "form-control", tabindex = 4 })
+                                        </label>
+                                    }
+                                </div>
+                            }*@
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t project-list">
+                                    <table class="table table-multi-row footable" id="tblDepositEntry" data-page-limit="3" data-page-size='@pagesize' data-sorting="false">
+                                        <thead>
+                                            <tr>
+                                                @if (!(isViewMode.HasValue && isViewMode.Value))
+                                                {
+                                                    <th class="col-lg-1 text-center" data-sort-ignore="true" data-receiptcount="@Model.ClosedEntryList.Count()" data-netclosing="@Model.ClosedEntryList.Sum(d=>d.NetClosing)">
+                                                        @Html.CheckBox("SelectedEntrytAll", false, new { onclick = "onEntrySelectAll(this)", tabindex = "6" })
+                                                    </th>
+                                                }
+                                                <th class="col-lg-1" data-sort-ignore="true">
+                                                    @GlobalResource.Date
+                                                </th>
+                                                <th class="col-lg-2" data-sort-ignore="true">
+                                                    @GlobalResource.Number
+                                                </th>
+                                                <th class="text-left col-lg-2" data-sort-ignore="true">
+                                                    @GlobalResource.Cashier
+                                                </th>
+                                                <th class="text-left col-lg-2" data-sort-ignore="true">
+                                                    @LocalResource.ClosingDescription
+                                                </th>
+                                                <th class="text-left col-lg-2" data-sort-ignore="true">
+                                                    @PaymentResource.PaymentOption
+                                                </th>
+                                                <th class="text-right col-md-2" data-sort-ignore="true">
+                                                    @LocalResource.ClosingAmount
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="receiptRows">
+                                            @{
+                                                ViewBag.IsViewMode = isViewMode;
+                                                Html.RenderPartial("~/Areas/Collections/Views/DepositEntry/_ClosingEntryList.cshtml", Model.ClosedEntryList);
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 pull-right">
+                                <table class="table invoice-total" id="paymentFooter">
+                                    <tbody>
+                                        <tr>
+                                            <td class="font-bold text-right">@LocalResource.TotalClosingEntry :</td>
+                                            <td class="text-left">
+                                                @Html.HiddenFor(x => Model.ClosingCount, new { @class = "spnFooterAmount" })
+                                                <span id="spnClosingReceiptCount" class="spnFooterAmount">@Model.ClosingCount</span>
+                                            </td>
+                                            <td class="font-bold text-left">@GlobalResource.Total :</td>
+                                            <td class="text-right">
+                                                @Html.HiddenFor(x => Model.NetDeposit, new { @class = "spnFooterAmount" })
+                                                <span id="spnNetDeposit" class="spnFooterAmount">@Model.NetDeposit.ToString("c")</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            @Html.HiddenFor(m => m.RowVersion64)
+                            @Html.HiddenFor(m => m.RowVersion)
+                        </div>
+                        @if (Model.IsVoid)
+                        {
+                            <table cellspacing="0" class="table-border" id="voidreasontable">
+                                <thead>
+                                    <tr>
+                                        <td class="bg-gray bold">@GlobalResource.VoidReason</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@Model.VoidReason</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="voidConfirmModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        @using (Ajax.BeginForm("Void", "DepositEntry", new AjaxOptions { HttpMethod = "POST", OnSuccess = "VoidSuccessCallback(data)" }, new { role = "form", id = "frmVoid", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+        {
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @LocalResource.VoidDepositEntry </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.VoidReason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextAreaFor(x => x.VoidReason, new { @class = "form-control required", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessageFor(x => x.VoidReason)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnVoid" type="submit" name="actionType" value="2" tabindex="2" class="btn btn-primary">@LocalResource.VoidDepositEntry </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.ID)
+            @Html.HiddenFor(x => x.RowVersion)
+        }
+    </div>
+</div>
+@section Styles{
+
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        #paymentFooter.table > tbody > tr > td {
+            border: none;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .disable-anchor {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        #voidreasontable td {
+            padding: 5px 4px !important;
+        }
+
+        .table-border, .table-border-td {
+            border: 1px solid #CCC !important;
+        }
+
+        .bg-gray {
+            background-color: #ddd !important
+        }
+
+        .bold {
+            font-weight: bold !important
+        }
+
+        #voidreasontable {
+            width: 100% !important;
+            border-collapse: separate !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/footable")
+    <script src='@Url.Content("~/Scripts/app/depositentryadd.js")'></script>
+    <script src='@Url.Content("~/Scripts/app/depositentryview.js")'></script>
+    <script type="text/javascript">
+        var
+        valMinOneReceipt = '@Html.Raw(LocalResource.ValMinOneCloseEntry)';
+        swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        depositEntry = '@Html.Raw(GlobalResource.DepositEntry)';
+        ValDepositAmount = '@Html.Raw(LocalResource.ValDepositAmount)';
+        var isViewMode = '@isViewMode';
+        var voidEntry = '@Html.Raw(LocalResource.VoidDepositEntry)';
+        var ClosedEntryListCount = '@ClosedEntryListCount';
+        var pagesize = '@pagesize';
+        var viewPageRedirectURL = '@Url.Action("View","DepositEntry", new { ID = Model.ID })';
+    </script>
+}

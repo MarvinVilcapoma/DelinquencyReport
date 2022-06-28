@@ -1,0 +1,111 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowSecurityGroupViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    string disable = string.Empty;
+    if (ViewBag.ActionType != null)
+    {
+        var actionMode = (Common.ActionMode)ViewBag.ActionType;
+        switch (actionMode)
+        {
+            case Common.ActionMode.Add:
+                ViewBag.Title = LocalResource.NewGroup;
+                disable = string.Empty;
+                break;
+            case Common.ActionMode.Edit:
+                ViewBag.Title = LocalResource.EditGroup;
+                disable = string.Empty;
+                break;
+            case Common.ActionMode.View:
+                ViewBag.Title = LocalResource.ViewGroup;
+                disable = "disable";
+                break;
+        }
+    }
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.Workflow</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Group", new {area = "Workflows" })">@LocalResource.ListGroup</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        @{
+                            if (ViewBag.ActionType != null)
+                            {
+                                var actionMode = (Common.ActionMode)ViewBag.ActionType;
+                                switch (actionMode)
+                                {
+                                    case Common.ActionMode.Add:
+                                    case Common.ActionMode.Edit:
+                                        <button type="button" onclick="OnAddGroup();" class="btn btn-primary" name="actionType">@GlobalResource.Add</button>
+                                        <a href="@Url.Action("List","WorkflowGroup",new { area="workflows" })" class="btn btn-default">@GlobalResource.Cancel</a>
+                                        break;
+                                    case Common.ActionMode.View:
+                                        <a href="@Url.Action("List","WorkflowGroup",new { area="workflows" })" class="btn btn-default">@GlobalResource.Cancel</a>
+                                        break;
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form id="frmGroup" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                                        @GlobalResource.Name<span class="text-danger">*</span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        @Html.TextBoxFor(a => a.Name, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control required", @maxlength = 50, @id = "txtName" } :
+                                                                                                                                           (object)new { @class = "form-control", @disabled = "disabled" }))
+                                        @Html.ValidationMessageFor(a => a.Name, "", new { @class = "text-danger" })
+                                        <input type="hidden" name="hdnGroupID" id="hdnGroupID" value="@Model.ID" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                                        @GlobalResource.Description
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        @Html.TextAreaFor(a => a.Description, 5, 10, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control", @maxlength = 500, @id = "txtGroupDescription" } :
+                                                                                                                               (object)new { @class = "form-control", @disabled = "disabled" }))
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/app/workflowgroup.js"></script>
+}

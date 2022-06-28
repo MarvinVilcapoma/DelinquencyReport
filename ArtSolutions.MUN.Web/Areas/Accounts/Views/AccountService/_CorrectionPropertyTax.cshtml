@@ -1,0 +1,259 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceCorrectiontModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("SaveCorrectionPropertyTax", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "CorrectionSuccessCallback(data)" }, new { role = "form", id = "frmCorrectionPropertyTax", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.Correction </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @GlobalResource.FilingDate
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBox("FillingDate", null, new { @class = "form-control fillingDate required textblur", tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.FillingDate)
+                                @Html.HiddenFor(x => x.AccountServiceId)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.MovementType
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.DropDownListFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.MovementTypeID, Model.collectionDetail.CollectionFillingPropertyTaxModel.MovementTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown CorrectionMovementTypeID", tabindex = 2 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList != null && Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList.Count > 0)
+                {
+                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.PropertyAccountID)
+                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.PropertyNumber)
+                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.RigthNumber)
+
+                    <div class="table-responsive m-t">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.TerrainArea)</th>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.TerrainValue)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class='col-lg-6 text-right'>
+                                        @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.Area, new { @class = "form-control CorrectionArea Currencyinputdecimal text-right", @readonly = true, @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.Area.HasValue ? Model.collectionDetail.CollectionFillingPropertyTaxModel.Area.Value.ToString(Common.DecimalPoints) : "" })
+                                    </td>
+                                    <td class='col-lg-6 text-right'>
+                                        @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.TerrainValue, new { @class = "form-control required text-right Currencyinputdecimal CorrectionPropertyTax CorrectionTerrainValue clearPropertyTax", @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.TerrainValue.HasValue ? Model.collectionDetail.CollectionFillingPropertyTaxModel.TerrainValue.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints) })
+                                        @Html.ValidationMessageFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.TerrainValue)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.ConstructionArea)</th>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.ConstructionValue)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList.Where(d => d.MaterialTypeID == 1).Count() > 0)
+                                {
+                                    for (int i = 0; i < Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList.Where(d => d.MaterialTypeID == 1).Count(); i++)
+                                    {
+                                        if (Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].MaterialTypeID.Value == 1)
+                                        {
+                                            <tr>
+                                                <td class='col-lg-6 text-right'>
+                                                    @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionArea, new { @class = "form-control text-right Currencyinputdecimal CorrectionConstructionArea", @readonly = true, @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionArea.ToString(Common.DecimalPoints) })
+                                                </td>
+                                                <td class='col-lg-6 text-right'>
+                                                    @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue, new { @class = "form-control required text-right Currencyinputdecimal CorrectionPropertyTax CorrectionContructionValue clearPropertyTax", @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue.HasValue ? Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints) })
+                                                    @Html.ValidationMessageFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue)
+                                                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionID)
+                                                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].MaterialTypeID)
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            @GlobalResource.NoDataMessage
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.ComplementaryArea)</th>
+                                    <th class="col-lg-6 text-right">@Html.Raw(@PropertyResource.ComplementaryValue)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList.Where(d => d.MaterialTypeID == 2).Count() > 0)
+                                {
+
+                                    for (int i = 0; i < Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList.Count(); i++)
+                                    {
+                                        if (Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].MaterialTypeID.Value == 2)
+                                        {
+                                            <tr>
+                                                <td class='col-lg-6 text-right'>
+                                                    @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionArea, new { @class = "form-control text-right Currencyinputdecimal CorrectionConstructionArea", @readonly = true, @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionArea.ToString(Common.DecimalPoints) })
+                                                </td>
+                                                <td class='col-lg-6 text-right'>
+                                                    @Html.TextBoxFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue, new { @class = "form-control required text-right Currencyinputdecimal CorrectionPropertyTax CorrectionContructionValue clearPropertyTax", @Value = Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue.HasValue ? Model.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints) })
+                                                    @Html.ValidationMessageFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ContructionValue)
+                                                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].ConstructionID)
+                                                    @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.AccountPropertyList[i].MaterialTypeID)
+                                                </td>
+                                            </tr>
+
+
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            @GlobalResource.NoDataMessage
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td class="col-lg-6- no-borders">
+                                        <label class="form-control text-right no-borders">@GlobalResource.Total</label>
+                                    </td>
+                                    <td class="col-lg-6">
+                                        @Html.TextBox("txtCorrectionTotal", 0.ToString(Common.DecimalPoints), new { @class = "form-control text-right clearPropertyTax Currencyinputdecimal", @id = "txtCorrectionTotal", ReadOnly = "true" })
+                                        @Html.HiddenFor(d => d.collectionDetail.CollectionFillingPropertyTaxModel.TotalValue, new { @id = "CorrectionTotalValue" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                }
+                @*<div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.FilingAmount
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(d => d.Amount, new { @class = "form-control text-right clearPropertyTax Currencyinputdecimal", tabindex = 2 })
+                                @Html.ValidationMessageFor(x => x.Amount)
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.PendingPeriod
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(d => d.PendingPeriod, new { @class = "form-control text-right clearPropertyTax inputnumber", tabindex = 3 })
+                                @Html.ValidationMessageFor(x => x.PendingPeriod)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.AdjustmentAmount
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(d => d.AdjustmentAmount, new { @class = "form-control text-right clearPropertyTax Currencyinputdecimalwithminus", tabindex = 4 })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.ExemptionPeriod
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(d => d.ExemptionPeriod, new { @class = "form-control text-right clearPropertyTax inputnumber", tabindex = 5 })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @LocalResource.ExemptionAmount
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextBoxFor(d => d.ExemptionAmount, new { @class = "form-control text-right clearPropertyTax Currencyinputdecimal", tabindex = 6 })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-6">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">
+                                @GlobalResource.Note
+                                <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-lg-8">
+                                @Html.TextAreaFor(x => x.Reason, new { @class = "form-control", rows = "3", tabindex = 7 })
+                                @Html.ValidationMessageFor(x => x.Reason)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnCoorectionSave" type="button" class="btn btn-primary" data-mode="add" tabindex="8">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="9">@GlobalResource.Cancel</button>
+    </div>
+}

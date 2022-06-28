@@ -1,0 +1,33 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ImportMeasuredWaterFilingFieldModel
+@using System.Data;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<h2>@GlobalResource.SelectFiletoValidate</h2>
+
+<div class="row m-t-lg">
+    <div class="col-lg-8">
+        <div class="form-group">
+            <label class="col-lg-2 control-label"> @GlobalResource.Period <span class="text-danger">*</span> </label>
+            <div class="col-lg-4">
+                @Html.TextBoxFor(x => x.PeriodDate, new { @class = "form-control periodDate required", tabindex = 3 })
+                @Html.ValidationMessageFor(x => x.PeriodDate, GlobalResource.RequiredValidationMsg)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-t-lg">
+    @Html.HiddenFor(x => x.type)
+    <div class="col-lg-8">
+        <div class="form-group">
+            <br /><label>@LocalResource.SelectFile<span class="text-danger">&nbsp;*</span></label>
+            <div id="attachmentDropzone" class="dropzone">
+                <div id="attachmentPreview" class="dropzone-previews">
+                </div>
+            </div>
+            <span>@GlobalResource.TextFileFormat</span>
+        </div>
+    </div>
+</div>

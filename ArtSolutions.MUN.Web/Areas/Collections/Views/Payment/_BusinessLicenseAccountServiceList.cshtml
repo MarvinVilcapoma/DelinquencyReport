@@ -1,0 +1,109 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.BusinessLicenseAccountServiceModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using HtmlHelpers.BeginCollectionItem;
+<div class="col-lg-12">
+    <div class="table-responsive m-t">
+        <table class="table table-multi-row" id="mytable">
+            <thead>
+                <tr>
+                    <th class="col-lg-1 text-center text-left"></th>
+                    <th class="col-lg-3">@LocalResource.ServicePeriodList</th>
+                    <th class="col-lg-1 text-right">
+                        @GlobalResource.Principal
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @GlobalResource.Penalties
+                    </th>
+                    <th class="text-right col-md-1">
+                        @GlobalResource.Discount
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @LocalResource.Debt
+                    </th>
+                    <th class="text-right col-lg-2">
+                        @GlobalResource.PaidAmount
+                    </th>
+                    <th class="text-right col-md-2">
+                        @GlobalResource.Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr id="@item.ID">
+                            @using (Html.BeginCollectionItem("BusinessLicenseAccountServiceList"))
+                            {
+                                <td class="text-center border-left">
+                                    @Html.CheckBox("SelectedItem", item.SelectedItem, new { @class = "collectionItem", @onclick = "loadAccountServiceCollectionDetail();", @data_itemid = @item.ID, @tabindex = "7" })
+                                </td>
+                                <td class="text-left ">
+                                    @item.ServiceName @item.FiscalYearID
+                                </td>
+                                <td class="text-right">
+                                    @item.Principal.ToString("c")
+                                </td>
+                                <td class="text-right">
+                                    @item.Penalties.ToString("c")
+                                </td>
+                                <td class="text-right">
+                                    @item.Discount.Value.ToString("c")
+                                </td>
+                                <td class="text-right">
+                                    @item.Debt.ToString("c")
+                                </td>
+                                <td class="text-right">
+                                    @item.PaidAmount.Value.ToString("c")
+                                </td>
+                                <td class="text-right border-right">
+                                    @item.Total.Value.ToString("c")
+                                </td>
+                                @Html.Hidden("ID", item.ID)
+                                @Html.Hidden("AccountServiceCollectionDetailJSON", item.AccountServiceCollectionDetailJSON)
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">@GlobalResource.NoDataMessage</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6"></td>
+                    <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                    <td class="text-right">
+                        <span id="spnNetPayment" class="spnFooterAmount"> @Model.Sum(x => x.Total).Value.ToString("c") </span>
+                    </td>
+                </tr>
+                @if (Model.Where(x => x.SelectedItem == true).Count() > 0)
+                {
+                    <tr>
+                        <td colspan="4"></td>
+                        <td class="text-right"> @PaymentResource.Quantity:</td>
+                        <td class="text-right"> @Model.Where(x => x.SelectedItem == true).Count() </td>
+                        <td class="text-right"><strong>@LocalResource.PaymentTotal :</strong></td>
+                        <td class="text-right">
+                            <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Total).Value.ToString("c") </span>
+                        </td>
+                    </tr>
+                }
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+

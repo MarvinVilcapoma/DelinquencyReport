@@ -1,0 +1,146 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseTransactionModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.TransactionBusinessLicenseTitle;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%" colspan="2">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td colspan="2">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@LocalResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center">
+                        @LocalResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="6">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        @if (!string.IsNullOrEmpty(@Model.ReportCompanyModel.FromDate))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="6">
+                            <strong>@GlobalResource.From: </strong>@Model.ReportCompanyModel.FromDate
+                            <strong>@GlobalResource.To: </strong> @Model.ReportCompanyModel.ToDate
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@LocalResource.TransDate</th>
+                    <th width="15%" class="table-border-center-th">@LocalResource.CustomerName</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.PatentNumber</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.FiscalYear</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.TransactionType</th>
+                    <th width="40%" class="table-border-center-th">@LocalResource.TransactionReason</th>
+                </tr>
+                @if (Model.BusinessLicenseTransactionList != null && Model.BusinessLicenseTransactionList.Count() > 0)
+                {
+                    foreach (var item in Model.BusinessLicenseTransactionList.OrderBy(g => g.Date))
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.AccountDisplayName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.PatentNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedFiscalYearID
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.TransactionType
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Note
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

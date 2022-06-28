@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmountDue" xml:space="preserve">
+    <value>Monto Adeudado</value>
+  </data>
+  <data name="CheckNumber" xml:space="preserve">
+    <value>Cheque/Número de Tarjeta</value>
+  </data>
+  <data name="InternalNotes" xml:space="preserve">
+    <value>Notas Internas</value>
+  </data>
+  <data name="InvoiceAmount" xml:space="preserve">
+    <value>Monto del Facturas de Recibo Aislado</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>Número de Facturas de Recibo Aislado</value>
+  </data>
+  <data name="ListPaymentReceipt" xml:space="preserve">
+    <value>Recibos de Pago</value>
+  </data>
+  <data name="NewPaymentReceipt" xml:space="preserve">
+    <value>Nuevo Recibo de Pago</value>
+  </data>
+  <data name="PaymentOption" xml:space="preserve">
+    <value>Opción de Pago</value>
+  </data>
+  <data name="PostPayment" xml:space="preserve">
+    <value>Realizar un Pago</value>
+  </data>
+  <data name="SelectInvoice" xml:space="preserve">
+    <value>Por favor, seleccione la factura.</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Monto Total</value>
+  </data>
+  <data name="ValMinOneInvoice" xml:space="preserve">
+    <value>Por favor, seleccione al menos una factura.</value>
+  </data>
+  <data name="ValTotalPayment" xml:space="preserve">
+    <value>El Total debe ser igual al Monto Total,</value>
+  </data>
+  <data name="ViewPaymentReceipt" xml:space="preserve">
+    <value>Ver Recibo de pago</value>
+  </data>
+  <data name="VoidPayment" xml:space="preserve">
+    <value>Anular Pago</value>
+  </data>
+  <data name="VoidSuccessMsg" xml:space="preserve">
+    <value>Recibo de pago anulado exitosamente.</value>
+  </data>
+  <data name="PrintReceipt" xml:space="preserve">
+    <value>Imprimir Recibo</value>
+  </data>
+  <data name="ByInvoice" xml:space="preserve">
+    <value>Pagar por Facturas de Recibo Aislado</value>
+  </data>
+  <data name="ByService" xml:space="preserve">
+    <value>Pagar por Servicio</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
+  <data name="NewPaymentReceiptByInvoice" xml:space="preserve">
+    <value>Nuevo Recibo de Pago Por Facturas de Recibo Aislado</value>
+  </data>
+  <data name="NewPaymentReceiptByService" xml:space="preserve">
+    <value>Nuevo Recibo de Pago por Servicio</value>
+  </data>
+  <data name="PaymentNotes" xml:space="preserve">
+    <value>Notas de pago (cheque / detalle de la tarjeta)</value>
+  </data>
+  <data name="ValCompareTotalAmount" xml:space="preserve">
+    <value>El monto total no debe exceder el monto vencido de la factura seleccionada.</value>
+  </data>
+  <data name="ValCompareTotalServiceAmount" xml:space="preserve">
+    <value>La cantidad total no debe exceder la cantidad total del artículo.</value>
+  </data>
+  <data name="ValMinOnePaymentOption" xml:space="preserve">
+    <value>Por favor, agregue al menos una opción de pago.</value>
+  </data>
+  <data name="ValPaymentOptionTotalAmount" xml:space="preserve">
+    <value>La cantidad total de la opción de pago debe coincidir con la cantidad total.</value>
+  </data>
+  <data name="ValPaymentProcessedMsg" xml:space="preserve">
+    <value>Pago ya procesado.</value>
+  </data>
+  <data name="ValTotalAmountRequired" xml:space="preserve">
+    <value>La cantidad total debe ser mayor que cero.</value>
+  </data>
+  <data name="ManualReceipt" xml:space="preserve">
+    <value>Recibo Manual</value>
+  </data>
+  <data name="ManualReceiptConfirmMsg" xml:space="preserve">
+    <value>Número de Recibo Manual: </value>
+  </data>
+  <data name="ByPaymentPlan" xml:space="preserve">
+    <value>Pagar por Arreglo de Pago</value>
+  </data>
+  <data name="NewPaymentReceiptByPaymentPlan" xml:space="preserve">
+    <value>Nuevo Recibo de Pago por Arreglo de Pago</value>
+  </data>
+  <data name="ValMinOneItem" xml:space="preserve">
+    <value>Debe haber al menos un elemento de línea.</value>
+  </data>
+  <data name="ValPaymentOptionCompareItemTotalAmount" xml:space="preserve">
+    <value>La cantidad total de la opción de pago no debe exceder la cantidad total del ítem seleccionado.</value>
+  </data>
+  <data name="ValFullDownPaymentMessage" xml:space="preserve">
+    <value>El monto total a pagar no coincide con el monto del pago inicial.</value>
+  </data>
+  <data name="ValFullPaymentMessage" xml:space="preserve">
+    <value>El monto total a pagar no coincide con el monto de la cuota mensual.</value>
+  </data>
+  <data name="CreditNoteSuccessMsg" xml:space="preserve">
+    <value>Nota de Crédito agregada con éxito.</value>
+  </data>
+  <data name="ApplyCredit" xml:space="preserve">
+    <value>Aplicar Crédito</value>
+  </data>
+  <data name="ValCreditBalance" xml:space="preserve">
+    <value>El monto del crédito solicitado no debe exceder el monto del crédito disponible.</value>
+  </data>
+  <data name="VoidFinanceMsg" xml:space="preserve">
+    <value>El pago no puede ser nulo, ya sea que haya sido borrado o igualado.</value>
+  </data>
+  <data name="ByPropertyTax" xml:space="preserve">
+    <value>Por impuesto a la propiedad</value>
+  </data>
+  <data name="NewPaymentReceiptByPropertyTax" xml:space="preserve">
+    <value>Nuevo recibo de pago por impuesto a la propiedad</value>
+  </data>
+  <data name="PropertyRight" xml:space="preserve">
+    <value>Derecho de propiedad</value>
+  </data>
+  <data name="AppliedCredit" xml:space="preserve">
+    <value>Aplicar el Monto de Crédito</value>
+  </data>
+  <data name="AvailableCredit" xml:space="preserve">
+    <value>Monto de Crédito Disponible</value>
+  </data>
+  <data name="ItemList" xml:space="preserve">
+    <value>Períodos del Servicio</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="SelectAllSearchMsg" xml:space="preserve">
+    <value>El texto de búsqueda es obligatorio cuando la búsqueda es para todo el año.</value>
+  </data>
+  <data name="IsHaveAccountPaymentPlanMsg" xml:space="preserve">
+    <value>Esta cuenta tiene Plan de Pago.</value>
+  </data>
+  <data name="SelectService" xml:space="preserve">
+    <value>Por favor, seleccione el servicio.</value>
+  </data>
+  <data name="ValPartialPayment" xml:space="preserve">
+    <value>No se permiten pagos parciales</value>
+  </data>
+  <data name="LastAsOfDate" xml:space="preserve">
+    <value>Último hasta la fecha</value>
+  </data>
+  <data name="ByOtherService" xml:space="preserve">
+    <value>Pago por Recibo Aislado</value>
+  </data>
+  <data name="NewPaymentReceiptByOtherService" xml:space="preserve">
+    <value>Nuevo Recibo de Pago Por Recibo Aislado</value>
+  </data>
+  <data name="AllowOnlyNumericInAmountMsg" xml:space="preserve">
+    <value>Permitir solo valor numérico en Cantidad.</value>
+  </data>
+  <data name="ImportBankPaymentsFailedMsg" xml:space="preserve">
+    <value>Se produce un error en la importación de pagos bancarios</value>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Fecha de Pago</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Convenio</value>
+  </data>
+  <data name="TotalBankTransfer" xml:space="preserve">
+    <value>Transferencia Bancaria Total</value>
+  </data>
+  <data name="TotalCash" xml:space="preserve">
+    <value>Efectivo Total</value>
+  </data>
+  <data name="TotalChequedelBancodeCostaRica" xml:space="preserve">
+    <value>Cheque Total del Banco de Costa Rica</value>
+  </data>
+  <data name="TotalChequedelBancoNacional" xml:space="preserve">
+    <value>Cheque Total del Banco Nacional</value>
+  </data>
+  <data name="TotalCreditCard" xml:space="preserve">
+    <value>Tarjeta de Crédito Total</value>
+  </data>
+  <data name="Adjustment" xml:space="preserve">
+    <value>Ajuste</value>
+  </data>
+  <data name="TotalAdjustment" xml:space="preserve">
+    <value>Ajuste Total</value>
+  </data>
+  <data name="IVAReceipt" xml:space="preserve">
+    <value>Pagar solo IVA</value>
+  </data>
+  <data name="ImportBankPaymentProcessInfoMsg" xml:space="preserve">
+    <value>Espere ... \ n Estamos trabajando en el proceso de pago del banco de importación.</value>
+  </data>
+  <data name="SameAgreementMsg" xml:space="preserve">
+    <value>El convenio  debe ser el mismo</value>
+  </data>
+  <data name="FileIsNotInCorrectFormatMsg" xml:space="preserve">
+    <value>El archivo no tiene el formato correcto.</value>
+  </data>
+  <data name="FinanceCheckbook" xml:space="preserve">
+    <value>Talonario de Cheques de Finanzas</value>
+  </data>
+  <data name="TotalBank" xml:space="preserve">
+    <value>Banco Total</value>
+  </data>
+  <data name="TotalBankTransferByBancodeCostaRica" xml:space="preserve">
+    <value>Transferencia Bancaria Total por Banco de Costa Rica</value>
+  </data>
+  <data name="TotalBankTransferByBancoNacionaldeCostaRica" xml:space="preserve">
+    <value>Transferencia Bancaria Total por Banco Nacional de Costa Rica</value>
+  </data>
+  <data name="ApplybyAmnesty" xml:space="preserve">
+    <value>Aplicar por Amnistía</value>
+  </data>
+  <data name="RemoveInterests" xml:space="preserve">
+    <value>Eliminar intereses</value>
+  </data>
+  <data name="ApplyCreditNoteAmount" xml:space="preserve">
+    <value>Aplicar Cantidad de Nota de Crédito</value>
+  </data>
+  <data name="AvailableCreditNoteAmount" xml:space="preserve">
+    <value>Importe de Nota de Crédito Disponible</value>
+  </data>
+  <data name="CreditNoteApplied" xml:space="preserve">
+    <value>Nota de Crédito Aplicada</value>
+  </data>
+  <data name="ValCreditNoteBalance" xml:space="preserve">
+    <value>La cantidad de la nota de crédito aplicada debe ser menor que la cantidad de la nota de crédito disponible.</value>
+  </data>
+  <data name="ValCreditNoteBalancePositive" xml:space="preserve">
+    <value>El monto de la nota de crédito debe ser un valor positivo</value>
+  </data>
+  <data name="ValCreditCompareItemTotalAmount" xml:space="preserve">
+    <value>El monto total del crédito no debe exceder el monto total del artículo seleccionado.</value>
+  </data>
+  <data name="DebitNoteSuccessMsg" xml:space="preserve">
+    <value>Nota de Débito agregada con éxito.</value>
+  </data>
+  <data name="ByDebitNote" xml:space="preserve">
+    <value>Pago Por Nota de Débito</value>
+  </data>
+  <data name="NewPaymentReceiptByDebitNote" xml:space="preserve">
+    <value>Nuevo Recibo de Pago Por Nota de Débito</value>
+  </data>
+</root>

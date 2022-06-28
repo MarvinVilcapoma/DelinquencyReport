@@ -1,0 +1,24 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Services.Models.CheckbookAccountListModel>
+
+@*<input type="hidden" value="@Model.CheckbookId" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CheckbookID")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CheckbookID" />
+<input type="hidden" value="@Model.Code" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CheckbookCode")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CheckbookCode" />
+<input type="hidden" value="@Model.Name" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CheckbookName")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CheckbookName" />
+<input type="hidden" value="@Model.FinancePaymentAccountID" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CashAccountID")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CashAccountID" />
+<input type="hidden" value="@Model.CodeFriendly" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CashAccountCode")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CashAccountCode" />
+<input type="hidden" value="@Model.FinanceAccountName" id="@Html.Raw("ServiceCollectionTemplateDetailList_"+ViewBag.FormValue +"__CashAccountName")" name="ServiceCollectionTemplateDetailList[@ViewBag.FormValue].CashAccountName" />*@
+
+
+<select class="form-control required select2dropdown @ViewBag.Class" id="@ViewBag.Id" name="@ViewBag.Name">
+    <option value="">@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.CheckbookId"
+                data-code="@item.Code"
+                data-name="@item.Name"
+                data-financepaymentaccountid="@item.FinancePaymentAccountID"
+                data-financeaccountname="@item.FinanceAccountName"
+                data-codefriendly="@item.CodeFriendly">
+            @Html.Raw(item.Code + " - " + item.Name)
+            </option>
+    }
+</select>

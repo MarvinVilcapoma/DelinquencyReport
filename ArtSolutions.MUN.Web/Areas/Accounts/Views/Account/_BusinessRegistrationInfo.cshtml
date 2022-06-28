@@ -1,0 +1,43 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.NAICSCode <span class="text-danger">*</span></label>
+            @Html.DropDownListFor(x => x.RegistrationBusinessModel.NAICSCodeID, Model.NAICSCodeList, GlobalResource.DropDownSelectMessage
+                         , new
+                         {
+                             @class = "form-control required select2dropdown",
+                             @id = "ddlNAICSCode",
+                             tabindex = 21
+                             ,
+                             onchange = "setOGPEDescription(this)"
+                         })
+            @Html.ValidationMessageFor(x => x.RegistrationBusinessModel.NAICSCodeID)
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.BusinessType</label>
+            @Html.DropDownListFor(x => x.RegistrationBusinessModel.BusinessTypeID, Model.BusinessTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlBusinessType", tabindex = 22 })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.Zone <span class="text-danger">*</span></label>
+            @Html.DropDownListFor(x => x.RegistrationBusinessModel.ZoneID, Model.ZoneList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown", @id = "ddlZone", tabindex = 23 })
+            @Html.ValidationMessageFor(x => x.RegistrationBusinessModel.ZoneID)
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.OGPEDescription <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(x => x.RegistrationBusinessModel.ARPEDescription, new { @class = "form-control required", maxlength = 500, tabindex = 24, @id = "txtARPEDescription" })
+            @Html.ValidationMessageFor(x => x.RegistrationBusinessModel.ARPEDescription)
+        </div>
+    </div>
+</div>

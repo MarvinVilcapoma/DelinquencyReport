@@ -1,0 +1,61 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover licenseList" data-page-size="15" data-sorting="false">
+        <thead>
+            <tr>
+                <th class="col-lg-2">@LocalResource.LicenseID</th>
+                <th class="col-lg-2">@GlobalResource.License</th>
+                <th class="col-lg-2"> @GlobalResource.Year </th>
+                <th class="col-lg-2">@LocalResource.LicenseType</th>
+                <th class="col-lg-2 text-right">@LocalResource.AmountToPay</th>
+                <th class="col-lg-2 text-right"><button type="button" id="btnNewLicense" class="@(Model.IsActive? "btn btn-primary btn-xs": "btn btn-primary btn-xs disabled")" onclick="location.href='@Url.Content("~/AccountService/Add?accountId=" + Model.ID +"&accountTypeId=" + Model.AccountTypeID + "&serviceType=" + 1)'" @(Model.IsActive ? "" : "disabled")><i class="fa fa-plus"></i> @LocalResource.NewLicense</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.LicenceList.Count == 0)
+            {
+                <tr>
+                    <td colspan="10" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.LicenceList)
+                {
+                    <tr>
+                        <td class="col-lg-2">
+                            @item.LicenseNumber
+                        </td>
+                        <td class="col-lg-2 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.ServiceName">
+                            @item.ServiceName
+                        </td>
+                        <td class="col-lg-2">
+                            @item.Year
+                        </td>
+                        <td class="col-lg-2 table-description-field">
+                            @item.LicenseType
+                        </td>
+                        <td class="col-lg-2 text-right">
+                            @item.AnnualIncome.ToString("C")
+                        </td>
+                        <td class="col-lg-2 text-right">
+                            <a href='@Url.Content("~/AccountService/View?accountServiceID="+ item.ID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

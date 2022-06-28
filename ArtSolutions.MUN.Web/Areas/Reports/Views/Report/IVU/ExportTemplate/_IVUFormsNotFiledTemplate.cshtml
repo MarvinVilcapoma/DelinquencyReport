@@ -1,0 +1,71 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUFormsNotFiledModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.IVUFormsNotFiledTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.AccountNumber</th>
+                    <th width="30%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="13%" class="table-border-center-th">@LocalResource.RegistrationNo</th>
+                    <th width="16%" class="table-border-center-th">@LocalResource.StartPeriodWithoutFiling</th>
+                    <th width="28%" class="table-border-center-th">@LocalResource.MonthsWithoutFiling</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IVUFormsNotFiledList != null && Model.IVUFormsNotFiledList.Count() > 0)
+                {
+                    foreach (var item in Model.IVUFormsNotFiledList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.AccountNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.AccountName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.RegisterNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedStartPeriod
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.FormattedMonthsWithoutFiling)
+                            </td>
+                        </tr>                        
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="bold">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

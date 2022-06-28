@@ -1,0 +1,84 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.RoutaMissingServicesModel
+@using System.Globalization
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.RoutaMissingServices;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@LocalResource.Meter</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="30%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="30%" class="table-border-center-th" colspan="2">@GlobalResource.AccountService</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RoutaMissingServicesList != null && Model.RoutaMissingServicesList.Count() > 0)
+                {
+                    foreach (var item in Model.RoutaMissingServicesList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @if (string.IsNullOrEmpty(item.Meter))
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.Meter
+                                }
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.TaxNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.DisplayName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FiscalYearID
+                            </td>
+                            <td class="table-border-center-td" colspan="2">
+                                @item.ServiceName
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="table-border-td center">
+                            <center>
+                                <label>@GlobalResource.NoDataMessage</label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

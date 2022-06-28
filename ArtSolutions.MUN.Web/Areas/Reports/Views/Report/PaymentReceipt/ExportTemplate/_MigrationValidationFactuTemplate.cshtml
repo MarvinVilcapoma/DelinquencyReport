@@ -1,0 +1,125 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationFactuModel
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.MigrationValidationFactuTitle;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.ServiceName</th>
+                    <th width="10%" class="table-border-center-th">@DateTime.Now.Year - RULE</th>
+                    <th width="10%" class="table-border-center-th">@DateTime.Now.Year - SIM</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PastYear - RULE</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PastYear - SIM</th>
+                    <th width="15%" class="table-border-center-th">@DateTime.Now.Year - RULE - @GlobalResource.Amount</th>
+                    <th width="15%" class="table-border-center-th">@DateTime.Now.Year - SIM - @GlobalResource.Amount</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PastYear - RULE - @GlobalResource.Amount</th>
+                        <th width="10%" class="table-border-center-th">@GlobalResource.PastYear - SIM - @GlobalResource.Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.MigrationValidationFactuList != null && Model.MigrationValidationFactuList.Count() > 0)
+                {
+                    foreach (var item in Model.MigrationValidationFactuList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.Cedula
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.CurrentYearRule == null ? "-" : item.CurrentYearRule.Value.ToString())
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.CurrentYearSIM == null ? "-" : item.CurrentYearSIM.Value.ToString())
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.PastYearRule == null ? "-" : item.PastYearRule.Value.ToString())
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.PastYearSIM == null ? "-" : item.PastYearSIM.Value.ToString())
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (@item.CurrentYearRuleAmount == null)
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.CurrentYearRuleAmount.Value.ToString(Common.NumberPoints)
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (@item.CurrentYearSIMAmount == null)
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.CurrentYearSIMAmount.Value.ToString(Common.NumberPoints)
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                    @if (@item.PastYearRuleAmount == null)
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                    else
+                                    {
+                                        @item.PastYearRuleAmount.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (@item.PastYearSIMAmount == null)
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                    else
+                                    {
+                                        @item.PastYearSIMAmount.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountStatementModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.AccountStatementTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportAccountStatement", "Report", FormMethod.Post,
+                new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        <h2>@Model.ReportCompanyModel.Name</h2>
+                        <h3>@ReportResource.AccountStatementTitle</h3>
+                        <p>
+                            @ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                        </p>
+                        <p class="text-right m-t-n-lg">
+                            <span class="font-bold">@ReportResource.InterestCalculationDate : </span>
+                            <span id="spCurrentDate">@Common.CurrentDateTime.ToString("d") </span>
+                        </p>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Account</label>
+                                        <div class="form-group w-300">
+                                            @Html.DropDownListFor(x => x.AccountId, new SelectList(Model.AccountList, "id", "text", Model.AccountId), GlobalResource.DropDownSelectMessage, new
+                                                {
+                                                    @class = "form-control select2dropdown",
+                                                    @onchange = "GetRight();",
+                                                    tabindex = 1
+                                                })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Property</label>
+                                        <div class="form-group w-200">
+                                            @Html.DropDownListFor(x => x.AccountPropertyID, Model.PropertyList, GlobalResource.DropDownSelectMessage, new { @id = "ddlRight", @class = "form-control", tabindex = 2 })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="button" id="btnAccountPaymentPlan" class="btn btn-success btn-sm m-r-xs hide" style="height: 32px !important;">
+                                            @ReportResource.PlanNumber
+                                        </button>
+
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="5" onclick="return validateForm(true);">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="6" onclick="return validateForm(true);">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();" tabindex="7">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline">
+                                    <span class="label label-warning pull-left hide" id="spnYear" style="margin-right: 5px;"><i class="fa fa-search"></i><span id="YearSearchText"></span><i class="fa fa-close" onclick="clearSearch('tillYear')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnPeriod" style="margin-right: 5px;"><i class="fa fa-search"></i><span id="PeriodSearchText"></span><i class="fa fa-close" onclick="clearSearch('tillPeriod')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnDate" style="margin-right: 5px;"><i class="fa fa-search"></i><span id="DateSearchText"></span><i class="fa fa-close" onclick="clearSearch('tillDate')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divAccountStatementReport">
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.Year)
+                @Html.HiddenFor(x => x.Date)
+                @Html.HiddenFor(x => x.AccountId, new { @id = "hdAccountID" })
+                @Html.HiddenFor(x => x.AccountServiceCollectionDetailIDs)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close closemodal" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label">@GlobalResource.Year</label>
+                            <div class="col-lg-2">
+                                @Html.TextBox("Year", Model.Year, new { @class = "form-control inputnumber", @id = "txtYear", maxlength = 4, minlength = 4, tabindex = 8 })
+                            </div>
+                            <label class="col-lg-1 control-label">@GlobalResource.Period</label>
+                            <div class="col-lg-2">
+                                @*@Html.TextBox("Year", Model.Year, new { @class = "form-control inputnumber", @id = "txtYear", maxlength = 4, minlength = 4, tabindex = 8 })*@
+                                @Html.TextBox("Period", Model.Period, new { @class = "form-control inputnumber", @id = "txtPeriod", maxlength = 2, minlength = 2, tabindex = 9 })
+                            </div>
+                            <label class="col-lg-2 control-label">@ReportResource.InterestCalculationDate</label>
+                            <div class="col-lg-3">
+                                @Html.TextBox("Date", Model.Date, new { @class = "form-control periodDate", @id = "txtDate", tabindex = 10 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex=11>@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex=12>@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        //Local resource variable
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var selectedYear = '@Html.Raw(ReportResource.SelectedYear)';
+        var selectedPeriod = '@Html.Raw(ReportResource.SelectedPeriod)';
+        var selectedInterestCalculationDate = '@Html.Raw(ReportResource.SelectedInterestCalculationDate)';
+        var selectAtLeastOneItemRequiredMsg = '@Html.Raw(GlobalResource.SelectAtLeastOneItemRequiredMsg)';
+    </script>
+
+    <script src="~/Scripts/app/repaccountstatement.js"></script>
+}

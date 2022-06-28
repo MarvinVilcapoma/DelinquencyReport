@@ -1,0 +1,55 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalAccountServiceRemovedModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="historicalAccountServiceRemovedTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th width="30%" class="text-center">
+                    @GlobalResource.Service
+                </th>
+                <th width="10%" class="text-center">
+                    @GlobalResource.AccountName
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.RightNumber
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.RemovedDate
+                </th>
+                <th width="30%" class="text-center">
+                    @GlobalResource.Reason
+                </th>
+                <th width="10%" class="text-center">
+                    @GlobalResource.DeletedBy
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @if (Model.HistoricalAccountServiceRemovedList != null && Model.HistoricalAccountServiceRemovedList.Count() > 0)
+            {
+                foreach (var item in Model.HistoricalAccountServiceRemovedList)
+                {
+
+            <tr>
+                <td class="text-left">
+                    @item.ServiceName
+
+                </td>
+                <td class="text-center">
+                    @item.AccountName
+                </td>
+                <td class="text-center">@item.RigthNumber</td>
+                <td class="text-center">@item.ModifiedDate.ToString("d")</td>
+                <td class="text-left table-description-field" data-placement="top" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.ReasonForDeleted">@item.ReasonForDeleted</td>
+                <td class="text-center">
+                    @item.DeletedByAccountName
+                </td>
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

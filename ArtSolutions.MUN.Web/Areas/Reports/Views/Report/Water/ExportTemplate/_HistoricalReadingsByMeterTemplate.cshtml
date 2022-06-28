@@ -1,0 +1,181 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalReadingsMeterModel
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ReportOfHistoricalReadingsByMeter;
+    var NumberOfReportColumns = Model.ReportCompanyModel.NumberOfReportColumns - 3;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%">
+                        &nbsp;
+                    </td>
+                    <td width="55%" colspan="@NumberOfReportColumns">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td width="15%" class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td width="15%" class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@LocalResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns" class="center">
+                        @LocalResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        @if (Model.ReportCompanyModel.FromRange >= 0)
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>@GlobalResource.From: </strong>@Model.ReportCompanyModel.FromRange (<em>m</em> <sup>3</sup>)
+                            <strong>@GlobalResource.To: </strong>@Model.ReportCompanyModel.ToRange (<em>m</em> <sup>3</sup>)
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ReportCompanyModel.FromDate))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>@GlobalResource.From: </strong>@Model.ReportCompanyModel.FromDate
+                            <strong>@GlobalResource.To: </strong>@Model.ReportCompanyModel.ToDate
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@LocalResource.Meter</th>
+                    <th width="20%" class="table-border-center-th">@GlobalResource.Account</th>
+                    <th width="7%" class="table-border-center-th">@LocalResource.LastReading</th>
+                    <th width="7%" class="table-border-center-th">@LocalResource.CurrentReading</th>
+                    <th width="7%" class="table-border-center-th">@LocalResource.Consumption</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Amount</th>
+                    <th width="7%" class="table-border-center-th">@GlobalResource.Month</th>
+                    <th width="7%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.ServiceType</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.HistoricalReadingsMeterList != null && Model.HistoricalReadingsMeterList.Count() > 0)
+                {
+                    foreach (var item in Model.HistoricalReadingsMeterList)
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.Meter
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountName
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedLastReading
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedCurrentReading
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedConsumption
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Amount.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedMonth
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Year
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.ServiceType
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

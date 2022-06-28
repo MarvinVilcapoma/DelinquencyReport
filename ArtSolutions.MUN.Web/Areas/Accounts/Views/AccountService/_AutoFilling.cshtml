@@ -1,0 +1,66 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFillingModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    Layout = null;   
+}
+
+
+
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">               
+                    @if (ViewBag.IsSummary == null)
+                    {
+                        <h5> @LocalResource.ViewFilingForTitle @Model.ServicePeriod </h5>
+                    }
+                    else
+                    {
+                        <h5> @LocalResource.ViewFilingForTitle @Model.ServiceName</h5>
+                    }
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                @if (Model!= null && Model.AccountServiceCollectionDetailId > 0 && Model.IsEditPermission == 1)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-12 right">
+                            <button style="float:right;" type="button" class="btn btn-danger deleteAutoFilling m-l" data-id="@Model.AccountServiceCollectionDetailId" >@GlobalResource.Delete</button>
+                        </div>
+                    </div>
+                }
+                @*<div class="row form-group">
+                    <label class="col-lg-3 control-label">
+                        @GlobalResource.FilingDate                        
+                    </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("FillingDate", (Model.FillingDate == null ? null : Model.FillingDate.Value.ToString("d")), new { @class = "form-control fillingDate required textblur", tabindex = 1, disabled = true })
+                        
+                       
+                    </div>
+                </div>
+               
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label">@GlobalResource.ReFillingDate</label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("ReFillingDate", (Model.ReFillingDate == null ? null : Model.ReFillingDate.Value.ToString("d")), new { @class = "form-control ReFillingDate required textblur", disabled = true })
+                        </div>
+                    </div>*@
+                
+                <div class="row form-group">
+                    <label class="col-lg-6 control-label">
+                        @GlobalResource.Amount                        
+                    </label>
+                    <div class="col-lg-6">                        
+                            @Html.TextBoxFor(x => x.Principal, new { @class = "form-control text-right Currencyinputdecimal calculateLicence clearLicence", @id = "txtGrossVolume", @Value = (Model.Principal == 0 ? "0" : Model.Principal.ToString(Common.DecimalPoints)), disabled = true })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+

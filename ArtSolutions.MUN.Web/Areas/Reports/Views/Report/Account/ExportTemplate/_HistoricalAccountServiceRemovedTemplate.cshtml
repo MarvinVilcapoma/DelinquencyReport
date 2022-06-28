@@ -1,0 +1,74 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalAccountServiceRemovedModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = ReportResource.ReportOfHistoricalAccountServiceRemoved;   
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table id="historicalAccountServiceRemovedTable" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th width="30%" class="table-border-center-th">
+                        @GlobalResource.Service
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.AccountName
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.RightNumber
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.RemovedDate
+                    </th>
+                    <th width="30%" class="table-border-center-th">
+                        @GlobalResource.Reason
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.DeletedBy
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tblDetailRow">
+                @if (Model.HistoricalAccountServiceRemovedList != null && Model.HistoricalAccountServiceRemovedList.Count() > 0)
+                {
+                    foreach (var item in Model.HistoricalAccountServiceRemovedList)
+                    {
+
+                <tr>
+                    <td class="table-border-left-td">
+                        @item.ServiceName
+
+                    </td>
+                    <td class="table-border-center-td">
+                        @item.AccountName
+                    </td>
+                    <td class="table-border-center-td">@item.RigthNumber</td>
+                    <td class="table-border-center-td">@item.ModifiedDate.ToString("d")</td>
+                    <td class="table-border-left-td">@item.ReasonForDeleted</td>
+                    <td class="table-border-center-td">@item.DeletedByAccountName</td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

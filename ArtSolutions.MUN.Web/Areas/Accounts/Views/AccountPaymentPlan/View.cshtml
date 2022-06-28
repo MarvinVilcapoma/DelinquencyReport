@@ -1,0 +1,154 @@
+﻿@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@model AccountPaymentPlanModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan;
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment;
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.ViewAccountPaymentPlan;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountPaymentPlan</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountPaymentPlan", new { area = "Accounts" })">@LocalResource.ListAccountPaymentPlan</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox form-horizontal">
+                <form id="frmAccountPaymentPlan">
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.IsOwner && Model.IsAllowedDelete)
+                            {
+                                <a id="btnDelete" data-id="@Model.ID" class="btn btn-primary" href="javascript:void(0);" tabindex="7">@GlobalResource.Delete</a>
+                            }
+                            <a id="aPrint"
+                               class="btn btn-primary"
+                               href="@Url.Action("Print","AccountPaymentPlan",new { area="Accounts",accountID =Model.AccountID,AccountPaymentPlanID=Model.ID})" target="_blank" tabindex="7">
+                                @GlobalResource.Print
+                            </a>
+                            <button class="btn btn-white" id="btnCancel" type="button" onclick="location.href='@Url.Content("~/AccountPaymentPlan/List")'" tabindex=8>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        @if (Model != null && Model.AccountPaymentPlanDetailList != null && Model.AccountPaymentPlanDetailList.FirstOrDefault(d => d.IsInJudicialCollection == true) != null)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="text-center" id="dvLockText">
+                                        <h2 style="color:red;">
+                                            <strong>
+                                                <span id="spStatus">
+                                                    @GlobalResource.JudicialCollection
+                                                </span>
+                                            </strong>
+                                        </h2>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Account <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.DropDownListFor(x => x.AccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new { @id = "ddlAccount", @class = "form-control select2dropdown required", @onchange = "loadServiceType();", tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.AccountID, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.PlanStartDate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.TextBoxFor(x => x.StartDate, new { Value = Model.StartDate.ToString("d"), @class = "form-control accountPaymentPlanDate required", tabindex = 2 })
+                                @Html.ValidationMessageFor(x => x.StartDate, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"> @GlobalResource.ServicePaymentPlan <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.DropDownListFor(x => x.ServicePaymentPlanID, Model.ServicePaymentPlanList, GlobalResource.DropDownSelectMessage, new { @id = "ddlServicePaymentPlan", @class = "form-control select2dropdown required", tabindex = 4 })
+                                @Html.ValidationMessageFor(x => x.ServicePaymentPlanID, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-sm-2 control-label">@PaymentResource.ApplybyAmnesty </label>
+                            <div class="col-sm-1 m-t-xs"> @Html.CheckBoxFor(x => x.ApplybyAmnesty, new { tabindex = "4"}) </div>
+                        </div>
+                        <div class="row" id="collectiondetailRows">
+                            @{
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountPaymentPlan/_AccountServiceCollectionDetailList.cshtml", Model.AccountServiceCollectionDetailList);
+                            }
+                        </div>
+                        <div id="divAccountPaymentDetail" class="row" style="display:none;">
+                            @{
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountPaymentPlan/_AccountPaymentPlanDetail.cshtml", Model);
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="DeleteAccPaymentPlanNoteConfirmModal" data-accountpaymentplanid="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteAccountPaymnetPlan" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+        var ActionTypeID = '@ViewBag.ActionType';
+        var yes = '@Html.Raw(GlobalResource.Yes)';
+        var no = '@Html.Raw(GlobalResource.No)';
+        var suremsg = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var Delete = '@Html.Raw(GlobalResource.Delete)';
+        var confMessage = '@Html.Raw(GlobalResource.Delete)';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/accountpaymentplan.js")"></script>
+}

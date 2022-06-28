@@ -1,0 +1,102 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Globalization
+@using ArtSolutions.MUN.Web.Helpers
+@{
+    var swedish = CultureInfo.GetCultureInfo("en-US");
+}
+<div class="modal-body no-padding">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5 id="addresstitle">@LocalResource.PropertyFilingHistory</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+        </div>
+        <div class="ibox-content">
+            @*<div class="row form-horizontal form-group">
+                    <div class="col-lg-4 text-right">
+                        <label class="control-label ">@LocalResource.RightCode</label>
+                    </div>
+                    <div class="col-lg-8">
+                        @Html.TextBox("TxtRightCode", "", new { @class = "form-control", @readonly = true, @id = "TxtRightCode" })
+                    </div>
+                </div>*@
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="full-height-scroll">
+                        <div class="table-responsive m-t">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        @*<th class="col-lg-3">@GlobalResource.Period</th>*@
+                                        <th class="col-lg-1">@GlobalResource.Year</th>
+                                        <th class="col-lg-1">@ArtSolutions.MUN.Web.Resources.Report.User</th>
+                                        <th class="col-lg-1">@GlobalResource.Date</th>
+                                      @*  <th class="col-lg-1">Time</th>*@
+                                        <th class="col-lg-1">@GlobalResource.FilingDate</th>
+                                        <th class="col-lg-2 text-right">@LocalResource.TotalTerrainValue</th>
+                                        <th class="col-lg-2 text-right">@LocalResource.TotalConstructionValue</th>
+                                        <th class="col-lg-2 text-right">@LocalResource.TotalComplementaryValue</th>
+                                        <th class="col-lg-2 text-right">@LocalResource.TotalValue</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="col-lg-1 text-capitalize">
+                                                @*@Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language),"{0:MMMM, yyyy}", item.DueDate))*@
+                                                @Html.Raw(String.Format("{0:yyyy}", item.DueDate))
+                                            </td>
+                                            <td class='col-lg-1'>
+                                                @Html.Raw(new UserProfile().UserProfileGet(new UserProfileViewModel
+                                           {
+                                               UserID = item.ModifiedUserID
+                                           }).FullName)
+                                            </td>
+                                            <td class='col-lg-1'>
+                                              @string.Format("{0} {1}",item.ModifiedDate.ToString("d"), @item.ModifiedDate.ToString("t"))
+                                            </td>
+                                            @*<td class='col-lg-1'>
+                                                @item.ModifiedDate.ToString("t")
+                                            </td>*@
+                                            <td class='col-lg-1'>
+                                                @item.FillingDate.ToString("d")
+                                            </td>
+                                            <td class='col-lg-2 text-right'>
+                                                @item.TerrainValue.Value.ToString("C")
+                                            </td>
+                                            <td class='col-lg-2 text-right'>
+                                                @item.ContructionValue.Value.ToString("C")
+                                            </td>
+                                            <td class='col-lg-2 text-right'>
+                                                @item.ComplementaryValue.Value.ToString("C")
+                                            </td>
+                                            <td class='col-lg-2 text-right'>
+                                                @item.TotalValue.Value.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (@Model == null || @Model.Count <= 0)
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="col-lg-12">
+                                                <center> @GlobalResource.NoDataMessage </center>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="btnCancel" type="button" tabindex="44" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+</div>

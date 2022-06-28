@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Activity" xml:space="preserve">
+    <value>Activity</value>
+  </data>
+  <data name="AddTitle" xml:space="preserve">
+    <value>New Workflow</value>
+  </data>
+  <data name="AllowDelete" xml:space="preserve">
+    <value>Allow Delete</value>
+  </data>
+  <data name="AllowEdit" xml:space="preserve">
+    <value>Allow Edit</value>
+  </data>
+  <data name="Assignto" xml:space="preserve">
+    <value>Assign to</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="CreateStatus" xml:space="preserve">
+    <value>Create Status</value>
+  </data>
+  <data name="CreateWorkflow" xml:space="preserve">
+    <value>Create Workflow</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>Document Type </value>
+  </data>
+  <data name="EditGroup" xml:space="preserve">
+    <value>Edit Group</value>
+  </data>
+  <data name="EditReason" xml:space="preserve">
+    <value>Edit Reason</value>
+  </data>
+  <data name="EditStatus" xml:space="preserve">
+    <value>Edit Status</value>
+  </data>
+  <data name="EditTitle" xml:space="preserve">
+    <value>Edit Workflow</value>
+  </data>
+  <data name="FromStatus" xml:space="preserve">
+    <value>From Status</value>
+  </data>
+  <data name="InitialStatus" xml:space="preserve">
+    <value>Initial Status</value>
+  </data>
+  <data name="IsFull" xml:space="preserve">
+    <value>Is Full</value>
+  </data>
+  <data name="IsPartial" xml:space="preserve">
+    <value>Is Partial</value>
+  </data>
+  <data name="ListForm" xml:space="preserve">
+    <value>List Form</value>
+  </data>
+  <data name="ListGroup" xml:space="preserve">
+    <value>List Group</value>
+  </data>
+  <data name="ListReason" xml:space="preserve">
+    <value>List Reason</value>
+  </data>
+  <data name="ListTitle" xml:space="preserve">
+    <value>List Workflow</value>
+  </data>
+  <data name="NewGroup" xml:space="preserve">
+    <value>New Group</value>
+  </data>
+  <data name="NewReason" xml:space="preserve">
+    <value>New Reason</value>
+  </data>
+  <data name="NewSequence" xml:space="preserve">
+    <value>New Sequence</value>
+  </data>
+  <data name="NewStatus" xml:space="preserve">
+    <value>New Status</value>
+  </data>
+  <data name="NewTitle" xml:space="preserve">
+    <value>New Workflow</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Screen" xml:space="preserve">
+    <value>Screen</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Sequence" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
+  <data name="StatusSequence" xml:space="preserve">
+    <value>Status Sequence</value>
+  </data>
+  <data name="StatusValidataion" xml:space="preserve">
+    <value>Atleast add one status in this Workflow.</value>
+  </data>
+  <data name="TargetStatus" xml:space="preserve">
+    <value>Target Status</value>
+  </data>
+  <data name="ToStatus" xml:space="preserve">
+    <value>To Status</value>
+  </data>
+  <data name="UsePopup" xml:space="preserve">
+    <value>Use Popup</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="ViewGroup" xml:space="preserve">
+    <value>View Group</value>
+  </data>
+  <data name="ViewReason" xml:space="preserve">
+    <value>View Reason</value>
+  </data>
+  <data name="ViewStatus" xml:space="preserve">
+    <value>View Status</value>
+  </data>
+  <data name="ViewTitle" xml:space="preserve">
+    <value>View Workflow</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Void</value>
+  </data>
+  <data name="WorkflowDiagram" xml:space="preserve">
+    <value>Workflow Diagram</value>
+  </data>
+  <data name="WorkflowEditor" xml:space="preserve">
+    <value>Workflow Editor</value>
+  </data>
+</root>

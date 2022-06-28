@@ -1,0 +1,143 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@{
+    ViewBag.Title = LocalResource.NewTitle;  
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountService</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountService", new { area = "Accounts" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@LocalResource.NewTitle</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Ajax.BeginForm("Add", "AccountService",
+                            new AjaxOptions() { OnSuccess = "OnSuccess", OnFailure = "OnFailure" },
+                            new { id = "form", @class = "wizard-big form-horizontal" }))
+                    {
+                        @Html.Hidden("SelectedServiceTypeId");
+                        @Html.HiddenFor(model => model.AccountID)
+                        @Html.HiddenFor(model => model.AccountTypeID)
+                        @Html.HiddenFor(model => model.ServiceID)
+                        @Html.HiddenFor(model => model.GroupID)
+                        @Html.HiddenFor(model => model.Year)
+                        @Html.HiddenFor(model => model.ServiceExceptionID)
+                        @Html.HiddenFor(model => model.ServiceExceptionValue)
+                        @Html.HiddenFor(model => model.AccountPropertyID)
+                        @Html.HiddenFor(model => model.ServiceStartPeriod)
+                        @Html.HiddenFor(model => model.LicenseAccountServiceID)
+                        @Html.HiddenFor(model => model.AccountServiceAccountPropertyID)
+                        @Html.HiddenFor(model => model.Property)
+                        @Html.HiddenFor(model => model.OwnerID)
+                        @Html.HiddenFor(model => model.AccountServiceAccountPropertyID)
+                        @Html.HiddenFor(model => model.IsDateFieldCustomField1)
+                        @Html.Hidden("hfCustomDateField")
+
+                        <h1>@GlobalResource.Group</h1>
+                        Html.RenderPartial("~/Areas/Accounts/Views/AccountService/_ServiceGroup.cshtml", Model.ServiceTypeGroupList);
+                        <h1>@GlobalResource.Type</h1>
+                        <fieldset>
+                            <h2>@LocalResource.ServiceTypeTitle</h2>
+                            <p class="m-t-lg m-l-sm">@LocalResource.PleaseSelectServiceType</p>
+                            <div id="divServiceType">
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountService/_ServiceType.cshtml", Model.ServiceTypeList);
+                            </div>
+                        </fieldset>
+                        <h1>@GlobalResource.Service</h1>
+                        <fieldset>
+                            <h2>@LocalResource.ServiceTitle</h2>
+                            <div id="divService">
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountService/_Service.cshtml", Model.ServiceList);
+                            </div>
+                        </fieldset>
+                        <h1>@LocalResource.ServiceAdditionalInformation</h1>
+                        Html.RenderPartial("~/Areas/Accounts/Views/AccountService/_AdditionalInformation.cshtml");
+                        <h1>@LocalResource.FinalStep</h1>
+                        Html.RenderPartial("~/Areas/Accounts/Views/AccountService/_Summary.cshtml");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/wizardStepsStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+
+    <style type="text/css">
+        .wizard-big.wizard > .content {
+            min-height: 400px !important;
+        }
+
+            .wizard-big.wizard > .content > .full-height-scroll {
+                min-height: 300px !important;
+            }
+
+        .wizard > .content > .body label {
+            margin-bottom: 0.1em;
+        }
+
+        .wizard > .content > .body > .checkbox label {
+            font-size: 15px;
+        }
+
+        .checkbox label {
+            font-size: 16px;
+            padding-left: 0px;
+        }
+
+
+        .clsChannels:hover {
+            cursor: pointer;
+        }
+
+        .row-flex {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            .row-flex > [class*='col-'] {
+                display: flex;
+                flex-direction: column;
+            }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/wizardSteps")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+
+    <script type="text/javascript">
+        var previousStepButton = '@Html.Raw(GlobalResource.Previous)';
+        var nextStepButton = '@Html.Raw(GlobalResource.Next)';
+        var finishStepButton = '@Html.Raw(GlobalResource.Finish)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var isFromRight = '@ViewBag.IsFromRight';
+    </script>
+    <script type="text/javascript" src='@Url.Content("~/Scripts/app/accountserviceadd.js")'></script>
+}

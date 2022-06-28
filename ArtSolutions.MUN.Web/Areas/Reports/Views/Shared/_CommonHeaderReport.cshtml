@@ -1,0 +1,14 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.ReportCompanyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@{
+    ViewBag.Title = Model.Title;
+    Layout = null;
+}
+
+<h2>@Model.Name</h2>
+<h3>@Model.Title</h3>
+
+@if (Model.ShowUntil!=false)
+{
+    <p>@LocalResource.Until <span>@Common.CurrentDateTime.ToString("d") </span></p>
+}

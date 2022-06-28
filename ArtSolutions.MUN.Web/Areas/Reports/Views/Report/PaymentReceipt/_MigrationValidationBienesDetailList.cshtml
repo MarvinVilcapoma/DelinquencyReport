@@ -1,0 +1,61 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationBienesModel
+
+@if (Model.MigrationValidationBienesList != null && Model.MigrationValidationBienesList.Count() > 0)
+{
+    foreach (var item in Model.MigrationValidationBienesList)
+    {
+        <tr>
+            <td class="text-center">
+                @if (item.AccountID == null)
+                {
+                    @item.Cedula
+                }
+                else
+                {
+                    <a href='@Url.Content("~/Account/View?accountID=" + item.AccountID + "&accountType=" + item.AccountTypeID)'
+                       class="text-underline" target="_blank">
+                        @item.Cedula
+                    </a>
+                }
+            </td>
+            <td class="text-center">
+                @if (item.AccountPropertyID == null)
+                {
+                    @item.Finca
+                }
+                else
+                {
+                    <a href='@Url.Content("~/AccountProperty/View?ID=" + item.AccountPropertyID)'
+                       class="text-underline" target="_blank">
+                        @item.Finca
+                    </a>
+                }
+            </td>
+            <td class="text-center">@item.Year</td>
+            <td class="text-center">
+                @Html.Raw(item.PERIODOS_RULE == null ? " - " : item.PERIODOS_RULE.Value.ToString())
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.PERIODOS_SIM <= 0 ? " - " : item.PERIODOS_SIM.ToString())
+            </td>
+            @*<td class="text-center">
+                    @Html.Raw(item.IMPUESTO_RULE == null ? " - " : item.IMPUESTO_RULE.Value.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.IMPUESTO_SIM <= 0 ? " - " : item.IMPUESTO_SIM.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.IMPUEXENTO_RULE == null ? " - " : item.IMPUEXENTO_RULE.Value.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.IMPUEXENTO_SIM <= 0 ? " - " : item.IMPUEXENTO_SIM.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.CANCELADO_RULE == null ? " - " : item.CANCELADO_RULE.Value.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.CANCELADO_SIM <= 0 ? " - " : item.CANCELADO_SIM.ToString("C"))
+                </td>*@
+        </tr>
+    }
+}

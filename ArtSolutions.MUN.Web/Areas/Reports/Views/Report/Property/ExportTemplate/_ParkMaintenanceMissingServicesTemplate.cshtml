@@ -1,0 +1,84 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ParkMaintenanceMissingServicesModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ParkMaintenanceMissingServicesTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    @{
+        Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+    }
+
+    <br />
+
+    <table cellspacing="0" class="report-Table">
+        <thead>
+            <tr>
+                <th class="table-border-center-th" width="14%">@GlobalResource.TaxNumber</th>
+                <th class="table-border-center-th" width="22%">@GlobalResource.Name</th>
+                <th class="table-border-center-th" width="12%">@LocalResource.RightNumber</th>
+                <th class="table-border-center-th" width="5%">@GlobalResource.Year</th>
+                <th class="table-border-center-th" width="12%">@GlobalResource.Code</th>
+                <th class="table-border-center-th" width="22%">@GlobalResource.ServiceName</th>
+                <th class="table-border-center-th" width="13%">@LocalResource.PropertyTaxPrincipalAmount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ParkMaintenanceMissingServicesList != null && Model.ParkMaintenanceMissingServicesList.Count() > 0)
+            {
+                foreach (var item in Model.ParkMaintenanceMissingServicesList)
+                {
+                    <tr>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.TaxNumber
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.DisplayName
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.RightNumber
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.FiscalYearID
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.Code
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.ServiceName
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @if (item.PropertyTaxPrincipalAmount != null)
+                            {
+                                @Html.Raw(item.PropertyTaxPrincipalAmount.Value.ToString(Common.NumberPoints))
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="table-border-td center">
+                        <center>
+                            <label>@GlobalResource.NoDataMessage</label>
+                        </center>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

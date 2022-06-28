@@ -1,0 +1,97 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.InconsistenceReadingModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.InconsistenceReadingReport;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@LocalResource.Consecutive</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.MeterNo</th>
+                    <th width="15%" class="table-border-center-th">@LocalResource.PropertyNo</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.AccountID</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.AccountName</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.LastReading</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.CurrentReading</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.Consumption (<em>m</em> <sup>3</sup>)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.InconsistenceReadingList != null && Model.InconsistenceReadingList.Count() > 0)
+                {
+                    foreach (var item in Model.InconsistenceReadingList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.RowNo
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedMeter
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedRightNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountID
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedDisplayName
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedLastReading
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedCurrentReading
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.FormattedConsumption
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr class="tdTotal">
+                    <td colspan="7" class="table-bg-bold-right-td"><b>@LocalResource.TotalConsumption (<em>m</em> <sup>3</sup>) : </b></td>
+                    <td class="table-bg-bold-right-td">
+                        <b>@Model.TotalConsumption.ToString(Common.DecimalPoints)</b>
+                    </td>                   
+                </tr>
+                <tr class="tdTotal">
+                    <td colspan="7" class="table-bg-bold-right-td"><b>@GlobalResource.Total : </b></td>
+                    <td class="table-bg-bold-right-td">
+                        <b>@Model.TotalAmount.ToString(Common.DecimalPoints)</b>
+                    </td>                   
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

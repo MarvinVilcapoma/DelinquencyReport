@@ -1,0 +1,47 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountServicesMissingFilingModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblAccountServicesMissingFiling" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Account
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Period
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Account/_AccountServicesMissingFilingDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyAccountServicesMissingFiling">
+                    <td></td>
+                    <td></td>                   
+                    <td class="text-right">
+                        <a id="accountServicesMissingFilingShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.AccountServicesMissingFilingList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreAccountServicesMissingFiling(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

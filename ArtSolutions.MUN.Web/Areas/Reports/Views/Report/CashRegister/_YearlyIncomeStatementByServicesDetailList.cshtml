@@ -1,0 +1,109 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.YearlyIncomeStatementByServicesModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+
+
+@if (Model.YearlyIncomeStatementByServicesList != null && Model.YearlyIncomeStatementByServicesList.Count() > 0)
+{
+    foreach (var objServiceCode in Model.YearlyIncomeStatementByServicesList.GroupBy(d => d.Code1).Select(d => d.Key).Distinct().ToList())
+    {
+        foreach (var item in Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode))
+        {
+            <tr>
+                <td class="text-center">@Html.Raw(item.Code1 + " " + item.Code2)</td>
+                <td class="text-center">@item.ServiceName</td>
+                @*<td class="text-center">
+                    @Html.Raw(item.CurrentCharges.ToString("C"))
+                </td>*@
+                <td class="text-center">
+                    @Html.Raw(item.CurrentInterest.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @*@Html.Raw(item.CurrentPayment.ToString("C"))*@
+                    @if (item.Code1 + item.Code2 == "131105000000007")
+                    {
+                        @Html.Raw((item.CurrentPayment + Model.YearlyIncomeStatementByServicesList.Sum(x => x.CurrentCharges)).ToString("C"))
+                    }
+                    else
+                    {
+                        @Html.Raw((item.CurrentPayment - item.CurrentCharges).ToString("C"))
+                    }
+                </td>
+                @*<td class="text-center">
+                    @Html.Raw(item.PreviousCharges.ToString("C"))
+                </td>*@
+                <td class="text-center">
+                    @Html.Raw(item.PreviousInterest.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @*@Html.Raw(item.PreviousPayment.ToString("C"))*@
+                    @if (item.Code1 + item.Code2 == "131105000000007")
+                    {
+                        @Html.Raw((item.PreviousPayment + Model.YearlyIncomeStatementByServicesList.Sum(x => x.PreviousCharges)).ToString("C"))
+                    }
+                    else
+                    {
+                        @Html.Raw((item.PreviousPayment - item.PreviousCharges).ToString("C"))
+                    }
+                </td>
+            </tr>
+        }
+        <tr class="sub-header font-bold">
+            <td></td>
+            <td class="text-center">@Html.Raw(ReportResource.TotalCodeRevenue + ": " + objServiceCode)</td>
+            @*<td class="text-center top-border table-total-amount">
+                @Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentCharges).ToString("C")
+            </td>*@
+            <td class="text-center top-border table-total-amount">
+                @Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentInterest).ToString("C")
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment).ToString("C")*@
+                @if (objServiceCode == "1311050000000")
+                {
+                    @Html.Raw((Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment) + Model.YearlyIncomeStatementByServicesList.Sum(x => x.CurrentCharges)).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw((Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment) - Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentCharges)).ToString("C"))
+                }
+            </td>
+            @*<td class="text-center top-border table-total-amount">
+                @Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousCharges).ToString("C")
+            </td>*@
+            <td class="text-center top-border table-total-amount">
+                @Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousInterest).ToString("C")
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment).ToString("C")*@
+                @if (objServiceCode == "1311050000000")
+                {
+                    @Html.Raw((Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment) + Model.YearlyIncomeStatementByServicesList.Sum(x => x.PreviousCharges)).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw((Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment) - Model.YearlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousCharges)).ToString("C"))
+                }
+            </td>
+        </tr>
+    }
+    <tr class="sub-header font-bold">
+        <td></td>
+        <td class="text-center">@ReportResource.TotalRevenueCurrentYear</td>
+        @*<td class="text-center"></td>*@
+        <td class="text-center"></td>
+        <td class="text-center top-border table-total-amount">@Model.YearlyIncomeStatementByServicesList.Sum(x => x.CurrentPayment).ToString("C")</td>
+        @*<td class="text-center"></td>*@
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+    </tr>
+    <tr class="sub-header font-bold">
+        <td></td>
+        <td class="text-center">@ReportResource.TotalIncomePreviousYear</td>
+        @*<td class="text-center"></td>
+        <td class="text-center"></td>*@
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center top-border table-total-amount">@Model.YearlyIncomeStatementByServicesList.Sum(x => x.PreviousPayment).ToString("C")</td>
+    </tr>
+}

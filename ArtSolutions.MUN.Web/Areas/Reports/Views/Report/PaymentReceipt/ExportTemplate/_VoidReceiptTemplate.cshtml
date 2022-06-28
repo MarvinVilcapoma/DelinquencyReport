@@ -1,0 +1,79 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.VoidReceiptsModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.VoidReceipt;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    @{
+        Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+    }
+    <table cellspacing="0" class="report-Table">
+        <thead>
+            <tr>
+                <th class="table-border-center-th" width="10%">@LocalResource.ReceiptDate</th>
+                <th class="table-border-center-th" width="10%">@LocalResource.VoidDate</th>
+                <th class="table-border-center-th" width="13%">@GlobalResource.ReceiptNumber</th>
+                <th class="table-border-center-th" width="22%">@GlobalResource.Name</th>
+                <th class="table-border-center-th" width="30%">@LocalResource.CancellationReason</th>
+                <th class="table-border-center-th" width="15%">@LocalResource.CancellationAmount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ReceiptEntryList != null && Model.ReceiptEntryList.Count() > 0)
+            {
+                foreach (var item in Model.ReceiptEntryList)
+                {
+                    <tr>
+                        <td class="table-border-left-td">
+                            @item.FormattedDate
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.FormattedVoidDate
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.Number
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.AccountDisplayName
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.VoidReason
+                        </td>
+                        <td class="table-border-right-td" style='@msoNumberFormat'>
+                            @Html.Raw(item.TotalPayment > 0 ? item.TotalPayment.ToString(Common.NumberPoints) : "")
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="table-bg-bold-center-td">
+                        <center> @GlobalResource.NoDataMessage </center>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="5" class="table-bg-bold-right-td">
+                    @GlobalResource.Total :
+                </td>
+                <td class="table-bg-bold-right-td">
+                    <label id="lblTotal">@Html.Raw(Model.ReceiptEntryList != null ? @Model.ReceiptEntryList.Sum(i => i.TotalPayment).ToString(Common.NumberPoints) : "0.00")</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

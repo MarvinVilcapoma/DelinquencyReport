@@ -1,0 +1,2349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DB475DE0-538B-42F8-A310-91B0BB88A561}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArtSolutions.MUN.Web</RootNamespace>
+    <AssemblyName>ArtSolutions.MUN.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BeginCollectionItem, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BeginCollectionItem.1.2.1.0\lib\net35\BeginCollectionItem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextsharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\packages\iTextsharp\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.2\lib\net451\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=15.2451.0.40, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfution\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocIO.Base, Version=15.2451.0.40, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfution\Syncfusion.DocIO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocToPdfConverter.Base, Version=15.2451.0.40, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfution\Syncfusion.DocToPdfConverter.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=15.2451.0.40, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Syncfution\Syncfusion.Pdf.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Accounts\AccountsAreaRegistration.cs" />
+    <Compile Include="Areas\Accounts\Controllers\AccountPropertyController.cs" />
+    <Compile Include="Areas\Accounts\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Accounts\Controllers\AccountPaymentPlanController.cs" />
+    <Compile Include="Areas\Accounts\Controllers\AccountServiceController.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountBusinessModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountIndividualModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPropertyConstructionDetail.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPropertyConstructionDetailModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountProperty.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPropertyRightModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPropertyModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPaymentPlanDetail.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPaymentPlanDetailModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPaymentPlan.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountPaymentPlanModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCorrectiontModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceExceptionModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceAdjustmentModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionDetailModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionFillingMeasuredWaterModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionFillingPropertyTaxModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionFillingUnitModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionFillingLicenseModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionFillingTaxModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionPaymentHistoryModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceDebtModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionDiscountModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceExtensionModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceFillingModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceNoteModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServicePaymentHistoryModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServicePaymentPlanModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServicePrintModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AddressModel.cs" />
+    <Compile Include="Areas\Accounts\Models\BusinessLicenseAccountServiceModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ContactsModel.cs" />
+    <Compile Include="Areas\Accounts\Models\CreditHistoryModel.cs" />
+    <Compile Include="Areas\Accounts\Models\DebitHistoryModel.cs" />
+    <Compile Include="Areas\Accounts\Models\EmailModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AttachmentModel.cs" />
+    <Compile Include="Areas\Accounts\Models\FiscalYearModel.cs" />
+    <Compile Include="Areas\Accounts\Models\GeneralBusinessModel.cs" />
+    <Compile Include="Areas\Accounts\Models\GeneralIndividualModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountServiceCollectionDebtModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ImportAccountPropertyModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ImportAccountServiceFilingModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ImportAccountModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ImportMeasuredWaterFilingModel.cs" />
+    <Compile Include="Areas\Accounts\Models\PhoneModel.cs" />
+    <Compile Include="Areas\Accounts\Models\RegistrationBusinessModel.cs" />
+    <Compile Include="Areas\Accounts\Models\AccountTypeModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\SLARequestModel.cs" />
+    <Compile Include="Areas\Collections\Controllers\ClosingEntryController.cs" />
+    <Compile Include="Areas\Collections\Controllers\DebitNoteController.cs" />
+    <Compile Include="Areas\Collections\Controllers\PostingProcessController.cs" />
+    <Compile Include="Areas\Collections\Controllers\DepositEntryController.cs" />
+    <Compile Include="Areas\Collections\Controllers\CreditNoteController.cs" />
+    <Compile Include="Areas\Collections\Models\BankAccountModel.cs" />
+    <Compile Include="Areas\Collections\Models\BankAccount.cs" />
+    <Compile Include="Areas\Collections\Models\DebitNote.cs" />
+    <Compile Include="Areas\Collections\Models\DebitNoteModel.cs" />
+    <Compile Include="Areas\Collections\Models\ImportBankPaymentsModel.cs" />
+    <Compile Include="Areas\Collections\Models\PropertyTransferModel.cs" />
+    <Compile Include="Areas\Collections\Models\PropertyTransfer.cs" />
+    <Compile Include="Areas\Collections\Models\PostingProcessModel.cs" />
+    <Compile Include="Areas\Collections\Models\PostingProcess.cs" />
+    <Compile Include="Areas\Collections\Models\CreditNote.cs" />
+    <Compile Include="Areas\Collections\Models\CreditNoteModel.cs" />
+    <Compile Include="Areas\Collections\Models\ClosingType.cs" />
+    <Compile Include="Areas\Collections\Models\ClosingEntry.cs" />
+    <Compile Include="Areas\Collections\Models\ClosingEntryModel.cs" />
+    <Compile Include="Areas\Collections\Models\DepositEntry.cs" />
+    <Compile Include="Areas\Collections\Models\DepositEntryModel.cs" />
+    <Compile Include="Areas\Collections\Models\InvoiceDetail.cs" />
+    <Compile Include="Areas\Collections\Models\InvoiceModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ServiceTypeGroupModel.cs" />
+    <Compile Include="Areas\Accounts\Models\ServiceTypeModel.cs" />
+    <Compile Include="Areas\Cases\CasesAreaRegistration.cs" />
+    <Compile Include="Areas\Cases\Controllers\CaseController.cs" />
+    <Compile Include="Areas\Cases\Models\CaseImage.cs" />
+    <Compile Include="Areas\Cases\Models\CaseList.cs" />
+    <Compile Include="Areas\Cases\Models\CaseMeetingNotes.cs" />
+    <Compile Include="Areas\Cases\Models\CaseModel.cs" />
+    <Compile Include="Areas\Cases\Models\CaseTeam.cs" />
+    <Compile Include="Areas\Cases\Models\CaseWorkflowStatus.cs" />
+    <Compile Include="Areas\Cases\Models\CaseWorkflowForm.cs" />
+    <Compile Include="Areas\Cases\Models\CaseWorkflowStatusReason.cs" />
+    <Compile Include="Areas\Cases\Models\ContactModel.cs" />
+    <Compile Include="Areas\Cases\Models\ContactViewModel.cs" />
+    <Compile Include="Areas\Cases\Models\DashboardModel.cs" />
+    <Compile Include="Areas\Cases\Models\PrintCenter.cs" />
+    <Compile Include="Areas\Cases\Models\PrintLetterModel.cs" />
+    <Compile Include="Areas\Cases\Models\WorkflowHistoryLog.cs" />
+    <Compile Include="Areas\ChatAndBot\ChatAndBotAreaRegistration.cs" />
+    <Compile Include="Areas\ChatAndBot\Controllers\ChatController.cs" />
+    <Compile Include="Areas\ChatAndBot\Controllers\ServiceRequestController.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ChatSessionDetailModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ChatUser.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\FieldPropertiesModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\OnlineAgentModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ServiceRequestDepartmentModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ServiceRequestDepartmentUserModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ServiceRequestModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ServiceRequestResponseModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\ServiceRequestTicketTypeModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\UserDataModel.cs" />
+    <Compile Include="Areas\ChatAndBot\Models\UserModels.cs" />
+    <Compile Include="Areas\Collections\CollectionsAreaRegistration.cs" />
+    <Compile Include="Areas\Collections\Controllers\PaymentController.cs" />
+    <Compile Include="Areas\Collections\Controllers\InvoiceController.cs" />
+    <Compile Include="Areas\Collections\Models\Payment.cs" />
+    <Compile Include="Areas\Collections\Models\PaymentModel.cs" />
+    <Compile Include="Areas\Collections\Models\PaymentOptionModel.cs" />
+    <Compile Include="Areas\Collections\Models\PaymentOptionsModel.cs" />
+    <Compile Include="Areas\Collections\Models\PrintTemplateModel.cs" />
+    <Compile Include="Areas\Collections\Models\SalesCashierModel.cs" />
+    <Compile Include="Areas\Collections\Controllers\PropertyTransferController.cs" />
+    <Compile Include="Areas\Companies\CompaniesAreaRegistration.cs" />
+    <Compile Include="Areas\Companies\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Companies\Models\CompanyModel.cs" />
+    <Compile Include="Areas\Companies\Models\CompanyParameterModel.cs" />
+    <Compile Include="Areas\Companies\Models\CountryModel.cs" />
+    <Compile Include="Areas\Companies\Models\CurrencyModel.cs" />
+    <Compile Include="Areas\Companies\Models\ModuleModel.cs" />
+    <Compile Include="Areas\PrintTemplates\Controllers\PrintTemplateController.cs" />
+    <Compile Include="Areas\PrintTemplates\Models\PrintTemplate.cs" />
+    <Compile Include="Areas\PrintTemplates\PrintTemplatesAreaRegistration.cs" />
+    <Compile Include="Areas\Reports\Controllers\ReportController.cs" />
+    <Compile Include="Areas\Reports\Models\AccountByServiceType.cs" />
+    <Compile Include="Areas\Reports\Models\AccountByServiceTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\AccountExclusionForm.cs" />
+    <Compile Include="Areas\Reports\Models\AccountExclusionFormModel.cs" />
+    <Compile Include="Areas\Reports\Models\AccountsConsumptionAndCollection.cs" />
+    <Compile Include="Areas\Reports\Models\AccountsConsumptionAndCollectionModel.cs" />
+    <Compile Include="Areas\Reports\Models\AccountServicesMissingFiling.cs" />
+    <Compile Include="Areas\Reports\Models\AccountServicesMissingFilingModel.cs" />
+    <Compile Include="Areas\Reports\Models\AccountStatement.cs" />
+    <Compile Include="Areas\Reports\Models\AccountStatementModel.cs" />
+    <Compile Include="Areas\Reports\Models\AmnestyMovementReport.cs" />
+    <Compile Include="Areas\Reports\Models\AmnestyMovementReportModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenceSanitaryPermitDueDate.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenceSanitaryPermitDueDateModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseGeneralModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseGeneral.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseBalanceClosing.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseBalance.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseCertificate.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseCreditBalance.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseFilingByFilingType.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseTransaction.cs" />
+    <Compile Include="Areas\Reports\Models\CashReceiptControl.cs" />
+    <Compile Include="Areas\Reports\Models\CashReceiptControlModel.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryPaymentPlan.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryPaymentPlanModel.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryInvoice.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryInvoiceModel.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryPaymentType.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryPaymentTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryServiceType.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDailyIncomeProduceBank.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDailyIncomeProduceBankModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionRevenueBankCollection.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionRevenueDailyCollection.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDailyIncomeState.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionClosingSummary.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionRevenueBankCollectionModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionRevenueDailyCollectionModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDailyIncomeStateModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByInvoice.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByInvoiceModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByPaymentPlan.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByPaymentPlanModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByPaymentType.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByServiceType.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummary.cs" />
+    <Compile Include="Areas\Reports\Models\ConsumptionByRange.cs" />
+    <Compile Include="Areas\Reports\Models\ConsumptionByRangeModel.cs" />
+    <Compile Include="Areas\Reports\Models\ControlOfPaymentsMadeInTheBank.cs" />
+    <Compile Include="Areas\Reports\Models\ControlOfPaymentsMadeInTheBankModel.cs" />
+    <Compile Include="Areas\Reports\Models\DebtCertification.cs" />
+    <Compile Include="Areas\Reports\Models\DebtCertificationModel.cs" />
+    <Compile Include="Areas\Reports\Models\DelinquencyReport.cs" />
+    <Compile Include="Areas\Reports\Models\DelinquencyReportModel.cs" />
+    <Compile Include="Areas\Reports\Models\DuplicatedMeterNumber.cs" />
+    <Compile Include="Areas\Reports\Models\DuplicatedMeterNumberModel.cs" />
+    <Compile Include="Areas\Reports\Models\ExportBankPayments.cs" />
+    <Compile Include="Areas\Reports\Models\ExportBankPaymentsModel.cs" />
+    <Compile Include="Areas\Reports\Models\AccountPropertyRemoved.cs" />
+    <Compile Include="Areas\Reports\Models\GeneralMovements.cs" />
+    <Compile Include="Areas\Reports\Models\GeneralMovementsModel.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalPaymentReport.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalPaymentReportModel.cs" />
+    <Compile Include="Areas\Reports\Models\JobSchedulerHistory.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalAccountServiceRemoved.cs" />
+    <Compile Include="Areas\Reports\Models\AccountPropertyRemovedModel.cs" />
+    <Compile Include="Areas\Reports\Models\JobSchedulerHistoryModel.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalReadingsMeter.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalAccountServiceRemovedModel.cs" />
+    <Compile Include="Areas\Reports\Models\HistoricalReadingsMeterModel.cs" />
+    <Compile Include="Areas\Reports\Models\InconsistenceReading.cs" />
+    <Compile Include="Areas\Reports\Models\InconsistenceReadingModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUBalanceSheet.cs" />
+    <Compile Include="Areas\Reports\Models\IVUCollectionDetail.cs" />
+    <Compile Include="Areas\Reports\Models\IVUFilledCertificate.cs" />
+    <Compile Include="Areas\Reports\Models\IVUFormsNotFiled.cs" />
+    <Compile Include="Areas\Reports\Models\IVUStatement.cs" />
+    <Compile Include="Areas\Reports\Models\JournalDetail.cs" />
+    <Compile Include="Areas\Reports\Models\Journal.cs" />
+    <Compile Include="Areas\Reports\Models\InconsistenciesInTheBankReceipts.cs" />
+    <Compile Include="Areas\Reports\Models\InconsistenciesInTheBankReceiptsModel.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationBienes.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationCobros.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationBienesModel.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationFactu.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationCobrosModel.cs" />
+    <Compile Include="Areas\Reports\Models\MigrationValidationFactuModel.cs" />
+    <Compile Include="Areas\Reports\Models\MonthlyIncomeStatementByServices.cs" />
+    <Compile Include="Areas\Reports\Models\MonthlyIncomeStatementByServicesModel.cs" />
+    <Compile Include="Areas\Reports\Models\NoDebtCertification.cs" />
+    <Compile Include="Areas\Reports\Models\NoDebtCertificationModel.cs" />
+    <Compile Include="Areas\Reports\Models\ParkMaintenanceMissingServices.cs" />
+    <Compile Include="Areas\Reports\Models\ParkMaintenanceMissingServicesModel.cs" />
+    <Compile Include="Areas\Reports\Models\PaymentPlanByTaxpayer.cs" />
+    <Compile Include="Areas\Reports\Models\PaymentPlanByTaxpayerModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptCollectedByBank.cs" />
+    <Compile Include="Areas\Reports\Models\PaymentsMadeByTheTaxpayer.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptCollectedByBankModel.cs" />
+    <Compile Include="Areas\Reports\Models\PaymentsMadeByTheTaxpayerModel.cs" />
+    <Compile Include="Areas\Reports\Models\ProjectedAccountStatement.cs" />
+    <Compile Include="Areas\Reports\Models\ProjectedAccountStatementModel.cs" />
+    <Compile Include="Areas\Reports\Models\Property.cs" />
+    <Compile Include="Areas\Reports\Models\PropertyModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptBusinessLicense.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptByBank.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptBySecurityBankAccount.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptBySecurityBankAccountModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptCommercialFacilitiesRental.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptDetail.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptDetailModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptIVU.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptOtherConcept.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPaymentPlan.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionExpenses.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionFees.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionStreetVendors.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionStreetVendorsModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionExpensesModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPermissionFeesModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseBalanceClosingModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseTransactionModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseCreditBalanceModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseFilingByFilingTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseCertificateModel.cs" />
+    <Compile Include="Areas\Reports\Models\JournalModel.cs" />
+    <Compile Include="Areas\Reports\Models\JournalDetailModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByServiceTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryByPaymentTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\BusinessLicenseBalanceModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptCommercialFacilitiesRentalModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptOtherConceptModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptPaymentPlanModel.cs" />
+    <Compile Include="Areas\Reports\Models\ClosingSummaryServiceTypeModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptByBankModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptRegister.cs" />
+    <Compile Include="Areas\Reports\Models\RightsByOwnersID.cs" />
+    <Compile Include="Areas\Reports\Models\RightsByOwnersIDModel.cs" />
+    <Compile Include="Areas\Reports\Models\RoutaMissingServices.cs" />
+    <Compile Include="Areas\Reports\Models\RoutaMissingServicesModel.cs" />
+    <Compile Include="Areas\Reports\Models\ServicesLinkedToRight.cs" />
+    <Compile Include="Areas\Reports\Models\ServicesLinkedToRightModel.cs" />
+    <Compile Include="Areas\Reports\Models\AdministrativeCollectionNotice.cs" />
+    <Compile Include="Areas\Reports\Models\StatisticsofReceiptsCollected.cs" />
+    <Compile Include="Areas\Reports\Models\StatisticsofReceiptsCollectedModel.cs" />
+    <Compile Include="Areas\Reports\Models\SummaryAccountStatement.cs" />
+    <Compile Include="Areas\Reports\Models\AdministrativeCollectionNoticeModel.cs" />
+    <Compile Include="Areas\Reports\Models\SummaryAccountStatementModel.cs" />
+    <Compile Include="Areas\Reports\Models\SuspensionOrderForWaterService.cs" />
+    <Compile Include="Areas\Reports\Models\SuspensionOrderForWaterServiceModel.cs" />
+    <Compile Include="Areas\Reports\Models\ExceptionReport.cs" />
+    <Compile Include="Areas\Reports\Models\TransfersReport.cs" />
+    <Compile Include="Areas\Reports\Models\ExceptionReportModel.cs" />
+    <Compile Include="Areas\Reports\Models\TransfersReportModel.cs" />
+    <Compile Include="Areas\Reports\Models\VoidReceiptsModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionClosingSummaryModel.cs" />
+    <Compile Include="Areas\Reports\Models\CollectionDepositSummaryModel.cs" />
+    <Compile Include="Areas\Reports\Models\ExportModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUBalanceSheetModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUCollectionDetailModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUFilledCertificateModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUFormsNotFiledModel.cs" />
+    <Compile Include="Areas\Reports\Models\IVUStatementModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptBusinessLicenseModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptIVUModel.cs" />
+    <Compile Include="Areas\Reports\Models\ReceiptRegisterModel.cs" />
+    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
+    <Compile Include="Areas\Schedulers\Controllers\SchedulerEmailController.cs" />
+    <Compile Include="Areas\Schedulers\Models\SchedulerEmail.cs" />
+    <Compile Include="Areas\Schedulers\Models\SchedulerEmailModel.cs" />
+    <Compile Include="Areas\Schedulers\SchedulersAreaRegistration.cs" />
+    <Compile Include="Areas\Services\Controllers\CollectionTemplateController.cs" />
+    <Compile Include="Areas\Services\Controllers\PaymentPlanController.cs" />
+    <Compile Include="Areas\Services\Controllers\ServiceController.cs" />
+    <Compile Include="Areas\Services\Models\FinClassGrantModel.cs" />
+    <Compile Include="Areas\Services\Models\CollectionFieldModel.cs" />
+    <Compile Include="Areas\Services\Models\CollectionRuleModel.cs" />
+    <Compile Include="Areas\Services\Models\CollectionTypeModel.cs" />
+    <Compile Include="Areas\Services\Models\FinAccountModel.cs" />
+    <Compile Include="Areas\Services\Models\FinGrantAccountModel.cs" />
+    <Compile Include="Areas\Services\Models\FinSalesCashierDetailModel.cs" />
+    <Compile Include="Areas\Services\Models\FrequencyModel.cs" />
+    <Compile Include="Areas\Services\Models\PaymentPlan.cs" />
+    <Compile Include="Areas\Services\Models\PaymentPlanList.cs" />
+    <Compile Include="Areas\Services\Models\PaymentPlanListModel.cs" />
+    <Compile Include="Areas\Services\Models\PaymentPlanModel.cs" />
+    <Compile Include="Areas\Services\Models\Service.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCalculationDate.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCalculationDateModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCollectionRuleDetailModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCollectionRuleModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCollectionTemplateDetailModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceCollectionTemplateModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceExceptionModel.cs" />
+    <Compile Include="Areas\Services\Models\ServiceModel.cs" />
+    <Compile Include="Areas\Services\Models\ServicePrintTemplateModel.cs" />
+    <Compile Include="Areas\Services\ServicesAreaRegistration.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowController.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowFormController.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowGroupController.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowReasonController.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowStatusController.cs" />
+    <Compile Include="Areas\Workflows\Controllers\WorkflowStatusSequenceController.cs" />
+    <Compile Include="Areas\Workflows\Models\DiagramGeneratorModel.cs" />
+    <Compile Include="Areas\Workflows\Models\DocumentTypeModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkFlowModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowReasonModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowSecurityGroupModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowSecurityGroupUsersModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowSecurityStatusInGroupModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowStatusModel.cs" />
+    <Compile Include="Areas\Workflows\Models\WorkflowStatusSequenceModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\DiagramViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\DocumentTypeViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowReasonViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowSecurityGroupUsersViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowSecurityGroupViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowSecurityStatusInGroupViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowStatusSequenceViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkflowStatusViewModel.cs" />
+    <Compile Include="Areas\Workflows\ViewModel\WorkFlowViewModel.cs" />
+    <Compile Include="Areas\Workflows\WorkflowsAreaRegistration.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filters\CompanyConfigurationAttribute.cs" />
+    <Compile Include="Filters\CustomValidator.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Common.cs" />
+    <Compile Include="Helpers\EnumUtility.cs" />
+    <Compile Include="Helpers\JsonNetActionResult.cs" />
+    <Compile Include="Helpers\UserProfile.cs" />
+    <Compile Include="Models\CommonViewModel.cs" />
+    <Compile Include="Models\DataExportModel.cs" />
+    <Compile Include="Models\FINJournalModel.cs" />
+    <Compile Include="Models\GridViewModel.cs" />
+    <Compile Include="Helpers\HMTLHelperExtensions.cs" />
+    <Compile Include="Models\ImportModel.cs" />
+    <Compile Include="Models\JQDTParams.cs" />
+    <Compile Include="Models\JsTreeViewModel.cs" />
+    <Compile Include="Helpers\RestSharpHandler.cs" />
+    <Compile Include="Helpers\UserSession.cs" />
+    <Compile Include="Models\ApplicationModel.cs" />
+    <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\LanguageModel.cs" />
+    <Compile Include="Models\MailBoxModel.cs" />
+    <Compile Include="Models\NOTElement.cs" />
+    <Compile Include="Models\SupportValueModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Account.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Account.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\AccountPaymentPlan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountPaymentPlan.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\AccountProperty.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountProperty.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Case.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Case.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Chat.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Chat.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\COLClosing.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COLClosing.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ColCreditNote.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColCreditNote.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ColDebitNote.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColDebitNote.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\COLDeposit.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COLDeposit.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\COLPayment.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COLPayment.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Company.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Company.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\AccountService.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountService.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Global.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Global.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\COLInvoice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COLInvoice.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ImportAccount.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportAccount.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\PaymentPlan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PaymentPlan.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\PrintTemplates.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrintTemplates.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Report.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Report.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Service.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Service.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ServiceCollectionTemplate.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceCollectionTemplate.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ServiceRequest.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceRequest.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Transfer.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transfer.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Transfer.es-cr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transfer.es-cr.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Transfer.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Transfer.es.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Workflow.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Workflow.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Reports\Views\Report\Property\AccountExclusionForm.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_AccountExclusionFormTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_AccountExclusionFormDetail.cshtml" />
+    <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\a6.jpg" />
+    <Content Include="Content\Images\Circle.png" />
+    <Content Include="Content\Images\FloresLogo.png" />
+    <Content Include="Content\Images\NoImageAvailable_Icon.png" />
+    <Content Include="Content\Images\no_image_available.png" />
+    <Content Include="Content\Images\RuleLogo.png" />
+    <Content Include="Content\Images\switch.png" />
+    <Content Include="Content\Images\user.jpg" />
+    <Content Include="Content\patterns\1.png" />
+    <Content Include="Content\patterns\2.png" />
+    <Content Include="Content\patterns\3.png" />
+    <Content Include="Content\patterns\4.png" />
+    <Content Include="Content\patterns\5.png" />
+    <Content Include="Content\patterns\6.png" />
+    <Content Include="Content\patterns\7.png" />
+    <Content Include="Content\patterns\8.jpg" />
+    <Content Include="Content\patterns\congruent_pentagon.png" />
+    <Content Include="Content\patterns\header-profile-skin-1.png" />
+    <Content Include="Content\patterns\header-profile-skin-2.png" />
+    <Content Include="Content\patterns\header-profile-skin-3.png" />
+    <Content Include="Content\patterns\header-profile.png" />
+    <Content Include="Content\patterns\otis_redding.png" />
+    <Content Include="Content\patterns\shattered.png" />
+    <Content Include="Content\patterns\triangular.png" />
+    <Content Include="Content\plugins\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.min.css" />
+    <Content Include="Content\plugins\awesome-bootstrap-checkbox\awesome-bootstrap-checkbox.css" />
+    <Content Include="Content\plugins\clockpicker\clockpicker.css" />
+    <Content Include="Content\plugins\datapicker\datepicker3.min.css" />
+    <Content Include="Content\plugins\datapicker\datepicker3.css" />
+    <Content Include="Content\plugins\dataTables\datatables.min.css" />
+    <Content Include="Content\plugins\dropzone\basic.min.css" />
+    <Content Include="Content\plugins\dropzone\basic.css" />
+    <Content Include="Content\plugins\dropzone\dropzone.min.css" />
+    <Content Include="Content\plugins\dropzone\dropzone.css" />
+    <Content Include="Content\plugins\dualListbox\bootstrap-duallistbox.min.css" />
+    <Content Include="Content\plugins\ej\common-images\colorpicker_dark.png" />
+    <Content Include="Content\plugins\ej\common-images\colorpicker_light.png" />
+    <Content Include="Content\plugins\ej\common-images\colorpicker_light_material.png" />
+    <Content Include="Content\plugins\ej\common-images\diagram_context.png" />
+    <Content Include="Content\plugins\ej\common-images\diagram_context1.png" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\cellbottomalignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\cellcenteralignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\celltopalignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\tablecenteralignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\tableleftalignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\documenteditor\tablerightalignment.svg" />
+    <Content Include="Content\plugins\ej\common-images\ejicons.svg" />
+    <Content Include="Content\plugins\ej\common-images\grid\dropPointer.cur" />
+    <Content Include="Content\plugins\ej\common-images\kanban\nouser.svg" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Bootom.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Bootom_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Left.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Left_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Right.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Right_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Top.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Arrow_Top_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Bar.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home_hover_lime.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home_hover_saffron.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home_lime.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Home_saffron.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Navicatior.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Zoom-In.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Zoom-In_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Zoom-out.png" />
+    <Content Include="Content\plugins\ej\common-images\maps\Zoom-out_hover.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\circle.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\diamond.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\down-arrow.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\green.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\red.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\right-arrow.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\three-color.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\triangle.png" />
+    <Content Include="Content\plugins\ej\common-images\olapkpi\up-arrow.png" />
+    <Content Include="Content\plugins\ej\common-images\pdfviewer\preloader-pdfviewer.gif" />
+    <Content Include="Content\plugins\ej\common-images\radialmenu\back.png" />
+    <Content Include="Content\plugins\ej\common-images\radialmenu\radial.png" />
+    <Content Include="Content\plugins\ej\common-images\reports\down.png" />
+    <Content Include="Content\plugins\ej\common-images\reports\minus.gif" />
+    <Content Include="Content\plugins\ej\common-images\reports\minus.jpg" />
+    <Content Include="Content\plugins\ej\common-images\reports\minus.png" />
+    <Content Include="Content\plugins\ej\common-images\reports\plus.gif" />
+    <Content Include="Content\plugins\ej\common-images\reports\plus.jpg" />
+    <Content Include="Content\plugins\ej\common-images\reports\plus.png" />
+    <Content Include="Content\plugins\ej\common-images\reports\up.png" />
+    <Content Include="Content\plugins\ej\common-images\reports\updown.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Blank.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Browser.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Check.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Diet.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\ejrbnicons.svg" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\gallery.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Gantt.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\homegallery.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\paste.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Project.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Protect.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Sales.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\style.gallery.png" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\User.jpg" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\Version.png" />
+    <Content Include="Content\plugins\ej\common-images\Rotate.cur" />
+    <Content Include="Content\plugins\ej\common-images\schedule_priority.png" />
+    <Content Include="Content\plugins\ej\common-images\spellcheck\highlight.png" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\blank.png" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\chart-sprites.png" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\charttab-sprites.png" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\charttype-sprites.png" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\down_arrow_dark.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\down_arrow_light.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\draw_border_dark.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\draw_border_grid_dark.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\draw_border_grid_light.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\draw_border_light.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\ejxlicons.svg" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\format_painter_dark.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\format_painter_light.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\right_arrow_dark.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\right_arrow_light.cur" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\sprites.png" />
+    <Content Include="Content\plugins\ej\common-images\tools\drop-sibling-rtl.png" />
+    <Content Include="Content\plugins\ej\common-images\tools\file_icons.png" />
+    <Content Include="Content\plugins\ej\common-images\tools\icons.svg" />
+    <Content Include="Content\plugins\ej\default-responsive.css" />
+    <Content Include="Content\plugins\ej\default-theme\ej.theme.min.css" />
+    <Content Include="Content\plugins\ej\default-theme\ej.web.all.min.css" />
+    <Content Include="Content\plugins\ej\default-theme\images\ajax-loader.gif" />
+    <Content Include="Content\plugins\ej\default-theme\images\checkedtick.png" />
+    <Content Include="Content\plugins\ej\default-theme\images\drop-sibling.png" />
+    <Content Include="Content\plugins\ej\default-theme\images\rating-star.png" />
+    <Content Include="Content\plugins\ej\default-theme\images\rotator-icon.png" />
+    <Content Include="Content\plugins\ej\default-theme\images\slider-tick.png" />
+    <Content Include="Content\plugins\ej\default-theme\images\waitingpopup.gif" />
+    <Content Include="Content\plugins\ej\default.css" />
+    <Content Include="Content\plugins\ej\ej.widgets.core.bootstrap.min.css" />
+    <Content Include="Content\plugins\ej\ej.widgets.core.material.min.css" />
+    <Content Include="Content\plugins\ej\ej.widgets.core.min.css" />
+    <Content Include="Content\plugins\flag-icon\flag-icon.css" />
+    <Content Include="Content\plugins\flag-icon\flag-icon.min.css" />
+    <Content Include="Content\plugins\flag-icon\flags\1x1\cr.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\1x1\es.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\1x1\pr.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\1x1\us.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\4x3\cr.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\4x3\es.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\4x3\pr.svg" />
+    <Content Include="Content\plugins\flag-icon\flags\4x3\us.svg" />
+    <Content Include="Content\plugins\footable\fonts\footable.svg" />
+    <Content Include="Content\plugins\footable\footable.core.min.css" />
+    <Content Include="Content\plugins\footable\footable.core.css" />
+    <Content Include="Content\plugins\iCheck\blue%402x.png" />
+    <Content Include="Content\plugins\iCheck\blue.png" />
+    <Content Include="Content\plugins\iCheck\blue_1.png" />
+    <Content Include="Content\plugins\iCheck\custom.min.css" />
+    <Content Include="Content\plugins\iCheck\custom.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.min.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinFlat.min.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinFlat.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinHTML5.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinModern.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinNice.css" />
+    <Content Include="Content\plugins\ion-rangeslider\ion.rangeSlider.skinSimple.css" />
+    <Content Include="Content\plugins\ion-rangeslider\normalize.css" />
+    <Content Include="Content\plugins\ion-rangeslider\sprite-skin-flat.png" />
+    <Content Include="Content\plugins\ion-rangeslider\sprite-skin-modern.png" />
+    <Content Include="Content\plugins\ion-rangeslider\sprite-skin-nice.png" />
+    <Content Include="Content\plugins\ion-rangeslider\sprite-skin-simple.png" />
+    <Content Include="Content\plugins\jasny\jasny-bootstrap.min.css" />
+    <Content Include="Content\plugins\jsTree\32px.png" />
+    <Content Include="Content\plugins\jsTree\39px.png" />
+    <Content Include="Content\plugins\jsTree\40px.png" />
+    <Content Include="Content\plugins\jsTree\jstree.min.js" />
+    <Content Include="Content\plugins\jsTree\style.css" />
+    <Content Include="Content\plugins\jsTree\style.min.css" />
+    <Content Include="Content\plugins\jsTree\throbber.gif" />
+    <Content Include="Content\plugins\multiselect\multi-select.css" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\css\pe-icon-7-stroke.min.css" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\css\pe-icon-7-stroke.css" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.svg" />
+    <Content Include="Content\plugins\select2\select2.min.css" />
+    <Content Include="Content\plugins\steps\jquery.steps.min.css" />
+    <Content Include="Content\plugins\steps\jquery.steps.css" />
+    <Content Include="Content\plugins\summernote\summernote-bs3.css" />
+    <Content Include="Content\plugins\summernote\summernote.css" />
+    <Content Include="Content\plugins\sweetalert\sweetalert.min.css" />
+    <Content Include="Content\plugins\sweetalert\sweetalert.css" />
+    <Content Include="Content\plugins\toastr\toastr.min.css" />
+    <Content Include="Content\printReportStyle.css" />
+    <Content Include="Content\printStyle.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Export\Export.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\font-awesome\css\font-awesome.css" />
+    <Content Include="fonts\font-awesome\css\font-awesome.min.css" />
+    <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="SampleImportFile\Import Property Account.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\app\debitnotelist.js" />
+    <Content Include="Scripts\app\debitnoteview.js" />
+    <Content Include="Scripts\app\repaccountbyservicetype.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbydebitnote.js" />
+    <Content Include="Scripts\app\repamnestymovementreport.js" />
+    <Content Include="Scripts\app\repconstancy.js" />
+    <Content Include="Scripts\app\repcontrolofpaymentsmadeinthebank.js" />
+    <Content Include="Scripts\app\repdailyincomeproducebank.js" />
+    <Content Include="Scripts\app\repgeneralmovements.js" />
+    <Content Include="Scripts\app\rephistoricalpayment.js" />
+    <Content Include="Scripts\app\repinconsistenciesintheapplicationofbankreceipts.js" />
+    <Content Include="Scripts\app\reppatentgeneral.js" />
+    <Content Include="Scripts\app\repreceiptcollectedbybank.js" />
+    <Content Include="Scripts\app\reprevenuebankcollection.js" />
+    <Content Include="Scripts\app\repstatisticsofreceiptscollected.js" />
+    <Content Include="Scripts\app\scheduleremaillist.js" />
+    <Content Include="Scripts\app\accountpropertyimport.js" />
+    <Content Include="Scripts\app\accountpropertymerge.js" />
+    <Content Include="Scripts\app\accountpropertysplit.js" />
+    <Content Include="Scripts\app\accountpropertysplitedit.js" />
+    <Content Include="Scripts\app\accountservicefilingimport.js" />
+    <Content Include="Scripts\app\accountpropertyedit.js" />
+    <Content Include="Scripts\app\accountpropertylist.js" />
+    <Content Include="Scripts\app\accountpropertyadd.js" />
+    <Content Include="Scripts\app\accountadd.js" />
+    <Content Include="Scripts\app\accountedit.js" />
+    <Content Include="Scripts\app\accountlist.js" />
+    <Content Include="Scripts\app\accountpaymentplan.js" />
+    <Content Include="Scripts\app\accountpaymentplanlist.js" />
+    <Content Include="Scripts\app\accountpropertyview.js" />
+    <Content Include="Scripts\app\accountservicelist.js" />
+    <Content Include="Scripts\app\bankpaymentsimport.js" />
+    <Content Include="Scripts\app\GeoLocation.js" />
+    <Content Include="Scripts\app\measuredwaterfilingimport.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbotherservice.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbypropertytax.js" />
+    <Content Include="Scripts\app\propertytransferlist.js" />
+    <Content Include="Scripts\app\propertytransferadd.js" />
+    <Content Include="Scripts\app\repaccountexclusionform.js" />
+    <Content Include="Scripts\app\repaccountsconsumptionandcollection.js" />
+    <Content Include="Scripts\app\repaccountservicesmissingfiling.js" />
+    <Content Include="Scripts\app\repadministrativecollectionsecondnotice.js" />
+    <Content Include="Scripts\app\repcashreceiptcontrol.js" />
+    <Content Include="Scripts\app\repexception.js" />
+    <Content Include="Scripts\app\jobschedulerhistory.js" />
+    <Content Include="Scripts\app\reprevenuebydailycollection.js" />
+    <Content Include="Scripts\app\repdebtcertification.js" />
+    <Content Include="Scripts\app\repduplicatedmeternumber.js" />
+    <Content Include="Scripts\app\repexportbankpayments.js" />
+    <Content Include="Scripts\app\repaccountpropertyremoved.js" />
+    <Content Include="Scripts\app\rephistoricalaccountserviceremoved.js" />
+    <Content Include="Scripts\app\repmigrationvalidationbienes.js" />
+    <Content Include="Scripts\app\repmigrationvalidationcobros.js" />
+    <Content Include="Scripts\app\repdailyincomestate.js" />
+    <Content Include="Scripts\app\repmigrationvalidationfactu.js" />
+    <Content Include="Scripts\app\reppaymentplanbytaxpayer.js" />
+    <Content Include="Scripts\app\reppaymentsmadebythetaxpayer.js" />
+    <Content Include="Scripts\app\repprojectedaccountstatement.js" />
+    <Content Include="Scripts\app\reprightsbyownersid.js" />
+    <Content Include="Scripts\app\reproutamissingservices.js" />
+    <Content Include="Scripts\app\repsuspensionorderforwaterservice.js" />
+    <Content Include="Scripts\app\repadministrativecollectionnotice.js" />
+    <Content Include="Scripts\app\repyearlyincomestatementbyservices.js" />
+    <Content Include="Scripts\app\repquarterlyincomestatementbyservices.js" />
+    <Content Include="Scripts\app\repmonthlyincomestatementbyservices.js" />
+    <Content Include="Scripts\app\repnodebtcertification.js" />
+    <Content Include="Scripts\app\repparkmaintenancemissingservices.js" />
+    <Content Include="Scripts\app\reppropertymovement.js" />
+    <Content Include="Scripts\app\repaccountstatement.js" />
+    <Content Include="Scripts\app\repclosingsummarybyinvoice.js" />
+    <Content Include="Scripts\app\repclosingsummarybypaymentplan.js" />
+    <Content Include="Scripts\app\repclosingsummarybypaymenttype.js" />
+    <Content Include="Scripts\app\repconsumptionbyrange.js" />
+    <Content Include="Scripts\app\repdepositsummarybyinvoice.js" />
+    <Content Include="Scripts\app\repdepositsummarybypaymentplan.js" />
+    <Content Include="Scripts\app\rephistoricalreadingsmeter.js" />
+    <Content Include="Scripts\app\repinconsistencereading.js" />
+    <Content Include="Scripts\app\repreceiptbybank.js" />
+    <Content Include="Scripts\app\repreceiptbysecuritybankaccount.js" />
+    <Content Include="Scripts\app\repreceiptbystreetvendors.js" />
+    <Content Include="Scripts\app\repreceiptbypermissionexpenses.js" />
+    <Content Include="Scripts\app\repreceiptbypermissionfees.js" />
+    <Content Include="Scripts\app\reppatentetransaction.js" />
+    <Content Include="Scripts\app\reppatenteclosingbalance.js" />
+    <Content Include="Scripts\app\reppatentecreditbalance.js" />
+    <Content Include="Scripts\app\reppatentefilingbyfilingtype.js" />
+    <Content Include="Scripts\app\reppatentebalance.js" />
+    <Content Include="Scripts\app\postingprocessview.js" />
+    <Content Include="Scripts\app\postingprocessadd.js" />
+    <Content Include="Scripts\app\postingprocesslist.js" />
+    <Content Include="Scripts\app\creditnotelist.js" />
+    <Content Include="Scripts\app\repdepositsummarybyservicetype.js" />
+    <Content Include="Scripts\app\repdepositsummarybypaymenttype.js" />
+    <Content Include="Scripts\app\repaccountingjournal.js" />
+    <Content Include="Scripts\app\repaccountingjournaldetail.js" />
+    <Content Include="Scripts\app\repreceiptbyotherconcept.js" />
+    <Content Include="Scripts\app\creditnoteview.js" />
+    <Content Include="Scripts\app\repreceiptbypaymentplan.js" />
+    <Content Include="Scripts\app\caseactivityedit.js" />
+    <Content Include="Scripts\app\caseedit.js" />
+    <Content Include="Scripts\app\caseadd.js" />
+    <Content Include="Scripts\app\casecrimeinfoadd.js" />
+    <Content Include="Scripts\app\casedashboard.js" />
+    <Content Include="Scripts\app\caseheirinfoadd.js" />
+    <Content Include="Scripts\app\caselist.js" />
+    <Content Include="Scripts\app\caseview.js" />
+    <Content Include="Scripts\app\caseviewattachments.js" />
+    <Content Include="Scripts\app\ChatClient.js" />
+    <Content Include="Scripts\app\closingentryadd.js" />
+    <Content Include="Scripts\app\closingentrylist.js" />
+    <Content Include="Scripts\app\repreceiptbycommercialfacilitiesrental.js" />
+    <Content Include="Scripts\app\repclosingsummarybyservicetype.js" />
+    <Content Include="Scripts\app\repclosingsummary.js" />
+    <Content Include="Scripts\app\closingentryview.js" />
+    <Content Include="Scripts\app\invoiceaddedit.js" />
+    <Content Include="Scripts\app\invoicelist.js" />
+    <Content Include="Scripts\app\paymentreceiptlist.js" />
+    <Content Include="Scripts\app\collectiontemplateaddedit.js" />
+    <Content Include="Scripts\app\collectiontemplatelist.js" />
+    <Content Include="Scripts\app\collectiontemplateview.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbypaymentplan.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbyservice.js" />
+    <Content Include="Scripts\app\casecommentformadd.js" />
+    <Content Include="Scripts\app\Company.js" />
+    <Content Include="Scripts\app\custom.js" />
+    <Content Include="Scripts\app\depositentryadd.js" />
+    <Content Include="Scripts\app\depositentrylist.js" />
+    <Content Include="Scripts\app\repdepositsummary.js" />
+    <Content Include="Scripts\app\depositentryview.js" />
+    <Content Include="Scripts\app\accountimport.js" />
+    <Content Include="Scripts\app\InitializeChat.js" />
+    <Content Include="Scripts\app\repivubalancesheet.js" />
+    <Content Include="Scripts\app\repivucollectiondetail.js" />
+    <Content Include="Scripts\app\repivuformsnotfiled.js" />
+    <Content Include="Scripts\app\repreceiptbypatente.js" />
+    <Content Include="Scripts\app\repreceiptbyivu.js" />
+    <Content Include="Scripts\app\repcertificatepatentedebt.js" />
+    <Content Include="Scripts\app\creditnoteadd.js" />
+    <Content Include="Scripts\app\repreceiptdetail.js" />
+    <Content Include="Scripts\app\repreceiptregisterforcr.js" />
+    <Content Include="Scripts\app\repreceiptvoidreceipt.js" />
+    <Content Include="Scripts\app\repreceiptregister.js" />
+    <Content Include="Scripts\app\repcertificateivufiling.js" />
+    <Content Include="Scripts\app\repcertificateivudebt.js" />
+    <Content Include="Scripts\app\repivustatement.js" />
+    <Content Include="Scripts\app\paymentreceiptaddbyinvoice.js" />
+    <Content Include="Scripts\app\repsanitarypermitduedate.js" />
+    <Content Include="Scripts\app\repserviceslinkedtoright.js" />
+    <Content Include="Scripts\app\repsummaryaccountstatement.js" />
+    <Content Include="Scripts\app\reptransfersreport.js" />
+    <Content Include="Scripts\app\scheduleremailadd.js" />
+    <Content Include="Scripts\app\scheduleremailedit.js" />
+    <Content Include="Scripts\app\servicepaymentplan.js" />
+    <Content Include="Scripts\app\printletterlist.js" />
+    <Content Include="Scripts\app\printtemplateedit.js" />
+    <Content Include="Scripts\app\servicecollectionrule.js" />
+    <Content Include="Scripts\app\printletter.js" />
+    <Content Include="Scripts\app\printtemplateadd.js" />
+    <Content Include="Scripts\app\printtemplatelist.js" />
+    <Content Include="Scripts\app\serviceedit.js" />
+    <Content Include="Scripts\app\ServiceExceptionAddEdit.js" />
+    <Content Include="Scripts\app\validateMeasuredWaterFiling.js" />
+    <Content Include="Scripts\app\workflowadd.js" />
+    <Content Include="Scripts\app\workflowdiagram.js" />
+    <Content Include="Scripts\app\workflowform.js" />
+    <Content Include="Scripts\app\workflowgroup.js" />
+    <Content Include="Scripts\app\workflowgroupuseradd.js" />
+    <Content Include="Scripts\app\workflowgroupuserslist.js" />
+    <Content Include="Scripts\app\workflowlist.js" />
+    <Content Include="Scripts\app\workflowreason.js" />
+    <Content Include="Scripts\app\workflowstatus.js" />
+    <Content Include="Scripts\app\workflowStatusSequence.js" />
+    <Content Include="Scripts\cldr.min.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\cldr\event.min.js" />
+    <Content Include="Scripts\cldr\event.js" />
+    <Content Include="Scripts\cldr\supplemental.min.js" />
+    <Content Include="Scripts\cldr\supplemental.js" />
+    <Content Include="Scripts\cldr\unresolved.js" />
+    <Content Include="Scripts\Culture\jquery.global.js" />
+    <Content Include="Scripts\jquery.fileDownload.min.js" />
+    <Content Include="Scripts\globalize.min.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize\currency.js" />
+    <Content Include="Scripts\globalize\date.min.js" />
+    <Content Include="Scripts\globalize\date.js" />
+    <Content Include="Scripts\globalize\message.js" />
+    <Content Include="Scripts\globalize\number.min.js" />
+    <Content Include="Scripts\globalize\number.js" />
+    <Content Include="Scripts\globalize\plural.js" />
+    <Content Include="Scripts\globalize\relative-time.js" />
+    <Content Include="Scripts\globalize\unit.js" />
+    <Content Include="Scripts\jquery.cookie-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.date.validation.min.js" />
+    <Content Include="Scripts\jquery.number.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.validate.globalize.js" />
+    <Content Include="Scripts\jquery.validate.globalize.min.js" />
+    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\plugins\datapicker\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\plugins\datapicker\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.conditionalPaging.min.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.responsive.min.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.rowGroup.min.js" />
+    <Content Include="Scripts\plugins\dropzone\dropzone.min.js" />
+    <Content Include="Scripts\plugins\dualListbox\jquery.bootstrap-duallistbox.min.js" />
+    <Content Include="Scripts\plugins\dualListbox\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Scripts\plugins\ej\ej.unobtrusive.min.js" />
+    <Content Include="Scripts\plugins\ej\ej.web.all.min.js" />
+    <Content Include="Scripts\app\inspinia.js" />
+    <Content Include="Scripts\app\accountserviceadd.js" />
+    <Content Include="Scripts\app\serviceadd.js" />
+    <Content Include="Scripts\app\servicelist.js" />
+    <Content Include="Scripts\plugins\ion-rangeslider\ion.rangeSlider.js" />
+    <Content Include="Scripts\plugins\ion-rangeslider\ion.rangeSlider.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\cultures\globalize.culture.en-US.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jquery.easing--1.3.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jquery.easing-1.3.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jquery.globalize.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jsrender.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\jsviews.min.js" />
+    <Content Include="Scripts\plugins\SyncFusion\properties.js" />
+    <Content Include="Scripts\plugins\SyncFusion\sampleBrowserSite.js" />
+    <Content Include="Scripts\plugins\SyncFusion\sampleslist.js" />
+    <Content Include="Scripts\plugins\SyncFusion\xljsondata.js" />
+    <Content Include="Scripts\plugins\SyncFusion\ZeroClipboard.js" />
+    <Content Include="Scripts\app\accountserviceview.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\plugins\footable\fonts\footable.eot" />
+    <Content Include="Content\plugins\footable\fonts\footable.ttf" />
+    <Content Include="Content\plugins\footable\fonts\footable.woff" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.eot" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.ttf" />
+    <Content Include="Content\plugins\pe-icon-7-stroke\fonts\Pe-icon-7-stroke.woff" />
+    <Content Include="Content\plugins\summernote\font\summernote.eot" />
+    <Content Include="Content\plugins\summernote\font\summernote.ttf" />
+    <Content Include="Content\plugins\summernote\font\summernote.woff" />
+    <Content Include="Areas\Companies\Views\web.config" />
+    <Content Include="Areas\Accounts\Views\web.config" />
+    <Content Include="Areas\Accounts\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Accounts\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\List.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="fonts\font-awesome\less\animated.less" />
+    <Content Include="fonts\font-awesome\less\bordered-pulled.less" />
+    <Content Include="fonts\font-awesome\less\core.less" />
+    <Content Include="fonts\font-awesome\less\fixed-width.less" />
+    <Content Include="fonts\font-awesome\less\font-awesome.less" />
+    <Content Include="fonts\font-awesome\less\icons.less" />
+    <Content Include="fonts\font-awesome\less\larger.less" />
+    <Content Include="fonts\font-awesome\less\list.less" />
+    <Content Include="fonts\font-awesome\less\mixins.less" />
+    <Content Include="fonts\font-awesome\less\path.less" />
+    <Content Include="fonts\font-awesome\less\rotated-flipped.less" />
+    <Content Include="fonts\font-awesome\less\stacked.less" />
+    <Content Include="fonts\font-awesome\less\variables.less" />
+    <Content Include="fonts\font-awesome\scss\font-awesome.scss" />
+    <Content Include="fonts\font-awesome\scss\_animated.scss" />
+    <Content Include="fonts\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="fonts\font-awesome\scss\_core.scss" />
+    <Content Include="fonts\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="fonts\font-awesome\scss\_icons.scss" />
+    <Content Include="fonts\font-awesome\scss\_larger.scss" />
+    <Content Include="fonts\font-awesome\scss\_list.scss" />
+    <Content Include="fonts\font-awesome\scss\_mixins.scss" />
+    <Content Include="fonts\font-awesome\scss\_path.scss" />
+    <Content Include="fonts\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="fonts\font-awesome\scss\_stacked.scss" />
+    <Content Include="fonts\font-awesome\scss\_variables.scss" />
+    <Content Include="Areas\Accounts\Views\Account\Add.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_IndividualGeneralInfo.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_BusinessGeneralInfo.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_BusinessRegistrationInfo.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_Address.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_Contacts.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_AttachmentsFiles.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_AddressList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_ContactsList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_AttachmentsFilesList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_Email.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_Phone.cshtml" />
+    <Content Include="Areas\Companies\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Companies\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\Registration.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\_CompanyDetails.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\_CompanyModules.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\_CompanyConfiguration.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\_CompanyConfirmation.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_AttachmentRow.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\View.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\List.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\Add.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\View.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_BusinessList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_ServiceGroup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_ServiceType.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_Service.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AdditionalInformation.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_Summary.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingTab.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingLicense.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingTax.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_LicenseList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_IVUList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_ServiceList.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\UnAuthorizeForRegistration.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\Edit.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_EmailList.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_PhoneList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_CollectionDebt.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_DebtTab.cshtml" />
+    <Content Include="Areas\Services\Views\web.config" />
+    <Content Include="Areas\Services\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Services\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Services\Views\Service\Add.cshtml" />
+    <Content Include="Areas\Services\Views\Service\List.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleList.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleAdd.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleDetail.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleDetailRow.cshtml" />
+    <Content Include="Areas\Services\Views\Service\View.cshtml" />
+    <Content Include="Areas\Cases\Views\web.config" />
+    <Content Include="Areas\Cases\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\List.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_CaseAdvancedSearchView.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_CaseSearchView.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_CaseListView.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\Add.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_AddCase.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCalculationDatesAdd.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\View.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_Comment.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_Model.cshtml" />
+    <Content Include="Content\plugins\ej\default-theme\ej.theme.less" />
+    <Content Include="Content\plugins\ej\ej.widgets.core.bootstrap.less" />
+    <Content Include="Content\plugins\ej\ej.widgets.core.less" />
+    <Content Include="Content\plugins\ej\common-images\ejicons.eot" />
+    <Content Include="Content\plugins\ej\common-images\ejicons.ttf" />
+    <Content Include="Content\plugins\ej\common-images\ejicons.woff" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\ejrbnicons.eot" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\ejrbnicons.ttf" />
+    <Content Include="Content\plugins\ej\common-images\ribbon\ejrbnicons.woff" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\ejxlicons.eot" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\ejxlicons.ttf" />
+    <Content Include="Content\plugins\ej\common-images\spreadsheet\ejxlicons.woff" />
+    <Content Include="Content\plugins\ej\common-images\tools\icons.eot" />
+    <Content Include="Content\plugins\ej\common-images\tools\icons.ttf" />
+    <Content Include="Content\plugins\ej\common-images\tools\icons.woff" />
+    <Content Include="Areas\Cases\Views\Shared\_Debts.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCalculationDatesView.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_History.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_AddHistory.cshtml" />
+    <Content Include="Areas\Services\Views\Service\Edit.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCalculationDatesEdit.cshtml" />
+    <Content Include="Areas\PrintTemplates\Views\web.config" />
+    <Content Include="Areas\PrintTemplates\Views\PrintTemplate\List.cshtml" />
+    <Content Include="Areas\PrintTemplates\Views\PrintTemplate\Add.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_PrintLetter.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\PrintLetter.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\PrintLetterList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_MakePayment.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_Attachment.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Report.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Reports\Views\web.config" />
+    <Content Include="Areas\Reports\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_DiscountTab.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_CollectionDiscount.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\IVUBalanceSheet.cshtml" />
+    <Content Include="Areas\Companies\Views\Company\Edit.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\IVUStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\_IVUStatementDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_ReportButton.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_PaymentHistoryTab.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_CollectionPaymentHistory.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\IVUFormsNotFiled.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\ExportTemplate\_IVUStatementTemplate.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_HeirInformation.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\IVUCollectionDetail.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_CRIMInformation.cshtml" />
+    <Content Include="Areas\Cases\Views\Case\Dashboard.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\ExportTemplate\_IVUCollectionDetailTemplate.cshtml" />
+    <Content Include="Areas\PrintTemplates\Views\PrintTemplate\Edit.cshtml" />
+    <Content Include="Areas\PrintTemplates\Views\PrintTemplate\View.cshtml" />
+    <Content Include="Areas\ChatAndBot\Views\web.config" />
+    <Content Include="Areas\Cases\Views\Case\Edit.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_Edit.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_EditHistory.cshtml" />
+    <Content Include="Areas\Cases\Views\Shared\_ViewHistory.cshtml" />
+    <Content Include="Areas\ChatAndBot\Views\Shared\_DropDownListFill.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\View.cshtml" />
+    <Content Include="Areas\Collections\Views\web.config" />
+    <Content Include="Areas\Collections\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_InvoiceList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_PaymentOptionSelectList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\View.cshtml" />
+    <Content Include="Areas\Collections\Views\ClosingEntry\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\ClosingEntry\Add.cshtml" />
+    <Content Include="Areas\Collections\Views\ClosingEntry\_PaymentReceiptList.cshtml" />
+    <Content Include="Areas\Collections\Views\DepositEntry\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\DepositEntry\Add.cshtml" />
+    <Content Include="Areas\Collections\Views\DepositEntry\_ClosingEntryList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ClosingSummary.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_ClosingSummaryList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_PaymentReceiptList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_ClosingSummaryTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\DepositSummary.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_DepositSummaryList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_DepositSummaryTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_ClosingList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_NoteList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AdditionalNote.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_PrintTemplatePopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_LockPopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_SummaryTab.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\Print.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\Add.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\List.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\Print.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_DetailList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\RePrint.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_AccountOptionSelectList.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccount\ImportAccount.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_PanelDetail.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_PanelList.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccount\_UploadFile.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccount\_ColumnMapping.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccount\_ImportValidation.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccount\_FinishImport.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\Edit.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_AddEdit.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\AddEdit.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\_CollectionTemplateOptionList.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\_ServiceOptionList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByInvoice.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_ManualInvoiceList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByService.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountServiceSelectList_NotInUse.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountServiceCollectionDetailList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_PaymentOptionList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountServiceTypeList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\ExportTemplate\_PaymentReceiptByService.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\ExportTemplate\_InvoiceTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AdjustmentPopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AdjustmentList.cshtml" />
+    <Content Include="Areas\Services\Views\PaymentPlan\Add.cshtml" />
+    <Content Include="Areas\Services\Views\PaymentPlan\Edit.cshtml" />
+    <Content Include="Areas\Services\Views\PaymentPlan\List.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\List.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\Add.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FilingExtensionPopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\_AccountServiceCollectionDetailList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\_AccountPaymentPlanDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\View.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByPaymentPlan.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountPaymentPlanDetailList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountPaymentPlanList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_BusinessLicenseAccountServiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\ExportTemplate\_IVUBalanceSheetTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\IVU\ExportTemplate\_IVUFormsNotFiledTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\SalesTaxDebitStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_SalesTaxDebitStatementDetail.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceExceptionAddEdit.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceExceptionDetailRow.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_AccountPaymentPlanList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AccountPaymentPlanList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\SalesTaxFillingCertificate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_SalesTaxFillingCertificateDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_SalesTaxFilingCertificationTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByIVU.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptRegister.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptRegisterTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\VoidReceipts.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_VoidReceiptTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByIVUTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByPaymentPlan.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_OtherServiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByPaymentPlanTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\BusinessLicenseDebitStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_BusinessLicenseDebitStatementDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_BusinessLicenseDebitStatementTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ClosingSummaryServiceType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_ClosingSummaryServiceTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_ClosingSummaryServiceTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\DepositSummaryByPaymentType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_DepositSummaryByPaymentTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_ClosingPaymentTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_DepositSummaryByPaymentTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByOtherConcept.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByOtherConceptTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\DepositSummaryByServiceType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_DepositSummaryByServiceTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_ClosingServiceTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_DepositSummaryByServiceTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_OtherConceptList.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_CommonHeader.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_CommonHeaderReport.cshtml" />
+    <Content Include="Areas\Collections\Views\ClosingEntry\ExportTemplate\_PaymentReceiptTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\DepositEntry\ExportTemplate\_ClosingEntryTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptCommercialFacilitiesRental.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptCommercialFacilitiesRentalTemplate.cshtml" />
+    <Content Include="Areas\Workflows\Views\web.config" />
+    <Content Include="Areas\Workflows\Views\Workflow\List.cshtml" />
+    <Content Include="Areas\Workflows\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Workflows\Views\Workflow\Add.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_Add.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_WorkflowStatus.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_Confirmation.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_Modal.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_AddStatus.cshtml" />
+    <Content Include="Areas\Workflows\Views\Workflow\Editor.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_StatusSequence.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_ListStatus.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_ListReason.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_ListGroup.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_ListUser.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_AddStatusSequence.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_AddReason.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowReason\List.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowReason\Add.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowGroup\List.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowGroup\Add.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowGroup\UserAdd.cshtml" />
+    <Content Include="Areas\Workflows\Views\Workflow\Diagram.cshtml" />
+    <Content Include="Areas\Workflows\Views\Shared\_DiagramGroup.cshtml" />
+    <Content Include="Areas\Workflows\Views\WorkflowForm\List.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\_ServiceTypetOptionList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditFillingLicense.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditFillingTax.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_PaymentReceiptListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_ClosingListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_ClosingPaymentTypeListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_ClosingServiceTypeListTemplate.cshtml" />
+    <Content Include="Areas\Services\Views\CollectionTemplate\_HiddenFormFieldList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\JournalDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\_JournalDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\_Journal.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\Journal.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_CreditNote.cshtml" />
+    <Content Include="Areas\Collections\Views\CreditNote\View.cshtml" />
+    <Content Include="Areas\Collections\Views\CreditNote\Index.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\BusinessLicenseFilingByFilingType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_BalanceByBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\BalanceByBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_BusinessLicenseFilingByFilingTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\CreditBalanceByBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_CreditBalanceByBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ClosingBalanceByBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_ClosingBalanceByBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\ExportTemplate\_JournalDetailTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Journal\ExportTemplate\_JournalTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\View.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\Add.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\_AddList.cshtml" />
+    <Content Include="Areas\Collections\Views\Invoice\_CheckbookOptionList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\TransactionByBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_TransactionByBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByPermissionFees.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByPermissionFeesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByPermissionExpenses.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByPermissionExpensesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByStreetVendors.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByStreetVendorsTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptBySecurityBankAccount.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_ReceiptBySecurityBankAccountList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptBySecurityBankAccountTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptBySecurityBankAccountListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptByBank.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_ReceiptByBankList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByBankTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptByBankListListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\DepositSummaryByInvoice.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_DepositSummaryByInvoiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_ClosingInvoiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_DepositSummaryByInvoiceTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_ClosingInvoiceListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\DepositSummaryByPaymentPlan.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_ClosingPaymentPlanList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_DepositSummaryByPaymentPlanTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\ExportTemplate\_ClosingPaymentPlanListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\DepositeEntry\_DepositSummaryByPaymentPlanList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ClosingSummaryByPaymentType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_ClosingSummaryByPaymentTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_ClosingSummaryByPaymentTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_PaymentReceiptByServiceTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_PaymentReceiptByServiceTypeListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_PaymentReceiptByPaymentTypeList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_PaymentReceiptByPaymentTypeListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ClosingSummaryByInvoice.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_PaymentReceiptByInvoiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_ClosingSummaryByInvoiceTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_PaymentReceiptByInvoiceListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_ClosingSummaryByInvoiceList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ClosingSummaryByPaymentPlan.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_PaymentReceiptByPaymentPlanList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_ClosingSummaryByPaymentPlanTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_PaymentReceiptByPaymentPlanListTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_ClosingSummaryByPaymentPlanList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_GeneralDescriptionConstruction.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\Add.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_AddEditRights.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\List.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\View.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\Edit.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_AccountPropertyConstructionList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingUnit.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditFillingUnit.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_PropertyList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AutoFillingTab.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleDetailRowForExceed.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCollectionRuleDetailForExceed.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountServiceFiling\_ColumnMapping.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountServiceFiling\_FinishImport.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountServiceFiling\_ImportValidation.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountServiceFiling\_UploadFile.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountServiceFiling\ImportAccountServiceFiling.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptDetailTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_ReceiptDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingMeasuredWater.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditFillingMeasuredWater.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCalculationDueDatesAdd.cshtml" />
+    <Content Include="Areas\Services\Views\Service\_ServiceCalculationDueDatesEdit.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_FillingPropertyTax.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditFillingPropertyTax.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_FillingPropertyTaxHistory.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByPropertyTax.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountPropertyRightList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountServicePropertyTaxCollectionDetailList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_ExemptionPopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_ExemptionList.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_CustomField.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\Add.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\_AddList.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\View.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\AccountStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AccountStatementDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AccountStatementTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\HistoricalReadingsByMeter.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_HistoricalReadingsByMeterTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_HistoricalReadingsByMeterDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ConsumptionByRange.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_ConsumptionByRangeDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_ConsumptionByRangeTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AddRight.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditExemptionPopup.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_ExemptionHistory.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\_ServicePeriodDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_ConsumptionRangeDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\InconsistenceReading.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_InconsistenceReadingDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_InconsistenceReadingDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_InconsistenceReadingTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\PropertyDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_PropertyDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_PropertyDetailTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ReceiptRegisterForCR.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_ReceiptRegisterForCRTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_CommonHeaderReportForCR.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\HistoricalAccountServiceRemoved.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_HistoricalAccountServiceRemovedTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_HistoricalAccountServiceRemovedDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_CorrectionPropertyTax.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\BusinessLicenceSanitaryPermitDueDate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_BusinessLicenceSanitaryPermitDueDateTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\ExportTemplate\_ServiceTransfer.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\Print.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\TransfersReport.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_TransfersReportTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_TransfersReportDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\SummaryAccountStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_SummaryAccountStatementDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_SummaryAccountStatementTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\DebtCertification.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_DebtCertificationDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_DebtCertificationTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\AccountsConsumptionAndCollection.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_AccountsConsumptionAndCollectionDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_AccountsConsumptionAndCollectionTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\SuspensionOrder.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\NewPost.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\_NewPostList.cshtml" />
+    <Content Include="Areas\Collections\Views\PostingProcess\List.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountProperty\_ColumnMapping.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountProperty\_FinishImport.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountProperty\_ImportValidation.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountProperty\_UploadFile.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportAccountProperty\ImportAccountProperty.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\NewSplit.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_ServiceList.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\ViewSplit.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\SplitPrint.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\NewMerge.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\_ServiceMergeList.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\_PropertyRights.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\ViewMerge.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\MergePrint.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportBankPayments.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_ExportBankPaymentsDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_ExportBankPaymentsDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\CashReceiptControl.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_CashReceiptControlTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_CashReceiptControlDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\NoDebtCertification.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_NoDebtCertificationDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_NoDebtCertificationTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\RollPrint.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_AutoFilling.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ParkMaintenanceMissingServices.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_ParkMaintenanceMissingServicesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\DuplicatedMeterNumber.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_DuplicatedMeterNumberTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\PaymentPlanPrint.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\InvoicePrint.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByOtherService.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\MigrationValidationFactu.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationFactuDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_MigrationValidationFactuTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationFactuDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\MigrationValidationCobros.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationCobrosDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationCobrosDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_MigrationValidationCobrosTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\MigrationValidationBienes.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationBienesDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_MigrationValidationBienesDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_MigrationValidationBienesTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\ImportBankPayments\_ImportValidation.cshtml" />
+    <Content Include="Areas\Collections\Views\ImportBankPayments\ImportBankPayments.cshtml" />
+    <Content Include="Areas\Collections\Views\ImportBankPayments\_FinishImport.cshtml" />
+    <Content Include="Areas\Collections\Views\ImportBankPayments\_UploadFile.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_AddEditRightsForSplit.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\Print.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ServicesLinkedToRight.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_ServicesLinkedToRightDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_ServicesLinkedToRightDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_ServicesLinkedToRightTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\DailyIncomeState.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_DailyIncomeStateDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_DailyIncomeStateDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_DailyIncomeStateTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportMeasuredWaterFiling\ImportMeasuredWaterFiling.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportMeasuredWaterFiling\_FinishImport.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportMeasuredWaterFiling\_ImportValidation.cshtml" />
+    <Content Include="Areas\Accounts\Views\ImportMeasuredWaterFiling\_UploadFile.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\MonthlyIncomeStatementByServices.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_MonthlyIncomeStatementByServicesDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_MonthlyIncomeStatementByServicesDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_MonthlyIncomeStatementByServicesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\QuarterlyIncomeStatementByServices.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_QuarterlyIncomeStatementByServicesDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_QuarterlyIncomeStatementByServicesDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_QuarterlyIncomeStatementByServicesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\YearlyIncomeStatementByServices.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_YearlyIncomeStatementByServicesDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_YearlyIncomeStatementByServicesDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_YearlyIncomeStatementByServicesTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\Validate.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\ExportTemplate\_ValidateMeasuredWaterFilingTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\RightsByOwnersID.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_RightsByOwnersIDDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_RightsByOwnersIDTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\RoutaMissingServices.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_RoutaMissingServicesTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\AccountPropertyRemoved.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\_AccountPropertyRemovedDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Property\ExportTemplate\_AccountPropertyRemovedTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\SuspensionOrderForWaterService.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\_SuspensionOrderForWaterServiceDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Water\ExportTemplate\_SuspensionOrderForWaterServiceTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\AdministrativeCollectionNotice.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AdministrativeCollectionNoticeDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AdministrativeCollectionNoticeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\AdministrativeCollectionSecondNotice.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AdministrativeCollectionSecondNoticeDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AdministrativeCollectionSecondNoticeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ProjectedAccountStatement.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_ProjectedAccountStatementDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_ProjectedAccountStatementTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\PaymentPlanByTaxpayer.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_PaymentPlanByTaxpayerDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_PaymentPlanByTaxpayerTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\PaymentsMadeByTheTaxpayer.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\_PaymentsMadeByTheTaxpayerDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\PaymentReceipt\ExportTemplate\_PaymentsMadeByTheTaxpayerTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\RevenueByDailyCollection.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_RevenueByDailyCollectionDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_RevenueByDailyCollectionDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_RevenueByDailyCollectionTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AccountServicesMissingFilingTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AccountServicesMissingFilingDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AccountServicesMissingFilingDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\AccountServicesMissingFiling.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Exception\Exception.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Exception\_ExceptionDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Exception\_ExceptionDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Exception\ExportTemplate\_ExceptionTemplate.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\EditSplit.cshtml" />
+    <Content Include="Areas\Collections\Views\PropertyTransfer\_Comment.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_PaymentPlanByTaxpayerTermDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountService\_EditLicenseNumberPopup.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Scheduler\JobSchedulerHistory.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Scheduler\_JobSchedulerHistoryDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Scheduler\ExportTemplate\_JobSchedulerHistoryTemplate.cshtml" />
+    <Content Include="Areas\Schedulers\Views\SchedulerEmail\Add.cshtml" />
+    <Content Include="Areas\Schedulers\Views\SchedulerEmail\Edit.cshtml" />
+    <Content Include="Areas\Schedulers\Views\SchedulerEmail\List.cshtml" />
+    <Content Include="Areas\Schedulers\Views\SchedulerEmail\View.cshtml" />
+    <Content Include="Areas\Schedulers\_ViewStart.cshtml" />
+    <Content Include="Areas\Schedulers\web.config" />
+    <Content Include="Areas\Schedulers\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\GeneralBusinessLicense.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\BusinessLicense\ExportTemplate\_GeneralBusinessLicenseTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_HistoricalPaymentDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\HistoricalPaymentReport.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_HistoricalPaymentTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_HistoricalPaymentDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\RevenuefromBankCollection.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_RevenuefromBankCollectionDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_RevenuefromBankCollectionDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_RevenuefromBankCollectionTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_DailyIncomeProduceBankTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\DailyIncomeProduceBank.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_DailyIncomeProduceBankDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_DailyIncomeProduceBankDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\StatisticsofReceiptsCollected.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_StatisticsofReceiptsCollectedDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_StatisticsofReceiptsCollectedTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ReceiptCollectedByBank.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_ReceiptCollectedByBankDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_ReceiptCollectedByBankTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ControlOfPaymentsMadeInTheBank.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_ControlOfPaymentsMadeInTheBankDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_ControlOfPaymentsMadeInTheBankTemplate.cshtml" />
+    <Content Include="fonts\TIMESS__.ttf" />
+    <Content Include="Areas\Accounts\Views\AccountProperty\_AccountPropertyRightHistory.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\InconsistenciesInTheBankReceipts.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\_InconsistenciesInTheBankReceiptsDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Bank\ExportTemplate\_InconsistenciesInTheBankReceiptsTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\GeneralMovements.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_GeneralMovementsDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_GeneralMovementsTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_GeneralMovementsDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\AmnestyMovementReport.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\_AmnestyMovementDetailList.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\CashRegister\ExportTemplate\_AmnestyMovementTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\_ErrorList.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\_UploadFile.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\_FinishImport.cshtml" />
+    <Content Include="fonts\arial__.ttf" />
+    <Content Include="Areas\Reports\Views\Report\Certification\Constancy.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\_ConstancyDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Certification\ExportTemplate\_ConstancyTemplate.cshtml" />
+    <Content Include="Areas\Accounts\Views\ValidateMeasuredWaterFiling\_Edit.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_CreditHistory.cshtml" />
+    <Content Include="Areas\Accounts\Views\AccountPaymentPlan\Export\_PaymentPlanListExport.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_DebitNote.cshtml" />
+    <Content Include="Areas\Collections\Views\DebitNote\Index.cshtml" />
+    <Content Include="Areas\Collections\Views\DebitNote\View.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\_AccountDebitNoteList.cshtml" />
+    <Content Include="Areas\Collections\Views\Payment\AddByDebitNote.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\_DebitHistory.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\CreditHistoryDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\DebitHistoryDetail.cshtml" />
+    <Content Include="Areas\Accounts\Views\Account\Export\_AccountListExport.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AccountByServiceTypeDetail.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\AccountByServiceType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\_AccountNotAssignByServiceType.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AccountNotAssignByServiceTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\ExportTemplate\_AccountByServiceTypeTemplate.cshtml" />
+    <Content Include="Areas\Reports\Views\Report\Account\DelinquencyReport.cshtml" />
+    <None Include="Properties\PublishProfiles\Flores_QA.pubxml" />
+    <None Include="Properties\PublishProfiles\Krtya.pubxml" />
+    <Content Include="Scripts\cldr\main\CA\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\CA\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\CA\currencies.json" />
+    <Content Include="Scripts\cldr\main\CA\dateFields.json" />
+    <Content Include="Scripts\cldr\main\CA\numbers.json" />
+    <Content Include="Scripts\cldr\main\CA\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\CR\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\CR\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\CR\currencies.json" />
+    <Content Include="Scripts\cldr\main\CR\dateFields.json" />
+    <Content Include="Scripts\cldr\main\CR\numbers.json" />
+    <Content Include="Scripts\cldr\main\CR\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\DE\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\DE\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\DE\currencies.json" />
+    <Content Include="Scripts\cldr\main\DE\dateFields.json" />
+    <Content Include="Scripts\cldr\main\DE\numbers.json" />
+    <Content Include="Scripts\cldr\main\DE\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\EN\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\EN\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\EN\currencies.json" />
+    <Content Include="Scripts\cldr\main\EN\dateFields.json" />
+    <Content Include="Scripts\cldr\main\EN\numbers.json" />
+    <Content Include="Scripts\cldr\main\EN\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\GB\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\GB\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\GB\currencies.json" />
+    <Content Include="Scripts\cldr\main\GB\dateFields.json" />
+    <Content Include="Scripts\cldr\main\GB\numbers.json" />
+    <Content Include="Scripts\cldr\main\GB\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\IN\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\IN\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\IN\currencies.json" />
+    <Content Include="Scripts\cldr\main\IN\dateFields.json" />
+    <Content Include="Scripts\cldr\main\IN\numbers.json" />
+    <Content Include="Scripts\cldr\main\IN\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\MX\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\MX\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\MX\currencies.json" />
+    <Content Include="Scripts\cldr\main\MX\dateFields.json" />
+    <Content Include="Scripts\cldr\main\MX\numbers.json" />
+    <Content Include="Scripts\cldr\main\MX\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\supplemental\likelySubtags.json" />
+    <Content Include="Scripts\cldr\supplemental\numberingSystems.json" />
+    <Content Include="Scripts\cldr\supplemental\timeData.json" />
+    <Content Include="Scripts\cldr\supplemental\weekData.json" />
+    <None Include="Properties\PublishProfiles\rule-dev-app.pubxml" />
+    <None Include="Properties\PublishProfiles\rule-qa-app.pubxml" />
+    <None Include="Properties\PublishProfiles\rule-qa-flores-app.pubxml" />
+    <Content Include="Scripts\cldr\main\ES\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\ES\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\ES\currencies.json" />
+    <Content Include="Scripts\cldr\main\ES\dateFields.json" />
+    <Content Include="Scripts\cldr\main\ES\numbers.json" />
+    <Content Include="Scripts\cldr\main\ES\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\US\ca-generic.json" />
+    <Content Include="Scripts\cldr\main\US\ca-gregorian.json" />
+    <Content Include="Scripts\cldr\main\US\currencies.json" />
+    <Content Include="Scripts\cldr\main\US\dateFields.json" />
+    <Content Include="Scripts\cldr\main\US\numbers.json" />
+    <Content Include="Scripts\cldr\main\US\timeZoneNames.json" />
+    <Content Include="Scripts\cldr\main\CA\ca-generic.min.json" />
+    <Content Include="Scripts\cldr\main\CA\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\CA\currencies.min.json" />
+    <Content Include="Scripts\cldr\main\CA\dateFields.min.json" />
+    <Content Include="Scripts\cldr\main\CA\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\CA\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\CR\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\CR\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\CR\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\DE\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\DE\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\DE\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\EN\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\EN\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\EN\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\ES\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\ES\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\ES\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\GB\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\GB\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\GB\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\IN\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\IN\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\IN\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\MX\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\MX\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\MX\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\main\US\ca-gregorian.min.json" />
+    <Content Include="Scripts\cldr\main\US\numbers.min.json" />
+    <Content Include="Scripts\cldr\main\US\timeZoneNames.min.json" />
+    <Content Include="Scripts\cldr\supplemental\likelySubtags.min.json" />
+    <Content Include="Scripts\cldr\supplemental\numberingSystems.min.json" />
+    <Content Include="Scripts\cldr\supplemental\timeData.min.json" />
+    <Content Include="Scripts\cldr\supplemental\weekData.min.json" />
+    <Content Include="SampleImportFile\Import Account Service Filing.xlsx" />
+    <Content Include="SampleImportFile\ImportMeasuredWaterFiling.xlsx" />
+    <Content Include="SampleImportFile\Import Account.xlsx" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Culture\jQuery.glob.en-IN.min.js" />
+    <Content Include="Scripts\Culture\jQuery.glob.es-PR.min.js" />
+    <Content Include="Scripts\Culture\jQuery.glob.es-US.min.js" />
+    <Content Include="Scripts\Culture\jQuery.glob.hi-IN.min.js" />
+    <Content Include="Scripts\Culture\jQuery.glob.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery.date.validation.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.select2.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\plugins\chartJs\Chart.min.js" />
+    <Content Include="Scripts\plugins\clockpicker\clockpicker.js" />
+    <Content Include="Scripts\plugins\datapicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\plugins\datapicker\locales\bootstrap-datepicker.en-GB.js" />
+    <Content Include="Scripts\plugins\datapicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Scripts\plugins\dataTables\dataTables.conditionalPaging.js" />
+    <Content Include="Scripts\plugins\dataTables\datatables.min.js" />
+    <Content Include="Scripts\plugins\dropzone\dropzone.js" />
+    <Content Include="Scripts\plugins\flot\curvedLines.js" />
+    <Content Include="Scripts\plugins\flot\excanvas.min.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.pie.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.resize.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.spline.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.symbol.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.time.js" />
+    <Content Include="Scripts\plugins\flot\jquery.flot.tooltip.min.js" />
+    <Content Include="Scripts\plugins\footable\footable.all.min.js" />
+    <Content Include="Scripts\plugins\iCheck\icheck.min.js" />
+    <Content Include="Scripts\plugins\jasny\jasny-bootstrap.min.js" />
+    <Content Include="Scripts\plugins\metisMenu\metisMenu.min.js" />
+    <Content Include="Scripts\plugins\multiselect\jquery.multi-select.js" />
+    <Content Include="Scripts\plugins\pace\pace.min.js" />
+    <Content Include="Scripts\plugins\peity\jquery.peity.min.js" />
+    <Content Include="Scripts\plugins\select2\select2.full.min.js" />
+    <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\plugins\steps\jquery.steps.min.js" />
+    <Content Include="Scripts\plugins\summernote\summernote.min.js" />
+    <Content Include="Scripts\plugins\sweetalert\sweetalert.min.js" />
+    <Content Include="Scripts\plugins\toastr\toastr.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_MessageToastr.cshtml" />
+    <Content Include="Views\Shared\_Navigation.cshtml" />
+    <Content Include="Views\Shared\_TopNavbar.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
+    <Content Include="Views\Home\NotFoundError.cshtml" />
+    <Content Include="Views\Shared\_ReportLayout.cshtml" />
+    <Content Include="Views\Shared\_ChatBotTabs.cshtml" />
+    <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\Shared\_WorkFlowStatus.cshtml" />
+    <Content Include="Views\Shared\_ViewJournal.cshtml" />
+    <None Include="Web.Flores_Prod.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Flores_QA.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Krtya.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Rule_Dev.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Rule_Prod.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Rule_QA.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Rule_QA_Flores.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\ChatAndBot\Views\Chat\" />
+    <Folder Include="Areas\ChatAndBot\Views\ServiceRequest\" />
+    <Folder Include="Areas\Collections\Views\Shared\" />
+    <Folder Include="Areas\PrintTemplates\Views\Shared\" />
+    <Folder Include="Areas\Reports\Views\Report\ExportTemplate\" />
+    <Folder Include="Content\plugins\slimscroll\" />
+    <Folder Include="DownloadFile\" />
+    <Folder Include="ImportFile\" />
+    <Folder Include="UploadCaseFiles\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\File\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Account.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Account.es.resx" />
+    <EmbeddedResource Include="Resources\Account.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Account.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountPaymentPlan.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountPaymentPlan.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountPaymentPlan.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountPaymentPlan.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountProperty.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountProperty.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountProperty.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountProperty.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountService.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountService.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Case.es-cr.resx" />
+    <EmbeddedResource Include="Resources\Case.es.resx" />
+    <EmbeddedResource Include="Resources\Case.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Case.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Chat.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Chat.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Chat.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Chat.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLClosing.es-cr.resx" />
+    <EmbeddedResource Include="Resources\COLClosing.es.resx" />
+    <EmbeddedResource Include="Resources\COLClosing.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>COLClosing.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ColCreditNote.es-cr.resx" />
+    <EmbeddedResource Include="Resources\ColCreditNote.es.resx" />
+    <EmbeddedResource Include="Resources\ColCreditNote.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ColCreditNote.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ColDebitNote.es-cr.resx" />
+    <EmbeddedResource Include="Resources\ColDebitNote.es.resx" />
+    <EmbeddedResource Include="Resources\ColDebitNote.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ColDebitNote.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLDeposit.es-cr.resx" />
+    <EmbeddedResource Include="Resources\COLDeposit.es.resx" />
+    <EmbeddedResource Include="Resources\COLDeposit.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>COLDeposit.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLInvoice.es-cr.resx" />
+    <EmbeddedResource Include="Resources\COLInvoice.es.resx" />
+    <EmbeddedResource Include="Resources\COLPayment.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLPayment.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Company.es-cr.resx" />
+    <EmbeddedResource Include="Resources\Company.es.resx" />
+    <EmbeddedResource Include="Resources\Company.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Company.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Global.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Global.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Global.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Global.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AccountService.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountService.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLInvoice.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>COLInvoice.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImportAccount.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImportAccount.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ImportAccount.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportAccount.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\COLPayment.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>COLPayment.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PaymentPlan.es-cr.resx" />
+    <EmbeddedResource Include="Resources\PaymentPlan.es.resx" />
+    <EmbeddedResource Include="Resources\PaymentPlan.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PaymentPlan.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\PrintTemplates.es-cr.resx" />
+    <EmbeddedResource Include="Resources\PrintTemplates.es.resx" />
+    <EmbeddedResource Include="Resources\PrintTemplates.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>PrintTemplates.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Report.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Report.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Report.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Report.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Service.es-cr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Service.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Service.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Service.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ServiceCollectionTemplate.es-cr.resx" />
+    <EmbeddedResource Include="Resources\ServiceCollectionTemplate.es.resx" />
+    <EmbeddedResource Include="Resources\ServiceCollectionTemplate.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceCollectionTemplate.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ServiceRequest.es-cr.resx" />
+    <EmbeddedResource Include="Resources\ServiceRequest.es.resx" />
+    <EmbeddedResource Include="Resources\ServiceRequest.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceRequest.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Transfer.es-cr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Transfer.es-cr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Transfer.es.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Transfer.es.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Transfer.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Transfer.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Workflow.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Workflow.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_QA_Flores|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Flores_QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Flores_Prod|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_Prod|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Krtya|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56287</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56287/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

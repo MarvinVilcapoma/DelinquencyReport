@@ -1,0 +1,184 @@
+﻿@using ArtSolutions.MUN.Web.Helpers;
+@model ArtSolutions.MUN.Web.Areas.ChatAndBot.Models.ServiceRequestModel
+@using ServiceRequestName = ArtSolutions.MUN.Web.Resources.ServiceRequest
+@using GlobalName = ArtSolutions.MUN.Web.Resources.Global
+@using LocalName = ArtSolutions.MUN.Web.Resources.Chat
+
+<div id="right-sidebar" class="animated">
+    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+        <div class="sidebar-container" style="overflow: hidden; width: auto; height: 100%;">
+            <ul class="nav nav-tabs navs-2">
+                <li class="active">
+                    <a data-toggle="tab" href="#tab-1" aria-expanded="true">
+                        @LocalName.LiveChat
+                    </a>
+                </li>
+                <li class="" id="botTab" onclick="ReloadIframe()">
+                    <a data-toggle="tab" href="#tab-2" aria-expanded="false">
+                        @GlobalName.VirtualAssistant
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="sidebar-title" id="divIEMessage">
+
+                    </div>
+                    @if (Model != null)
+                    {
+                        using (Ajax.BeginForm("InsertServiceRequest", "ServiceRequest", new { FormMethod.Post, area = "ChatAndBot" }, new AjaxOptions { OnSuccess = "ServiceRequestInsertSuccess(data)" }, new { id = "frmChatServiceRequest" }))
+                        {
+                            @Html.HiddenFor(x => x.IsFromChatWindow, new { @Value = "true" })
+
+                            @Html.Hidden("RequesterUserID")
+
+                            <div id="divAgentOfflineUserOnline">
+
+                                <div class="sidebar-title" id="clientLoginwindowTitle">
+                                    <h3>@LocalName.MsgRaiseServiceRequest</h3>
+                                    <small><i class="fa fa-tim"></i> @LocalName.MsgRaiseServiceRequestDesc</small>
+                                </div>
+
+                                <div id="clientLoginwindowBox" class="sidebar-title">
+                                    <div id="divTicketMessage" class="hidden">@ServiceRequestName.ServiceRequestMessage: <span id="spnTicketID"></span></div>
+                                    <div class="form-group">
+                                        <label class="control-label">@ServiceRequestName.ServiceRequestDepartment<span class="text-danger">&nbsp;*</span></label>
+                                        @if (Model.lstDepartments != null && Model.lstDepartments.Count > 0)
+                                        {
+                                            @Html.DropDownListFor(m => m.DepartmentID, Model.lstDepartments, new { @class = "form-control required select2dropdown", @onchange = "GetTicketData();" })
+                                            @Html.ValidationMessageFor(x => x.DepartmentID)
+                                        }
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">@ServiceRequestName.ServiceRequestType<span class="text-danger">&nbsp;*</span></label>
+                                        @if (Model.lstTicketTypes != null && Model.lstTicketTypes.Count > 0)
+                                        {
+                                            @Html.DropDownListFor(m => m.TicketTypeID, Model.lstTicketTypes, new { @class = "form-control required select2dropdown" })
+                                            @Html.ValidationMessageFor(x => x.TicketTypeID)
+                                        }
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">@ServiceRequestName.ServiceRequestSubject<span class="text-danger">&nbsp;*</span></label>
+                                        @Html.TextBoxFor(x => x.Subject, new { @maxlength = "250", @class = "form-control required" })
+                                        @Html.ValidationMessageFor(x => x.Subject)
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">@ServiceRequestName.ServiceRequestDescription</label>
+                                        @Html.TextAreaFor(x => x.Description, new { @maxlength = "500", @class = "form-control", @rows = "4", @cols = "50" })
+                                    </div>
+
+                                    <div class="form-group text-right">
+                                        <button type="submit" onclick="$('#divTicketMessage').addClass('hidden'); return $('#frmChatServiceRequest').valid();" class="btn btn-primary btn-sm">@LocalName.BTNCreateTicket </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    }
+
+                            <div id="divAgentOnlineUserOnline">
+                                <div id="scrollDiv">
+                                    <div id="chathistory">
+                                    </div>
+                                </div>
+                                <div class="sidebar-title-row" id="chattextdiv">
+                                    <div class="col-md-10 sidebar-title">
+                                        <textarea rows="3" cols="50" class="form-control" id="txtMessage" onfocus="removeblinkclass()"></textarea>
+                                    </div>
+                                    <div class="col-md-2 sidebar-title">
+                                        <button id="btnSend" type="button" class="btn btn-sm btn-primary sidebar-title-button btn-circle"><i class="fa fa-angle-double-right"></i></button>
+                                        <button id="btnChtClientClose" type="button" class="btn btn-sm sidebar-title-button btn-circle right-sidebar-toggle tooltips" tabindex="3" data-toggle="tooltip" data-original-title="Close"><i class="fa fa-close"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div id="dvBOT">
+                        <iframe id="botFrame" style="height:540px;width:100%;" src='https://art-rule-bot-qa.azurewebsites.net/'></iframe>
+                        <input id="hdnBOTURL" type="hidden" value="https://webchat.botframework.com/embed/@Common.BotId?s=@Common.BotSecretKey" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    string strAgentOfflineMessage = LocalName.AgentOfflineMessage + " <div class='actions'><a class='btn btn-xs btn-white' onclick='ClientChatTabOpen()'><i class='fa fa-refresh'></i> " + GlobalName.BTNRefresh + "</a></div>";
+}
+
+<input id="hdnVConId" type="hidden" />
+<input id="hdnvUserName" type="hidden" />
+<input id="hdnVToConId" type="hidden" />
+<input type="hidden" id="hdnLanguage" value='@UserSession.Current.Language' />
+<input type="hidden" id="hdnChatUserProfileImage" value='@UserSession.Current.ProfileImage' />
+<input type="hidden" id="hdnNoImage" value='@Common.NoProfilePicture' />
+<input id="hdnAgentOfflineMessage" type="hidden" value='@strAgentOfflineMessage' />
+<input id="hdnAgentOnlineMessage" type="hidden" value='@LocalName.AgentOnlineMessage' />
+<input id="hdnTransferMessage" type="hidden" value='@LocalName.TransferMessage' />
+<input id="hdnIEChatMessage" type="hidden" value='@LocalName.IEChatMessage' />
+<input id="hdnWelComeChatMessage" type="hidden" value='@LocalName.WelComeChatMessage' />
+
+<script type="text/javascript">
+
+    function fnCheckAndCreateScripts() {
+
+        if (!$("script[src*='unobtrusive']").length) {
+
+            var script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/jquery.validate.min.js")";
+            $(script).insertAfter($('script:last'));
+
+            script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")";
+            $(script).insertAfter($('script:last'));
+
+            script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")";
+            $(script).insertAfter($('script:last'));
+
+            script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/jquery.date.validation.js")";
+            $(script).insertAfter($('script:last'));
+        }
+
+        if (!$("script[src*='select2']").length) {
+            var script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/plugins/select2/select2.full.min.js")";
+            $(script).insertAfter($('script:last'));
+
+            script = document.createElement('script');
+            script.src = "@Url.Content("~/Scripts/jquery.validate.select2.js")";
+            $(script).insertAfter($('script:last'));
+
+            var style = document.createElement('link');
+            style.rel = "stylesheet";
+            style.href = "@Url.Content("~/Content/plugins/select2/select2.min.css")";
+            $(style).insertAfter($('link:last'));
+        }
+
+        if ($(".select2dropdown").length) {
+            $(".select2dropdown").select2({ width: '100%' });
+            //hideLoading();
+        }
+    }
+
+    var iframeLoaded = false;
+
+    function ReloadIframe() {
+        if (!iframeLoaded) {
+            $("#dvBOT").show(function () {
+                // Find the iframes within our newly-visible element
+                $(this).find("iframe").prop("src", function () {
+                    // Set their src attribute to the value of data-src
+                    return $(hdnBOTURL).val();
+                });
+            });
+            iframeLoaded = true;
+        }
+    }
+</script>

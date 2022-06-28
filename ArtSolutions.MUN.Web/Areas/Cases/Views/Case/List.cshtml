@@ -1,0 +1,135 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@{
+    ViewBag.Title = LocalResource.ListTitle;
+}
+
+<div id="dvSplitter">
+    <div id="dvLeftPane" class="ibox">
+        <div class="ibox-title">
+            <div class="btn-group">
+                @{
+                    if (TempData[Common.T_DocumentWorkflow] != null)
+                    {
+                        List<SelectListItemViewModel> selectListItemViewModel = TempData[Common.T_DocumentWorkflow] as List<SelectListItemViewModel>;
+                        if (selectListItemViewModel != null && selectListItemViewModel.Any())
+                        {
+                            SelectListItemViewModel selectedWorkFlow = selectListItemViewModel.FirstOrDefault(a => Convert.ToInt32(a.ID) == Model.WorkflowID);
+                <button class="btn btn-primary dropdown-toggle" name="recordinput" data-toggle="dropdown" data-workflowid="@selectedWorkFlow.ID">
+                    @selectedWorkFlow.Name
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="ddlWorkflow">
+                    @{
+                                    foreach (var item in selectListItemViewModel)
+                                    {
+                                <li>
+                                    <a class="@(item.ID == selectedWorkFlow.ID ? "workflowSelected" : "")" data-workflowid="@item.ID">@item.Name</a>
+                                </li>
+                                    }
+                    }
+                </ul>
+                                        }
+                                    }
+                }
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div id="dvNodeTree">
+            </div>
+        </div>
+    </div>
+    <div id="dvRightPane">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content no-padding-bottom">
+                    @Html.Partial("_CaseSearchView", Model)
+                    @Html.Partial("_CaseAdvancedSearchView", Model)
+                    @Html.Partial("_CaseListView", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("_Model")
+    @Html.Partial("_HeirInformation", new ArtSolutions.MUN.Web.Areas.Cases.Models.ContactViewModel())
+    @Html.Partial("_CRIMInformation", new ArtSolutions.MUN.Web.Areas.Cases.Models.ContactViewModel())
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/jsTreeStyles")
+    <link href="~/Content/plugins/ej/ej.widgets.core.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    <style>
+        .dataTables_wrapper {
+            padding-bottom: 0px !important;
+        }
+
+        .dataTables_empty {
+            text-align: center;
+        }
+
+        @@media (min-width: 768px) {
+            .form-inline .form-control {
+                width: 100% !important;
+            }
+        }
+        .initialDate {
+            background-color: white !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/jsTree")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/dataPicker")
+    <script src="~/Scripts/plugins/SyncFusion/jquery.globalize.min.js"></script>
+    <script src="~/Scripts/plugins/SyncFusion/jquery.easing-1.3.min.js"></script>
+    <script src="~/Scripts/plugins/SyncFusion/jsrender.min.js"></script>
+    <script src="~/Scripts/plugins/ej/ej.web.all.min.js"></script>
+    @Scripts.Render("~/plugins/dropZone")
+    <script type="text/javascript">        
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)'; 
+        var view = '@Html.Raw(GlobalResource.View)';
+        var edit ='@Html.Raw(GlobalResource.Edit)';
+        var activemsg ='@Html.Raw(GlobalResource.ActiveMessage)';
+        var deactivemsg ='@Html.Raw(GlobalResource.DeActiveMessage)';
+        var caseID ='@Html.Raw(LocalResource.CaseID)';
+        var key ='@Html.Raw(LocalResource.Key)';
+        var muicipality ='@Html.Raw(LocalResource.Municipality)';
+        var business ='@Html.Raw(GlobalResource.Business)';
+        var serviceType ='@Html.Raw(GlobalResource.Type)'; 
+        var priority ='@Html.Raw(LocalResource.Priority)';
+        var weight ='@Html.Raw(LocalResource.Weight)'; 
+        var assignedTo ='@Html.Raw(LocalResource.AssignedTo)';
+        var balance ='@Html.Raw(LocalResource.Balance)';
+        var actions ='@Html.Raw(GlobalResource.Actions)'; 
+        var dropDownSelectMessage ='@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var noActionFound ='@Html.Raw(GlobalResource.NoActionFound)';
+        var requiredGridValidationMsg ='@Html.Raw(GlobalResource.RequiredGridValidationMsg)';
+        var removefile ='@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage ='@Html.Raw(GlobalResource.UploadfileInitialMessage)'; 
+        var Uploadedfilemaxsizemessage ='@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)';
+        var Uploadedfilemaxlimitmessage ='@Html.Raw(GlobalResource.Uploadedfilemaxlimitmessage)'; 
+        var requiredValidationMsg ='@Html.Raw(GlobalResource.RequiredValidationMsg)'; 
+        var first ='@Html.Raw(GlobalResource.First)'; 
+        var last ='@Html.Raw(GlobalResource.Last)'; 
+        var next ='@Html.Raw(GlobalResource.Next)'; 
+        var previous ='@Html.Raw(GlobalResource.Previous)';
+        Dropzone.autoDiscover = false;
+    </script>
+    <script src="~/Scripts/app/casecommentformadd.js"></script>
+    <script src="~/Scripts/app/caselist.js"></script>
+    <script src="~/Scripts/app/caseheirinfoadd.js"></script>
+    <script src="~/Scripts/app/casecrimeinfoadd.js"></script>
+}

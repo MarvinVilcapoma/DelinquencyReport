@@ -1,0 +1,27 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ServicesLinkedToRightModel
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@if (Model.ServicesLinkedToRightList != null && Model.ServicesLinkedToRightList.Count() > 0)
+{
+    foreach (var item in Model.ServicesLinkedToRightList)
+    {
+        <tr>
+            @*<td class="text-center">@item.TaxNumber</td>*@
+            <td class="text-center">@item.DisplayName</td>
+            <td class="text-center">@item.ServiceName</td>
+            <td class="text-center">
+                @if (string.IsNullOrEmpty(item.RightNumber))
+                {
+                    <a href='@Url.Content("~/Account/View?accountID=" + item.AccountID + "&accountType=" + item.AccountTypeID + "&groupId=0")'
+                       class="text-underline" target="_blank">
+                        @AccountPropertyResource.AddRight
+                    </a>
+                }
+                else
+                {
+                    @item.RightNumber
+                }
+            </td>
+        </tr>
+    }
+}

@@ -1,0 +1,34 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+
+@using (Ajax.BeginForm("UpdateLicenseNumber", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "LicenseNumberSuccessCallback(data)" }, new { role = "form", id = "frmAccountServiceLicenseNumber", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.EditLicenseNumber </h5>
+                <button type="button" class="close" onclick="CloseLicenseNumberPopUp();">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span>
+                </button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Number</label>
+                    <div class="col-lg-8 m-t-xs">
+                        @Html.TextBoxFor(x => x.LicenseNumber, new { @class = "form-control", maxlength = 50, @id = "txtLicenseNumber", tabindex = 1 })
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.ID, new { @id = "hfAccountServiceID" })
+            @Html.HiddenFor(x => x.RowVersion64, new { @id = "hfAccountServiceRowVersion64" })
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnLicenseNumberSave" type="button" class="btn btn-primary" tabindex=2>@GlobalResource.Update</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" onclick="CloseLicenseNumberPopUp();" tabindex=3>
+            @GlobalResource.Cancel
+        </button>
+    </div>
+}

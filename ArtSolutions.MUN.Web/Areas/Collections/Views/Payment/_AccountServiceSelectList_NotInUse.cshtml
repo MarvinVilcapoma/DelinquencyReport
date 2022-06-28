@@ -1,0 +1,11 @@
+﻿
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceCollectionDetailModel>
+<select class="form-control required select2dropdown" id="AccountServiceID" name="AccountServiceID" tabindex="7" onchange="loadAccountServiceCollectionDetail()">
+    <option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.AccountServiceID">@item.AccountServiceName </option>
+    }
+
+</select>
+@Html.ValidationMessage("AccountServiceID", ArtSolutions.MUN.Web.Resources.Global.RequiredValidationMsg)

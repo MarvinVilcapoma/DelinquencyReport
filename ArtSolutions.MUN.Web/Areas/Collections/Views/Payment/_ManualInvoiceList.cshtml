@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.InvoiceModel>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using HtmlHelpers.BeginCollectionItem;
+<div class="col-lg-12">
+    <div class="table-responsive m-t m-b">
+        @{
+            decimal selectedInvoiceBalance = 0;
+            if (Model.Count() > 0)
+            {
+                selectedInvoiceBalance = Model.Where(x => x.SelectedInvoice == true).Sum(x => x.Balance);
+            }
+        }
+        <table class="table table-multi-row" id="mytable">
+            <thead>
+                <tr>
+                    <th class="col-lg-1"></th>
+                    <th class="col-lg-1">
+                        @GlobalResource.Date
+                    </th>
+                    <th class="col-lg-2">
+                        @LocalResource.InvoiceNumber
+                    </th>
+                    <th class="text-left col-lg-2">
+                        @GlobalResource.Type
+                    </th>
+                    <th class="text-left col-lg-2">
+                        @GlobalResource.Service
+                    </th>
+                    <th class="text-right col-lg-2">
+                        @LocalResource.InvoiceAmount
+                    </th>
+                    <th class="text-right col-md-2">
+                        @LocalResource.AmountDue
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="rowdetail">
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr id="@item.ID">
+                            @using (Html.BeginCollectionItem("PostedInvoiceList"))
+                            {
+                                <td class="text-center border-left">
+                                    @*@Html.RadioButton("SelectedInvoice", item.SelectedInvoice, new { onclick = "onInvoiceSelect(this)", tabindex = "6" })*@
+                                    @*<input type="radio" name="rdbSelectedInvoice" checked="@item.SelectedInvoice" onclick="onInvoiceSelect(this)" tabindex="7" data-templateId="@item.FINGrantID" data-CollectionTemplateID="@item.ServiceID" />*@
+                                    <input type="radio" name="rdbSelectedInvoice" checked="@item.SelectedInvoice" onclick="onInvoiceSelect(this)" tabindex="7" />
+                                    @Html.Hidden("SelectedInvoice", item.SelectedInvoice, new { @class = "selectedinvoice" })
+                                   @* @Html.CheckBox("SelectedInvoice",item.SelectedInvoice, new { @class = "selectedinvoice", @onclick = "onInvoiceSelect(this);", @data_templateId = @item.FINGrantID, @data_CollectionTemplateID= @item.ServiceID, @tabindex = "7" })*@
+                                </td>
+                                <td class="text-left">
+                                    @item.Date.ToString("d")
+                                </td>
+                                <td class="text-left">
+                                    @item.Number
+                                </td>
+                                <td class="text-left">
+                                    @item.ItemType
+                                </td>
+                                <td class="text-left">
+                                    @item.CollectionItemName
+                                </td>
+                                <td class="text-right">
+                                    @item.Total.ToString("C")
+                                </td>
+                                <td class="text-right border-right">
+                                    @item.Balance.ToString("C")
+                                    <input type="hidden" value="@item.Balance" class="balance" />
+                                    @Html.Hidden("Balance", item.Balance, new { @class = "balance" })
+                                </td>
+                                @Html.Hidden("ID", item.ID)
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">@GlobalResource.NoDataMessage</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5"></td>
+                    <td><strong>@GlobalResource.Total :</strong></td>
+                    <td class="text-right">
+                        @*@Html.Hidden("NetPayment", new { @class = "spnFooterAmount", @value = selectedInvoiceBalance })*@
+                        @Html.Hidden("NetPayment", selectedInvoiceBalance, new { @class = "spnFooterAmount" })
+                        <span id="spnNetPayment" class="spnFooterAmount">@selectedInvoiceBalance.ToString("c")</span>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

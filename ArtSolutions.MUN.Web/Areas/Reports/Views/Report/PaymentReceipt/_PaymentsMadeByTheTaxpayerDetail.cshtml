@@ -1,0 +1,156 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PaymentsMadeByTheTaxpayerModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+
+@{
+
+}
+
+<div class="table-responsive m-t">
+    <table id="paymentsMadeByTheTaxpayerTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.ServiceCode
+                </th>
+                <th style="min-width:300px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.ReceiptNumber
+                </th>
+                <th style="min-width:300px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>
+                <th style="min-width:10px;" class="text-center">
+                    @GlobalResource.Payment
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.RegularPaid
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.PaidOutAdvanced
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.PaidFines
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.PaidInterest
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Others
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PaymentsMadeByTheTaxpayerList != null && Model.PaymentsMadeByTheTaxpayerList.Count() > 0)
+            {
+                foreach (var item in Model.PaymentsMadeByTheTaxpayerList)
+                {
+                    if (item.IsVoid == 1)
+                    {
+                        <tr class="text-danger">
+                            <td class="text-center">
+                                @item.ServiceCode
+                            </td>
+                            <td class="text-center table-description-field">
+                                @item.ServiceName
+                            </td>
+                            <td class="text-center">
+                                @item.Number
+                            </td>
+                            <td class="text-center table-description-field">
+                                @item.DisplayName
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw(GlobalResource.Voided)
+                            </td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @item.ServiceCode
+                            </td>
+                            <td class="text-center table-description-field">
+                                @item.ServiceName
+                            </td>
+                            <td class="text-center">
+                                @item.Number
+                            </td>
+                            <td class="text-center table-description-field">
+                                @item.DisplayName
+                            </td>
+                            <td class="text-center">
+                                @item.PaymentReceiptType
+                            </td>
+                            <td class="text-center">
+                                @if (item.RegularPayment != null)
+                                {
+                                    @item.RegularPayment.Value.ToString("C")
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.AdvancedPayment.ToString("C")
+                            </td>
+                            <td class="text-center">
+                                @if (item.Penalties != null)
+                                {
+                                    @item.Penalties.Value.ToString("C")
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.Interest != null)
+                                {
+                                    @item.Interest.Value.ToString("C")
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.Others != null)
+                                {
+                                    @item.Others.Value.ToString("C")
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.Total.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr class="sub-header font-bold">
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount">@ReportResource.Totales</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.RegularPayment).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.AdvancedPayment).ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Penalties).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Interest).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Others).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Total).ToString("C")</td>
+                </tr>
+            }
+            else
+            {
+                <tr class="no-data">
+                    <td colspan="11" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

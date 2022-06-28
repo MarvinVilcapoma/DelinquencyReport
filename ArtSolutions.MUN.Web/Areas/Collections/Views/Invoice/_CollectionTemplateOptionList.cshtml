@@ -1,0 +1,49 @@
+﻿
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Services.Models.FinClassGrantModel>
+<select class="form-control required select2dropdown" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__FINGrantID")" tabindex="6" onchange="FillFINGranName(this)" name="InvoiceDetail[@ViewBag.FormValue].FINGrantID">
+    <option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.ID" 
+                data-code="@item.Code" data-name="@item.Name" 
+                data-receivableaccountid="@item.ReceivableAccountID"
+                data-receivableaccountcode="@item.ReceivableCode"
+                data-receivableaccountname="@item.ReceivableName"
+                data-revenueaccountid="@item.RevenueAccountID"
+                data-revenueaccountcode="@item.RevenueCode"
+                data-revenueaccountname="@item.RevenueName"
+                @*data-cashaccountid="@item.CashAccountID"
+                data-cashaccountcode="@item.CashAccountCode"
+                data-cashaccountname="@item.CashAccountName"*@
+                data-creditaccountid="@item.CreditAccountID"
+                data-creditaccountcode="@item.CreditAccountCode"
+                data-creditaccountname="@item.CreditAccountName"
+                @*data-checkbookid="@item.CheckbookID"
+                data-checkbookcode="@item.CheckbookCode"
+                data-checkbookname="@item.CheckbookName"*@
+                >@item.Name</option>
+    }
+
+</select>
+<input type="hidden" value="" class="FinGrantName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__FINGrantName")" name="InvoiceDetail[@ViewBag.FormValue].FINGrantName" />
+<input type="hidden" value="" class="FinGrantCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__FINGrantCode")" name="InvoiceDetail[@ViewBag.FormValue].FINGrantCode" />
+<input type="hidden" value="" class="ReceivableAccountID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__ReceivableAccountID")" name="InvoiceDetail[@ViewBag.FormValue].ReceivableAccountID" />
+<input type="hidden" value="" class="ReceivableCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__ReceivableCode")" name="InvoiceDetail[@ViewBag.FormValue].ReceivableCode" />
+<input type="hidden" value="" class="ReceivableName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__ReceivableName")" name="InvoiceDetail[@ViewBag.FormValue].ReceivableName" />
+<input type="hidden" value="" class="RevenueAccountID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__RevenueAccountID")" name="InvoiceDetail[@ViewBag.FormValue].RevenueAccountID" />
+<input type="hidden" value="" class="RevenueCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__RevenueCode")" name="InvoiceDetail[@ViewBag.FormValue].RevenueCode" />
+<input type="hidden" value="" class="RevenueName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__RevenueName")" name="InvoiceDetail[@ViewBag.FormValue].RevenueName" />
+
+@*<input type="hidden" value="" class="CashAccountID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountID")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountID" />
+<input type="hidden" value="" class="CashAccountCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountCode")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountCode" />
+<input type="hidden" value="" class="CashAccountName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountName")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountName" />*@
+
+<input type="hidden" value="" class="CreditAccountID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CreditAccountID")" name="InvoiceDetail[@ViewBag.FormValue].CreditAccountID" />
+<input type="hidden" value="" class="CreditAccountCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CreditAccountCode")" name="InvoiceDetail[@ViewBag.FormValue].CreditAccountCode" />
+<input type="hidden" value="" class="CreditAccountName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CreditAccountName")" name="InvoiceDetail[@ViewBag.FormValue].CreditAccountName" />
+
+@*<input type="hidden" value="" class="CheckbookID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookID")" name="InvoiceDetail[@ViewBag.FormValue].CheckbookID" />
+<input type="hidden" value="" class="CheckbookCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookCode")" name="InvoiceDetail[@ViewBag.FormValue].CheckbookCode" />
+<input type="hidden" value="" class="CheckbookName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookName")" name="InvoiceDetail[@ViewBag.FormValue].CheckbookName" />*@
+
+@Html.ValidationMessage("InvoiceDetail.FINGrantID", ArtSolutions.MUN.Web.Resources.Global.RequiredValidationMsg,new { name = "InvoiceDetail[" + ViewBag.FormValue + "].FINGrantID" })

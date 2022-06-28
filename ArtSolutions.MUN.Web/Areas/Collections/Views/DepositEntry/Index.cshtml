@@ -1,0 +1,114 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.COLDeposit
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ListDepositEntry;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>
+            @GlobalResource.DepositEntry
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <div class="btn-group">
+                            <a href="@Url.Action("Add")" class="btn btn-primary btn-xs" tabindex="3">@LocalResource.NewDepositEntry</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="4"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtSearch" tabindex="1"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="2">@GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-stripped" id="tbldepositEntryList"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="voidConfirmModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmVoidDepositEntry" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @LocalResource.VoidDepositEntry </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                @Html.Hidden("ID")
+                                <label class="col-lg-3 control-label">@GlobalResource.VoidReason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("VoidReason", new { @class = "form-control required", rows = "3", tabindex = 1, @id = "VoidReason" })
+                                    @Html.ValidationMessage("VoidReason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnVoid" type="button" value="2" tabindex="2" class="btn btn-primary">@LocalResource.VoidDepositEntry </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var view = '@Html.Raw(GlobalResource.View)'
+        var edit = '@Html.Raw(GlobalResource.Edit)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var actions = '@Html.Raw(GlobalResource.Actions)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var number = '@Html.Raw(GlobalResource.Number)';
+        var amount = '@Html.Raw(GlobalResource.Amount)';
+        var description = '@Html.Raw(GlobalResource.Description)';
+        var bank = '@Html.Raw(GlobalResource.BankAccount)';
+        var status = '@Html.Raw(GlobalResource.Status)';
+        var closing = '@Html.Raw(LocalResource.ClosingCount)';
+        var voidresource = '@Html.Raw(GlobalResource.Void)';
+        var depositlisturl='@Url.Action("Index", "DepositEntry")';
+    </script>
+    <script src="~/Scripts/app/depositentrylist.js"></script>
+}
+

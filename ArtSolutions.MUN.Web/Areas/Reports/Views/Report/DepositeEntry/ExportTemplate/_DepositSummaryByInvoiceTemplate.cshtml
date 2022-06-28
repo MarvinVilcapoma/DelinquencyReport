@@ -1,0 +1,98 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionDepositSummaryByInvoiceModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.DepositSummaryReportByInvoice;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.Number</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.DepositType</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.Bank</th>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.BankAccount</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.Description</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.ClosingCount</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.NetDeposit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DepositEntryList != null && Model.DepositEntryList.Count() > 0)
+                {
+                    foreach (var item in Model.DepositEntryList)
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.Number
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.DepositTypeName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.BankName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.BankAccountName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Description
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.ClosingCount
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.NetDeposit.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="8" class="table-border-left-td">
+                                @Html.Partial("~/Areas/Reports/Views/Report/DepositeEntry/ExportTemplate/_ClosingInvoiceListTemplate.cshtml", item.ClosedEntryList)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-bg-bold-center-td">
+                            <center>@GlobalResource.NoDataMessage</center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="7" class="table-bg-bold-right-td">
+                        @ReportResource.NetDepositTotal.ToUpper() :
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @Model.DepositEntryList.Sum(x => x.NetDeposit).ToString(Common.NumberPoints)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

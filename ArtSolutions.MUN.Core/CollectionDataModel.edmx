@@ -1,0 +1,1667 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CollectionDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNACCJournalBulkInsertForPayment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="PaymentReceiptType" Type="int" Mode="In" />
+          <Parameter Name="AsOfDate" Type="date" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="JournalIDs" Type="varchar(max)" Mode="InOut" />
+        </Function>
+        <Function Name="MUNACCJournalDetailForPostingProcess" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="nvarchar" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="DocumentTypeID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNAccJournalUpdateForFINJournalID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FINJournalListJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Retval" Type="bit" Mode="InOut" />
+        </Function>
+        <Function Name="MUNACCPostingProcessDetailsGetWithGroupSum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNACCPostingProcessGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNACCPostingProcessGetByLastInserted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="nvarchar" Mode="In" />
+          <Parameter Name="DocumentType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNACCPostingProcessGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="DocumentTypeID" Type="varchar" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNACCPostingProcessInsertForJournal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="CommaSeparatedJournalID" Type="varchar" Mode="In" />
+          <Parameter Name="DocumentTypeDetail" Type="nvarchar" Mode="In" />
+          <Parameter Name="AsOfDate" Type="datetime" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersionID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="PaymentType" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNACCPostingProcessUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Retval" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLClosingGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="OnlyPostedDocuments" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLClosingGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsDeposited" Type="bit" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLClosingInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="CashierID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CashierName" Type="varchar" Mode="In" />
+          <Parameter Name="ClosingTypeID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="PaymentOptionID" Type="int" Mode="In" />
+          <Parameter Name="NetClosing" Type="money" Mode="In" />
+          <Parameter Name="PaymentReceiptCount" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CommaSeperatedPaymentIds" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="ClosingId" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLClosingPrint" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLClosingVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="VoidReason" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLCreditNoteByPaymentReceipt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="PaymentID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Amount" Type="decimal" Mode="In" />
+          <Parameter Name="Reason" Type="varchar(max)" Mode="In" />
+          <Parameter Name="CommaSeperatedImageIDs" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedUserId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLCreditNoteGetBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLCreditNoteGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLCreditNoteUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Retval" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDebitNoteByPaymentReceipt" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="PaymentID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Amount" Type="decimal" Mode="In" />
+          <Parameter Name="Reason" Type="varchar(max)" Mode="In" />
+          <Parameter Name="CommaSeperatedImageIDs" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedUserId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDebitNoteExistByAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLDebitNoteGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLDebitNoteGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDebitNoteUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Retval" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDepositGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDepositInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="DepositTypeID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="NetDeposit" Type="money" Mode="In" />
+          <Parameter Name="ClosingCount" Type="int" Mode="In" />
+          <Parameter Name="BankAccountID" Type="int" Mode="In" />
+          <Parameter Name="BankAccountCode" Type="varchar" Mode="In" />
+          <Parameter Name="BankAccountName" Type="varchar" Mode="In" />
+          <Parameter Name="BankName" Type="varchar" Mode="In" />
+          <Parameter Name="FinanceAccountID" Type="int" Mode="In" />
+          <Parameter Name="FinanceAccountCode" Type="varchar" Mode="In" />
+          <Parameter Name="FinanceAccountName" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CommaSeperatedClosingIds" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DepositId" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLDepositPrint" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLDepositVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="VoidReason" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceDetailGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="OnlyPendingInvoice" Type="bit" Mode="In" />
+          <Parameter Name="OnlyPostedInvoice" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceGetAsObject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="IsPost" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLInvoiceManualInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Reference" Type="varchar" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="TermsAndConditions" Type="varchar" Mode="In" />
+          <Parameter Name="Total" Type="decimal" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="InvoiceDetailJson" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Reference" Type="varchar" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="TermsAndConditions" Type="varchar" Mode="In" />
+          <Parameter Name="Total" Type="decimal" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="InvoiceDetailJson" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLInvoiceVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="VoidReason" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLPaymentGetAsObject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="IsPost" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLPaymentGetAvailableCreditBalance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLPaymentGetForClosingEntry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CashierID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ClosingDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="OnlyPostedDocuments" Type="bit" Mode="In" />
+          <Parameter Name="PaymentOptionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLPaymentGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="IsVoid" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLPaymentInsertByDebitNote" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="TotalAmount" Type="decimal" Mode="In" />
+          <Parameter Name="AttachmentID" Type="int" Mode="In" />
+          <Parameter Name="PaymentOptionJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DebitNotesJson" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Number" Type="varchar" Mode="In" />
+          <Parameter Name="NumberPrefix" Type="varchar" Mode="In" />
+          <Parameter Name="IsManual" Type="bit" Mode="In" />
+          <Parameter Name="IsOfficialReceipt" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ApplyCreditAmount" Type="decimal" Mode="In" />
+          <Parameter Name="PaymentID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLPaymentInsertByInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="InvoiceID" Type="int" Mode="In" />
+          <Parameter Name="TotalAmount" Type="decimal" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="AttachmentID" Type="int" Mode="In" />
+          <Parameter Name="PaymentOptionJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Number" Type="varchar" Mode="In" />
+          <Parameter Name="NumberPrefix" Type="varchar" Mode="In" />
+          <Parameter Name="IsManual" Type="bit" Mode="In" />
+          <Parameter Name="IsOfficialReceipt" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ApplyCreditAmount" Type="decimal" Mode="In" />
+          <Parameter Name="PaymentID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLPaymentInsertByOtherService" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Notes" Type="varchar" Mode="In" />
+          <Parameter Name="TotalAmount" Type="decimal" Mode="In" />
+          <Parameter Name="AttachmentID" Type="int" Mode="In" />
+          <Parameter Name="PaymentOptionJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="InvoiceDetailJson" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Number" Type="varchar" Mode="In" />
+          <Parameter Name="NumberPrefix" Type="varchar" Mode="In" />
+          <Parameter Name="IsManual" Type="bit" Mode="In" />
+          <Parameter Name="IsOfficialReceipt" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ApplyCreditAmount" Type="decimal" Mode="In" />
+          <Parameter Name="PaymentID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNCOLPaymentPlanVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="VoidReason" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNCOLPaymentVoid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="VoidReason" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="CollectionDataModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CollectionDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CollectionDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="MUNCOLInvoiceGetGrant">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceID" Mode="In" Type="Int32" />
+            <Parameter Name="CollectionTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="GrantID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLInvoiceGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceVoid">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="VoidReason" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentVoid">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="VoidReason" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLClosingGet" ReturnType="Collection(CollectionDataModel.MUNCOLClosingGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="OnlyPostedDocuments" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLClosingGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLClosingGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsDeposited" Mode="In" Type="Boolean" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLClosingInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="CashierID" Mode="In" Type="Guid" />
+            <Parameter Name="CashierName" Mode="In" Type="String" />
+            <Parameter Name="ClosingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="PaymentOptionID" Mode="In" Type="Int32" />
+            <Parameter Name="NetClosing" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentReceiptCount" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CommaSeperatedPaymentIds" Mode="In" Type="String" />
+            <Parameter Name="ClosingId" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLClosingPrint" ReturnType="Collection(CollectionDataModel.MUNCOLClosingPrint_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLClosingVoid">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="VoidReason" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDepositVoid">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="VoidReason" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentPlanVoid">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="VoidReason" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="TermsAndConditions" Mode="In" Type="String" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="InvoiceDetailJson" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceGet" ReturnType="Collection(CollectionDataModel.MUNCOLInvoiceGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="OnlyPendingInvoice" Mode="In" Type="Boolean" />
+            <Parameter Name="OnlyPostedInvoice" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentInsertByInvoice">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="TotalAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="AttachmentID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentOptionJSON" Mode="In" Type="String" />
+            <Parameter Name="Number" Mode="In" Type="String" />
+            <Parameter Name="NumberPrefix" Mode="In" Type="String" />
+            <Parameter Name="IsManual" Mode="In" Type="Boolean" />
+            <Parameter Name="IsOfficialReceipt" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserId" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ApplyCreditAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLCreditNoteGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLCreditNoteGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceDetailGet" ReturnType="Collection(CollectionDataModel.MUNCOLInvoiceDetailGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="InvoiceID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLCreditNoteUpdateStatus">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Retval" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessUpdateStatus">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Retval" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNACCPostingProcessGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="DocumentTypeID" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLCreditNoteByPaymentReceipt">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="Reason" Mode="In" Type="String" />
+            <Parameter Name="CommaSeperatedImageIDs" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserId" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCJournalDetailForPostingProcess" ReturnType="Collection(CollectionDataModel.MUNACCJournalDetailForPostingProcess_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DocumentTypeID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDepositPrint" ReturnType="Collection(CollectionDataModel.MUNCOLDepositPrint_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNAccJournalUpdateForFINJournalID">
+            <Parameter Name="FINJournalListJSON" Mode="In" Type="String" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Retval" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLCreditNoteGetBalance" ReturnType="Collection(Decimal)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceGetAsObject" ReturnType="Collection(CollectionDataModel.MUNCOLInvoiceGetAsObject_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="IsPost" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentGetAsObject" ReturnType="Collection(CollectionDataModel.MUNCOLPaymentGetAsObject_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="IsPost" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDepositInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="DepositTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="NetDeposit" Mode="In" Type="Decimal" />
+            <Parameter Name="ClosingCount" Mode="In" Type="Int32" />
+            <Parameter Name="BankAccountID" Mode="In" Type="Int32" />
+            <Parameter Name="BankAccountCode" Mode="In" Type="String" />
+            <Parameter Name="BankAccountName" Mode="In" Type="String" />
+            <Parameter Name="BankName" Mode="In" Type="String" />
+            <Parameter Name="FinanceAccountID" Mode="In" Type="Int32" />
+            <Parameter Name="FinanceAccountCode" Mode="In" Type="String" />
+            <Parameter Name="FinanceAccountName" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CommaSeperatedClosingIds" Mode="In" Type="String" />
+            <Parameter Name="DepositId" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLPaymentGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLInvoiceManualInsert" ReturnType="Collection(CollectionDataModel.MUNCOLInvoiceManualInsert_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Reference" Mode="In" Type="String" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="TermsAndConditions" Mode="In" Type="String" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="InvoiceDetailJson" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessDetailsGetWithGroupSum" ReturnType="Collection(CollectionDataModel.MUNACCPostingProcessDetailsGetWithGroupSum_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCJournalBulkInsertForPayment" ReturnType="Collection(CollectionDataModel.MUNACCJournalBulkInsertForPayment_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentReceiptType" Mode="In" Type="Int32" />
+            <Parameter Name="AsOfDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="JournalIDs" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessGetByLastInserted" ReturnType="Collection(CollectionDataModel.MUNACCPostingProcessGetByLastInserted_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="DocumentType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessInsertForJournal">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="CommaSeparatedJournalID" Mode="In" Type="String" />
+            <Parameter Name="DocumentTypeDetail" Mode="In" Type="String" />
+            <Parameter Name="AsOfDate" Mode="In" Type="DateTime" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersionID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="PaymentType" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentInsertByOtherService">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="TotalAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="AttachmentID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentOptionJSON" Mode="In" Type="String" />
+            <Parameter Name="InvoiceDetailJson" Mode="In" Type="String" />
+            <Parameter Name="Number" Mode="In" Type="String" />
+            <Parameter Name="NumberPrefix" Mode="In" Type="String" />
+            <Parameter Name="IsManual" Mode="In" Type="Boolean" />
+            <Parameter Name="IsOfficialReceipt" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserId" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ApplyCreditAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNACCPostingProcessGet" ReturnType="Collection(CollectionDataModel.MUNACCPostingProcessGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentGetForClosingEntry" ReturnType="Collection(CollectionDataModel.MUNCOLPaymentGetForClosingEntry_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CashierID" Mode="In" Type="Guid" />
+            <Parameter Name="ClosingDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="OnlyPostedDocuments" Mode="In" Type="Boolean" />
+            <Parameter Name="PaymentOptionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentGetAvailableCreditBalance" ReturnType="Collection(Decimal)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDebitNoteByPaymentReceipt">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="Reason" Mode="In" Type="String" />
+            <Parameter Name="CommaSeperatedImageIDs" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserId" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDebitNoteGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLDebitNoteGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDepositGetWithPaging" ReturnType="Collection(CollectionDataModel.MUNCOLDepositGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="IsVoid" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDebitNoteUpdateStatus">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Retval" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLPaymentInsertByDebitNote">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Notes" Mode="In" Type="String" />
+            <Parameter Name="TotalAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="AttachmentID" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentOptionJSON" Mode="In" Type="String" />
+            <Parameter Name="DebitNotesJson" Mode="In" Type="String" />
+            <Parameter Name="Number" Mode="In" Type="String" />
+            <Parameter Name="NumberPrefix" Mode="In" Type="String" />
+            <Parameter Name="IsManual" Mode="In" Type="Boolean" />
+            <Parameter Name="IsOfficialReceipt" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserId" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ApplyCreditAmount" Mode="In" Type="Decimal" />
+            <Parameter Name="PaymentID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDebitNoteExistByAccount">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCOLDebitNoteGet" ReturnType="Collection(CollectionDataModel.MUNCOLDebitNoteGet_Result)">
+            <Parameter Name="AccountID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNCOLInvoiceGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="6" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+          <Property Type="String" Name="AccountDisplayName" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="AccountIsActive" Nullable="false" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLClosingGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CashierName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="PaymentReceiptCount" Nullable="false" />
+          <Property Type="Decimal" Name="NetClosing" Nullable="false" Precision="19" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="PaymentOption" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLClosingPrint_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Guid" Name="CashierID" Nullable="false" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="ClosingTypeID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="PaymentReceiptCount" Nullable="false" />
+          <Property Type="Decimal" Name="NetClosing" Nullable="false" Precision="19" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="true" />
+          <Property Type="Boolean" Name="IsDeposited" Nullable="false" />
+          <Property Type="Binary" Name="RowVersion1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="VoidReason" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="TotalCash" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalChequedelBancoNacional" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalCreditCard" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalBankTransfer" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalChequedelBancodeCostaRica" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="PaymentOptionID" Nullable="true" />
+          <Property Type="Decimal" Name="TotalAdjustment" Nullable="true" Precision="19" />
+          <Property Type="String" Name="PaymentOptionName" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="TotalBank" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="TotalBankTransferByBancoNacionaldeCostaRica" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLClosingGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="CashierName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="PaymentReceiptCount" Nullable="false" />
+          <Property Type="Decimal" Name="NetClosing" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="IsDeposited" Nullable="false" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLInvoiceGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="DATE" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TermsAndConditions" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="String" Name="ItemType" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FINGrantName" Nullable="true" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="250" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLCreditNoteGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="AccountDisplayName" Nullable="true" MaxLength="503" />
+          <Property Type="String" Name="Number" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="AvailableAmount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="IsCreditHistory" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLInvoiceDetailGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="InvoiceID" Nullable="false" />
+          <Property Type="Int32" Name="AccountServiceCollectionDetailID" Nullable="true" />
+          <Property Type="Int32" Name="FINGrantID" Nullable="true" />
+          <Property Type="Int32" Name="ServiceID" Nullable="true" />
+          <Property Type="Int32" Name="ItemTypeID" Nullable="true" />
+          <Property Type="String" Name="ItemType" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="FINGrantName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Payment" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="SubTotal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="Total" Nullable="true" Precision="19" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="ReceivableAccountID" Nullable="true" />
+          <Property Type="String" Name="ReceivableCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="ReceivableName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="RevenueAccountID" Nullable="true" />
+          <Property Type="String" Name="RevenueCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="RevenueName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CheckbookID" Nullable="true" />
+          <Property Type="String" Name="CheckbookCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="CheckbookName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CashAccountID" Nullable="true" />
+          <Property Type="String" Name="CashAccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="CashAccountName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CreditAccountID" Nullable="true" />
+          <Property Type="String" Name="CreditAccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="CreditAccountName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="FINGrantCode" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MUNACCPostingProcessGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="DateTime" Name="AsOfDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="DocumentType" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="Int32" Name="WorkflowStatusID" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNACCJournalDetailForPostingProcess_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="NameFriendly" Nullable="false" MaxLength="264" />
+          <Property Type="String" Name="ReferenceAccountName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Memo" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Debit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Credit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="String" Name="CollectionTypeName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Grant" Nullable="false" MaxLength="303" />
+          <Property Type="Decimal" Name="Percentage" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Int32" Name="IsPost" Nullable="false" />
+          <Property Type="Int32" Name="IsVoid" Nullable="false" />
+          <Property Type="String" Name="ReceiptNumber" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLDepositPrint_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="DepositTypeID" Nullable="true" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="ClosingCount" Nullable="false" />
+          <Property Type="Decimal" Name="NetDeposit" Nullable="false" Precision="19" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="String" Name="VoidReason" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BankName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="BankAccountID" Nullable="true" />
+          <Property Type="String" Name="BankAccountCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BankAccountName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLInvoiceGetAsObject_Result">
+          <Property Type="Int32" Name="ReferenceObjectID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="DateTime" Name="InvoiceDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Reference" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="6" />
+          <Property Type="Decimal" Name="Total" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Payments" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLPaymentGetAsObject_Result">
+          <Property Type="Int32" Name="ReferenceObjectID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="Decimal" Name="NetPayment" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ServiceTypeID" Nullable="true" />
+          <Property Type="Int32" Name="ServiceID" Nullable="true" />
+          <Property Type="Int32" Name="FINGrantID" Nullable="true" />
+          <Property Type="String" Name="ServiceName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ServiceTypeName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ItemName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="PaymentPlanName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLPaymentGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="AccountDisplayName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+          <Property Type="Boolean" Name="IsPost" Nullable="false" />
+          <Property Type="Decimal" Name="NetPayment" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="ServiceTypeID" Nullable="true" />
+          <Property Type="String" Name="ItemName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="PaymentPlanName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLInvoiceManualInsert_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AccountTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNACCPostingProcessDetailsGetWithGroupSum_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="AccountID" Nullable="true" />
+          <Property Type="String" Name="AccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="AccountName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CollectionTypeID" Nullable="true" />
+          <Property Type="String" Name="CollectionTypeName" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Debit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Credit" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNACCJournalBulkInsertForPayment_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="AccountID" Nullable="true" />
+          <Property Type="String" Name="AccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="AccountName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CollectionTypeID" Nullable="true" />
+          <Property Type="String" Name="CollectionTypeName" Nullable="true" MaxLength="250" />
+          <Property Type="Decimal" Name="Debit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Credit" Nullable="false" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNACCPostingProcessGetByLastInserted_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="AsOfDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="DocumentTypeDetail" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="DocumentID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNACCPostingProcessGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="NameFriendly" Nullable="false" MaxLength="264" />
+          <Property Type="String" Name="ReferenceAccountName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Memo" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Debit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Credit" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="String" Name="CollectionTypeName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Grant" Nullable="false" MaxLength="303" />
+          <Property Type="Decimal" Name="Percentage" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="String" Name="DocumentTypeDetail" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="AsOfDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="PostingProcessID" Nullable="false" />
+          <Property Type="Int32" Name="PaymentType" Nullable="true" />
+          <Property Type="Int32" Name="WorkflowStatusID" Nullable="true" />
+          <Property Type="String" Name="ReceiptNumber" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="IsPost" Nullable="false" />
+          <Property Type="Int32" Name="IsVoid" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="false" />
+          <Property Type="Int32" Name="FiscalYearID" Nullable="false" />
+          <Property Type="Int32" Name="FiscalYearPeriodID" Nullable="false" />
+          <Property Type="String" Name="CurrencyCode" Nullable="false" MaxLength="3" />
+          <Property Type="Int32" Name="CurrencyID" Nullable="false" />
+          <Property Type="Decimal" Name="ExchangeRate" Nullable="true" Precision="28" Scale="12" />
+          <Property Type="Int32" Name="BankID" Nullable="true" />
+          <Property Type="String" Name="ApplicationSource" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="ReferenceNumber" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="JounalLine" Nullable="false" />
+          <Property Type="Int32" Name="GrantID" Nullable="false" />
+          <Property Type="String" Name="ReferenceID" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ReferenceAccountID" Nullable="false" />
+          <Property Type="String" Name="IntegrationError" Nullable="true" />
+          <Property Type="Int32" Name="FINJournalID" Nullable="true" />
+          <Property Type="Int32" Name="FINJournalEntrySequence" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLPaymentGetForClosingEntry_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="true" MaxLength="50" />
+          <Property Type="Decimal" Name="NetPayment" Nullable="false" Precision="19" />
+          <Property Type="String" Name="AccountDisplayName" Nullable="true" MaxLength="503" />
+          <Property Type="String" Name="PaymentOption" Nullable="false" MaxLength="16" />
+          <Property Type="Int32" Name="PaymentOptionTableValue" Nullable="true" />
+          </ComplexType>
+        <ComplexType Name="MUNCOLDebitNoteGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="AccountDisplayName" Nullable="true" MaxLength="503" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="IsDebitHistory" Nullable="true" />
+          <Property Type="Boolean" Name="IsPaid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLDepositGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="BankName" Nullable="true" MaxLength="303" />
+          <Property Type="Int32" Name="ClosingCount" Nullable="false" />
+          <Property Type="Decimal" Name="NetDeposit" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="IsVoid" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNCOLDebitNoteGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="true" />
+          <Property Type="Int32" Name="DocumentID" Nullable="true" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="Int32" Name="PaymentID" Nullable="true" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Reason" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Amount" Nullable="true" Precision="19" />
+          <Property Type="Boolean" Name="IsDebitNote" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="CollectionDataModel" />
+        <Alias Key="Target" Value="CollectionDataModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="CollectionDataModelContainer" StorageEntityContainer="CollectionDataModelStoreContainer">
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceGetWithPaging" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLInvoiceGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="AccountDisplayName" ColumnName="AccountDisplayName" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="AccountIsActive" ColumnName="AccountIsActive" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceVoid" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceVoid" />
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentVoid" FunctionName="CollectionDataModel.Store.MUNCOLPaymentVoid" />
+          <FunctionImportMapping FunctionImportName="MUNCOLClosingGet" FunctionName="CollectionDataModel.Store.MUNCOLClosingGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLClosingGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CashierName" ColumnName="CashierName" />
+                <ScalarProperty Name="PaymentReceiptCount" ColumnName="PaymentReceiptCount" />
+                <ScalarProperty Name="NetClosing" ColumnName="NetClosing" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PaymentOption" ColumnName="PaymentOption" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLClosingGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLClosingGetWithPaging" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLClosingGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CashierName" ColumnName="CashierName" />
+                <ScalarProperty Name="PaymentReceiptCount" ColumnName="PaymentReceiptCount" />
+                <ScalarProperty Name="NetClosing" ColumnName="NetClosing" />
+                <ScalarProperty Name="IsDeposited" ColumnName="IsDeposited" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLClosingInsert" FunctionName="CollectionDataModel.Store.MUNCOLClosingInsert" />
+          <FunctionImportMapping FunctionImportName="MUNCOLClosingPrint" FunctionName="CollectionDataModel.Store.MUNCOLClosingPrint">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLClosingPrint_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CashierID" ColumnName="CashierID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ClosingTypeID" ColumnName="ClosingTypeID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="PaymentReceiptCount" ColumnName="PaymentReceiptCount" />
+                <ScalarProperty Name="NetClosing" ColumnName="NetClosing" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="IsDeposited" ColumnName="IsDeposited" />
+                <ScalarProperty Name="RowVersion1" ColumnName="RowVersion1" />
+                <ScalarProperty Name="VoidReason" ColumnName="VoidReason" />
+                <ScalarProperty Name="TotalCash" ColumnName="TotalCash" />
+                <ScalarProperty Name="TotalChequedelBancoNacional" ColumnName="TotalChequedelBancoNacional" />
+                <ScalarProperty Name="TotalCreditCard" ColumnName="TotalCreditCard" />
+                <ScalarProperty Name="TotalBankTransfer" ColumnName="TotalBankTransfer" />
+                <ScalarProperty Name="TotalChequedelBancodeCostaRica" ColumnName="TotalChequedelBancodeCostaRica" />
+                <ScalarProperty Name="PaymentOptionID" ColumnName="PaymentOptionID" />
+                <ScalarProperty Name="TotalAdjustment" ColumnName="TotalAdjustment" />
+                <ScalarProperty Name="PaymentOptionName" ColumnName="PaymentOptionName" />
+                <ScalarProperty Name="TotalBank" ColumnName="TotalBank" />
+                <ScalarProperty Name="TotalBankTransferByBancoNacionaldeCostaRica" ColumnName="TotalBankTransferByBancoNacionaldeCostaRica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLClosingVoid" FunctionName="CollectionDataModel.Store.MUNCOLClosingVoid" />
+          <FunctionImportMapping FunctionImportName="MUNCOLDepositVoid" FunctionName="CollectionDataModel.Store.MUNCOLDepositVoid" />
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentPlanVoid" FunctionName="CollectionDataModel.Store.MUNCOLPaymentPlanVoid" />
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceUpdate" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceGet" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLInvoiceGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="TermsAndConditions" ColumnName="TermsAndConditions" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="FINGrantName" ColumnName="FINGrantName" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentInsertByInvoice" FunctionName="CollectionDataModel.Store.MUNCOLPaymentInsertByInvoice" />
+          <FunctionImportMapping FunctionImportName="MUNCOLCreditNoteGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLCreditNoteGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLCreditNoteGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AccountDisplayName" ColumnName="AccountDisplayName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AvailableAmount" ColumnName="AvailableAmount" />
+                <ScalarProperty Name="IsCreditHistory" ColumnName="IsCreditHistory" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceDetailGet" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceDetailGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLInvoiceDetailGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InvoiceID" ColumnName="InvoiceID" />
+                <ScalarProperty Name="AccountServiceCollectionDetailID" ColumnName="AccountServiceCollectionDetailID" />
+                <ScalarProperty Name="FINGrantID" ColumnName="FINGrantID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ItemTypeID" ColumnName="ItemTypeID" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="FINGrantName" ColumnName="FINGrantName" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="ReceivableAccountID" ColumnName="ReceivableAccountID" />
+                <ScalarProperty Name="ReceivableCode" ColumnName="ReceivableCode" />
+                <ScalarProperty Name="ReceivableName" ColumnName="ReceivableName" />
+                <ScalarProperty Name="RevenueAccountID" ColumnName="RevenueAccountID" />
+                <ScalarProperty Name="RevenueCode" ColumnName="RevenueCode" />
+                <ScalarProperty Name="RevenueName" ColumnName="RevenueName" />
+                <ScalarProperty Name="CheckbookID" ColumnName="CheckbookID" />
+                <ScalarProperty Name="CheckbookCode" ColumnName="CheckbookCode" />
+                <ScalarProperty Name="CheckbookName" ColumnName="CheckbookName" />
+                <ScalarProperty Name="CashAccountID" ColumnName="CashAccountID" />
+                <ScalarProperty Name="CashAccountCode" ColumnName="CashAccountCode" />
+                <ScalarProperty Name="CashAccountName" ColumnName="CashAccountName" />
+                <ScalarProperty Name="CreditAccountID" ColumnName="CreditAccountID" />
+                <ScalarProperty Name="CreditAccountCode" ColumnName="CreditAccountCode" />
+                <ScalarProperty Name="CreditAccountName" ColumnName="CreditAccountName" />
+                <ScalarProperty Name="FINGrantCode" ColumnName="FINGrantCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLCreditNoteUpdateStatus" FunctionName="CollectionDataModel.Store.MUNCOLCreditNoteUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessUpdateStatus" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessGetWithPaging" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCPostingProcessGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="AsOfDate" ColumnName="AsOfDate" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="WorkflowStatusID" ColumnName="WorkflowStatusID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLCreditNoteByPaymentReceipt" FunctionName="CollectionDataModel.Store.MUNCOLCreditNoteByPaymentReceipt" />
+          <FunctionImportMapping FunctionImportName="MUNACCJournalDetailForPostingProcess" FunctionName="CollectionDataModel.Store.MUNACCJournalDetailForPostingProcess">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCJournalDetailForPostingProcess_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="NameFriendly" ColumnName="NameFriendly" />
+                <ScalarProperty Name="ReferenceAccountName" ColumnName="ReferenceAccountName" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="Debit" ColumnName="Debit" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CollectionTypeName" ColumnName="CollectionTypeName" />
+                <ScalarProperty Name="Grant" ColumnName="Grant" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLDepositPrint" FunctionName="CollectionDataModel.Store.MUNCOLDepositPrint">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLDepositPrint_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DepositTypeID" ColumnName="DepositTypeID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ClosingCount" ColumnName="ClosingCount" />
+                <ScalarProperty Name="NetDeposit" ColumnName="NetDeposit" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="VoidReason" ColumnName="VoidReason" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankAccountID" ColumnName="BankAccountID" />
+                <ScalarProperty Name="BankAccountCode" ColumnName="BankAccountCode" />
+                <ScalarProperty Name="BankAccountName" ColumnName="BankAccountName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNAccJournalUpdateForFINJournalID" FunctionName="CollectionDataModel.Store.MUNAccJournalUpdateForFINJournalID" />
+          <FunctionImportMapping FunctionImportName="MUNCOLCreditNoteGetBalance" FunctionName="CollectionDataModel.Store.MUNCOLCreditNoteGetBalance" />
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceGetAsObject" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceGetAsObject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLInvoiceGetAsObject_Result">
+                <ScalarProperty Name="ReferenceObjectID" ColumnName="ReferenceObjectID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentGetAsObject" FunctionName="CollectionDataModel.Store.MUNCOLPaymentGetAsObject">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLPaymentGetAsObject_Result">
+                <ScalarProperty Name="ReferenceObjectID" ColumnName="ReferenceObjectID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="NetPayment" ColumnName="NetPayment" />
+                <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="FINGrantID" ColumnName="FINGrantID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ServiceTypeName" ColumnName="ServiceTypeName" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="PaymentPlanName" ColumnName="PaymentPlanName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLDepositInsert" FunctionName="CollectionDataModel.Store.MUNCOLDepositInsert" />
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLPaymentGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLPaymentGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AccountDisplayName" ColumnName="AccountDisplayName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="NetPayment" ColumnName="NetPayment" />
+                <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="PaymentPlanName" ColumnName="PaymentPlanName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLInvoiceManualInsert" FunctionName="CollectionDataModel.Store.MUNCOLInvoiceManualInsert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLInvoiceManualInsert_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="AccountTypeID" ColumnName="AccountTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessDetailsGetWithGroupSum" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessDetailsGetWithGroupSum">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCPostingProcessDetailsGetWithGroupSum_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="CollectionTypeID" ColumnName="CollectionTypeID" />
+                <ScalarProperty Name="CollectionTypeName" ColumnName="CollectionTypeName" />
+                <ScalarProperty Name="Debit" ColumnName="Debit" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNACCJournalBulkInsertForPayment" FunctionName="CollectionDataModel.Store.MUNACCJournalBulkInsertForPayment">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCJournalBulkInsertForPayment_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="CollectionTypeID" ColumnName="CollectionTypeID" />
+                <ScalarProperty Name="CollectionTypeName" ColumnName="CollectionTypeName" />
+                <ScalarProperty Name="Debit" ColumnName="Debit" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessGetByLastInserted" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessGetByLastInserted">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCPostingProcessGetByLastInserted_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AsOfDate" ColumnName="AsOfDate" />
+                <ScalarProperty Name="DocumentTypeDetail" ColumnName="DocumentTypeDetail" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessInsertForJournal" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessInsertForJournal" />
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentInsertByOtherService" FunctionName="CollectionDataModel.Store.MUNCOLPaymentInsertByOtherService" />
+          <FunctionImportMapping FunctionImportName="MUNACCPostingProcessGet" FunctionName="CollectionDataModel.Store.MUNACCPostingProcessGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNACCPostingProcessGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="NameFriendly" ColumnName="NameFriendly" />
+                <ScalarProperty Name="ReferenceAccountName" ColumnName="ReferenceAccountName" />
+                <ScalarProperty Name="Memo" ColumnName="Memo" />
+                <ScalarProperty Name="Debit" ColumnName="Debit" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CollectionTypeName" ColumnName="CollectionTypeName" />
+                <ScalarProperty Name="Grant" ColumnName="Grant" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="DocumentTypeDetail" ColumnName="DocumentTypeDetail" />
+                <ScalarProperty Name="AsOfDate" ColumnName="AsOfDate" />
+                <ScalarProperty Name="PostingProcessID" ColumnName="PostingProcessID" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="WorkflowStatusID" ColumnName="WorkflowStatusID" />
+                <ScalarProperty Name="ReceiptNumber" ColumnName="ReceiptNumber" />
+                <ScalarProperty Name="IsPost" ColumnName="IsPost" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="FiscalYearID" ColumnName="FiscalYearID" />
+                <ScalarProperty Name="FiscalYearPeriodID" ColumnName="FiscalYearPeriodID" />
+                <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
+                <ScalarProperty Name="CurrencyID" ColumnName="CurrencyID" />
+                <ScalarProperty Name="ExchangeRate" ColumnName="ExchangeRate" />
+                <ScalarProperty Name="BankID" ColumnName="BankID" />
+                <ScalarProperty Name="ApplicationSource" ColumnName="ApplicationSource" />
+                <ScalarProperty Name="ReferenceNumber" ColumnName="ReferenceNumber" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="JounalLine" ColumnName="JounalLine" />
+                <ScalarProperty Name="GrantID" ColumnName="GrantID" />
+                <ScalarProperty Name="ReferenceID" ColumnName="ReferenceID" />
+                <ScalarProperty Name="ReferenceAccountID" ColumnName="ReferenceAccountID" />
+                <ScalarProperty Name="IntegrationError" ColumnName="IntegrationError" />
+                <ScalarProperty Name="FINJournalID" ColumnName="FINJournalID" />
+                <ScalarProperty Name="FINJournalEntrySequence" ColumnName="FINJournalEntrySequence" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentGetForClosingEntry" FunctionName="CollectionDataModel.Store.MUNCOLPaymentGetForClosingEntry">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLPaymentGetForClosingEntry_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="NetPayment" ColumnName="NetPayment" />
+                <ScalarProperty Name="AccountDisplayName" ColumnName="AccountDisplayName" />
+                <ScalarProperty Name="PaymentOption" ColumnName="PaymentOption" />
+                <ScalarProperty Name="PaymentOptionTableValue" ColumnName="PaymentOptionTableValue" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentGetAvailableCreditBalance" FunctionName="CollectionDataModel.Store.MUNCOLPaymentGetAvailableCreditBalance" />
+          <FunctionImportMapping FunctionImportName="MUNCOLDebitNoteByPaymentReceipt" FunctionName="CollectionDataModel.Store.MUNCOLDebitNoteByPaymentReceipt" />
+          <FunctionImportMapping FunctionImportName="MUNCOLDebitNoteGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLDebitNoteGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLDebitNoteGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AccountDisplayName" ColumnName="AccountDisplayName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IsDebitHistory" ColumnName="IsDebitHistory" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLDepositGetWithPaging" FunctionName="CollectionDataModel.Store.MUNCOLDepositGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLDepositGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="ClosingCount" ColumnName="ClosingCount" />
+                <ScalarProperty Name="NetDeposit" ColumnName="NetDeposit" />
+                <ScalarProperty Name="IsVoid" ColumnName="IsVoid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCOLDebitNoteUpdateStatus" FunctionName="CollectionDataModel.Store.MUNCOLDebitNoteUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="MUNCOLPaymentInsertByDebitNote" FunctionName="CollectionDataModel.Store.MUNCOLPaymentInsertByDebitNote" />
+          <FunctionImportMapping FunctionImportName="MUNCOLDebitNoteExistByAccount" FunctionName="CollectionDataModel.Store.MUNCOLDebitNoteExistByAccount" />
+          <FunctionImportMapping FunctionImportName="MUNCOLDebitNoteGet" FunctionName="CollectionDataModel.Store.MUNCOLDebitNoteGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CollectionDataModel.MUNCOLDebitNoteGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IsDebitNote" ColumnName="IsDebitNote" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

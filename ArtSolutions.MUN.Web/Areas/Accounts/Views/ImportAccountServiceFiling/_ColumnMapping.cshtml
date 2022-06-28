@@ -1,0 +1,92 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFilingMappingViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+<h2>@LocalResource.MappingNote</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            @Html.HiddenFor(m => m.FileName)
+            <div class="form-group">
+                <label>@LocalResource.GroupCode <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.GroupCode, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.GroupCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.Year <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.Year, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.Months <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.Month, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.Month, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.ServiceCode <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.ServiceCode, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.ServiceCode, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.ServiceName <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.ServiceName, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown" })
+                @Html.ValidationMessageFor(m => m.ServiceName, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@LocalResource.TaxNumber <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.TaxNumber, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control required" })
+                @Html.ValidationMessageFor(m => m.TaxNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@LocalResource.CustomField1 <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.CustomField1, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.CustomField1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@LocalResource.LastReading <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.LastReading, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.LastReading, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@LocalResource.CurrentReading <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.CurrentReading, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.CurrentReading, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@LocalResource.Difference <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.Difference, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.Difference, "", new { @class = "text-danger" })
+            </div>
+        </div>      
+    </div>
+</div>

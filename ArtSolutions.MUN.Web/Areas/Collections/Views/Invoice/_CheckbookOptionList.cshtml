@@ -1,0 +1,28 @@
+﻿
+@model List<ArtSolutions.MUN.Web.Areas.Services.Models.CheckbookAccountListModel>
+<td class="col-lg-2 checkbooklist">
+    <select class="form-control required select2dropdown" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookID")" tabindex="6" onchange="FillCheckbookName(this)" name="InvoiceDetail[@ViewBag.FormValue].CheckbookID">
+        <option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+        @foreach (var item in Model)
+        {
+            <option value="@item.CheckbookId"
+                    data-cashaccountid="@item.FinancePaymentAccountID"
+                    data-cashaccountcode="@item.FincanceAccountCode"
+                    data-cashaccountname="@item.FinanceAccountName"
+                    data-checkbookcode="@item.Code"
+                    data-checkbookname="@item.Name">
+                @Html.Raw(item.Code+" - "+item.Name)
+                </option>
+            }
+
+    </select>
+
+
+    <input type="hidden" value="" class="CashAccountID" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountID")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountID" />
+    <input type="hidden" value="" class="CashAccountCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountCode")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountCode" />
+    <input type="hidden" value="" class="CashAccountName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CashAccountName")" name="InvoiceDetail[@ViewBag.FormValue].CashAccountName" />
+
+    <input type="hidden" value="" class="CheckbookCode" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookCode")" name="InvoiceDetail[@ViewBag.FormValue].CheckbookCode" />
+    <input type="hidden" value="" class="CheckbookName" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__CheckbookName")" name="InvoiceDetail[@ViewBag.FormValue].CheckbookName" />
+
+</td>

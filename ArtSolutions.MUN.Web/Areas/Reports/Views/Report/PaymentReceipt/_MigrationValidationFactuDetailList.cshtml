@@ -1,0 +1,36 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationFactuModel
+
+@if (Model.MigrationValidationFactuList != null && Model.MigrationValidationFactuList.Count() > 0)
+{
+    foreach (var item in Model.MigrationValidationFactuList)
+    {
+        <tr>
+            <td class="text-center">@item.Cedula</td>
+            <td class="text-center">@item.ServiceName</td>
+            <td class="text-center">
+                @Html.Raw(item.CurrentYearRule == null && item.CurrentYearSIM == null ? "0" : item.CurrentYearRule == null ?" - " : item.CurrentYearRule.Value.ToString())
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.CurrentYearSIM == null && item.CurrentYearRule == null ? "0" : item.CurrentYearSIM == null? " - " : item.CurrentYearSIM.Value.ToString())
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.PastYearRule == null && item.PastYearSIM == null ? "0" : item.PastYearRule == null ? " - " : item.PastYearRule.Value.ToString())
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.PastYearSIM == null && item.PastYearRule == null ? "0" : item.PastYearSIM == null ? " - " : item.PastYearSIM.Value.ToString())
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.CurrentYearRuleAmount == null && item.CurrentYearSIMAmount == null? "0" : item.CurrentYearRuleAmount == null ? " - " : item.CurrentYearRuleAmount.Value.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.CurrentYearSIMAmount == null && item.CurrentYearRuleAmount == null ? "0" : item.CurrentYearSIMAmount == null ? " - " : item.CurrentYearSIMAmount.Value.ToString("C"))
+            </td>
+             <td class="text-center">
+                    @Html.Raw(item.PastYearRuleAmount == null ? " - " : item.PastYearRuleAmount.Value.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.PastYearSIMAmount == null ? " - " : item.PastYearSIMAmount.Value.ToString("C"))
+                </td> 
+        </tr>
+    }
+}

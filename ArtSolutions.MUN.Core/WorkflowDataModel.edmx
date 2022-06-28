@@ -1,0 +1,820 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WorkflowDataContainer.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNDOCDocumentTypeGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IsMunicipalityOnly" Type="bit" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowActiveStatusUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowFormGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DocumentTyepID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowHistoryLogGetForSplit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TransferID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowReasonGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowReasonGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowReasonGetByWorkflowID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkfowVersionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowReasonUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Langauge" Type="nvarchar" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersionID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersionID" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="UserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowSecurityStatusInGroupGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Version" Type="varchar" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsPublic" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="bigint" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusSequenceDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersionID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusTargetID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusSequenceGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersionID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowStatusID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusSequenceGetByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersion" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowVersion" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Activity" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="InitialStatus" Type="bit" Mode="In" />
+          <Parameter Name="AllowEdit" Type="bit" Mode="In" />
+          <Parameter Name="AllowDelete" Type="bit" Mode="In" />
+          <Parameter Name="Post" Type="bit" Mode="In" />
+          <Parameter Name="Void" Type="bit" Mode="In" />
+          <Parameter Name="Groups" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="Reasons" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNDocumentWorkflowSecurityGroupUsersGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="WorkflowDataContainerStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WorkflowDataContainer" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WorkflowDataModelContainer" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="MUNDOCDocumentWorkflowGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="DocumentTyepID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowActiveStatusUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Langauge" Mode="In" Type="String" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusSequenceGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowStatusSequenceGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersionID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusSequenceDelete">
+            <Parameter Name="WorkflowStatusID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersionID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowStatusTargetID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusSequenceGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowStatusSequenceGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowStatusGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersion" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Activity" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="InitialStatus" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowEdit" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDelete" Mode="In" Type="Boolean" />
+            <Parameter Name="Post" Mode="In" Type="Boolean" />
+            <Parameter Name="Void" Mode="In" Type="Boolean" />
+            <Parameter Name="Groups" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="Reasons" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityStatusInGroupGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityStatusInGroupGet_Result)">
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowReasonGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowReasonGetByWorkflowID" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGetByWorkflowID_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkfowVersionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowReasonUpdate">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowVersionID" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDocumentWorkflowSecurityGroupUsersGet" ReturnType="Collection(WorkflowDataContainer.MUNDocumentWorkflowSecurityGroupUsersGet_Result)">
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowFormGetByPaging" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowFormGetByPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int64" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowStatusGet_Result)">
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Version" Mode="In" Type="String" />
+            <Parameter Name="language" Mode="In" Type="String" />
+            <Parameter Name="IsPublic" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentTypeGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentTypeGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IsMunicipalityOnly" Mode="In" Type="Boolean" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="UserID" Mode="In" Type="Guid" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowReasonGet" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowHistoryLogGetForSplit" ReturnType="Collection(WorkflowDataContainer.MUNDOCDocumentWorkflowHistoryLogGetForSplit_Result)">
+            <Parameter Name="TransferID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNDOCDocumentWorkflowGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="DocumentType" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="false" />
+          <Property Type="String" Name="Version" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityGroupGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusSequenceGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="WorkflowStatusID" Nullable="false" />
+          <Property Type="Int32" Name="WorkflowStatusTargetID" Nullable="false" />
+          <Property Type="Int32" Name="WorkflowID" Nullable="false" />
+          <Property Type="String" Name="WorkflowVersionID" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="FormID" Nullable="true" />
+          <Property Type="String" Name="TargetStatus" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="TargetStatusActivity" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Form" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Groups" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusSequenceGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="WorkflowStatusID" Nullable="false" />
+          <Property Type="String" Name="FromStatus" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Sequence" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AllowDelete" Nullable="false" />
+          <Property Type="Boolean" Name="AllowEdit" Nullable="false" />
+          <Property Type="Boolean" Name="InitialStatus" Nullable="false" />
+          <Property Type="Boolean" Name="Post" Nullable="false" />
+          <Property Type="Boolean" Name="Void" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Sequence" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Reasons" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityStatusInGroupGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Group" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowReasonGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowReasonGetByWorkflowID_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityGroupGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="String" Name="Group" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo1" />
+          <Property Type="String" Name="DisplayName" Nullable="false" MaxLength="1" />
+          <Property Type="Guid" Name="UserID" Nullable="true" />
+          <Property Type="Int64" Name="SrNo" />
+          <Property Type="String" Name="Groups" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="MUNDocumentWorkflowSecurityGroupUsersGet_Result">
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowFormGetByPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="UsePopup" Nullable="false" />
+          <Property Type="String" Name="URLNew" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLEdit" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLView" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLPrint" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="Boolean" Name="InitialStatus" Nullable="false" />
+          <Property Type="Boolean" Name="AllowEdit" Nullable="false" />
+          <Property Type="Boolean" Name="AllowDelete" Nullable="false" />
+          <Property Type="Boolean" Name="Post" Nullable="false" />
+          <Property Type="Boolean" Name="Void" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentTypeGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsPostingInJournal" Nullable="false" />
+          <Property Type="Boolean" Name="IsChild" Nullable="true" />
+          <Property Type="Boolean" Name="IsBankingRule" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile_Result">
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowReasonGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowHistoryLogGetForSplit_Result">
+          <Property Type="Guid" Name="AssignToID" Nullable="false" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Comments" Nullable="true" MaxLength="500" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WorkflowDataContainerStoreContainer" CdmEntityContainer="WorkflowDataModelContainer" >
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowActiveStatusUpdate" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowActiveStatusUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusSequenceGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusSequenceGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowStatusSequenceGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="WorkflowStatusID" ColumnName="WorkflowStatusID" />
+                <ScalarProperty Name="WorkflowStatusTargetID" ColumnName="WorkflowStatusTargetID" />
+                <ScalarProperty Name="WorkflowID" ColumnName="WorkflowID" />
+                <ScalarProperty Name="WorkflowVersionID" ColumnName="WorkflowVersionID" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="TargetStatus" ColumnName="TargetStatus" />
+                <ScalarProperty Name="TargetStatusActivity" ColumnName="TargetStatusActivity" />
+                <ScalarProperty Name="Form" ColumnName="Form" />
+                <ScalarProperty Name="Groups" ColumnName="Groups" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusSequenceDelete" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusSequenceDelete" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusSequenceGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusSequenceGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowStatusSequenceGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="WorkflowStatusID" ColumnName="WorkflowStatusID" />
+                <ScalarProperty Name="FromStatus" ColumnName="FromStatus" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowStatusGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+                <ScalarProperty Name="InitialStatus" ColumnName="InitialStatus" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Void" ColumnName="Void" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Reasons" ColumnName="Reasons" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusUpdate" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityStatusInGroupGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityStatusInGroupGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityStatusInGroupGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowReasonGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowReasonGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowReasonGetByWorkflowID" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowReasonGetByWorkflowID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGetByWorkflowID_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowReasonUpdate" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowReasonUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupInsert" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupInsert" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupUpdate" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging_Result">
+                <ScalarProperty Name="SrNo1" ColumnName="SrNo1" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="Groups" ColumnName="Groups" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDocumentWorkflowSecurityGroupUsersGet" FunctionName="WorkflowDataContainer.Store.MUNDocumentWorkflowSecurityGroupUsersGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDocumentWorkflowSecurityGroupUsersGet_Result">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowFormGetByPaging" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowFormGetByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowFormGetByPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UsePopup" ColumnName="UsePopup" />
+                <ScalarProperty Name="URLNew" ColumnName="URLNew" />
+                <ScalarProperty Name="URLEdit" ColumnName="URLEdit" />
+                <ScalarProperty Name="URLView" ColumnName="URLView" />
+                <ScalarProperty Name="URLPrint" ColumnName="URLPrint" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowStatusGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowStatusGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="InitialStatus" ColumnName="InitialStatus" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Void" ColumnName="Void" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentTypeGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentTypeGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentTypeGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsPostingInJournal" ColumnName="IsPostingInJournal" />
+                <ScalarProperty Name="IsChild" ColumnName="IsChild" />
+                <ScalarProperty Name="IsBankingRule" ColumnName="IsBankingRule" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile_Result">
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowReasonGet" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowReasonGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowReasonGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowHistoryLogGetForSplit" FunctionName="WorkflowDataContainer.Store.MUNDOCDocumentWorkflowHistoryLogGetForSplit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkflowDataContainer.MUNDOCDocumentWorkflowHistoryLogGetForSplit_Result">
+                <ScalarProperty Name="AssignToID" ColumnName="AssignToID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

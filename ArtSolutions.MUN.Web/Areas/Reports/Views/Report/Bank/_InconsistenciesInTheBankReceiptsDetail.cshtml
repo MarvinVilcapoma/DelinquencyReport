@@ -1,0 +1,69 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.InconsistenciesInTheBankReceiptsModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblInconsistenciesInTheBankReceipts" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Code
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.Description
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.ReceiptNumber
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.Name
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.MeterNo
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @if (Model.InconsistenciesInTheBankReceiptsList != null && Model.InconsistenciesInTheBankReceiptsList.Count() > 0)
+            {
+                foreach (var item in Model.InconsistenciesInTheBankReceiptsList)
+                {
+                    <tr>
+                        <td class="text-center text-description-field">
+                            @item.Code
+                        </td>
+                        <td class="text-center text-description-field">
+                            @item.ServiceName
+                        </td>
+                        <td class="text-center text-description-field">
+                            @item.RecieptNumber
+                        </td>
+                        <td class="text-center text-description-field">
+                            @item.TaxNumber
+                        </td>
+                        <td class="text-center text-description-field">
+                            @item.Name
+                        </td>
+                        <td class="text-center text-description-field">
+                            @item.MeterNumber
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="no-data">
+                    <td colspan="6" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

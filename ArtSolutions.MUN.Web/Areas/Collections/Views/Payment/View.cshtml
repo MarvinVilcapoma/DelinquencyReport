@@ -1,0 +1,228 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentPrintModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ViewPaymentReceipt;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-6 col-sm-12 col-md-6">
+        <h2>@GlobalResource.PaymentReceipt</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Payment", new { area = "Collections" })">@LocalResource.ListPaymentReceipt</a>
+            </li>
+            <li class="active">
+                <strong>@LocalResource.ViewPaymentReceipt</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-6">
+        <div class="title-action">
+            @if (Model.Payment.IsPost)
+            {
+                @*<a href="@Url.Action("JournalDetail", "Report", new { area = "Reports", ID = Model.Payment.ID , DocumentTypeID = Model.Payment.DocumentTypeID })" class="btn btn-info"><i class="fa fa-folder"></i> @GlobalResource.ShowJournalEntry</a>*@
+                <a href="javascript:void(0);" onclick="OpenViewJornalPopup(@Model.Payment.ID,@Model.Payment.DocumentTypeID,'@Model.Payment.Number')" class="btn btn-info m-b"><i class="fa fa-folder"></i> @GlobalResource.ShowJournalEntry</a>
+            }
+
+            @if (!Model.Payment.IsVoid && (Model.CreditNote.Count() <= 0 && Model.DebitNote.Count() <= 0))
+            {
+                <a href="@Url.Action("Print", "Payment", new { area = "Collections", Id = Model.Payment.ID , Type =  !string.IsNullOrEmpty(Model.Payment.PaymentPlanName) ? "PaymentPlan" : "Service" , TypeId = Model.Payment.ServiceTypeID})" target="_blank" id="btnPrint" class="btn btn-white m-b-sm"><i class="fa fa-print"></i> @GlobalResource.Print</a>
+                @Html.Raw("&nbsp;")
+                <button type="button" id="viewpayment_btnVoidPayment" class="btn btn-primary m-b" onclick="$('#Payment_VoidReason').val('');$('#voidConfirmModal').modal('show');">@LocalResource.VoidPayment</button>
+                @Html.Raw("&nbsp;")
+                <button type="button" id="btnCreditNote" class="btn btn-primary m-b">@GlobalResource.CreditNote</button>
+                @Html.Raw("&nbsp;")
+                <button type="button" id="btnDebitNote" class="btn btn-primary m-b">@GlobalResource.DebitNote</button>
+                @Html.Raw("&nbsp;")
+                <button class="btn btn-white m-b" type="button" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+            }
+            else
+            {
+                if (!Model.Payment.IsVoid)
+                {
+                    <button type="button" id="viewpayment_btnVoidPayment" class="btn btn-primary m-b" onclick="$('#Payment_VoidReason').val('');$('#voidConfirmModal').modal('show');">@LocalResource.VoidPayment</button>
+                    @Html.Raw("&nbsp;")
+                }
+
+                if (Model.Payment.CreditNoteID.HasValue)
+                {
+                    <a href="@Url.Action("View", "CreditNote", new { area = "Collections", Id = Model.Payment.CreditNoteID})" class="btn btn-white m-b"><i class="fa fa-folder"></i> @GlobalResource.ViewCreditNote</a>
+                    @Html.Raw("&nbsp;")
+                }
+                else if (Model.CreditNote.Count <= 0 && !Model.Payment.IsVoid)
+                {
+                    <button type="button" id="btnCreditNote" class="btn btn-primary m-b">@GlobalResource.CreditNote</button>
+                    @Html.Raw("&nbsp;")
+                }
+
+                if (Model.Payment.DebitNoteID.HasValue)
+                {
+                    <a href="@Url.Action("View", "DebitNote", new { area = "Collections", Id = Model.Payment.DebitNoteID})" class="btn btn-white m-b"><i class="fa fa-folder"></i> @GlobalResource.ViewDebitNote</a>
+                    @Html.Raw("&nbsp;")
+                }
+                else if (Model.DebitNote.Count <= 0 && !Model.Payment.IsVoid)
+                {
+                    <button type="button" id="btnDebitNote" class="btn btn-primary m-b">@GlobalResource.DebitNote</button>
+                    @Html.Raw("&nbsp;")
+                }
+
+                <a href="@Url.Action("Print", "Payment", new { area = "Collections", Id = Model.Payment.ID , Type =  !string.IsNullOrEmpty(Model.Payment.PaymentPlanName) ? "PaymentPlan" : "Service" , TypeId = Model.Payment.ServiceTypeID})" target="_blank" class="btn btn-white m-b"><i class="fa fa-print"></i> @GlobalResource.Print</a>
+                @Html.Raw("&nbsp;")
+                <button class="btn btn-white m-b" type="button" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+            }
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h1 style="color:red;text-align:center;">
+                        @if (Model.Payment.IsVoid)
+                        {<strong>
+                                <span id="spStatus">
+                                    @GlobalResource.Void
+                                </span>
+                            </strong>
+                        }
+                        else
+                        {
+                            <strong>
+                                <span id="spStatus">
+                                    @GlobalResource.PaymentReceipt
+                                </span>
+                            </strong>
+                        }
+                        @*else if (Model.Payment.IsPost)
+                            {
+                                <strong>
+                                    <span id="spStatus">
+                                        @GlobalResource.Posted
+                                    </span>
+                                </strong>
+                            }
+                            else
+                            {
+                                <strong>
+                                    <span id="spStatus">
+                                        @GlobalResource.Draft
+                                    </span>
+                                </strong>
+                            }*@
+                    </h1>
+                    @Html.Raw(Model.PrintTemplate.TemplateContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="voidConfirmModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        @using (Ajax.BeginForm("VoidPayment", "Payment", new AjaxOptions { HttpMethod = "POST", OnSuccess = "VoidSuccessCallback(data)" }, new { role = "form", id = "frmVoid", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+        {
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @LocalResource.VoidPayment </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.VoidReason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextAreaFor(x => x.Payment.VoidReason, new { @class = "form-control required", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessageFor(x => x.Payment.VoidReason)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnVoid" type="submit" name="actionType" value="2" tabindex="2" class="btn btn-primary">@LocalResource.VoidPayment </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.Payment.ID)
+            @Html.HiddenFor(x => x.Payment.RowVersion)
+            @Html.HiddenFor(x => x.Payment.ServiceTypeID)
+            @Html.HiddenFor(x => x.Payment.PaymentPlanName)
+            @Html.HiddenFor(x => x.Payment.DocumentTypeID)
+            @Html.HiddenFor(x => x.Payment.FINJournalID)
+        }
+    </div>
+</div>
+<div class="modal inmodal" id="creditNoteModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn divCreditNote">
+
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="DebitNoteModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn divDebitNote">
+
+        </div>
+    </div>
+</div>
+<div id="journalpopup"></div>
+
+@section Styles{
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    <link rel="stylesheet" href="~/Content/printStyle.css" type="text/css" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/dropZone")
+    <script type="text/javascript">
+        var voidstatus = '@Html.Raw(GlobalResource.Void)';
+        var voidreceipt = '@Html.Raw(LocalResource.VoidPayment)';
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+
+         var removefile = '@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage = '@Html.Raw(GlobalResource.UploadfileInitialMessage)';
+        var Uploadedfilemaxsizemessage = '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)';
+        var Uploadedfilemaxlimitmessage = '@Html.Raw(GlobalResource.Uploadedfilemaxlimitmessage)';
+        var allowedFileTypes = '@Html.Raw(Common.AllowedFileTypesToUpload)';
+        var maxFileLength = '@Html.Raw(Common.MaxFileLengthToUpload)';
+        var onlyonefileallowed = '@Html.Raw(GlobalResource.Uploadeddocumentmaxsizemessage)';
+        var OkMsg = '@Html.Raw(GlobalResource.Ok)';
+        var MaxFilesToUpload = '@Html.Raw(Common.MaxFilesToUpload)';
+        var uploadfiletypemsg = '@Html.Raw(GlobalResource.Uploadedfiletypemessage)';
+         var ValCreditBalancePositive = '@Html.Raw(GlobalResource.ValCreditBalancePositive)';
+        Dropzone.autoDiscover = false;
+        function VoidSuccessCallback(response) {
+            if (response.status) {
+                window.location.href = '@Url.Action("View", "Payment")?ID=' + response.ID + '&Type='+ response.Type +'&TypeID=' + response.ServiceTypeID;
+            }
+            else
+                showAlert("error", response.message);
+        }
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+                .exec(window.location.href);
+
+            if (results) return results[1] || 0; else return null;
+        }
+
+
+        var IsPrint = $.urlParam('IsPrint');
+        if (IsPrint == 'True') {
+            window.open($("#btnPrint").attr('href'), '_blank');
+        }
+    </script>
+    <script src="~/Scripts/app/creditnoteadd.js"></script>
+}

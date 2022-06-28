@@ -1,0 +1,12 @@
+﻿
+@model IEnumerable <ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel>
+<select class="form-control required select2dropdown" name="InvoiceDetail[@ViewBag.FormValue].ServiceID" tabindex="6" id="@Html.Raw("InvoiceDetail_"+ViewBag.FormValue +"__ServiceID")">
+    <option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.ID">@item.Name</option>
+    }
+</select>
+@Html.ValidationMessage("InvoiceDetail.ServiceID", ArtSolutions.MUN.Web.Resources.Global.RequiredValidationMsg, new {name= "InvoiceDetail["+ ViewBag.FormValue + "].ServiceID" })
+
+

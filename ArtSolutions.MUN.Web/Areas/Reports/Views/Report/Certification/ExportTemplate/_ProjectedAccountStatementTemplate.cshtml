@@ -1,0 +1,360 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ProjectedAccountStatementModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ArtSolutions.MUN.Web.Resources.Report.ProjectedAccountStatement;
+
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+         @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%">                        
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="55%" colspan="4">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td width="15%" class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td width="15%" class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                            <br />
+                            <span style="font-size:small;">
+                                @ReportResource.AccountStatusProjectedToDate
+                                @Html.Raw(Common.CurrentDateTime.ToString("m") + " " + GlobalResource.OfThe + " " + Common.CurrentDateTime.Year)
+                            </span>
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="center">
+                        @ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.InterestCalculationDate:</label>
+                    </td>
+                    <td class="right">
+                        <span>
+                            @if (Model.Date != null)
+                            {
+                                @Model.Date.Value.ToString("dd-MMM-yyyy")
+                            }
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="60%" colspan="2">
+                            <table cellspacing="0">
+                                <tr>
+                                    <td colspan="2">
+                                        <strong> @GlobalResource.Name  :  </strong>
+                                        @Model.AccountModel.DisplayName
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="@msoTextFormat">
+                                        <strong> @ArtSolutions.MUN.Web.Resources.Account.EIN  :  </strong>
+                                        @Model.AccountModel.TaxNumber
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        <br />
+
+        @if (Model.ProjectedAccountStatementList != null && Model.ProjectedAccountStatementList.Count() > 0)
+        {
+
+
+            foreach (var objRight in Model.ProjectedAccountStatementList.Where(x => !string.IsNullOrEmpty(x.RightNumber)).GroupBy(d => d.RightNumber).Select(d => d.Key).Distinct().ToList())
+            {
+                <br />
+                <br />
+
+                <p>
+                    <strong>@ArtSolutions.MUN.Web.Resources.AccountProperty.PropertyNumber : </strong>
+                    @objRight
+                </p>
+
+                <table cellspacing="0" class="report-Table">
+                    <thead>
+                        <tr>
+                            <th width="23%" class="table-border-center-th">
+                                @ReportResource.Item
+                            </th>
+                            <th width="19%" class="table-border-center-th">
+                                @GlobalResource.Period
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                @ReportResource.Meter
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.PrincipalAmount
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.Interest
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.IVA
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @GlobalResource.Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProjectedAccountStatementList.Where(d => d.RightNumber == objRight))
+                        {
+                            <tr>
+                                <td class="table-border-left-td">
+                                    @if (string.IsNullOrEmpty(item.Segrega))
+                                    {
+                                        @item.ServiceName
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.ServiceName + " - " + item.Segrega)
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.FormattedPeriod
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.MeterNumber
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Principal != null)
+                                    {
+                                        @item.Principal.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Interest != null)
+                                    {
+                                        @item.Interest.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.IVA != null)
+                                    {
+                                        @item.IVA.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Total != null)
+                                    {
+                                        @item.Total.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-center-td">@ReportResource.TotalDue</td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td">@Model.ProjectedAccountStatementList.Where(d => d.RightNumber == objRight).Sum(x => x.Total).Value.ToString(Common.NumberPoints)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+
+
+            if (Model.ProjectedAccountStatementList.Where(x => string.IsNullOrEmpty(x.RightNumber)).ToList().Count() > 0)
+            {
+                <br />
+                <br />
+
+                <table cellspacing="0" class="report-Table">
+                    <thead>
+                        <tr>
+                            <th width="23%" class="table-border-center-th">
+                                @ReportResource.Item
+                            </th>
+                            <th width="19%" class="table-border-center-th">
+                                @GlobalResource.Period
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                @ReportResource.Meter
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.PrincipalAmount
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.Interest
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.IVA
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @GlobalResource.Total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProjectedAccountStatementList.Where(x => string.IsNullOrEmpty(x.RightNumber)))
+                        {
+                            <tr>
+                                <td class="table-border-left-td">
+                                    @if (string.IsNullOrEmpty(item.Segrega))
+                                    {
+                                        @item.ServiceName
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.ServiceName + " - " + item.Segrega)
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.FormattedPeriod
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.MeterNumber
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Principal != null)
+                                    {
+                                        @item.Principal.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Interest != null)
+                                    {
+                                        @item.Interest.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.IVA != null)
+                                    {
+                                        @item.IVA.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Total != null)
+                                    {
+                                        @item.Total.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-center-td">@ReportResource.TotalDue</td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td">@Model.ProjectedAccountStatementList.Where(x => string.IsNullOrEmpty(x.RightNumber)).Sum(x => x.Total).Value.ToString(Common.NumberPoints)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        }
+        else
+        {
+            <table cellspacing="0" class="report-Table">
+                <thead>
+                    <tr>
+                        <th width="23%" class="table-border-center-th">
+                            @ReportResource.Item
+                        </th>
+                        <th width="19%" class="table-border-center-th">
+                            @GlobalResource.Period
+                        </th>
+                        <th width="10%" class="table-border-center-th">
+                            @ReportResource.Meter
+                        </th>
+                        <th width="12%" class="table-border-center-th">
+                            @ReportResource.PrincipalAmount
+                        </th>
+                        <th width="12%" class="table-border-center-th">
+                            @ReportResource.Interest
+                        </th>
+                        <th width="12%" class="table-border-center-th">
+                            @ReportResource.IVA
+                        </th>
+                        <th width="12%" class="table-border-center-th">
+                            @GlobalResource.Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7" class="table-border-td center">
+                            <center>
+                                <label>@GlobalResource.NoDataMessage</label>
+                            </center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+</body>
+</html>
+

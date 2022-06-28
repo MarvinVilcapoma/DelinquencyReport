@@ -1,0 +1,30 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionRuleDetailModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> <label id="lblFromText"> @LocalResource.StartAmount </label></th>
+                <th><label id="lblToText"> @LocalResource.FinalAmount </label></th>
+                <th><label id="lblValueHeaderText"> @LocalResource.FlatAmount</label></th>
+                <th class="text-center">@LocalResource.IsEditable</th>
+                <th class="text-center">
+                    <a class="btn btn-primary btn-sm  addDetailRow" id="addDetailRow" title="@LocalResource.AddRow">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow" class="m-b-n-lg">
+
+            @foreach (var item in Model)
+                {
+                @Html.Partial("~/Areas/Services/Views/Service/_ServiceCollectionRuleDetailRow.cshtml", item)
+                }
+
+        </tbody>
+    </table>
+</div>
+

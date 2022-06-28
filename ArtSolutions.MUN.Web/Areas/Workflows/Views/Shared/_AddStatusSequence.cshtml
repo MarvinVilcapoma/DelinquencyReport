@@ -1,0 +1,113 @@
+﻿
+@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowStatusSequenceViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"
+            onclick="OnCloseSequence();">
+        &times;
+    </button>
+    <h4 class="modal-title">@LocalResource.NewSequence</h4>
+</div>
+<div class="modal-body" id="dvModalBodyStatus">
+    <form class="form-horizontal" id="frmSequence">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <input type="hidden" name="hdnCurrentStatusID" id="hdnCurrentStatusID" value="@Model.WorkflowStatusID" />
+                    <table class="table table-bordered" id="tblAddStatusSeq">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    @LocalResource.TargetStatus
+                                </th>
+                                <th class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @LocalResource.Screen
+                                </th>
+                                <th class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                    @LocalResource.Role
+                                </th>
+                                <th class="text-right col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @GlobalResource.Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (Model.WorkflowStatusSequenceList != null && Model.WorkflowStatusSequenceList.Any())
+                                {
+                                    foreach (var item in Model.WorkflowStatusSequenceList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.TargetStatus
+                                            </td>
+                                            <td>
+                                                @item.Form
+                                            </td>
+                                            <td>
+                                                @{
+                                                    List<int> groupIDs = new List<int>();
+                                                    if (!string.IsNullOrWhiteSpace(item.Groups))
+                                                    {
+                                                        var groups = item.Groups.Split(",".ToCharArray());
+                                                        if (groups != null && groups.Any())
+                                                        {
+                                                            foreach (var group in groups)
+                                                            {
+                                                                if (!string.IsNullOrWhiteSpace(group))
+                                                                {
+                                                                    groupIDs.Add(Convert.ToInt32(group.Split("^".ToCharArray())[1]));
+                                                                    <span class="label label-primary">@group.Split("^".ToCharArray())[0]</span>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                <input type="hidden" name="hdnStatusSequences" data-targetid="@item.WorkflowStatusTargetID" data-formid="@item.FormID" data-groupid="@string.Join(",", groupIDs)" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    @Html.DropDownListFor(a => a.WorkflowStatusTargetID, Model.TargetStatusList == null ? Enumerable.Empty<SelectListItem>() : Model.TargetStatusList.Select(a => new SelectListItem { Value = Convert.ToString(a.ID), Text = a.Name }), new { @class = "form-control required select2dropdown", @data_rule_ondropdownReq = "true" })
+                                    @Html.ValidationMessageFor(a => a.WorkflowStatusTargetID)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(a => a.FormID, Model.WorkflowFormList == null ? Enumerable.Empty<SelectListItem>() : Model.WorkflowFormList.Select(a => new SelectListItem { Value = Convert.ToString(a.ID), Text = a.Name }), new { @class = "form-control required select2dropdown", @data_rule_ondropdownReq = "true" })
+                                    @Html.ValidationMessageFor(a => a.FormID)
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(a => a.GroupID, Model.SecurityGroupList == null ? Enumerable.Empty<SelectListItem>() : Model.SecurityGroupList.Select(a => new SelectListItem { Value = Convert.ToString(a.ID), Text = a.Name }), new { @class = "form-control required select2dropdown", @data_rule_ondropdownReq = "true", @multiple = "multiple" })
+                                    @Html.ValidationMessageFor(a => a.GroupID)
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" onclick="OnAddGridStatusSeq()" name="btnNewStatusSeq" class="btn btn-primary btn-sm">
+                                        @GlobalResource.New
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" onclick="OnAddSequence();" class="btn btn-primary" name="actionType">
+        @GlobalResource.Add
+    </button>
+    <button type="button" onclick="OnCloseSequence();" class="btn btn-default" data-dismiss="modal">
+        @GlobalResource.Cancel
+    </button>
+</div>
+
+
+

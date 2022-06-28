@@ -1,0 +1,111 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationFactuModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.MigrationValidationFactuTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportMigrationValidationFactu", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReportForCR.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <label>@GlobalResource.Type</label>
+                                    <div class="form-group w-300">
+                                        @Html.DropDownListFor(x => x.TypeID, Model.TypeList, GlobalResource.DropDownSelectAllMessage, new { @id = "ddlType", @class = "form-control select2dropdown", @tabindex = 1 })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="2">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="3" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" onclick="return validateForm();" tabindex="4">@GlobalResource.Excel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                    <span class="label label-warning pull-left hide" id="spnSelectedAccount" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="AccountIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('accounts')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedService" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="ServiceIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('services')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divMigrationValidationFactu">
+                        </div>
+
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.TypeID)
+                @Html.HiddenFor(x => x.FilterAccountID)
+                @Html.HiddenFor(x => x.FilterServiceCodes)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Account</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("AccountIDs", new SelectList(Model.AccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "8" })
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.Services</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("ServiceIDs", Model.ServiceList, new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "9" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex="10">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="11">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var SelectedAccount = '@Html.Raw(LocalResource.SelectedAccount)';
+        var SelectedService = '@Html.Raw(LocalResource.SelectedService)';
+    </script>
+    <script src="~/Scripts/app/repmigrationvalidationfactu.js"></script>
+}

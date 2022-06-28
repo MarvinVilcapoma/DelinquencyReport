@@ -1,0 +1,16 @@
+﻿
+
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPaymentPlanModel>
+<select class="form-control required select2dropdown" id="AccountPaymentPlanIDs" name="AccountPaymentPlanIDs" tabindex="3" multiple="multiple" onchange="loadAccountPaymentPlanDetail()">
+    @*<option value="">@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>*@
+    @if (Model != null && Model.Count() > 0)
+    {
+        <option value="0">@ArtSolutions.MUN.Web.Resources.Global.All</option>
+        foreach (var item in Model)
+        {
+            <option value="@item.ID">@item.Number | @item.PaymentPlanName </option>
+        }
+    }
+
+</select>
+@Html.ValidationMessage("AccountPaymentPlanID", ArtSolutions.MUN.Web.Resources.Global.RequiredValidationMsg)

@@ -1,0 +1,341 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUStatementModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    if (Model.StatementType == "salesTaxStatement")
+    {
+        ViewBag.Title = ReportResource.DebtCertificate;
+    }
+    else
+    {
+        ViewBag.Title = ReportResource.IVUStatementTitle;
+    }
+    AddressModel addressModel = new AddressModel();
+    if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+    {
+        addressModel = Model.AccountModel.AddressList.Where(x => x.IsPrimary == true).SingleOrDefault();
+    }
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @if (Model.StatementType != "salesTaxStatement")
+        {
+         @Html.Raw("@@page {size: landscape;}")
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @if (Model.StatementType == "salesTaxStatement")
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="center" rowspan="2" width="15%">                            
+                            <img alt="Company Logo" class="img-responsive"
+                                 src="https://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                        </td>
+                        <td width="55%" class="bold"><h1>@Model.ReportCompanyModel.Name</h1></td>
+                        <td width="30%" class="right bold valign-bottom">@ViewBag.Title</td>
+                    </tr>
+                    <tr>
+                        <td class="valign-top">
+                            <span class="bold">@ReportResource.DepartmentOfFinance</span>
+                            <br />
+                            @{
+                                string compAddress = Model.ReportCompanyModel.Address1;
+                                if (!string.IsNullOrEmpty(Model.ReportCompanyModel.Address2))
+                                {
+                                    compAddress = compAddress + ", " + Model.ReportCompanyModel.Address2;
+                                    compAddress = compAddress + ",<br/>";
+                                }
+                                if (!string.IsNullOrEmpty(Model.ReportCompanyModel.StateName))
+                                {
+                                    compAddress = compAddress + Model.ReportCompanyModel.StateName + ", ";
+                                }
+                                if (!string.IsNullOrEmpty(Model.ReportCompanyModel.City))
+                                {
+                                    compAddress = compAddress + Model.ReportCompanyModel.City + ", ";
+                                }
+                                if (!string.IsNullOrEmpty(Model.ReportCompanyModel.CountyCode))
+                                {
+                                    compAddress = compAddress + " " + Model.ReportCompanyModel.CountyCode;
+                                }
+                                if (!string.IsNullOrEmpty(Model.ReportCompanyModel.ZipPostalCode))
+                                {
+                                    compAddress = compAddress + " " + Model.ReportCompanyModel.ZipPostalCode;
+                                }
+                                compAddress = compAddress + "<br />";
+                                compAddress = compAddress + "P: " + Model.ReportCompanyModel.WorkPhone;
+
+                                @Html.Raw(compAddress)
+                            }
+                        </td>
+                        <td class="right bold valign-top">@ReportResource.IVUMunicipal</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="40%" rowspan="3" class="table-border-left-td">
+                            <strong> @Model.AccountModel.DisplayName </strong>
+                            <br />
+                            @addressModel.AddressLine1
+                            <br />
+                            @addressModel.AddressLine2
+                            <br />
+                            @addressModel.City , @addressModel.State , @addressModel.Country
+                            @if (!string.IsNullOrEmpty(addressModel.ZipPostalCode))
+                            {
+                                <span>, @addressModel.ZipPostalCode </span>
+                            }
+                        </td>
+                        <td width="10%" colspan="3"></td>
+                        <td width="30%" class="table-bold-right-td" colspan="2">
+                            <strong>
+                                @if (Model.StatementType == "salesTaxStatement")
+                                {
+                                    @Html.Raw(GlobalResource.AccountNumber + " : ")
+                                }
+                                else
+                                {
+                                    @Html.Raw(GlobalResource.AccountNumber + " : ")
+                                }
+                            </strong>
+                        </td>
+                        <td width="20%" class="table-border-right-td">@Model.AccountModel.TaxNumber</td>
+                    </tr>
+                    <tr><td colspan="6">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="table-bold-right-td" colspan="2">
+                            <strong> @ReportResource.RegistrationNumber : </strong>
+                        </td>
+                        <td class="table-border-right-td">@Model.AccountModel.RegisterNumber</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">
+                            <p>
+                                @if (Model.StatementType == "salesTaxStatement")
+                                {
+                                    @ReportResource.SalesTaxDebtSatementHeaderDesc
+                                }
+                                else
+                                {
+                                    @ReportResource.StatementHeaderDesc
+                                }
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        @if (Model.StatementType == "salesTaxStatement")
+        {
+            <table cellspacing="0" class="report-Table">
+                <thead>
+                    <tr>
+                        <th width="25%" class="table-border-center-th">@ReportResource.IVUPeriod</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.IVUTaxBalance</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Penalty</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Interests</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Surcharges</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.TotalBalance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.IVUStatementList != null && Model.IVUStatementList.Count() > 0)
+                    {
+                        foreach (var item in Model.IVUStatementList)
+                        {
+                            <tr>
+                                <td class="table-border-center-td">
+                                    @item.FormattedIVUPeriod
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.IVUTaxBalance.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Penalties.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Charges.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Interest.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @Html.Raw(item.TotalBalance.Value.ToString(Common.NumberPoints) ?? 0.ToString(Common.NumberPoints))
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="table-border-td">
+                                <center>@GlobalResource.NoDataMessage</center>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5" class="table-bg-bold-right-td">
+                            @ReportResource.TotalBalance
+                        </td>
+                        <td class="table-bg-bold-right-td">
+                            <label id="lblTotal">@Model.IVUStatementList.Sum(x => x.TotalBalance.Value).ToString(Common.NumberPoints)</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table cellspacing="0" class="report-Table">
+                <thead>
+                    <tr>
+                        <th width="14%" class="table-border-center-th">@ReportResource.IVUPeriod</th>
+                        <th width="14%" class="table-border-center-th">@ReportResource.IVUTaxBalance</th>
+                        <th width="14%" class="table-border-center-th">@ReportResource.Penalty</th>
+                        <th width="14%" class="table-border-center-th">@ReportResource.Interests</th>
+                        <th width="14%" class="table-border-center-th">@ReportResource.Surcharges</th>
+                        <th width="15%" class="table-border-center-th">@GlobalResource.Payments</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.TotalBalance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.IVUStatementList != null && Model.IVUStatementList.Count() > 0)
+                    {
+                        foreach (var item in Model.IVUStatementList)
+                        {
+                            <tr>
+                                <td class="table-border-center-td">
+                                    @item.FormattedIVUPeriod
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.IVUTaxBalance.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Penalties.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Charges.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Interest.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Payments.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @Html.Raw(item.TotalBalance.Value.ToString(Common.NumberPoints) ?? 0.ToString(Common.NumberPoints))
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="table-border-td">
+                                <center>@GlobalResource.NoDataMessage</center>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="6" class="table-bg-bold-right-td">
+                            @ReportResource.TotalBalance
+                        </td>
+                        <td class="table-bg-bold-right-td">
+                            <label id="lblTotal">@Model.IVUStatementList.Sum(x => x.TotalBalance.Value).ToString(Common.NumberPoints)</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <br />
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @if (Model.AccountModel != null)
+                        {
+                            if (Model.StatementType == "salesTaxStatement")
+                            {
+                                @ReportResource.SalesTaxDebtSatementBottomLine1Desc.Replace("#CompanyName#", Model.ReportCompanyModel.Name)
+                                <br />
+                                <br />
+                                @ReportResource.SalesTaxDebtSatementBottomLine2Desc.Replace("#CompanyAddress#", Model.ReportCompanyModel.Name + ", " + Model.ReportCompanyModel.CountyName).Replace("#CurrentDate#", Model.FutureDate.ToString("d"))
+                                <br />
+                            }
+                            else
+                            {
+                                @ReportResource.StatementBottomLine1Desc
+                                <br />
+                                <br />
+                                @ReportResource.StatementBottomLine2Desc
+                                <br />
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        @if (Model.AccountModel != null)
+                        {
+                            if (Model.StatementType == "salesTaxStatement")
+                            {
+                                <br />
+                                <br />
+                                <br />
+                                <hr />
+                                if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                                {
+                                    @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                                }
+                                <br />
+                                @ReportResource.SalesTaxDebtSatementBottomLine3Desc
+                            }
+                            else
+                            {
+                                <p>
+                                    @ReportResource.StatementBottomLine3Desc
+                                </p>
+                            }
+                        }
+                    </td>
+                    <td colspan="6" width="70%"></td>
+                </tr>
+                @if (Model.AccountModel != null && (!string.IsNullOrEmpty(Model.AccountPaymentPlanID)))
+                {
+                    if (Model.StatementType == "salesTaxStatement")
+                    {
+                        <tr>
+                            <td class="left" colspan="7">
+                                <p>
+                                    @ReportResource.SalesTaxDebtSatementBottomLine4Desc.Replace("#PaymentPlanID#", Model.AccountPaymentPlanID)
+                                </p>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

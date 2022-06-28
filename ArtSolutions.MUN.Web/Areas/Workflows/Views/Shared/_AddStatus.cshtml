@@ -1,0 +1,187 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowStatusViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    string disable = string.Empty;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="OnCloseStatusModal();">&times;</button>
+    @{
+        if (ViewBag.ActionType != null)
+        {
+            var actionMode = (Common.ActionMode)ViewBag.ActionType;
+            switch (actionMode)
+            {
+                case Common.ActionMode.Add:
+                    <h4 class="modal-title"> @LocalResource.NewStatus</h4>
+                    disable = string.Empty;
+                    break;
+                case Common.ActionMode.Edit:
+                    <h4 class="modal-title"> @LocalResource.EditStatus</h4>
+                    disable = string.Empty;
+                    break;
+                case Common.ActionMode.View:
+                    <h4 class="modal-title"> @LocalResource.ViewStatus</h4>
+                    disable = "disable";
+                    break;
+            }
+        }
+    }
+</div>
+<div class="modal-body" id="dvModalBodyStatus">
+    <div class="row form-horizontal" id="dvStatusForm">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @GlobalResource.Name<span class="text-danger">*</span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(a => a.Name, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control", @maxlength = 50, @id = "txtStatusName" } :
+                                                                                                                                                                         (object)new { @class = "form-control", @disabled = "disabled" }))
+
+                    <span class="field-validation-error hidden" data-valmsg-for="txtStatusName" data-valmsg-replace="true">
+                        <span id="txtStatusName-error">@GlobalResource.FieldRequiredMessage</span>
+                    </span>
+                    <input type="hidden" name="hdnStatusID" id="hdnStatusID" value="@Model.ID" />
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.Activity<span class="text-danger">*</span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextBoxFor(a => a.Activity, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control", @maxlength = 50, @id = "txtStatusActivity" } :
+                                                                                                                                                                         (object)new { @class = "form-control", @disabled = "disabled" }))
+
+                    <span class="field-validation-error hidden" data-valmsg-for="txtStatusActivity" data-valmsg-replace="true">
+                        <span id="txtStatusName-error">@GlobalResource.FieldRequiredMessage</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.InitialStatus
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.CheckBoxFor(a => a.InitialStatus, (string.IsNullOrWhiteSpace(disable) ? (object)new { @Class = "i-checks" } :
+                                                                                                                                                                         (object)new { @Class = "i-checks", @disabled = "disabled" }))
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.AllowEdit
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.CheckBoxFor(a => a.AllowEdit, (string.IsNullOrWhiteSpace(disable) ? (object)new { @Class = "i-checks" } :
+                                                                                                                                                                         (object)new { @Class = "i-checks", @disabled = "disabled" }))
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.AllowDelete
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.CheckBoxFor(a => a.AllowDelete, (string.IsNullOrWhiteSpace(disable) ? (object)new { @Class = "i-checks" } :
+                                                                                                                                                                         (object)new { @Class = "i-checks", @disabled = "disabled" }))
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.Post
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.CheckBoxFor(a => a.Post, (string.IsNullOrWhiteSpace(disable) ? (object)new { @Class = "i-checks" } :
+                                                                                                                                                                         (object)new { @Class = "i-checks", @disabled = "disabled" }))
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @LocalResource.Void
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.CheckBoxFor(a => a.Void, (string.IsNullOrWhiteSpace(disable) ? (object)new { @Class = "i-checks" } :
+                                                                                                                                                                  (object)new { @Class = "i-checks", @disabled = "disabled" }))
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @GlobalResource.Description
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.TextAreaFor(a => a.Description, 5, 10, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control", @maxlength = 500, @id = "txtstatusDescription" } :
+                                                                                                                                                                  (object)new { @class = "form-control", @disabled = "disabled" }))
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @GlobalResource.Reason
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <select class="form-control select2dropdown" id="ddlReasons" multiple @disable>
+                        @{
+                            if (Model.WorkflowReasonList != null && Model.WorkflowReasonList.Any())
+                            {
+                                foreach (var item in Model.WorkflowReasonList)
+                                {
+                                    var selected = string.Empty;
+
+                                    if (Model.WorkflowStatusReasonList != null && Model.WorkflowStatusReasonList.Any())
+                                    {
+                                        selected = Model.WorkflowStatusReasonList.Any(a => Convert.ToInt32(a.ID) == item.ID) ? "selected" : string.Empty;
+                                    }
+                                    <option value="@item.ID" @selected>@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                    @GlobalResource.Group
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <select class="form-control select2dropdown" id="ddlGroup" multiple @disable>
+                        @{
+                            if (Model.GroupList != null && Model.GroupList.Any())
+                            {
+                                foreach (var item in Model.GroupList)
+                                {
+                                    var selected = string.Empty;
+
+                                    if (Model.StatusInGroupList != null && Model.StatusInGroupList.Any())
+                                    {
+                                        selected = Model.StatusInGroupList.Any(a => a.GroupID == item.ID) ? "selected" : string.Empty;
+                                    }
+                                    <option value="@item.ID" @selected>@item.Name</option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    @{
+        if (ViewBag.ActionType != null)
+        {
+            var actionMode = (Common.ActionMode)ViewBag.ActionType;
+            switch (actionMode)
+            {
+                case Common.ActionMode.Add:
+                case Common.ActionMode.Edit:
+                    <button type="button" onclick="OnAddStatus();" class="btn btn-primary" name="actionType">@GlobalResource.Add</button>
+                    <button type="button" onclick="OnCloseStatusModal();" class="btn btn-default" data-dismiss="modal">@GlobalResource.Cancel</button>
+                    break;
+                case Common.ActionMode.View:
+                    <button type="button" onclick="OnCloseStatusModal();" class="btn btn-default" data-dismiss="modal">@GlobalResource.Cancel</button>
+                    break;
+            }
+        }
+    }
+
+</div>
+
+
+

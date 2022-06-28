@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentModel>
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<table cellspacing="0" class="report-Table">
+    <thead>
+        <tr>
+            <th width="5%" colspan="3"> &nbsp;</th>
+            <th width="25%" class="table-border-center-th">@ReportResource.PaymentType </th>
+            <th width="25%" class="table-border-center-th">@GlobalResource.ReceiptNumber </th>
+            <th width="25%" class="table-border-center-th">@GlobalResource.ReceiptDate </th>
+            <th width="20%" class="table-border-center-th">@GlobalResource.NetPayment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="7" class="table-bg-bold-center-td">
+                    <center>@GlobalResource.NoDataMessage</center>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td colspan="3"> &nbsp;</td>
+                    <td class="table-border-left-td">
+                        @item.PaymentType
+                    </td>
+                    <td class="table-border-left-td">
+                        @item.Number
+                    </td>
+                    <td class="table-border-left-td">
+                        @item.FormattedDate
+                    </td>
+                    <td class="table-border-right-td" style='@msoNumberFormat'>
+                        @item.NetPayment.ToString(Common.NumberPoints)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">&nbsp;</td>
+                <td colspan="3" class="table-bg-bold-right-td">
+                    <strong>@GlobalResource.Total.ToUpper() : </strong>
+                </td>
+                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.NetPayment).ToString(Common.NumberPoints)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

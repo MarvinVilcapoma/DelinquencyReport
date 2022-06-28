@@ -1,0 +1,14 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.InvoicePrintModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@{
+    ViewBag.Title = LocalResource.PrintReceipt;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+<div class="wrapper wrapper-content p-xl">
+    <div class="ibox-content p-xl">
+        @Html.Raw(Model.PrintTemplate.TemplateContent)        
+    </div>
+</div>
+<script type="text/javascript">
+        window.print();
+</script>

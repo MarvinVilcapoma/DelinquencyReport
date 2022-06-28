@@ -1,0 +1,166 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PaymentPlanByTaxpayerModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using HtmlHelpers.BeginCollectionItem;
+
+
+<table class="table table-report display nowrap paymentPlanDetailByTaxpayerTable">
+    <thead>
+        <tr>
+            <th style="min-width:200px;" class="text-center" colspan="2">
+            </th>
+            <th style="min-width:300px;" class="text-center" colspan="3">
+                @ReportResource.NumberOfQuotas
+            </th>
+            <th style="min-width:250px;" class="text-center" colspan="4">
+            </th>
+        </tr>
+        <tr>
+            <th style="min-width:100px;" class="text-center">
+                @ArtSolutions.MUN.Web.Resources.COLPayment.TotalAmount
+            </th>
+            <th style="min-width:100px;" class="text-center">
+                @ReportResource.MonthlyFee
+            </th>
+            <th style="min-width:100px;" class="text-center">
+                @ReportResource.TOPay
+            </th>
+            <th style="min-width:100px;" class="text-center">
+                @ReportResource.Canceled
+            </th>
+            <th style="min-width:100px;" class="text-center">
+                @ReportResource.QuotasToCalculate
+            </th>
+            <th style="min-width:100px;" class="text-center">
+                @ReportResource.Delinquent
+            </th>
+            <th style="min-width:50px;" class="text-center">
+                @GlobalResource.InitialDate
+            </th>
+            <th style="min-width:50px;" class="text-center">
+                @GlobalResource.EndDate
+            </th>
+            <th style="min-width:50px;" class="text-center">
+                @ReportResource.LastPayment
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.PaymentPlanByTaxpayerList != null && Model.PaymentPlanByTaxpayerList.Count() > 0)
+        {
+            foreach (var objService in Model.PaymentPlanByTaxpayerList.GroupBy(d => d.PaymentPlanNameWithNumber).Select(d => d.Key).Distinct().ToList())
+            {
+                <tr>
+                    <td><b>@objService</b></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                foreach (var item in Model.PaymentPlanByTaxpayerList.Where(d => d.PaymentPlanNameWithNumber == objService))
+                {
+                    <tr>
+                        <td class="text-center">
+                            @item.MONTOTOTAL.ToString("C")
+                        </td>
+                        <td class="text-center">
+                            @if (item.CUOTAMENSUAL != null)
+                            {
+                                @item.CUOTAMENSUAL.Value.ToString("C")
+                            }
+                        </td>
+                        <td class="text-center">
+                            @item.APagar
+                        </td>
+                        <td class="text-center">
+                            @item.CANCELADAS
+                        </td>
+                        <td class="text-center">
+                            @item.QuotasToCalculate
+                        </td>
+                        <td class="text-center">
+                            @item.MOROSAS
+                        </td>
+                        <td class="text-center">
+                            @if (item.FECHAINICIAL != null)
+                            {
+                                @item.FECHAINICIAL.Value.ToString("d")
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.FECHAFINAL != null)
+                            {
+                                @item.FECHAFINAL.Value.ToString("d")
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.ULTIMOPAGO != null)
+                            {
+                                @item.ULTIMOPAGO.Value.ToString("d")
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        }
+        else
+        {
+            <tr class="no-data">
+                <td colspan="9" class="text-center">
+                    @GlobalResource.NoDataMessage
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (Model.PaymentPlanByTaxpayerList != null && Model.PaymentPlanByTaxpayerList.Count() > 0)
+{
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-2 m-l-n-lg">@GlobalResource.Interest : </label>
+                    <div class="col-lg-2">
+                        <span class="spnFooterAmount">
+                            @Model.PaymentPlanByTaxpayerList.Sum(x => x.InterestTotal).ToString("C")
+                        </span>
+                    </div>
+
+                    <label class="col-lg-2 m-l-n-lg">@GlobalResource.SubTotal : </label>
+                    <div class="col-lg-2">
+                        <span class="spnFooterAmount">
+                            @Model.PaymentPlanByTaxpayerList.Sum(x => x.SubTotal).ToString("C")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label class="col-lg-2 m-l-n-lg"> </label>
+                    <div class="col-lg-2">
+                        <span class="spnFooterAmount">
+                          
+                        </span>
+                    </div>
+                    <label class="col-lg-2 m-l-n-lg">@GlobalResource.Total : </label>
+                    <div class="col-lg-2">
+                        <span class="spnFooterAmount">
+                            @Model.PaymentPlanByTaxpayerList.Sum(x => x.Total).ToString("C")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>       
+    </div>
+}

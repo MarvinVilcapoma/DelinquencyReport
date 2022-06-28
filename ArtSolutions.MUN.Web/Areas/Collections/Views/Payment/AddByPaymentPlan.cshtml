@@ -1,0 +1,309 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.NewPaymentReceiptByPaymentPlan;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.PaymentReceipt</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Payment", new {area = "Collections" })">@LocalResource.ListPaymentReceipt </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "Payment", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "return onPaymentBegin()",
+                    OnSuccess = "paymentSuccessCallback(data)"
+                }, new
+                {
+                    @class = "form-horizontal",
+                    role = "form",
+                    id = "frmPayment"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.AttachmentID)
+                    @Html.HiddenFor(x => x.AccountID, new { @id = "hfAccountID" })
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@LocalResource.NewPaymentReceiptByPaymentPlan</h5>
+                        <div class="ibox-tools">
+                            @*<div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=10>@GlobalResource.Save <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a><button id="btnSave" type="button" name="actionType" value="paymentplansave" onclick="return confirmPayment('paymentplansave');">@GlobalResource.Save</button></a></li>
+                                        <li><a><button id="btnSaveNew" type="button" name="actionType" value="paymentplansaveandcontinue" onclick="return confirmPayment('paymentplansaveandcontinue');">@GlobalResource.SaveNew</button></a></li>
+                                    </ul>
+                                </div>*@
+                            <button class="btn btn-white" type="button" tabindex="11" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.AccountName <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @if (Model.AccountID > 0 && Model.AccountPaymentPlanID > 0)
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                               {
+                                   @class = "form-control select2dropdown required",
+                                   tabindex = 1,
+                                   @disabled = "disabled"
+                               })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                               {
+                                   @class = "form-control select2dropdown required",
+                                   tabindex = 1,
+                                   onchange = "loadAccountPaymentPlan()"
+                               })
+                                }
+                                @Html.ValidationMessageFor(x => x.AccountID)
+                            </div>
+                            <label class="col-sm-2 control-label">@GlobalResource.Date<span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x.Date, new
+                           {
+                               @class = "form-control",
+                               tabindex = 2,
+                               @disabled = true
+                           })
+                                @Html.ValidationMessageFor(x => x.Date)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.PaymentPlan<span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4" id="dvAccountPlan">
+                                @if (Model.AccountID > 0 && Model.AccountPaymentPlanID > 0)
+                                {
+                                    @Html.DropDownListFor(x => x.AccountPaymentPlanID, new SelectList(Model.AccountPaymentPlanList, "ID", "Number", Model.AccountPaymentPlanID), GlobalResource.DropDownSelectMessage, new
+                               {
+                                   @class = "form-control select2dropdown required",
+                                   tabindex = 3,
+                                   @disabled = "disabled"
+                               })
+                                }
+                                else
+                                {
+                                    @*@Html.DropDownListFor(x => x.AccountPaymentPlanID, new SelectList(Model.AccountPaymentPlanList, "ID", "Number", Model.AccountPaymentPlanID), GlobalResource.DropDownSelectMessage, new
+                                        {
+                                           @class = "form-control select2dropdown required",
+                                           tabindex = 3
+                                        })*@
+                                    @Html.DropDownList("AccountPaymentPlanIDs", new SelectList(Model.AccountPaymentPlanList, "ID", "Number", Model.AccountPaymentPlanID), new
+                                    {
+                                         @multiple = "multiple",
+                                         @class = "form-control select2dropdown required",
+                                         tabindex = 3
+                                    })
+                                }
+                                @Html.ValidationMessageFor(x => x.AccountPaymentPlanID)
+                            </div>
+
+                            <div>
+                                <label class="col-sm-2 control-label">@LocalResource.RemoveInterests</label>
+                                <div class="col-sm-1 m-t-xs"> @Html.CheckBoxFor(x => x.IsRemoveInterest, new { tabindex = "4", @onchange = "loadAccountPaymentPlanDetail();" }) </div>
+                            </div>
+
+                            @*<label class="col-sm-2 control-label">@LocalResource.ApplybyAmnesty </label>
+                                <div class="col-sm-1 m-t-xs"> @Html.CheckBoxFor(x => x.ApplybyAmnesty, new { tabindex = "7", @onchange = "loadAccountPaymentPlanDetail();" }) </div>*@
+
+                        </div>
+                        <div class="row" id="paymemtplandetailRows">
+                            @{
+                                Html.RenderPartial("~/Areas/Collections/Views/Payment/_AccountPaymentPlanDetailList.cshtml", Model.AccountPaymentPlanDetailList);
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t-sm">
+                                    <table class="table table-multi-row" id="tblPaymentOptions">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-3">
+                                                    @LocalResource.PaymentOption
+                                                </th>
+                                                <th class="col-lg-6">
+                                                    @LocalResource.PaymentNotes
+                                                </th>
+                                                <th class="col-lg-2 text-right">
+                                                    @GlobalResource.Amount
+                                                </th>
+                                                <th class="col-lg-1 text-center">
+                                                    <a class="btn btn-primary btn-xs" id="addOption" tabindex="7" onclick="addPaymentOption();">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="optionrows">
+                                            @foreach (var item in Model.PaymentOptionList)
+                                            {
+                                                @Html.Partial("~/Areas/Collections/Views/Payment/_PaymentOptionList.cshtml", item);
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="text-right"> @LocalResource.TotalAmount :</td>
+                                                <td class="text-right" id="paymentoptionTotal" data-total="0"> @Html.Raw(0.ToString("c"))   </td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t-sm">
+                                    <table class="table table-multi-row" id="tblCreditBalance">
+                                        <thead>
+                                            <tr class="row">
+                                                <th class="col-lg-6">
+                                                    @LocalResource.ApplyCredit
+                                                </th>
+                                                <th class="col-lg-6"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="row">
+                                                <td class="col-lg-6 form-group">
+                                                    <div class="">
+                                                        <label class="col-lg-5 control-label">@LocalResource.AvailableCredit</label>
+                                                        <div class="col-lg-7">
+                                                            @Html.TextBox("CreditAmount", Model.ApplyCreditAmount.ToString("C"), new
+                                                       {
+                                                           @class = "form-control inputdecimal text-right amountinput",
+                                                           disabled = "disabled",
+                                                           @data_credit = Model.ApplyCreditAmount
+                                                       })
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-lg-6 form-group ">
+                                                    <div class="">
+                                                        <label class="col-lg-5 control-label">@LocalResource.AppliedCredit</label>
+                                                        <div class="col-lg-7">
+                                                            @Html.TextBox("ApplyCreditAmount", "", new
+                                                       {
+                                                           @class = "form-control Currencyinputdecimal text-right amountinput",
+                                                           tabindex = 6
+                                                       })
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="row">
+                                                <td class="col-lg-6"></td>
+                                                <td class="col-lg-6"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@LocalResource.InternalNotes</label>
+                                    <div class="col-sm-10">
+                                        @Html.TextAreaFor(x => x.Notes, new { @class = "form-control", rows = "3", tabindex = 9 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@GlobalResource.Attachment</label>
+                                    <div class="col-sm-10">
+                                        <div id="paymentFileDropzone" class="dropzone text-center">
+                                            <div id="paymentFilePreview" class="dropzone-previews"></div>
+                                            <div class="dz-message" data-dz-message><span>@GlobalResource.Uploadeddocumentmaxsizemessage</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title ibox-title-with-button">
+                        <div class="ibox-tools">
+                            <div class="btn-group dropup">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=10>@GlobalResource.Save <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a><button id="btnSave" type="button" name="actionType" value="paymentplansave" onclick="return confirmprint('paymentplansave');">@GlobalResource.Save</button></a></li>
+                                    <li><a><button id="btnSaveNew" type="button" name="actionType" value="paymentplansaveandcontinue" onclick="return confirmprint('paymentplansaveandcontinue');">@GlobalResource.SaveNew</button></a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" tabindex="11" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        #paymentFooter.table > tbody > tr > td {
+            border: none;
+            text-align: right;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script type="text/javascript">
+        var uploadmaxsizemsg = '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)',
+            valTotalPayment = '@Html.Raw(LocalResource.ValTotalPayment)',
+            valMinOneInvoice = '@Html.Raw(LocalResource.ValMinOneInvoice)';
+        swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        postPayment = '@Html.Raw(LocalResource.PostPayment)';
+        var maxFileLength = '@Common.MaxFileLengthToUpload';
+        var allowedFileTypes = '@Common.AllowedFileTypesToUpload';
+        var SelectInvoice = '@Html.Raw(LocalResource.SelectInvoice)';
+        var ValCompareTotalAmount = '@Html.Raw(LocalResource.ValCompareTotalAmount)';
+        var ValTotalAmountRequired = '@Html.Raw(LocalResource.ValTotalAmountRequired)';
+        var ValCreditBalance = '@Html.Raw(LocalResource.ValCreditBalance)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var printmsg = '@Html.Raw(GlobalResource.PrintMsg)';
+        var noBtnText = '@Html.Raw(GlobalResource.No)';
+        var yesBtnText = '@Html.Raw(GlobalResource.Yes)';
+        var ValCreditBalancePositive = '@Html.Raw(GlobalResource.ValCreditBalancePositive)';
+    </script>
+    <script src='@Url.Content("~/Scripts/app/paymentreceiptaddbypaymentplan.js")'></script>
+}

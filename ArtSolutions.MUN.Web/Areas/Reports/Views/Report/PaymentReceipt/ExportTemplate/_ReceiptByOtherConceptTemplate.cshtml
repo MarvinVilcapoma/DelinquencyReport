@@ -1,0 +1,123 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptOtherConceptModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ArtSolutions.MUN.Web.Areas.Reports.Models
+@{
+    ViewBag.Title = LocalResource.ReceiptsByOtherConceptTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th class="table-border-left-th" colspan="5">@LocalResource.CollectionConcept</th>
+                </tr>
+                @if (Model.OtherConceptReceiptDetailList != null && Model.OtherConceptReceiptDetailList.Count() > 0)
+                {
+                    foreach (string concept in Model.OtherConceptReceiptDetailList.OrderBy(g => g.CollectionConceptName).Select(s => s.CollectionConceptName).Distinct())
+                    {
+                        List<ReceiptOtherConceptModelList> receiptList = Model.OtherConceptReceiptDetailList.Where(e => e.CollectionConceptName == concept).OrderBy(g => g.Date).ToList();
+                        <tr>
+                            <td colspan="5" class="table-border-bold-left-td">@concept</td>
+                        </tr>
+                        <tr>
+                            <td width="12%" class="table-border-center-th">@GlobalResource.Date</td>
+                            <td width="18%" class="table-border-center-th">@GlobalResource.ReceiptNumber</td>
+                            <td width="20%" class="table-border-center-th">@GlobalResource.Name</td>
+                            <td width="30%" class="table-border-center-th">@GlobalResource.Description</td>
+                            <td width="20%" class="table-border-center-th">@GlobalResource.Amount</td>
+                        </tr>
+                        if (receiptList.Count > 0)
+                        {
+                            int currentIndex = 0;
+                            foreach (var item in receiptList)
+                            {
+                                <tr>
+                                    <td class="table-border-center-td">
+                                        @item.FormattedDate
+                                    </td>
+                                    <td class="table-border-left-td">
+                                        @item.Number
+                                    </td>
+                                    <td class="table-border-left-td">
+                                        @item.AccountDisplayName
+                                    </td>
+                                    <td class="table-border-left-td">
+                                        @item.Discription
+                                    </td>
+                                    <td class="table-border-right-td" style='@msoNumberFormat'>
+                                        @item.Amount.ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+                                if ((currentIndex == (receiptList.Count() - 1)) || ((currentIndex + 1 < receiptList.Count()) && (item.Date.ToString("MM/dd/yyyy") != receiptList[currentIndex + 1].Date.ToString("MM/dd/yyyy"))))
+                                {
+                                    <tr>
+                                        <th colspan="4" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")</th>
+                                        <th class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                            @receiptList.Where(e => e.Date.ToString("MM/dd/yyyy") == receiptList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Amount).ToString(Common.NumberPoints)
+                                        </th>
+                                    </tr>
+                                }
+                                currentIndex++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="table-bg-bold-center-td">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" class="table-bg-bold-right-td">
+                                @LocalResource.ConceptTotal - @concept
+                            </td>
+                            <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                @if (receiptList.Count() > 0)
+                                {
+                                    @receiptList.Sum(i => i.Amount).ToString(Common.NumberPoints)
+                                }
+                                else
+                                {
+                                    @Html.Raw("0.00")
+                                }
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="table-bg-bold-right-td">
+                            @GlobalResource.TotalFinal
+                        </td>
+                        <td class="table-bg-bold-right-td">
+                            @Model.OtherConceptReceiptDetailList.Sum(i => i.Amount).ToString(Common.NumberPoints)
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="table-border-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.NoDebtCertificationModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+
+@{
+    ViewBag.Title = ReportResource.NoDebtCertification;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+    <style type="text/css" media="print">
+        @@page {
+            size: letter portrait;
+            max-height: 100%;
+            max-width: 100%
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="center" width="15%">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="85%" class="bold"><h1>@Model.ReportCompanyModel.Name</h1>
+                        <br/>
+                        <h4>@GlobalResource.TaxManagement</h4>
+                    </td>
+                    @*<td width="30%" class="right bold valign-bottom">@ReportResource.NoDebtCertification</td>*@
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+        <br />
+
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="20%"></td>
+                        <td colspan="2">
+                            <strong>
+                                &nbsp;
+                                @ReportResource.CONSTANCY
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"></td>
+                        <td colspan="2">
+                            &nbsp;
+                            @ReportResource.NoDebtCertificationDesc1 :
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"></td>
+                        <td colspan="2">
+                            <strong>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Model.AccountModel.DisplayName
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"></td>
+                        <td colspan="2">
+                            <strong>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @ReportResource.IDNo  :  @Model.AccountModel.TaxNumber
+                            </strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            @ReportResource.NoDebtCertificationDesc2:
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <br />
+        @if (Model.NoDebtCertificationList != null && Model.NoDebtCertificationList.Count() > 0)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="center">
+                            <u>
+                                *&nbsp;&nbsp;&nbsp;&nbsp;@ReportResource.ESTaxpayerAccordingToLawNo
+                            </u>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        <br />
+
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                @if (Model.NoDebtCertificationList != null && Model.NoDebtCertificationList.Count() > 0)
+                {
+                    <tr>
+                        <th width="15%" class="table-border-center-th">
+                            @ReportResource.NoProperty
+                        </th>
+                        <th width="20%" class="table-border-center-th">
+                            @ReportResource.TotalValue
+                        </th>
+                        <th width="15%" class="table-border-center-th">
+                            @GlobalResource.Area
+                        </th>
+                        <th width="15%" class="table-border-center-th">
+                            @ReportResource.NoProperty
+                        </th>
+                        <th width="20%" class="table-border-center-th">
+                            @ReportResource.TotalValue
+                        </th>
+                        <th width="15%" class="table-border-center-th">
+                            @GlobalResource.Area
+                        </th>
+                    </tr>
+                    <tr>
+                        @for (var i = 0; i < Model.NoDebtCertificationList.Count; i++)
+                        {
+                            <td class="table-border-center-td" style="">
+                                @Model.NoDebtCertificationList[i].Right
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @if (@Model.NoDebtCertificationList[i].TotalValue != null)
+                                {
+                                    @Model.NoDebtCertificationList[i].TotalValue.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                }
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.NoDebtCertificationList[i].Area.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                            </td>
+                            if (
+                                   (i + 1 == Model.NoDebtCertificationList.Count)
+                                       &&
+                                   (Model.NoDebtCertificationList.Count % 2 > 0)
+                                )
+                            {
+                                <td class="table-border-center-td"></td>
+                                <td class="table-border-center-td"></td>
+                                <td class="table-border-center-td"></td>
+                            }
+
+                            if ((i + 1) % 2 == 0)
+                            {
+                                @Html.Raw("</tr><tr>")
+                            }
+                        }
+                    </tr>
+
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td class="table-border-center-td">
+                            *&nbsp;&nbsp;&nbsp;&nbsp;@ReportResource.NoESTaxpayerAccordingToLawNo
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+
+        <table cellspacing="0">
+            <tbody>
+                @if (Model.NoDebtCertificationList != null && Model.NoDebtCertificationList.Count() > 0)
+                {
+                    <tr>
+                        <td colspan="3">
+                            @if ((Model.NoDebtCertificationPeriodModel.IsPropertyTaxPayed ?? 0) == 0 && (Model.NoDebtCertificationList != null && Model.NoDebtCertificationList.Count() > 0))
+                            {
+                                @ReportResource.NoDebtCertificationDesc5
+                            }
+                            else
+                            {
+                                @Html.Raw(@ReportResource.UpToDateAt + "  " + Model.NoDebtCertificationPeriodModel.FormattedPropertyTaxPeriod + ".")
+                            }
+                            <br />
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3">
+                        @ReportResource.NoDebtCertificationDesc3 :
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        @if ((Model.NoDebtCertificationPeriodModel.IsPayed ?? 0) == 0)
+                        {
+                            <div>
+                                <u>*&nbsp; &nbsp; &nbsp; &nbsp;@ReportResource.NoDebtCertificationDesc5</u>
+                            </div>
+                            <div class="col-lg-1 no-padding">
+                                <strong> @GlobalResource.Observation:</strong>
+                            @if (!string.IsNullOrEmpty(@Model.Observations))
+                            {
+                                <u>@Html.Raw(Model.Observations.Replace("\n", "</u><br /><u>"))</u>
+                            }
+                            </div>
+
+                        }
+                        else
+                        {
+                            <u>*&nbsp; &nbsp; &nbsp; &nbsp;@ReportResource.UpToDateAt @Model.NoDebtCertificationPeriodModel.FormattedOtherPeriod.</u>
+                        }
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        @ReportResource.NoDebtCertificationDesc4 @Html.Raw(DateTime.Now.ToString("HH:mm:ss") + " " + ReportResource.HoursOfTheDay + " " + DateTime.Now.ToString("m") + " " + ReportResource.From + " " + DateTime.Now.Year).
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td width="40%" class="center">
+                        <hr />
+                        @ReportResource.ResponsibleForTheStudy
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="valign-top" width="10%">
+                        <strong> @Html.Raw(@GlobalResource.Note)  :  </strong>
+                    </td>
+                    <td style="display:block;" class="valign-top" width="90%" colspan="2">
+                        @if (!string.IsNullOrEmpty(@Model.Note))
+                        {
+                            @Html.Raw(@Model.Note.Replace("\n", "<br />"))
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

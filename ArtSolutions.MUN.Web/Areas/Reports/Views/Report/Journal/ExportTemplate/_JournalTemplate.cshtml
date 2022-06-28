@@ -1,0 +1,77 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.JournalModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.JournalTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <div class="table-responsive m-t">
+            <table class="table table-report" id="tblJournal">
+                <tbody>
+                    <tr class="sub-header">
+                        <th width="25%" class="table-border-center-th">@GlobalResource.Type</th>
+                        <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                        <th width="20%" class="table-border-center-th">@GlobalResource.Name</th>
+                        <th width="25%" class="table-border-center-th">@GlobalResource.Memo</th>
+                        <th width="10%" class="table-border-center-th">@GlobalResource.Status</th>
+                        <th width="10%" class="table-border-center-th">@GlobalResource.Amount</th>
+                    </tr>
+                    @if (Model.JournalListModel != null && Model.JournalListModel.Count() > 0)
+                    {
+                        foreach (var item in Model.JournalListModel)
+                        {
+                            <tr>
+                                <td class="table-border-left-td">
+                                    @item.Name
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.Date.ToShortDateString()
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.AccountName
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.Memo
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.Status
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @item.Amount.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="table-bg-bold-center-td">
+                                @GlobalResource.NoDataMessage
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

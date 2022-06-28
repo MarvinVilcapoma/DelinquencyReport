@@ -1,0 +1,392 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AdministrativeCollectionNoticeModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                @GlobalResource.Name: @Model.AccountModel.DisplayName
+            </div>
+            <div class="col-lg-6">
+                No. Contr.:
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                @AccountResource.Address:
+                @if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+                {
+                    foreach (var item in Model.AccountModel.AddressList)
+                    {
+                        string accntAddress = Model.AccountModel.Address;
+                        if (item != null)
+                        {
+                            accntAddress = item.AddressType + " : " + item.AddressLine1 + "," + item.AddressLine2 + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.City))
+                        { accntAddress = accntAddress + item.City + ","; }
+                        if (!string.IsNullOrEmpty(item.Town))
+                        {
+                            accntAddress = accntAddress + "," + item.Town + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.State))
+                        {
+                            accntAddress = accntAddress + "," + item.State + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.Country))
+                        { accntAddress = accntAddress + "" + item.Country + ","; }
+                        if (!string.IsNullOrEmpty(item.ZipPostalCode))
+                        { accntAddress = accntAddress + "" + item.ZipPostalCode; }
+                        accntAddress = accntAddress + "";
+                        <br />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;" + @accntAddress.Replace(",,", ",").Trim())
+                    }
+                }
+            </div>
+            <div class="col-lg-6">
+                @GlobalResource.Contact:
+                @if (Model.AccountModel != null && Model.AccountModel.ContactList != null && Model.AccountModel.ContactList.Count() > 0)
+                {
+                    foreach (var item in Model.AccountModel.ContactList)
+                    {
+                        string accntContact = Model.AccountModel.Contact;
+
+                        if (item != null)
+                        {
+                            accntContact = @item.FirstName + " " + @item.LastName + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.PositionType))
+                        {
+                            accntContact = accntContact + "," + @GlobalResource.Position + " : " + @item.PositionType + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.PrimaryEmail))
+                        {
+                            accntContact = accntContact + "," + @GlobalResource.Email + " : " + @item.PrimaryEmail + ",";
+                        }
+                        if (!string.IsNullOrEmpty(item.PrimaryPhoneNumber))
+                        {
+                            accntContact = accntContact + "," + @GlobalResource.Phone + " : " + @item.PrimaryPhoneNumber + ",";
+                        }
+                        accntContact = accntContact + "";
+                        <br />
+                        @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;" + accntContact.Replace(",,", ",").TrimEnd(',', ' '))
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                @GlobalResource.TaxNumber: @Model.AccountModel.TaxNumber
+            </div>
+            <div class="col-lg-6">
+                Identif. Predial:
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                @GlobalResource.Phone:
+                @if (Model.AccountModel != null && Model.AccountModel.PhoneList != null && Model.AccountModel.PhoneList.Count() > 0)
+                {
+                    string accntPhone = null;
+                    foreach (var item in Model.AccountModel.PhoneList)
+                    {
+                        if (item != null)
+                        {
+                            accntPhone = accntPhone + item.PhoneType + " : " + item.PhoneNumber;
+                        }
+                        accntPhone = accntPhone + ",";
+                    }
+                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;" + @accntPhone.TrimEnd(','))
+                }
+            </div>
+            <div class="col-lg-6">
+                @GlobalResource.Email:
+                @if (Model.AccountModel != null && Model.AccountModel.EmailList != null && Model.AccountModel.EmailList.Count() > 0)
+                {
+                    string accntEmail = null;
+
+                    foreach (var item in Model.AccountModel.EmailList)
+                    {
+                        if (item != null)
+                        {
+                            accntEmail = accntEmail + item.Type + " : " + item.Email;
+                        }
+                        accntEmail = accntEmail + ",";
+                    }
+                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;" + @accntEmail.TrimEnd(','))
+                }
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                @GlobalResource.IssueDate: @DateTime.Now.Date.ToString("d")
+            </div>
+            <div class="col-lg-6">
+                @ReportResource.DueDate: @Model.NotificationExpirationDate.Value.ToString("d")
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                @ReportResource.DearTaxPayer:<br /><br />
+                @ReportResource.SecondNoticeHeaderText1 @Model.NotificationDate.Value.ToString("d") @ReportResource.SecondNoticeHeaderText2 @Model.NotificationExpirationDate.Value.ToString("d").
+            </div>
+        </div>
+
+    </div>
+
+    <div class="table-responsive m-t">
+        @if (Model.AccountPropertyList != null && Model.AccountPropertyList.Count() > 0)
+        {
+            <table id="accountPropertyListTable" class="table table-report display nowrap collectionNotice">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @ReportResource.FincaNo
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.Taxable
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.FincaNo
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.Taxable
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AccountPropertyList.Count == 1)
+                    {
+                        <tr>
+                            <td class="text-center border-bottom">
+                                @Model.AccountPropertyList[0].FincaID
+                            </td>
+                            <td class="text-center border-bottom">
+                                @Model.AccountPropertyList[0].TotalValue.ToString("C")
+                            </td>
+                            <td class="text-center border-bottom"></td>
+                            <td class="text-center border-bottom"></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            @for (var i = 0; i < Model.AccountPropertyList.Count; i++)
+                            {
+                                <td class="text-center border-bottom">
+                                    @Model.AccountPropertyList[i].FincaID
+                                </td>
+                                <td class="text-center border-bottom">
+                                    @Model.AccountPropertyList[i].TotalValue.ToString("C")
+                                </td>
+
+                                if (
+                                    (i + 1 == Model.AccountPropertyList.Count)
+                                        &&
+                                    (Model.AccountPropertyList.Count % 2 > 0)
+                                 )
+                                {
+                                    <td class="text-center border-bottom"></td>
+                                    <td class="text-center border-bottom"></td>
+                                }
+
+                                if ((i + 1) % 2 == 0)
+                                {
+                                    @Html.Raw("<td class='text-center border-bottom no-padding'></td><td class='text-center border-bottom no-padding'></td></tr><tr>")
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table id="accountPropertyListTable" class="table table-report display nowrap collectionNotice">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @ReportResource.FincaNo
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.Taxable
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.FincaNo
+                        </th>
+                        <th class="text-center">
+                            @ReportResource.Taxable
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="no-data">
+                        <td class="text-center" colspan="4">
+                            @ReportResource.DoesNotHavePendingPaymentsMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName).Replace("{2}", DateTime.Now.ToString("d"))
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (Model.SummaryAccountStatementList != null && Model.SummaryAccountStatementList.Count() > 0)
+        {
+            <table id="administrativeCollectionNoticeTable" class="table table-report display nowrap collectionNotice">
+                <thead>
+                    <tr>
+                        <th style="min-width:300px;" class="text-center">
+                            @GlobalResource.Service
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.Periods
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.Amount
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.IVA
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @ReportResource.Interest
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @ReportResource.PendingAmount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.SummaryAccountStatementList)
+                    {
+                        <tr>
+                            <td class="text-center table-description-field" data-original-title="@item.Service">
+                                @item.Service
+                            </td>
+                            <td class="text-center">@Html.Raw(@item.Period)</td>
+                            <td class="text-center">@item.FormattedPrincipal</td>
+                            <td class="text-center">@item.FormattedPenalties</td>
+                            <td class="text-center">@item.FormattedInterest</td>
+                            <td class="text-center">@item.FormattedPendingAmount</td>
+                        </tr>
+                    }
+                    <tr class="sub-header font-bold">
+                        <td></td>
+                        <td class="text-center">@ReportResource.TotalDue</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.Principal).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.Penalties).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.Interest).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.SummaryAccountStatementList.Sum(x => x.PendingAmount).ToString("C")</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table id="administrativeCollectionNoticeTable" class="table table-report display nowrap collectionNotice">
+                <thead>
+                    <tr>
+                        <th style="min-width:300px;" class="text-center">
+                            @GlobalResource.Service
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.Periods
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.Amount
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @GlobalResource.Penalty
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @ReportResource.Interest
+                        </th>
+                        <th style="min-width:150px;" class="text-center">
+                            @ReportResource.PendingAmount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="no-data">
+                        <td class="text-center" colspan="6">
+                            @ReportResource.DoesNotHavePendingPaymentsMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName).Replace("{2}", DateTime.Now.ToString("d"))
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                @Html.Raw(@ReportResource.SecondNoticeFooterText1)
+                @*<br /><br />
+                    @ReportResource.NoticeDescription2*@
+                <br /><br />
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-12 text-center">
+                <br />
+                @*<span class="text-underline">
+                        @if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                        {
+                            @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                        }
+                    </span>
+                    <br />*@
+                <span class="text-underline">@ReportResource.CollectionManager</span>
+                @if (!string.IsNullOrEmpty(Model.RepresentativesName))
+                {
+                    <p>
+                        @Model.RepresentativesName
+                        <br />
+                        @ReportResource.IgnoreNotice
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @ReportResource.IgnoreNotice
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                @*@ReportResource.TaxPayerDescription @Model.NotificationDate.Value.ToString("d")
+                    <br /><br />*@
+                @ReportResource.ReceivedBy :____________________________
+                <br /><br />
+                @ReportResource.CeduIa :____________________________
+                <br /><br />
+                @ReportResource.Telephone :____________________________
+                <br /><br />
+                @ReportResource.Firm :____________________________
+                <br /><br />
+                @GlobalResource.Date :____________________________
+                <br /><br />
+                @GlobalResource.Hour :____________________________
+                <br /><br />
+                Inquilino (&nbsp;&nbsp;&nbsp;)	Dueño (&nbsp;&nbsp;&nbsp;) Pariente (&nbsp;&nbsp;&nbsp;) No quiso recibir (&nbsp;&nbsp;&nbsp;) Otro (&nbsp;&nbsp;&nbsp;)
+                <br /><br />
+                @ReportResource.SignatureofNotifier :____________________________
+
+
+            </div>
+        </div>
+    </div>
+}

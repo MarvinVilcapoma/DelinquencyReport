@@ -1,0 +1,128 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseTransactionModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.TransactionBusinessLicenseTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportTransactionByBusinessLicense", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control periodDate textblur", tabindex = "1", @data_required_msg = LocalResource.FromDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control periodDate textblur", tabindex = "2", @data_required_msg = LocalResource.ToDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                    <span class="label label-warning pull-left hide" id="spnSelectedStatus" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="StatusSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('status')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive p-sm m-t" id="dvUpdate">
+                            <table class="table table-report table-tbody-total" id="tblBusinessLicenseTransaction"></table>
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.FilterAccountID)
+                @Html.HiddenFor(x => x.searchStatusID)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Status</label>
+                            <div class="col-lg-4">
+                                @*@Html.DropDownList("AccountIDs", new SelectList(Model.AccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "5"})*@
+                                <select class="form-control select2dropdown" id="ddlStatus" tabindex="5">
+                                    <option value="0">@GlobalResource.DropDownSelectMessage</option>
+                                    <option value="1">@LocalResource.PatentSeachActive</option>
+                                    <option value="2">@LocalResource.PatentSearchInActive</option>
+                                    <option value="3">@LocalResource.PatentSearchPendingPayment</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex="9">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="10">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/Culture")
+
+<script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var date = '@Html.Raw(LocalResource.TransDate)';
+        var name = '@Html.Raw(LocalResource.CustomerName)';
+        var fiscalyear = '@Html.Raw(GlobalResource.FiscalYear)';
+        var type = '@Html.Raw(LocalResource.TransactionType)';
+        var transreason = '@Html.Raw(LocalResource.TransactionReason)';
+        var SelectedAccount = '@Html.Raw(LocalResource.SelectedAccount)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var patentnumber = '@Html.Raw(LocalResource.PatentNumber)';
+        var SelectedStatus = '@Html.Raw(LocalResource.SelectedStatus)';
+</script>
+    <script src="~/Scripts/app/reppatentetransaction.js"></script>
+}

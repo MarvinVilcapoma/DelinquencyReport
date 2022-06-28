@@ -1,0 +1,120 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUCollectionDetailModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.IVUCollectionDetailTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportIVUCollectionDetail", "Report", FormMethod.Post,
+                new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartPeriodDate, Model.StartPeriodDate.ToString("d"), new { @id = "txtStartPeriodDate", @class = "form-control dateinput", tabindex = 1, @data_required_msg = ReportResource.StartPeriodRequiredMsg, @data_compare_val_msg = ReportResource.ComparePeriodDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.EndPeriodDate, Model.EndPeriodDate.ToString("d"), new { @id = "txtEndPeriodDate", @class = "form-control dateinput", tabindex = 2, @data_required_msg = ReportResource.EndPeriodRequiredMsg, @data_compare_val_msg = ReportResource.ComparePeriodDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" class="btn-success btn-sm m-r-xs" name="exportType" value="0" itag="btnExcel" onclick="return validateFormInput();">@GlobalResource.Excel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 m-t-n m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-9 col-md-8 col-sm-8 form-inline">
+                                    <span class="label label-warning pull-left">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close" onclick="clearSearch()"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        @*collection detail table*@
+                        <div class="table-responsive p-sm m-t" id="dvUpdate">
+                            <table class="table table-report table-tbody-total" id="tblIVUCollectionDetail">
+                                <tfoot class="hide" id="tblFooter">
+                                    <tr>
+                                        <th colspan="5" style="text-align:right!important;"> @ReportResource.TotalNoOfFillingOn <span id="spstartdate"></span> : </th>
+                                        <th></th>
+                                        <th colspan="7"> </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated fadeIn" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-group">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateForm();">@GlobalResource.Search</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/dataTablesGroup")
+    <script type="text/javascript">
+
+        //Local resource variable
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var AccountNumber = '@Html.Raw(ReportResource.CustomerNumber)';
+        var Name = '@Html.Raw(ReportResource.CustomerName)';
+        var Period = '@Html.Raw(GlobalResource.Period)';
+        var TotalUse = '@Html.Raw(ReportResource.TotalUse)';
+        var TotalTaxable = '@Html.Raw(ReportResource.TotalTaxableTributable)';
+        var TotalSubjectToIVU = '@Html.Raw(ReportResource.TotalSubjectToIVU)';
+        var TotalMunicipalTax = '@Html.Raw(ReportResource.TotalIVUMunicipalTax)';
+        var TotalIVUTaxToPay = '@Html.Raw(ReportResource.TotalIVUTaxToPay)';
+        var TotalPaid = '@Html.Raw(ReportResource.TotalPaid)';
+        var Balance = '@Html.Raw(ReportResource.Balance)';
+        var User = '@Html.Raw(ReportResource.User)';
+        var PaymentReceipt = '@Html.Raw(GlobalResource.PaymentReceipt)';
+        var PaymentDate = '@Html.Raw(GlobalResource.Date)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var FillingOn='@Html.Raw(ReportResource.TotalNoOfFillingOn)';
+    </script>
+    <script src="~/Scripts/app/repivucollectiondetail.js"></script>
+}

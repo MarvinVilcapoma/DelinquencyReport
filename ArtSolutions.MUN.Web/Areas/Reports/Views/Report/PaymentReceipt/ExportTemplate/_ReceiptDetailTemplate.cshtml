@@ -1,0 +1,101 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    ViewBag.Title = LocalResource.ReceiptDetail;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table class="table table-report" id="tblJournalDetail">
+            <thead>
+                <tr class="sub-header">
+                    <th class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th class="table-border-center-th">@GlobalResource.Date</th>
+                    <th class="table-border-center-th">@GlobalResource.Number</th>
+                    <th class="table-border-center-th">@GlobalResource.DisplayName</th>
+                    <th class="table-border-center-th">@GlobalResource.ServiceType</th>
+                    <th class="table-border-center-th">@PaymentResource.InvoiceNumber</th>
+                    <th class="table-border-center-th">@LocalResource.DepositNumber</th>
+                    <th class="table-border-center-th">@LocalResource.ClosingNumber</th>
+                    <th class="table-border-center-th">@GlobalResource.BankAccountNumber</th>
+                    <th class="table-border-center-th">@GlobalResource.BankAccountName</th>
+                    <th class="table-border-center-th">@GlobalResource.GrantCode</th>
+                    <th class="table-border-center-th">@GlobalResource.Grant</th>
+                    <th class="table-border-center-th">@GlobalResource.ChecbookName</th>
+                    <th class="table-border-right-th">@GlobalResource.Percentage %</th>
+                    <th class="table-border-right-th">@LocalResource.TotalAllocated</th>
+                    <th class="table-border-right-th">@LocalResource.ReceiptTotalAmount</th>
+                    <th class="table-border-center-th">@LocalResource.Collector</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ReceiptDetailList != null && Model.ReceiptDetailList.Count() > 0)
+                {
+                    foreach (var item in Model.ReceiptDetailList)
+                    {
+                        <tr>
+                            <td class="table-border-left-td">@item.Number</td>
+                            <td class="table-border-left-td">@item.FormattedDate</td>
+                            <td class="table-border-left-td">@item.RegisterNumber</td>
+                            <td class="table-border-left-td">@item.DisplayName</td>
+                            <td class="table-border-left-td">@item.ServiceTypeName</td>
+                            <td class="table-border-left-td">@item.InvoiceNumber</td>
+                            <td class="table-border-left-td">@item.DepositNumber</td>
+                            <td class="table-border-left-td">@item.ClosingNumber</td>
+                            <td class="table-border-left-td">@item.BankAccountCode</td>
+                            <td class="table-border-left-td">@item.BankAccountName</td>
+                            <td class="table-border-left-td">@item.GrantCode</td>
+                            <td class="table-border-left-td">@item.GrantName</td>
+                            <td class="table-border-left-td">@item.ChecbookName</td>
+                            <td class="table-border-right-td">@item.FormattedPercentage</td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.TotalAllocated > 0 ? item.TotalAllocated.ToString(Common.NumberPoints) : "")
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.ReceiptTotalAmount > 0 ? item.ReceiptTotalAmount.ToString(Common.NumberPoints) : "")
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedCashier
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="13" class="table-bg-bold-right-td"></td>
+                        <td class="table-bg-bold-right-td">@GlobalResource.Total : </td>
+                        <td class="table-bg-bold-right-td">@Model.ReceiptDetailList.Sum(x => x.TotalAllocated).ToString(Common.NumberPoints)</td>
+                        <td class="table-bg-bold-right-td">@Model.ReceiptDetailList.Sum(x => x.ReceiptTotalAmount).ToString(Common.NumberPoints)</td>
+                        <td class="table-bg-bold-right-td"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="17" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

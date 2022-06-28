@@ -1,0 +1,79 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ServicesLinkedToRightModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ServicesLinkedToRightTitle;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    @*<th width="15%" class="table-border-center-th">@GlobalResource.TaxNumber</th>*@
+                    <th width="35%" class="table-border-center-th">@GlobalResource.TaxNumberName</th>
+                    <th width="35%" class="table-border-center-th">@GlobalResource.ServiceName</th>
+                    <th width="15%" class="table-border-center-th" colspan="3">@ReportResource.RightNumber</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ServicesLinkedToRightList != null && Model.ServicesLinkedToRightList.Count() > 0)
+                {
+                    foreach (var item in Model.ServicesLinkedToRightList)
+                    {
+                        <tr>
+                            @*<td class="table-border-center-td" style="@msoTextFormat">
+                                @item.TaxNumber
+                            </td>*@
+                            <td class="table-border-center-td">
+                                @item.DisplayName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td" colspan="3">
+                                @if (string.IsNullOrEmpty(item.RightNumber))
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.RightNumber
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

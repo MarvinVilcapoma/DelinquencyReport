@@ -1,0 +1,77 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServicePaymentPlanModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover accountPaymentPlanList"  data-page="false" data-sorting="false">
+        <thead>
+            <tr>
+                <th class="col-lg-2">@LocalResource.PlanID</th>
+                <th class="col-lg-3">@GlobalResource.PaymentPlan</th>
+                <th class="col-lg-2">@GlobalResource.StartDate</th>
+                <th class="col-lg-2">@GlobalResource.EndDate</th>
+                <th class="col-lg-1">@GlobalResource.Months</th>
+                <th class="col-lg-2 text-right">@LocalResource.MonthlyAmount</th>
+            </tr>
+        </thead>
+        <tbody id="tbAccountPaymentPlanRow">
+            @if (Model == null || Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                var accountPaymentPlanList = Model.GroupBy(
+                    a => new { a.AccountPaymentPlanID, a.Number, a.PaymentPlanName, a.StartDate, a.EndDate, a.Months, a.MonthlyAmount, a.IsActive })
+                    .Select(a => new
+                    {
+                        AccountPaymentPlanID = a.Key.AccountPaymentPlanID,
+                        Number = a.Key.Number,
+                        PaymentPlanName = a.Key.PaymentPlanName,
+                        StartDate = a.Key.StartDate,
+                        EndDate = a.Key.EndDate,
+                        Months = a.Key.Months,
+                        MonthlyAmount = a.Key.MonthlyAmount,
+                        IsActive = a.Key.IsActive
+                    }).OrderByDescending(x => x.AccountPaymentPlanID).ToList();
+
+                foreach (var item in accountPaymentPlanList)
+                {
+                    string cssInActiveClass = item.IsActive == true ? "" : "text-danger";
+
+                    <tr id="tr_@item.AccountPaymentPlanID" class="@cssInActiveClass">
+                        <td class="col-lg-2 table-description-field">
+                            <a target="_blank" href='@Url.Content("~/AccountPaymentPlan/View?accountPaymentPlanID="+ item.AccountPaymentPlanID)'>@item.Number</a>
+                        </td>
+                        <td class="col-lg-3 table-description-field">
+                            @item.PaymentPlanName
+                        </td>
+                        <td class="col-lg-2">
+                            @item.StartDate.ToString("d")
+                        </td>
+                        <td class="col-lg-2">
+                            @item.EndDate.ToString("d")
+                        </td>
+                        <td class="col-lg-1">
+                            @item.Months
+                        </td>
+                        <td class="col-lg-2 text-right">
+                            @item.MonthlyAmount.ToString("C")
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

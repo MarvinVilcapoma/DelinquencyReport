@@ -1,0 +1,92 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalPaymentReportModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+<div class="table-responsive m-t">
+    <table id="tblHistoricalPayment" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.TaxpayerName
+                </th>
+                <th style="min-width:250px;" class="text-center">
+                    @ReportResource.TaxpayerID
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.ServiceCode
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.NumberOfReceipt
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.Principal
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Interest
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.IVA
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.Fine
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @AccountServiceResource.Exemption/@GlobalResource.Discount
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.TotalPayment
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.DateOfPayment
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.TypeOfPayment
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.BillerName
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/CashRegister/_HistoricalPaymentDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyHistoricalPayment">
+                    <td class="text-center"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right">
+                        <a id="historicalPaymentShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.HistoricalPaymentList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreHistoricalPayment(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

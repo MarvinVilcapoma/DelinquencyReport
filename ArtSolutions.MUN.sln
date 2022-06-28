@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSolutions.MUN.Core", "ArtSolutions.MUN.Core\ArtSolutions.MUN.Core.csproj", "{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSolutions.MUN.Services", "ArtSolutions.MUN.Services\ArtSolutions.MUN.Services.csproj", "{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtSolutions.MUN.Web", "ArtSolutions.MUN.Web\ArtSolutions.MUN.Web.csproj", "{DB475DE0-538B-42F8-A310-91B0BB88A561}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Flores_Prod|Any CPU = Flores_Prod|Any CPU
+		Flores_QA|Any CPU = Flores_QA|Any CPU
+		Krtya|Any CPU = Krtya|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Rule_Dev|Any CPU = Rule_Dev|Any CPU
+		Rule_Prod|Any CPU = Rule_Prod|Any CPU
+		Rule_QA_Flores|Any CPU = Rule_QA_Flores|Any CPU
+		Rule_QA|Any CPU = Rule_QA|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Flores_Prod|Any CPU.ActiveCfg = Flores_Prod|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Flores_Prod|Any CPU.Build.0 = Flores_Prod|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Flores_QA|Any CPU.ActiveCfg = Flores_QA|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Flores_QA|Any CPU.Build.0 = Flores_QA|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Krtya|Any CPU.ActiveCfg = Krtya|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Krtya|Any CPU.Build.0 = Krtya|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_Dev|Any CPU.ActiveCfg = Rule_Dev|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_Dev|Any CPU.Build.0 = Rule_Dev|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_Prod|Any CPU.ActiveCfg = Rule_Prod|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_Prod|Any CPU.Build.0 = Rule_Prod|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_QA_Flores|Any CPU.ActiveCfg = Rule_QA_Flores|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_QA_Flores|Any CPU.Build.0 = Rule_QA_Flores|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_QA|Any CPU.ActiveCfg = Rule_QA|Any CPU
+		{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}.Rule_QA|Any CPU.Build.0 = Rule_QA|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Flores_Prod|Any CPU.ActiveCfg = Flores_Prod|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Flores_Prod|Any CPU.Build.0 = Flores_Prod|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Flores_QA|Any CPU.ActiveCfg = Flores_QA|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Flores_QA|Any CPU.Build.0 = Flores_QA|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Krtya|Any CPU.ActiveCfg = Krtya|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Krtya|Any CPU.Build.0 = Krtya|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_Dev|Any CPU.ActiveCfg = Rule_Dev|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_Dev|Any CPU.Build.0 = Rule_Dev|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_Prod|Any CPU.ActiveCfg = Rule_Prod|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_Prod|Any CPU.Build.0 = Rule_Prod|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_QA_Flores|Any CPU.ActiveCfg = Rule_QA_Flores|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_QA_Flores|Any CPU.Build.0 = Rule_QA_Flores|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_QA|Any CPU.ActiveCfg = Rule_QA|Any CPU
+		{E932D481-4AD4-4C1D-AAF0-2537A9F165A8}.Rule_QA|Any CPU.Build.0 = Rule_QA|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Flores_Prod|Any CPU.ActiveCfg = Flores_Prod|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Flores_Prod|Any CPU.Build.0 = Flores_Prod|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Flores_QA|Any CPU.ActiveCfg = Flores_QA|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Flores_QA|Any CPU.Build.0 = Flores_QA|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Krtya|Any CPU.ActiveCfg = Krtya|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Krtya|Any CPU.Build.0 = Krtya|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_Dev|Any CPU.ActiveCfg = Rule_Dev|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_Dev|Any CPU.Build.0 = Rule_Dev|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_Prod|Any CPU.ActiveCfg = Rule_Prod|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_Prod|Any CPU.Build.0 = Rule_Prod|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_QA_Flores|Any CPU.ActiveCfg = Rule_QA_Flores|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_QA_Flores|Any CPU.Build.0 = Rule_QA_Flores|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_QA|Any CPU.ActiveCfg = Rule_QA|Any CPU
+		{DB475DE0-538B-42F8-A310-91B0BB88A561}.Rule_QA|Any CPU.Build.0 = Rule_QA|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8ED70C49-10FA-4EC3-8261-1A4D47A72CED}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://artsolutions.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ArtSolutions.MUN.Core\\ArtSolutions.MUN.Core.csproj
+		SccProjectName1 = ArtSolutions.MUN.Core
+		SccLocalPath1 = ArtSolutions.MUN.Core
+		SccProjectUniqueName2 = ArtSolutions.MUN.Services\\ArtSolutions.MUN.Services.csproj
+		SccProjectName2 = ArtSolutions.MUN.Services
+		SccLocalPath2 = ArtSolutions.MUN.Services
+		SccProjectUniqueName3 = ArtSolutions.MUN.Web\\ArtSolutions.MUN.Web.csproj
+		SccProjectName3 = ArtSolutions.MUN.Web
+		SccLocalPath3 = ArtSolutions.MUN.Web
+	EndGlobalSection
+EndGlobal

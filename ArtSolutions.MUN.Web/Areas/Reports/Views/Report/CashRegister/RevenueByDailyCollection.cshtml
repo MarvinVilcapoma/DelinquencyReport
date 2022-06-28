@@ -1,0 +1,112 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionRevenueDailyCollectionModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.RevenueDailyCollectionTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportRevenueByDailyCollection", "Report", FormMethod.Post,
+                            new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Date <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartPeriodDate, new { @class = "form-control periodDate textblur", tabindex = 1, @data_required_msg = LocalResource.StartPeriodRequiredMsg, @data_compare_val_msg = LocalResource.ComparePeriodDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" tabindex="5" class="btn-success btn-sm m-r-xs" name="exportType" value="0" itag="btnExcel" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" tabindex="6" class="btn-success btn-sm m-r-xs" name="exportType" value="1" itag="btnPDF" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" tabindex="7" class="btn-info btn-sm" name="exportType" value="2" itag="btnPrint" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline">
+                                    <span class="label label-warning pull-left hide" id="spnBalanceRange" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close" onclick="clearSearch('balance')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedService" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="ServiceIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('services')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divRevenueDailyCollection">
+                        </div>
+
+                        @*hidden values*@
+                        @Html.HiddenFor(x => x.FilterServiceID)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Service</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("ServiceIDs", Model.ServiceList, GlobalResource.All, new { @multiple = "multiple", @class = "form-control select2dropdown", @tabindex = 10 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " tabindex="11" onclick="return validateAdvanceSearch();">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" tabindex="12" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var netclosing = '@Html.Raw(LocalResource.NetClosing)';
+        var compareBalanceValidationMsg = '@Html.Raw(LocalResource.CompareNetClosingValidationMsg)';
+        var BalanceRange = '@Html.Raw(LocalResource.NetClosingRange)';
+        var balanceFromRequiredMsg = '@Html.Raw(LocalResource.BalanceFromRequiredMsg)';
+        var balanceToRequiredMsg = '@Html.Raw(LocalResource.BalanceToRequiredMsg)';
+        var SelectedService = '@Html.Raw(LocalResource.SelectedService)';;
+    </script>
+    <script src="~/Scripts/app/reprevenuebydailycollection.js"></script>
+}

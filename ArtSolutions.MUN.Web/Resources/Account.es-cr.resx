@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddMoreEmails" xml:space="preserve">
+    <value>Agregar más correos electrónicos</value>
+  </data>
+  <data name="AddMorePhones" xml:space="preserve">
+    <value>Agregar más teléfonos</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="Addresses" xml:space="preserve">
+    <value>Direcciones</value>
+  </data>
+  <data name="AddressLine1" xml:space="preserve">
+    <value>Dirección 1</value>
+  </data>
+  <data name="AddressLine2" xml:space="preserve">
+    <value>Dirección 2</value>
+  </data>
+  <data name="AddressType" xml:space="preserve">
+    <value>Tipo de Dirección</value>
+  </data>
+  <data name="ARPEDescription" xml:space="preserve">
+    <value>Descripción de ARPE</value>
+  </data>
+  <data name="AttachmentFile" xml:space="preserve">
+    <value>Adjunto / Archivo</value>
+  </data>
+  <data name="BusinessCode" xml:space="preserve">
+    <value>Código de Negocio</value>
+  </data>
+  <data name="BusinessDescription" xml:space="preserve">
+    <value>Descripción del Negocio</value>
+  </data>
+  <data name="BusinessType" xml:space="preserve">
+    <value>Tipo de Negocio</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Cantón</value>
+  </data>
+  <data name="DBAName" xml:space="preserve">
+    <value>Establecimiento Conocido Como</value>
+  </data>
+  <data name="DuplicateRegistrationInfo" xml:space="preserve">
+    <value>Ya existe una cuenta con la misma información de registro.</value>
+  </data>
+  <data name="EditAddress" xml:space="preserve">
+    <value>Editar Dirección</value>
+  </data>
+  <data name="EditContact" xml:space="preserve">
+    <value>Editar Contacto</value>
+  </data>
+  <data name="EditEmail" xml:space="preserve">
+    <value>Editar Correo Electrónico</value>
+  </data>
+  <data name="EditPhone" xml:space="preserve">
+    <value>Editar Teléfono</value>
+  </data>
+  <data name="EditTitle" xml:space="preserve">
+    <value>Editar Contribuyente</value>
+  </data>
+  <data name="EIN" xml:space="preserve">
+    <value>Cédula Jurídica</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Correo Electrónico</value>
+  </data>
+  <data name="Emails" xml:space="preserve">
+    <value>Correos Electrónicos</value>
+  </data>
+  <data name="EmailType" xml:space="preserve">
+    <value>Tipo de Correo</value>
+  </data>
+  <data name="FinanceTemplate" xml:space="preserve">
+    <value>Plantilla de Finanzas</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="InvalidAccountNumber" xml:space="preserve">
+    <value>Número de Contribuyente Inválido</value>
+  </data>
+  <data name="IsSubAccount" xml:space="preserve">
+    <value>Es Sub-Contribuyente</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="Licenses" xml:space="preserve">
+    <value>Licencias</value>
+  </data>
+  <data name="ListTitle" xml:space="preserve">
+    <value>Contribuyentes</value>
+  </data>
+  <data name="MiddleName" xml:space="preserve">
+    <value>Segundo Nombre</value>
+  </data>
+  <data name="Mobile" xml:space="preserve">
+    <value>Móvil</value>
+  </data>
+  <data name="MobilePhone" xml:space="preserve">
+    <value>Teléfono Móvil</value>
+  </data>
+  <data name="NAICSCode" xml:space="preserve">
+    <value>Código NAICS</value>
+  </data>
+  <data name="NewAddress" xml:space="preserve">
+    <value>Nueva Dirección</value>
+  </data>
+  <data name="NewAttachmentFile" xml:space="preserve">
+    <value>Nuevo Adjunto  / Archivo</value>
+  </data>
+  <data name="NewBusiness" xml:space="preserve">
+    <value>Nuevo Negocio</value>
+  </data>
+  <data name="NewBusinessAccount" xml:space="preserve">
+    <value>Nueva Sociedad</value>
+  </data>
+  <data name="NewContact" xml:space="preserve">
+    <value>Nuevo Contacto</value>
+  </data>
+  <data name="NewEmail" xml:space="preserve">
+    <value>Nuevo Correo Electrónico</value>
+  </data>
+  <data name="NewIndividualAccount" xml:space="preserve">
+    <value>Nueva Persona</value>
+  </data>
+  <data name="NewPhone" xml:space="preserve">
+    <value>Nuevo Teléfono</value>
+  </data>
+  <data name="NewTitle" xml:space="preserve">
+    <value>Nuevo Contribuyente</value>
+  </data>
+  <data name="OtherEmail" xml:space="preserve">
+    <value>Otro Correo Electrónico</value>
+  </data>
+  <data name="OtherPhone" xml:space="preserve">
+    <value>Otro Teléfono</value>
+  </data>
+  <data name="Phones" xml:space="preserve">
+    <value>Teléfonos</value>
+  </data>
+  <data name="PhoneType" xml:space="preserve">
+    <value>Tipo de Teléfono</value>
+  </data>
+  <data name="PrimaryEmail" xml:space="preserve">
+    <value>Correo Electrónico Primario</value>
+  </data>
+  <data name="PrimaryPhone" xml:space="preserve">
+    <value>Teléfono Primario</value>
+  </data>
+  <data name="RequiredValidationAddressMsg" xml:space="preserve">
+    <value>Al menos una dirección es requerida.</value>
+  </data>
+  <data name="RequiredValidationContactMsg" xml:space="preserve">
+    <value>Al menos un contacto es requerido.</value>
+  </data>
+  <data name="SecondLastName" xml:space="preserve">
+    <value>Segundo Apellido</value>
+  </data>
+  <data name="StateDepartmentRegisterNumber" xml:space="preserve">
+    <value>Número de Registro del Departamento de Estado</value>
+  </data>
+  <data name="StateDepartmentRegisterNumber1" xml:space="preserve">
+    <value>Núm. Reg. del Dept. de Estado</value>
+  </data>
+  <data name="TreasuryDepartment" xml:space="preserve">
+    <value>Departamento de Hacienda</value>
+  </data>
+  <data name="ValSSEINNumber" xml:space="preserve">
+    <value>Por favor, ingrese un número válido.</value>
+  </data>
+  <data name="ViewAddress" xml:space="preserve">
+    <value>Ver Dirección</value>
+  </data>
+  <data name="ViewContact" xml:space="preserve">
+    <value>Ver Contacto</value>
+  </data>
+  <data name="ViewEmail" xml:space="preserve">
+    <value>Ver Correo Electrónico</value>
+  </data>
+  <data name="ViewPhone" xml:space="preserve">
+    <value>Ver Teléfono</value>
+  </data>
+  <data name="ViewTitle" xml:space="preserve">
+    <value>Ver Contribuyente</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Sitio Web</value>
+  </data>
+  <data name="WorkPhone" xml:space="preserve">
+    <value>Teléfono del Trabajo</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Código Área</value>
+  </data>
+  <data name="Zone" xml:space="preserve">
+    <value>Zona</value>
+  </data>
+  <data name="OGPEDescription" xml:space="preserve">
+    <value>Descripción de OGPe</value>
+  </data>
+  <data name="AlreadyExistMsg" xml:space="preserve">
+    <value>ya existe.</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Provincia</value>
+  </data>
+  <data name="ImportAccountFailedMsg" xml:space="preserve">
+    <value>Ha ocurrido un error al importar la propietario.</value>
+  </data>
+  <data name="ContactEmail" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="ContactLastName" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="ContactName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="ContactPhone" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="ContactPosition" xml:space="preserve">
+    <value>Posición</value>
+  </data>
+  <data name="OfficeAddressLine1" xml:space="preserve">
+    <value>Dirección Línea 1 de Oficina</value>
+  </data>
+  <data name="OfficeAddressLine2" xml:space="preserve">
+    <value>Dirección Línea 2 de Oficina</value>
+  </data>
+  <data name="OfficeCity" xml:space="preserve">
+    <value>Ciudad de Oficina</value>
+  </data>
+  <data name="OfficeCountry" xml:space="preserve">
+    <value>País de Oficina</value>
+  </data>
+  <data name="OfficeState" xml:space="preserve">
+    <value>Estado de Oficina</value>
+  </data>
+  <data name="OfficeZipCode" xml:space="preserve">
+    <value>Código Postal de Oficina</value>
+  </data>
+  <data name="PostalAddressLine1" xml:space="preserve">
+    <value>Dirección Postal Línea 1</value>
+  </data>
+  <data name="PostalAddressLine2" xml:space="preserve">
+    <value>Dirección Postal Línea 2</value>
+  </data>
+  <data name="PostalCity" xml:space="preserve">
+    <value>Ciudad Postal</value>
+  </data>
+  <data name="PostalCountry" xml:space="preserve">
+    <value>País Postal</value>
+  </data>
+  <data name="PostalState" xml:space="preserve">
+    <value>Estado Postal</value>
+  </data>
+  <data name="PostalZipCode" xml:space="preserve">
+    <value>Código Postal</value>
+  </data>
+  <data name="Salutation" xml:space="preserve">
+    <value>Salutation</value>
+  </data>
+  <data name="IsSponsor" xml:space="preserve">
+    <value>Es Patrocinador</value>
+  </data>
+  <data name="ValidateForInactiveAccount" xml:space="preserve">
+    <value>La cuenta tiene una o más subvenciones. No puedes desactivar la cuenta</value>
+  </data>
+  <data name="ValidateForInactiveSponsor" xml:space="preserve">
+    <value>Esta cuenta está atada a un ID de Aportación. No puedes eliminar el patrocinador.</value>
+  </data>
+  <data name="OfficeTown" xml:space="preserve">
+    <value>Pueblo de Oficinas</value>
+  </data>
+  <data name="PostalTown" xml:space="preserve">
+    <value>Ciudad Postal</value>
+  </data>
+  <data name="ReferenceID" xml:space="preserve">
+    <value>Identificación de Referencia</value>
+  </data>
+  <data name="Town" xml:space="preserve">
+    <value>Distrito</value>
+  </data>
+  <data name="RegisterNumber" xml:space="preserve">
+    <value>Número de Registro</value>
+  </data>
+  <data name="IDType" xml:space="preserve">
+    <value>Tipo de Identificación</value>
+  </data>
+  <data name="DeleteOrFillContactDetailMsg" xml:space="preserve">
+    <value>Por favor borre o complete los detalles de contacto.</value>
+  </data>
+  <data name="DeleteOrFillAddressDetailMsg" xml:space="preserve">
+    <value>Por favor borre o complete los detalles de la dirección.</value>
+  </data>
+  <data name="Identifica" xml:space="preserve">
+    <value>Identifica</value>
+  </data>
+  <data name="ExemptFromIVA" xml:space="preserve">
+    <value>Exenta de IVA</value>
+  </data>
+  <data name="CreditHistorySuccessMsg" xml:space="preserve">
+    <value>El monto del crédito se agregó con éxito.</value>
+  </data>
+  <data name="DebitHistorySuccessMsg" xml:space="preserve">
+    <value>Monto de débito agregado con éxito.</value>
+  </data>
+  <data name="ListCreditHistory" xml:space="preserve">
+    <value>Listar historial crediticio</value>
+  </data>
+  <data name="CreditHistoryDetail" xml:space="preserve">
+    <value>Detalle del historial crediticio</value>
+  </data>
+  <data name="ListDebitHistory" xml:space="preserve">
+    <value>Mostrar historial de débito</value>
+  </data>
+  <data name="DebitHistoryPaid" xml:space="preserve">
+    <value>Historial de débito pagado</value>
+  </data>
+  <data name="AccountList" xml:space="preserve">
+    <value>Lista de cuentas</value>
+  </data>
+</root>

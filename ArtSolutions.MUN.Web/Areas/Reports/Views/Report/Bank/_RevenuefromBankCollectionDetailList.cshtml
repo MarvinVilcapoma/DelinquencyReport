@@ -1,0 +1,53 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionRevenueBankCollectionModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@if (Model.RevenueBankCollectionList != null && Model.RevenueBankCollectionList.Count() > 0)
+{
+    foreach (var item in Model.RevenueBankCollectionList)
+    {
+
+        <tr>
+            <td class="text-center">@item.ServiceName</td>
+            <td class="text-center">
+                @Html.Raw(item.PreviousPayment.HasValue ? item.PreviousPayment.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.CurrentPayment.HasValue ? item.CurrentPayment.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.AdvancePayment.HasValue ? item.AdvancePayment.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.ForgiveInterest.HasValue ? item.ForgiveInterest.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.PaidInterest.HasValue ? item.PaidInterest.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-center">
+                @Html.Raw(item.Total.HasValue ? item.Total.Value.ToString("C") : 0.ToString("C"))
+            </td>
+        </tr>
+    }
+        @*<tr>
+            <td class="text-right font-bold" >@GlobalResource.Total</td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.PreviousPayment).Value.ToString("C"))
+            </td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.CurrentPayment).Value.ToString("C"))
+            </td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.AdvancePayment).Value.ToString("C"))
+            </td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.ForgiveInterest).Value.ToString("C"))
+            </td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.PaidInterest).Value.ToString("C"))
+            </td>
+            <td class="text-center font-bold">
+                @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.Total).Value.ToString("C"))
+            </td>
+        </tr>*@
+}

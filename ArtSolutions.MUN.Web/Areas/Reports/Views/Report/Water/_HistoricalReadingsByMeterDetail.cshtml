@@ -1,0 +1,68 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalReadingsMeterModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="historicalReadingsMeterTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:100px;">
+                    @ReportResource.Meter
+                </th>
+                <th style="min-width:250px;">
+                    @GlobalResource.Account
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.LastReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.CurrentReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.Consumption
+                </th>
+                <th style="min-width:150px;" class="text-right">
+                    @GlobalResource.Amount
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Month
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Year
+                </th>
+                <th style="min-width:100px;" class="text-left">
+                    @GlobalResource.ServiceType
+                </th>
+                <td style="width:30px;"></td>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @if (Model.HistoricalReadingsMeterList != null && Model.HistoricalReadingsMeterList.Count() > 0)
+            {
+                foreach (var item in Model.HistoricalReadingsMeterList)
+                {
+
+                    <tr>
+                        <td>
+                            @item.FormattedMeter
+                            @Html.Hidden("hdMeter", @item.Meter)
+                        </td>
+                        <td>
+                            @item.FormattedAccountName
+                            @Html.Hidden("hdAccountName", @item.AccountName)
+                        </td>
+                        <td class="text-right">@item.FormattedLastReading</td>
+                        <td class="text-right">@item.FormattedCurrentReading</td>
+                        <td class="text-right">@item.FormattedConsumption</td>
+                        <td class="text-right">@item.FormattedAmount</td>
+                        <td class="text-center">@item.FormattedMonth</td>
+                        <td class="text-center">@item.Year</td>
+                        <td class="text-left">@item.ServiceType</td>
+                        <td style="width:30px;"></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

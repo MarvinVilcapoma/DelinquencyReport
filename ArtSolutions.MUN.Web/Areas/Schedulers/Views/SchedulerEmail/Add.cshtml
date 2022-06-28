@@ -1,0 +1,67 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Schedulers.Models.SchedulerEmailModel
+@using ArtSolutions.MUN.Web.Areas.Schedulers.Models
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = GlobalResource.NewSchedulerEmailTitle;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.SchedulerEmail</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "SchedulerEmail", new { area = "Schedulers" })">@GlobalResource.SchedulerEmailTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "SchedulerEmail", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SchedulerEmailSuccessCallback(data)" }, new { role = "form", id = "form", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex="25">@GlobalResource.Save <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a><button id="btnSave" type="submit" name="actionType" value="1" tabindex="26">@GlobalResource.Save</button></a></li>
+                                    <li><a><button id="btnSaveNew" type="submit" name="actionType" value="2" tabindex="27">@GlobalResource.SaveNew</button></a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" onclick="resolveRedirectURL(3);" tabindex="28">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Email <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control required", maxlength = 500, tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="ID" name="ID" value="@Model.ID" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/sweetAlertStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script src="~/Scripts/app/scheduleremailadd.js"></script>
+}

@@ -1,0 +1,39 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PrintTemplateModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = LocalResource.PrintAccountService;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+@if (ViewBag.ServiceTypeID == 11) //Liquor License
+{
+    <style>
+        .break {
+            page-break-before: always;
+        }
+
+        table td hr {
+            border-color: black !important;
+        }
+
+        table {
+            font-size: small !important;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @@page {
+            size: portrait;
+        }
+    </style>
+}
+
+<div class="wrapper wrapper-content p-xl">
+    <div class="ibox-content p-xl">
+        @Html.Raw(Model.TemplateContent)
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.print();
+</script>

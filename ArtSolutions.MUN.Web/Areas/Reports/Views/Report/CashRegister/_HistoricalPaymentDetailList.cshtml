@@ -1,0 +1,24 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalPaymentReportModel
+
+@if (Model.HistoricalPaymentList != null && Model.HistoricalPaymentList.Count() > 0)
+{
+    foreach (var item in Model.HistoricalPaymentList)
+    {
+        <tr>
+            <td class="text-center">@item.TaxpayerName</td>
+            <td class="text-center">@item.TaxpayerID</td>
+            <td class="text-center">@item.ServiceCoe</td>
+            <td class="text-center">@item.ServiceName</td>
+            <td class="text-center">@item.RecieptNumber</td>
+            <td class="text-center">@item.Principal.Value.ToString("C")</td>
+            <td class="text-center">@item.Interest.Value.ToString("C")</td>
+            <td class="text-center">@item.IVA.Value.ToString("C")</td>
+            <td class="text-center">@item.Fine.Value.ToString("C")</td>
+            <td class="text-center">@item.Discount.Value.ToString("C")</td>
+            <td class="text-center">@item.TotalPayment.Value.ToString("C")</td>
+            <td class="text-center">@item.DateOfPayment.Value.ToString("d")</td>
+            <td class="text-center">@item.TypeOfPayment</td>
+            <td class="text-center">@item.BillerName</td>
+        </tr>
+    }
+}

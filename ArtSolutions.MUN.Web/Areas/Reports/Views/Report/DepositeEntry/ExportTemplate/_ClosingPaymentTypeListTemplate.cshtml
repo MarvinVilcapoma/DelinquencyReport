@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.ClosingEntryModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<table cellspacing="0" class="report-Table">
+    <thead>
+        <tr>
+            <th colspan="3" width="5%"> &nbsp;</th>
+            <th width="25%" class="table-border-center-th">@LocalResource.PaymentType </th>
+            <th width="20%" class="table-border-center-th">@LocalResource.ClosingNumber </th>
+            <th width="15%" class="table-border-center-th">@LocalResource.ClosingDate </th>
+            <th width="15%" class="table-border-center-th">@LocalResource.ReceiptCount</th>
+            <th width="20%" class="table-border-center-th">@LocalResource.NetClosing</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3">&nbsp;</td>
+                <td colspan="5" class="table-bg-bold-center-td">
+                    <center>@GlobalResource.NoDataMessage</center>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                    <td class="table-border-left-td">
+                        @item.PaymentType
+                    </td>
+                    <td class="table-border-left-td">
+                        @item.Number
+                    </td>
+                    <td class="table-border-left-td">
+                        @item.FormatingDate
+                    </td>
+                    <td class="table-border-right-td">
+                        @item.PaymentReceiptCount
+                    </td>
+                    <td class="table-border-right-td" style='@msoNumberFormat'>
+                        @item.NetClosing.ToString(Common.NumberPoints)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3">&nbsp;</td>
+                <td colspan="4" class="table-bg-bold-right-td">
+                    <strong>@GlobalResource.Total.ToUpper() : </strong>
+                </td>
+                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.NetClosing).ToString(Common.NumberPoints)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

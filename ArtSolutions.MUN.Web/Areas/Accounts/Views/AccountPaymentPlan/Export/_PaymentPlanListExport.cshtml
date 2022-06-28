@@ -1,0 +1,102 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPaymentPlanListModel
+@using ArtSolutions.MUN.Web.Helpers
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+
+@{
+    ViewBag.Title = AccountPaymentPlanResource.ListAccountPaymentPlan;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+            /*margin-right: 4% !important;*/
+        }
+
+        body {
+            font-family: sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 10px !important;
+        }
+        .report-Table td
+        {
+            padding: 3px 2px !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Number</th>
+                    <th width="10%" class="table-border-center-th" colspan="4">@GlobalResource.AccountName</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PaymentPlan</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.StartDate</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.EndDate</th>
+                    <th width="10%" class="table-border-center-th">@AccountPaymentPlanResource.MonthsOfPlan</th>
+                    <th width="10%" class="table-border-center-th">@AccountPaymentPlanResource.TotalAmountOfPaymentPlan</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PaidMonths</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.NotPaidMonths</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ExportPaymentPlanList != null && Model.ExportPaymentPlanList.Count() > 0)
+                {
+                    foreach (var item in Model.ExportPaymentPlanList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoNumberFormat">
+                                @item.Number
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat" colspan="4">
+                                @item.DisplayName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.PaymentPlanName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.StartDate.ToShortDateString()
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.EndDate.ToShortDateString()
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Months
+                            </td>
+                            <td class="table-border-center-td" style="@msoNumberFormat">
+                                @item.TotalPayment.ToString("C")
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.PaidMonths
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.NotPaidMonths
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

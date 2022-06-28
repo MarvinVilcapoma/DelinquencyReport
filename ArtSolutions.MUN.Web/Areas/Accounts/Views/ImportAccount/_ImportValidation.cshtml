@@ -1,0 +1,84 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.InvalidAccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+<h2>@LocalResource.ImportStep3SubTitle</h2>
+<div class="row">
+    <div class="col-lg-6">
+        @Html.HiddenFor(m => m.FileName)
+        @Html.HiddenFor(m => m.AccType)
+        <input type="hidden" value="@Model.ValidAccountStatement.Count" id="ValidOk" />
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-8">
+                    <label class="col-lg-8 lbl-m-b-none p-l-none">@LocalResource.ValidImportFile: </label>
+                    @if (Model.Valid == true)
+                    {
+                        <span class="label label-success">@LocalResource.Passed</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">@LocalResource.Fail</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Valid == false)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="project-list" id="divtblItems">
+                            <div class="table-responsive m-t">
+                                <table class="table table-hover tblImportError" data-page-size="15" data-sorting="false">
+                                    <thead>
+                                        <tr>
+                                            <th>@LocalResource.GroupCode</th>
+                                            <th>@LocalResource.FailReason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ValidAccountStatement.Count == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="2" class="text-center">
+                                                    @GlobalResource.NoDataMessage
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.ValidAccountStatement)
+                                            {
+                                                <tr>
+                                                    <td class="col-lg-3 table-description-field">
+                                                        @item.GroupCode
+                                                    </td>
+                                                    <td class="col-lg-9 table-description-field">
+                                                        @item.Reason
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <ul class="pagination pull-right"></ul>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

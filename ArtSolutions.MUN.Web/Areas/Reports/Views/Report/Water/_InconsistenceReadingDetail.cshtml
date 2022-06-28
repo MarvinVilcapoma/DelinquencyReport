@@ -1,0 +1,90 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.InconsistenceReadingModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblInconsistenceReading" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.Consecutive
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.MeterNo
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.PropertyNo
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.AccountID
+                </th>
+                <th style="min-width:100px;">
+                    @GlobalResource.AccountName
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.LastReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.CurrentReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.Consumption (<em>m</em> <sup>3</sup>)
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Water/_InconsistenceReadingDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyInconsistenceReading">
+                    <td class="text-center"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right">
+                        <a id="inconsistenceReadingShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.InconsistenceReadingList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreInconsistenceReading(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            <tr class="tdTotal">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><b>@ReportResource.TotalConsumption (<em>m</em> <sup>3</sup>) : </b></td>
+                @*<td id="tdLastReadingTotal" class="text-right"><b>@Model.InconsistenceReadingList.Sum(x => x.LastReading).ToString(Common.DecimalPoints)</b></td>
+            <td id="tdCurrentReadingTotal" class="text-right"><b>@Model.InconsistenceReadingList.Sum(x => x.CurrentReading).ToString(Common.DecimalPoints)</b></td>*@
+                <td id="tdWaterConsumptionTotal" class="text-right"><b>@Model.TotalConsumption.ToString(Common.DecimalPoints)</b></td>
+            </tr>
+            <tr class="tdTotal">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><b>@GlobalResource.Total : </b></td>                
+                <td id="tdTotalAmount" class="text-right"><b>@Model.TotalAmount.ToString(Common.DecimalPoints)</b></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

@@ -1,0 +1,112 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.TransfersReportModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using TransferResource = ArtSolutions.MUN.Web.Resources.Transfer
+
+<div class="table-responsive m-t">
+    <table id="tblTransfersReport" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:150px;">
+                    @ReportResource.TransferRightNumber
+                </th>
+                <th style="min-width:150px;">
+                    @TransferResource.TransferType
+                </th>
+                <th style="min-width:250px;">
+                    @TransferResource.PreviousOwner
+                </th>
+                <th style="min-width:150px;">
+                    @ReportResource.NewRight
+                </th>
+                <th style="min-width:100px;">
+                    @TransferResource.CurrentOwner
+                </th>
+                <th style="min-width:100px;">
+                    @GlobalResource.Year
+                </th>
+                <th style="min-width:100px;">
+                    @GlobalResource.TotalValue
+                </th>
+                <th style="min-width:150px;">
+                    @GlobalResource.Service
+                </th>
+                <th style="min-width:100px;">
+                    @GlobalResource.BalanceAmountByService
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.CreatedBy
+                </th>
+                <th style="min-width:100px;">
+                    @TransferResource.TransferDate
+                </th>
+                <th style="min-width:100px;">
+                    @TransferResource.Observations
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @if (Model.TransfersReportList != null && Model.TransfersReportList.Count() > 0)
+            {
+                foreach (var item in Model.TransfersReportList)
+                {
+
+                    <tr>
+                        <td class="text-center">@item.RightNumber</td>
+                        <td class="text-center">@item.TransferType</td>
+                        <td class="text-center">
+                            @Html.Raw(@item.FormattedPreviousOwner)
+                            @Html.Hidden("hdPreviousOwner", @item.PreviousOwner)
+                        </td>
+                        <td class="text-center">@item.NewRight</td>
+                        <td class="text-center">
+                            @Html.Raw(@item.FormattedCurrentOwner)
+                            @Html.Hidden("hdCurrentOwner", @item.CurrentOwner)
+                        </td>
+                        <td class="text-center">
+                            @if (item.TransferTypeID == 3)
+                            {
+                                @Html.Raw("-")
+                            }
+                            else
+                            {
+                                @item.Year
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.TransferTypeID != 3 && item.TotalValue >= 0)
+                            {
+                                @item.TotalValue.Value.ToString("C")
+                            }
+                            else
+                            {
+                                @Html.Raw("-")
+                            }
+                        </td>
+                        <td class="text-center">
+                            @Html.Raw(@item.FormattedService)
+                            @Html.Hidden("hdService", @item.Service)
+                        </td>
+                        <td class="text-center">
+                            @if (item.TransferTypeID == 3)
+                            {
+                                @Html.Raw("-")
+                            }
+                            else
+                            {
+                                @item.BalanceAmountByService.Value.ToString("C")
+                            }
+                        </td>
+                        <td class="text-center">@item.FormattedCreatedUser</td>
+                        <td class="text-center">@item.FormattedTransferDate</td>
+                        <td class="text-center">
+                            @Html.Raw(@item.FormattedObservation)
+                            @Html.Hidden("hdObservation", @item.Observation)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

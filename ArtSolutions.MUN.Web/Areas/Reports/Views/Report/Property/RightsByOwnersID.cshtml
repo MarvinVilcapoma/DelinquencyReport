@@ -1,0 +1,79 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.RightsByOwnersIDModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ListOfRightsByOwnersIDReport;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportRightsByOwnersID", "Report", FormMethod.Post,
+                new { id = "frmRightsByOwnersID", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        <h2>@Model.ReportCompanyModel.Name</h2>
+                        <h3>@ReportResource.ListOfRightsByOwnersIDReport</h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Owner</label>
+                                        <div class="form-group w-300">
+                                            @Html.DropDownListFor(x => x.OwnerID, new SelectList(Model.OwnerList, "id", "text", Model.OwnerID), GlobalResource.DropDownSelectMessage, new
+                                                {
+                                                    @class = "form-control select2dropdown",
+                                                    tabindex = 1
+                                                })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="6">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="7">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();" tabindex="8">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divRightsByOwnersID">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+
+    <style type="text/css">
+        .dataTables_wrapper {
+            padding-bottom: 10px !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+    </script>
+
+    <script src="~/Scripts/app/reprightsbyownersid.js"></script>
+}

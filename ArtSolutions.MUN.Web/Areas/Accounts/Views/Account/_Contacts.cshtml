@@ -1,0 +1,98 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ContactsModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<form id="frmContacts">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="contacttitle">@LocalResource.NewContact</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            @Html.HiddenFor(x => x.ID, new { id = "contactId" })
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.FirstName</label>
+                            <div class="row">
+                                <div class="col-lg-5 padding-bottom-5">
+                                    @Html.DropDownListFor(x => x.SalutationID, Model.SalutionList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlContactSalution" })
+                                </div>
+                                <div class="col-lg-7">
+                                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", id = "txtContactFirstName", maxlength = 50 })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.MiddleName</label>
+                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control", id = "txtContactMiddleName", maxlength = 50 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.LastName</label>
+                            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", id = "txtContactLastName", maxlength = 50 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Position</label>
+                            @Html.DropDownListFor(x => x.PositionID, Model.PositionList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlContactPosition" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.PrimaryEmail</label>
+                            @Html.TextBoxFor(x => x.PrimaryEmail, new { @class = "form-control", id = "txtContactPrimaryEmail", maxlength = 50 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.OtherEmail</label>
+                            @Html.TextBoxFor(x => x.OtherEmail, new { @class = "form-control", id = "txtContactOtherEmail", maxlength = 50 })
+                            @Html.ValidationMessageFor(x => x.OtherEmail)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <small class="pull-right m-t-phone">
+                                @GlobalResource.CountryCode + @GlobalResource.AreaCode + @GlobalResource.Phone
+                            </small>
+                            <label class="control-label">@LocalResource.PrimaryPhone</label>
+                            @Html.TextBoxFor(x => x.PrimaryPhoneNumber, new { @class = "form-control inputphonenumber", id = "txtContactPrimaryPhone", maxlength = 15 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.OtherPhone</label>
+                            @Html.TextBoxFor(x => x.OtherPhoneNumber, new { @class = "form-control inputphonenumber", id = "txtContactOtherPhone", maxlength = 15 })
+                            @Html.ValidationMessageFor(x => x.OtherPhoneNumber)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddContact" type="button" class="btn btn-primary" data-form-type="1">@GlobalResource.Add</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var viewTitle = '@Html.Raw(LocalResource.ViewContact)';
+    var editTitle = '@Html.Raw(LocalResource.EditContact)';
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse('#frmContacts');
+    });
+</script>

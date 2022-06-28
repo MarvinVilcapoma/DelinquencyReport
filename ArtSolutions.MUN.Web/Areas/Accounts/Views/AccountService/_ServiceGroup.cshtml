@@ -1,0 +1,29 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.ServiceTypeGroupModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<fieldset>
+    <h2>@LocalResource.ServiceGroupTitle</h2>
+    <p class="m-t-lg m-l-sm">@LocalResource.PleaseSelectServiceGroup</p>
+    <div class="full-height-scroll-group">
+        <div class="row row-flex">
+            @foreach (var item in Model)
+            {
+                <div onclick="selectServiceGroup(@item.ID);" class="col-sm-4 col-md-4 col-lg-2 clsChannels text-center serviceGroup m-t-lg">
+                    <div class="required" value="@item.ID">
+                        @if (item.IconClass == null)
+                        {
+                            <i id="@item.ID" class="fa fa-phone-square" aria-hidden="true" data-val="@item.Name"></i>
+                        }
+                        else
+                        {
+                            <i id="@item.ID" class="btn btn-default-reverse @item.IconClass" aria-hidden="true" data-val="@item.Name"></i>
+                        }
+                        <label for="@item.ID" class="font-bold m-t-xs">
+                            @item.Name
+                        </label>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</fieldset>

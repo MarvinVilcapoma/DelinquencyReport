@@ -1,0 +1,111 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.InvalidMeasuredWaterFilingModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+@{
+    ViewBag.Title = AccountServiceResource.ValidateMeasuredWaterFiling;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+</head>
+<body>
+    <table cellspacing="0" class="report-Table">
+        <thead>
+            <tr>
+                <th width="5%" class="table-border-center-th">@GlobalResource.Year</th>
+                <th width="5%" class="table-border-center-th">@GlobalResource.Month</th>
+                <th width="5%" class="table-border-center-th">CATEGORIA</th>
+                <th width="10%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                <th width="10%" class="table-border-center-th">UBICACION</th>
+                <th width="10%" class="table-border-center-th">CODIGOM</th>
+                <th width="10%" class="table-border-center-th">LECTURAACT</th>
+                <th width="10%" class="table-border-center-th">@LocalResource.LastReading</th>
+                <th width="10%" class="table-border-center-th">@LocalResource.Difference</th>
+                <th width="10%" class="table-border-center-th">FECHA</th>
+                <th width="50%" class="table-border-center-th">@GlobalResource.Note</th>
+                <th width="5%" class="table-border-center-th">@GlobalResource.IsValid</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ValidMeasuredWaterFilingStatement != null && Model.ValidMeasuredWaterFilingStatement.Count() > 0)
+            {
+                foreach (var item in Model.ValidMeasuredWaterFilingStatement)
+                {
+                    <tr>
+                        <td class="table-border-center-td">
+                            @item.Year
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.Month
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.CATEGORIA
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.TaxNumber
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.UBICACION
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.CODIGOM
+                        </td>
+                        <td class="table-border-center-td">
+                            @if (item.LECTURAACT != null)
+                            {
+                                @item.LECTURAACT.Value.ToString(Common.NumberPoints)
+                            }
+                        </td>
+                        <td class="table-border-center-td">
+                            @if (item.LastReading != null)
+                            {
+                                @item.LastReading.Value.ToString(Common.NumberPoints)
+                            }
+                        </td>
+                        <td class="table-border-center-td">
+                            @if (item.Difference != null)
+                            {
+                                @item.Difference.Value.ToString(Common.NumberPoints)
+                            }
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @item.FECHA
+                        </td>
+                        <td class="table-border-center-td">
+                            @item.Note
+                        </td>
+                        <td class="table-border-center-td">
+                            @if (@item.IsValid)
+                            {
+                                @GlobalResource.Yes
+                            }
+                            else
+                            {
+                                @GlobalResource.No
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="table-border-td center">
+                        <center>
+                            <label> @GlobalResource.NoDataMessage </label>
+                        </center>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

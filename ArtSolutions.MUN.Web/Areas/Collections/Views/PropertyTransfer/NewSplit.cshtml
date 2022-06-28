@@ -1,0 +1,462 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyModel
+
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using TransferResource = ArtSolutions.MUN.Web.Resources.Transfer
+@using ArtSolutions.MUN.Web.Areas.Workflows.ViewModel;
+@using ArtSolutions.MUN.Web.Areas.Cases.Models
+
+@{
+    /**/
+
+    ViewBag.Title = TransferResource.NewRightSplit;
+    List<CaseWorkflowStatus> WorkflowStatus = (List<CaseWorkflowStatus>)ViewBag.WorkflowStatusList;
+    int workflowID = Convert.ToInt32(((List<WorkflowViewModel>)ViewBag.WorkFlowList)[0].ID);
+    int workflowStatusID = Convert.ToInt32(((List<CaseWorkflowStatus>)ViewBag.WorkflowStatusList)[0].ID);
+    Model.workflowID = workflowID;
+    Model.workflowStatusID = workflowStatusID;
+}
+
+
+@using (Ajax.BeginForm("NewSplit", "PropertyTransfer", new AjaxOptions { HttpMethod = "POST", OnSuccess = "UserSuccessCallback(data)" }, new { role = "form", @class = "form-horizontal", id = "form", data_ajax_mode = "replace-with" }))
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>@TransferResource.NewSplit</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "PropertyTransfer", new { area = "Collections" })">@TransferResource.TransferList</a>
+                </li>
+                <li class="active">
+                    <strong>@ViewBag.Title</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @*<button class="btn btn-primary" id="btnRightUpdate" type="button" disabled="disabled" onclick="ViewHistory()" tabindex=45>@LocalResource.UpdateRight</button>*@
+                            <button id="btnSaveWithToolTip"
+                                    type="button" width="100%"
+                                    data-toggle="tooltip"
+                                    data-placement="top" data-container="body"
+                                    title="" data-original-title="@TransferResource.TaxNumberAssociatedWithServicesHasNoRight"
+                                    class="btn btn-primary hide disabled">
+                                @GlobalResource.Action
+                                <span class="caret"></span>
+                            </button>
+                            @{ Html.RenderPartial("~/Views/Shared/_WorkFlowStatus.cshtml", WorkflowStatus); }
+                            <button class="btn btn-white" type="button" onclick="resolveRedirectURL(3)" tabindex=46>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="project-list">
+
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@TransferResource.FromAccountName <span class="text-danger">&nbsp;*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(x => x.OldAccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                               {
+                                   @class = "form-control select2dropdown required",
+                                   tabindex = 2,
+                                   onchange = "loadAccountPropertyTax(this)"
+                               })@Html.ValidationMessageFor(x => x.OldAccountID)
+                        </div>
+                        <label class="col-sm-2 control-label">@GlobalResource.Date <span class="text-danger">&nbsp;*</span></label>
+                        <div class="col-sm-4">
+                            @Html.TextBox("SplitDate", Model.SplitDate, new { @class = "form-control", tabindex = 3 })
+                            @Html.ValidationMessageFor(x => x.SplitDate)
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="divAccountProperty">
+                            <label class="col-sm-2 control-label lblProperty">@GlobalResource.Property <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(x => x.AccountPropertyID, Model.AccountPropertyList, GlobalResource.DropDownSelectMessage, new
+                           {
+                               @class = "form-control select2dropdown required",
+                               tabindex = 3,
+                               onchange = "loadAccountService()"
+                           })
+                                @Html.ValidationMessageFor(x => x.AccountPropertyID)
+                            </div>
+                            <label class="col-sm-2 control-label">@LocalResource.MovementType <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(x => x.MovementTypeID, Model.MovementList, GlobalResource.DropDownSelectMessage, new
+                           {
+                               @class = "form-control select2dropdown required MovementTypeID",
+                               tabindex = 3
+                           })
+                                @Html.ValidationMessageFor(x => x.MovementTypeID)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="divSplitType">
+                            <label class="col-sm-2 control-label">@LocalResource.PropertySplitType <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(x => x.SplitTypeID, Model.SplitTypeList, GlobalResource.DropDownSelectMessage, new
+                           {
+                               @class = "form-control select2dropdown required",
+                               tabindex = 3
+                           })
+                                @Html.ValidationMessageFor(x => x.SplitTypeID)
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label">@LocalResource.SplitBy </label>
+                        <div class="col-sm-4">
+                            @Html.DropDownList("SelectionTypeID",new List<SelectListItem>{ new SelectListItem() {Value="1",Text= LocalResource.ByPercentage }, new SelectListItem() { Value = "2", Text = LocalResource.ByAreaValue } }, new
+                       {
+                           @class = "form-control select2dropdown required SelectionTypeID",
+                           tabindex = 3
+                       })
+                            @*@Html.ValidationMessageFor(x => x.MovementTypeID)*@
+                        </div>
+                    </div>
+                    @Html.HiddenFor(d => d.AccountPropertyConstructionDetailJson)
+                    @Html.HiddenFor(d => d.workflowID)
+                    @Html.HiddenFor(d => d.workflowStatusID)
+                    @Html.HiddenFor(d => d.ReasonID)
+                    @Html.HiddenFor(d => d.Comments)
+                    @Html.HiddenFor(d => d.AssignToID)
+                    @Html.HiddenFor(d => d.Property)
+                </div>
+            </div>
+
+            @*<div class="ibox-title ibox-title-with-button no-top-border">
+                    <h5>@LocalResource.NewRight</h5>
+                </div>*@
+
+            <div class="ibox-title no-top-border">
+                <div class="row">
+                    <div class="col-lg-10 m-t">
+                        <h5 class="text-uppercase">@LocalResource.OriginalRight</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-content OldDivRightsTable">
+                <div class="Right-list">
+                    <div class="table-responsive">
+                        <table class="OldRightsTable footable table table-stripped toggle-arrow-tiny" data-sort="false" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-toggle="true" width="10%">@LocalResource.RightCode</th>
+                                    <th width="20%">@LocalResource.Owner</th>
+                                    <th width="10%" class="text-right">@LocalResource.Percentage </th>
+                                    <th width="10%" class="text-right">@LocalResource.Area (<em>m</em> <sup>2</sup>)</th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.TerrainValue) </th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.TotalTerrainValue) </th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.CurrentValueFromRight) </th>
+                                    <th width="11%"></th>
+                                    <th data-hide="all">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-title no-top-border">
+                <div class="row">
+                    <div class="col-lg-8 m-t">
+                        <h5 class="text-uppercase">@TransferResource.NewRightSplit</h5>
+                    </div>
+                    <div class="col-lg-4 text-right m-t-xs">
+                        <button class="btn btn-primary addOriginalRights" type="button" tabindex=19>@LocalResource.OriginalRight</button>
+                        <button class="btn btn-primary addRights" type="button" tabindex=20>@LocalResource.NewRight</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-content NewDivRightsTable">
+                <div class="Right-list">
+                    <div class="table-responsive">
+                        <table class="RightsTable footable table table-stripped toggle-arrow-tiny" data-sort="false" width="100%">
+                            <thead>
+                                <tr>
+                                    <th data-toggle="true" width="10%">@LocalResource.RightCode</th>
+                                    <th width="20%">@LocalResource.Owner</th>
+                                    <th width="10%" class="text-right">@LocalResource.Percentage </th>
+                                    <th width="10%" class="text-right">@LocalResource.Area (<em>m</em> <sup>2</sup>)</th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.TerrainValue) </th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.TotalTerrainValue) </th>
+                                    <th width="13%" class="text-right">@Html.Raw(@LocalResource.NewCurrentValue) </th>
+                                    <th width="11%"></th>
+                                    <th data-hide="all">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-title ibox-title-with-button no-top-border">
+                <h5>@GlobalResource.Services</h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12" id="AccountServiceList">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+}
+<div class="modal inmodal" id="GeneralDescriptionConstructionmodal" data-mode="" data-code="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divGeneralDescription">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="AddRightsmodal" role="dialog" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divAddRights">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="ServicePeriodDetail" role="dialog" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divServicePeriodDetail">
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="AccountPropertyRightHistory" role="dialog" data-id="" data-code="" data-fincaid="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-body no-padding">
+                <div class="ibox-title">
+                    <h5 id="addresstitle">@GlobalResource.Edit @LocalResource.RightCode</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form id="frmAccountPropertyRight">
+                            <div class="project-list form-horizontal">
+                                <div class="row form-group">
+                                    <label class="col-sm-2 control-label">@LocalResource.CurrentRightCode</label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("CurrentPropertyNumber", "", new { @class = "form-control", @disabled = true })
+
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-2 control-label">@LocalResource.PropertyNumber <span class="text-danger">*</span></label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("txtPropertyNumber", "", new { @class = "form-control required", autofocus = "autofocus", maxlength = 10, tabindex = 6 })
+                                        @Html.ValidationMessage("txtPropertyNumber", GlobalResource.RequiredValidationMsg)
+
+                                    </div>
+                                    <label class="col-sm-2 control-label">@LocalResource.CondoType</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownList("ddlCondoTypeID", (List<SelectListItem>)ViewBag.CondoTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCondoType", tabindex = 7 })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-2 control-label">@LocalResource.Condo</label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownList("ddlCondoID", (List<SelectListItem>)ViewBag.CondoList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCondo", tabindex = 8 })
+                                    </div>
+                                    <label class="col-sm-2 control-label">@LocalResource.RightCode <span class="text-danger">*</span></label>
+                                    <div class="col-sm-4">
+                                        @Html.TextBox("txtRigthNumber", "", new { @class = "form-control required", maxlength = 10, tabindex = 9 })
+                                        @Html.ValidationMessage("txtRigthNumber", GlobalResource.RequiredValidationMsg)
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="divAccountPropertyRightHistory">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnUpdateRights" type="button" tabindex="10" class="btn btn-primary" data-form-type="1">@GlobalResource.Update</button>
+                <button id="btnCancel" type="button" tabindex="11" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divpopup"></div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/jasnyBootstrapStyles")
+    @Styles.Render("~/plugins/footableStyles")
+    <style>
+        .disable-anchor {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .row1 > table, .row1 > table tr, .row1 > table tr td {
+            border: none !important;
+        }
+    </style>
+    <style>
+        #map {
+            height: 300px;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+            .pac-controls label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 0px;
+            text-overflow: ellipsis;
+            width: 450px;
+            border: 0;
+        }
+
+            #pac-input:focus {
+                border-color: #4d90fe;
+            }
+
+        #title {
+            color: #fff;
+            background-color: #4d90fe;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        .pac-container {
+            z-index: 999999 !important;
+        }
+
+        .tooltip-inner {
+            max-width: 100% !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/jasnyBootstrap")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+         var isViewMode = false;
+        var noDetailsAvailableGeoLocationMsg = "@Html.Raw(LocalResource.NoDetailsAvailableGeoLocationMsg)";
+        var browserSupportGeoLocationMsg = "@Html.Raw(LocalResource.BrowserSupportGeoLocationMsg)";
+        var PropertyRightvalidationmsg = '@Html.Raw(LocalResource.RequiredValidationPropertyRightMsg)';
+        var Constructionvalidationmsg = '@Html.Raw(LocalResource.RequiredValidationPropertyRightConsctructionMsg)';
+        var ConstructionType = "@Html.Raw(@LocalResource.ConstructionType)";
+
+        var _Type = "@Html.Raw(GlobalResource.Type)";
+        var ConstructionYear="@Html.Raw(@LocalResource.ConstructionYear)";
+        var Years="@Html.Raw(@GlobalResource.Years)";
+        var Status="@Html.Raw(@GlobalResource.Status)";
+        var NoFloors="@Html.Raw(@LocalResource.NoFloors)";
+        var NoChambers="@Html.Raw(@LocalResource.NoChambers)";
+        var InternalWalls="@Html.Raw(@LocalResource.InternalWalls)";
+        var ExternalWalls="@Html.Raw(@LocalResource.ExternalWalls)";
+        var Structure="@Html.Raw(@LocalResource.Structure)";
+        var Roof="@Html.Raw(@LocalResource.Roof)";
+        var Ceiling="@Html.Raw(@LocalResource.Ceiling)";
+        var Floors="@Html.Raw(@LocalResource.Floors)";
+        var Bathroom="@Html.Raw(@LocalResource.Bathroom)";
+        var BuildingArea="@Html.Raw(@LocalResource.BuildingArea)";
+        var UnitValue="@Html.Raw(@LocalResource.UnitValue)";
+        var BuildingTotalValue = "@Html.Raw(@LocalResource.BuildingTotalValue)";
+        var AreaErrMsg = "@Html.Raw(@LocalResource.AreaErrMsg)";
+        var NoMoreAreaMsg = "@Html.Raw(@LocalResource.NoMoreAreaMsg)";
+        var CodeErrMsg = "@Html.Raw(@LocalResource.CodeErrMsg)";
+        var EditConstructionDescription = "@Html.Raw(@LocalResource.EditConstructionDescription)";
+        var Update = "@Html.Raw(@GlobalResource.Update)";
+        var BuildingAreaRequiredMsg = "@Html.Raw(@LocalResource.BuildingAreaRequiredMsg)";
+        var UnitValueRequiredMsg = "@Html.Raw(@LocalResource.UnitValueRequiredMsg)";
+        var TotalValueRequiredMsg = "@Html.Raw(@LocalResource.TotalValueRequiredMsg)";
+        var TotalValueMaxLengthValidationMsg = "@Html.Raw(@LocalResource.TotalValueMaxLengthValidationMsg)";
+        var Add = '@Html.Raw(GlobalResource.Add)';
+        var Update = '@Html.Raw(GlobalResource.Update)';
+        var NewRight = '@Html.Raw(LocalResource.NewRightPopupTitle)';
+        var EditRight = '@Html.Raw(LocalResource.EditRight)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var UsefulLife = "@Html.Raw(@LocalResource.UsefulLife)";
+        var CurrentAge = "@Html.Raw(@LocalResource.CurrentAge)";
+        var OwnerAlreadyAdded = "@Html.Raw(@LocalResource.OwnerAlreadyAdded)";
+        var OwnerRequiredForService = "@Html.Raw(@LocalResource.OwnerRequiredForService)";
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        var validatePercentageMsg = '@Html.Raw(@LocalResource.ValidatePercentageMsg)';
+        var WaitingProcessInfoMsg = '@Html.Raw(GlobalResource.WaitingProcessInfoMsg)';
+        var ValidSplitFillingError = '@Html.Raw(GlobalResource.ValidSplitFillingError)';
+        var ValidSplitCurrentValueError = "@Html.Raw(GlobalResource.ValidSplitCurrentValueError)";
+        var ValidSplitTyprError = '@Html.Raw(GlobalResource.ValidSplitTypeError)';
+        var ValidAreaMsg = '@Html.Raw(GlobalResource.ValidAreaMsg)';
+        var ValidConstructionAreaMsg = '@Html.Raw(GlobalResource.ValidConstructionAreaMsg)';
+
+
+        $(document).ready(function () {
+            $('.footable').footable();
+        });
+    </script>
+
+    <script type="text/javascript" src="~/Scripts/app/accountpropertysplit.js"></script>
+}

@@ -1,0 +1,141 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GLobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.WorkflowEditor;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GLobalResource.Workflow</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GLobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Workflow", new {area = "Workflows" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="ibox">
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>
+                        @Model.Name
+                    </h5>
+                    <div class="ibox-tools">
+                        <a href="@Url.Action("Diagram", "Workflow", new {area="Workflows",id=Model.ID,documentTypeID=Model.DocumentTypeID})" class="btn btn-primary">@LocalResource.WorkflowDiagram</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#tabStatusSequence" data-toggle="tab">@LocalResource.Sequence</a>
+                            </li>
+                            <li>
+                                <a href="#tabStatus" data-toggle="tab">@GLobalResource.Status</a>
+                            </li>
+                            <li>
+                                <a href="#tabReason" data-toggle="tab">@GLobalResource.Reason</a>
+                            </li>
+                            <li>
+                                <a href="#tabGroup" data-toggle="tab">@GLobalResource.Group</a>
+                            </li>
+                            <li>
+                                <a href="#tabUsers" data-toggle="tab">@LocalResource.User</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabStatusSequence">
+                                    <div class="panel-body">
+                                        @Html.Partial("_StatusSequence")
+                                        @Html.HiddenFor(a => a.ID, new { @id = "hdnWorkflowID" })
+                                        @Html.HiddenFor(a => a.Version, new { @id = "hdnWorkflowVersionID" })
+                                        @Html.HiddenFor(a => a.DocumentTypeID, new { @id = "hdnDocumentTypeID" })
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabStatus">
+                                    <div class="panel-body">
+                                        @Html.Partial("_ListStatus")
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabReason">
+                                    <div class="panel-body">
+                                        @Html.Partial("_ListReason")
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabGroup">
+                                    <div class="panel-body">
+                                        @Html.Partial("_ListGroup")
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tabUsers">
+                                    <div class="panel-body">
+                                        @Html.Partial("_ListUser")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_Modal")
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/iCheck")
+    <script>
+        var nodatamsg = "@GLobalResource.NoDataMessage",
+            first = "@GLobalResource.First",
+            last = "@GLobalResource.Last",
+            next = "@GLobalResource.Next",
+            previous = "@GLobalResource.Previous",
+            documentType = "@GLobalResource.DocumentType",
+            name = "@GLobalResource.Name",
+            description = "@GLobalResource.Description",
+            action = "@GLobalResource.Action",
+            add = "@GLobalResource.Add",
+            edit = "@GLobalResource.Edit",
+            view="@GLobalResource.View",
+            activity = "@LocalResource.Activity",
+            moveAll = "@GLobalResource.MoveAll",
+            removeAll = "@GLobalResource.RemoveAll",
+            status = "@GLobalResource.Status",
+            requiredField = "@GLobalResource.FieldRequiredMessage",
+            sequence = "@LocalResource.Sequence",
+            reason = "@GLobalResource.Reason",
+            fromStatus = "@LocalResource.FromStatus",
+            toStatus = "@LocalResource.ToStatus",
+            screen = "@LocalResource.Screen",
+            role = "@LocalResource.Role",
+            warningMsg = '@GLobalResource.SureMessage',
+            cancel = '@GLobalResource.Cancel',
+            deletetext = '@GLobalResource.Delete',
+            isEditorPage = true,
+            displayName = "@GLobalResource.DisplayName",
+            group = "@GLobalResource.Group";
+    </script>
+    <script src="~/Scripts/app/workflowStatusSequence.js"></script>
+    <script src="~/Scripts/app/workflowreason.js"></script>
+    <script src="~/Scripts/app/workflowstatus.js"></script>
+    <script src="~/Scripts/app/workflowgroup.js"></script>
+    <script src="~/Scripts/app/workflowgroupuserslist.js"></script>
+}
+

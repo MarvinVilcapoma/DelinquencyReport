@@ -1,0 +1,381 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PaymentPlanByTaxpayerModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+
+@{
+    ViewBag.Title = ArtSolutions.MUN.Web.Resources.Report.ProjectedAccountStatement;
+
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+         @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="55%" colspan="6">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td width="15%" class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td width="15%" class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="center">
+                        @ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.InterestCalculationDate:</label>
+                    </td>
+                    <td class="right">
+                        <span>
+                            @if (Model.Date != null)
+                            {
+                                @Model.Date.Value.ToString("dd-MMM-yyyy")
+                            }
+                            else
+                            {
+                                @DateTime.Now.ToString("dd-MMM-yyyy")
+                            }
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="60%" colspan="9">
+                            <table cellspacing="0">
+                                <tr>
+                                    <td style="@msoTextFormat">
+                                        <strong> @ReportResource.IDNumber : </strong>
+                                        @Model.AccountModel.TaxNumber
+                                    </td>
+                                    <td colspan="6">
+                                        &nbsp;
+                                    </td>
+                                    <td class="right" colspan="2">
+                                        <strong> @GlobalResource.Name  :  </strong>
+                                        @Model.AccountModel.DisplayName
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            if (Model.IsInJudicialCollection != null)
+            {
+                <br />
+                <table cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td colspan="9" class="right" style="color:red;font-weight:bold;">
+                                @GlobalResource.PersonHasaJudicialCollectionMsg
+                                <br />
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            }
+
+            <table cellspacing="0" class="report-Table">
+                <thead>
+                    <tr>
+                        <th width="20%" class="table-border-center-th" colspan="2">
+                            @AccountPaymentPlanResource.Concept
+                        </th>
+                        <th width="30%" class="table-border-center-th" colspan="2">
+                            @GlobalResource.Description
+                        </th>
+                        <th width="20%" class="table-border-center-th" colspan="2">
+                            @GlobalResource.Periods
+                        </th>
+                        <th width="10%" class="table-border-center-th">
+                            @AccountPaymentPlanResource.AmountTotal
+                        </th>
+                        <th width="10%" class="table-border-center-th">
+                            @ArtSolutions.MUN.Web.Resources.Service.StartAmount
+                        </th>
+                        <th width="10%" class="table-border-center-th">
+                            @AccountPaymentPlanResource.MonthlyAmount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.AccountPaymentPlanServiceDetailList != null && Model.AccountPaymentPlanServiceDetailList.Count() > 0)
+                    {
+                        foreach (var objService in Model.AccountPaymentPlanServiceDetailList.GroupBy(d => d.PaymentPlanNameWithNumber).Select(d => d.Key).Distinct().ToList())
+                        {
+                            <tr>
+                                <td class="table-border-left-td" colspan="9"><b>@objService</b></td>
+                            </tr>
+                            foreach (var item in Model.AccountPaymentPlanServiceDetailList.Where(d => d.PaymentPlanNameWithNumber == objService).OrderBy(d=>d.ServiceName))
+                            {
+                                <tr>
+                                    <td class="table-border-center-td" style="@msoTextFormat" colspan="2">
+                                        @item.Code
+                                    </td>
+                                    <td class="table-border-center-td" colspan="2">
+                                        @item.ServiceName
+                                    </td>
+                                    <td class="table-border-center-td" colspan="2">
+                                        @if (string.IsNullOrEmpty(item.Periods))
+                                        {
+                                            @Html.Raw(" - ")
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(item.Periods)
+                                        }
+                                    </td>
+                                    <td class="table-border-center-td">
+                                        @item.TotalAmount.Value.ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-border-center-td">
+                                        @item.StartAmount.Value.ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-border-center-td">
+                                        @item.MonthlyAmount.Value.ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+                        <tr>
+                            <td class="table-bg-bold-center-td" colspan="2"></td>
+                            <td class="table-bg-bold-center-td" colspan="2">@ArtSolutions.MUN.Web.Resources.COLPayment.TotalAmount</td>
+                            <td class="table-bg-bold-center-td" colspan="2"></td>
+                            <td class="table-bg-bold-center-td">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.TotalAmount).Value.ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-bg-bold-center-td" colspan="2"></td>
+                            <td class="table-bg-bold-center-td" colspan="2">@AccountPaymentPlanResource.InitialAndMonthlyFeeAmounts</td>
+                            <td class="table-bg-bold-center-td" colspan="2"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.StartAmount).Value.ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.MonthlyAmount).Value.ToString(Common.NumberPoints)</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="table-border-td center" style="@msoTextFormat">
+                                <center>
+                                    <label>
+                                        @ReportResource.TaxpayerHasNoPaymentArrangementsMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName)
+                                    </label>
+                                </center>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            if (Model.AccountPaymentPlanServiceDetailList != null && Model.AccountPaymentPlanServiceDetailList.Count() > 0)
+            {
+                <br />
+
+                <table cellspacing="0" class="report-Table">
+                    <thead>
+                        <tr>
+                            <th width="40%" class="table-border-center-th" colspan="2">
+                            </th>
+                            <th width="30%" class="table-border-center-th" colspan="3">
+                                @ReportResource.NumberOfQuotas
+                            </th>
+                            <th width="30%" class="table-border-center-th" colspan="4">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th width="10%" class="table-border-center-th">
+                                @ArtSolutions.MUN.Web.Resources.COLPayment.TotalAmount
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                @ReportResource.MonthlyFee
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                @ReportResource.TOPay
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                @ReportResource.Canceled
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.QuotasToCalculate
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.Delinquent
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @GlobalResource.InitialDate
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @GlobalResource.EndDate
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.LastPayment
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (Model.PaymentPlanByTaxpayerList != null && Model.PaymentPlanByTaxpayerList.Count() > 0)
+                        {
+                            foreach (var objService in Model.PaymentPlanByTaxpayerList.GroupBy(d => d.PaymentPlanNameWithNumber).Select(d => d.Key).Distinct().ToList())
+                            {
+                                <tr>
+                                    <td class="table-border-left-td" colspan="9"><b>@objService</b></td>
+                                </tr>
+                                foreach (var item in Model.PaymentPlanByTaxpayerList.Where(d => d.PaymentPlanNameWithNumber == objService))
+                                {
+                                    <tr>
+                                        <td class="table-border-center-td">
+                                            @item.MONTOTOTAL.ToString(Common.NumberPoints)
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @if (item.CUOTAMENSUAL != null)
+                                            {
+                                                @item.CUOTAMENSUAL.Value.ToString(Common.NumberPoints)
+                                            }
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @item.APagar
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @item.CANCELADAS
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @item.QuotasToCalculate
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @item.MOROSAS
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @if (item.FECHAINICIAL != null)
+                                            {
+                                                @item.FECHAINICIAL.Value.ToString("d")
+                                            }
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @if (item.FECHAFINAL != null)
+                                            {
+                                                @item.FECHAFINAL.Value.ToString("d")
+                                            }
+                                        </td>
+                                        <td class="table-border-center-td">
+                                            @if (item.ULTIMOPAGO != null)
+                                            {
+                                                @item.ULTIMOPAGO.Value.ToString("d")
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr class="no-data">
+                                <td colspan="9" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                if (Model.PaymentPlanByTaxpayerList != null && Model.PaymentPlanByTaxpayerList.Count() > 0)
+                {
+                    <br />
+
+                    <table cellspacing="0" class="report-Table">
+                        <tbody>
+                            <tr>
+                                <td class="table-bg-bold-left-td" colspan="2">
+                                    @Html.Raw(GlobalResource.Interest + " : " + "&nbsp;&nbsp;" + @Model.PaymentPlanByTaxpayerList.Sum(x => x.InterestTotal).ToString(Common.NumberPoints))
+                                </td>
+                                <td class="table-bg-bold-left-td" colspan="2">
+                                    @Html.Raw(GlobalResource.SubTotal + " : " + "&nbsp;&nbsp;" + @Model.PaymentPlanByTaxpayerList.Sum(x => x.SubTotal).ToString(Common.NumberPoints))
+                                </td>
+                                <td class="table-bg-bold-left-td" colspan="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="table-bg-bold-left-td" colspan="2"></td>
+                                <td class="table-bg-bold-left-td" colspan="2">
+                                    @Html.Raw(GlobalResource.Total + " : " + "&nbsp;&nbsp;" + @Model.PaymentPlanByTaxpayerList.Sum(x => x.Total).ToString(Common.NumberPoints))
+                                </td>
+                                <td class="table-bg-bold-left-td" colspan="5"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+            }
+
+        }
+    </div>
+</body>
+</html>
+
+

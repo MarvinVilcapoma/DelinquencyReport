@@ -1,0 +1,456 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPaymentPlanDetailModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountServiceLocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@using HtmlHelpers.BeginCollectionItem;
+
+@{
+    AccountPaymentPlanDetailModel downPayment = new AccountPaymentPlanDetailModel();
+    if (Model != null)
+    {
+        downPayment = Model.Where(x => x.IsDownPayment == true).FirstOrDefault();
+    }
+    var LastServiceType = Model.Select(d => d.SequenceID).OrderBy(d => d).Distinct().LastOrDefault();
+    bool IsReadOnly = false;
+    int Year = 0;
+    int AccountServiceId = 0;
+    int ServiceID = 0;
+    string ServiceName = "";
+    bool IsOnetime = true;
+    var LastAccountPaymentPlanID = Model.Select(d => d.AccountPaymentPlanID).Distinct().OrderBy(d => d).LastOrDefault();
+    bool IsDownpaymentAvailable;
+}
+@if (downPayment != null)
+{
+    foreach (var AccountPaymentPlanID in Model.Select(d => d.AccountPaymentPlanID).Distinct().OrderBy(d => d).ToList())
+    {
+        IsDownpaymentAvailable = Model.Where(x => x.IsDownPayment == true && x.AccountPaymentPlanID == AccountPaymentPlanID).Count() > 0;
+        if (IsDownpaymentAvailable)
+        {
+            <div class="col-lg-12">
+                <div class="ibox-title no-top-border" style="min-height:30px !important">
+                    <h5>
+                        @Model.FirstOrDefault(d => d.AccountPaymentPlanID == AccountPaymentPlanID).PaymentPlanName
+                    </h5>
+                </div>
+                <div class="ibox-content no-padding-top no-padding-bottom">
+                    <div class="row">
+                        <div class="table-responsive m-t m-b project-list">
+                            <table class="table table-multi-row" id="mytable">
+                                <thead>
+                                    <tr>
+                                        <th class="col-lg-1"></th>
+                                        <th class="col-lg-2 text-left"> @GlobalResource.DownPaymentDate </th>
+                                        <th class="col-lg-6">@GlobalResource.ServiceName</th>
+                                        <th class="col-lg-3 text-right"> @GlobalResource.DownPaymentAmount </th>
+                                    </tr>
+                                    @{ IsOnetime = true; }
+                                    @foreach (var item in Model.Where(x => x.IsDownPayment == true && x.AccountPaymentPlanID == AccountPaymentPlanID).ToList().GroupBy(d => new { d.ID, d.ServiceName, d.ServiceID, d.SelectedItem, d.DueDate }).Select(d => new { ID = d.Key.ID, ServiceName = d.Key.ServiceName, ServiceID = d.Key.ServiceID, SelectedItem = d.Key.SelectedItem, DueDate = d.Key.DueDate, PreviousMeasure = d.Min(k => k.PreviousMeasure), ActualMeasure = d.Max(k => k.ActualMeasure), WaterConsumption = (d.Max(k => k.ActualMeasure) - d.Min(k => k.PreviousMeasure)), Balance = d.Sum(k => k.Balance) }))
+                                    {
+                                        <tr>
+                                            <td class="col-lg-1 border-left">
+                                                @if (IsOnetime)
+                                                {
+                                                    @Html.CheckBox("SelectedItem", item.SelectedItem,
+                                                                                              new
+                                                                                              {
+                                                                                                  @onclick = "GetAccountPaymentPlanServiceDetailSelectedItems(this);",
+                                                                                                  dataAccountPaymentPlanDetailID = item.ID,
+                                                                                                  @class = "chkSelectedItem"
+                                                                                              })
+                                                    IsOnetime = false;
+                                                    foreach (var objitem in Model.Where(x => x.ID == item.ID).ToList())
+                                                    {
+                                                        using (Html.BeginCollectionItem("AccountPaymentPlanDetailList"))
+                                                        {
+                                                            @Html.Hidden("ID", objitem.ID)
+                                                            @Html.Hidden("AccountPaymentPlanID", objitem.AccountPaymentPlanID)
+                                                            @Html.Hidden("AccountPaymentPlanServiceDetailID", objitem.AccountPaymentPlanServiceDetailID)
+                                                            @Html.Hidden("Balance", objitem.Balance)
+                                                            @Html.Hidden("IsDownPayment", objitem.IsDownPayment)
+                                                        }
+                                                    }
+                                                }
+
+                                            </td>
+                                            <td class="col-lg-2">
+                                                @item.DueDate.ToString("d")
+                                            </td>
+                                            <td class="col-lg-6">
+                                                @Html.Raw(
+                                                           @item.ServiceName
+                                                         //+
+                                                         //(
+                                                         //item.ServiceID >= 9 && item.ServiceID <= 13
+                                                         //? "<br />" + AccountServiceLocalResource.PreviousMeasure + ": " +
+                                                         //(item.PreviousMeasure.HasValue ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                         //+ " - " + AccountServiceLocalResource.ActualMeasure + ": " +
+                                                         //(item.ActualMeasure.HasValue ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                         //+ " - " + AccountServiceLocalResource.WaterConsumption + ": " +
+                                                         //(item.WaterConsumption.HasValue ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : null)
+                                                         //: ""
+                                                         //)
+                                                         )
+                                            </td>
+                                            <td class="col-lg-3 text-right border-right">
+                                                @item.Balance.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                    @if (AccountPaymentPlanID == LastAccountPaymentPlanID)
+                                    {
+                                        <tr>
+                                            <td class="col-lg-9 text-right" colspan="3">
+                                                <b>@GlobalResource.Total</b>
+                                            </td>
+                                            <td class="col-lg-3 text-right">
+                                                @Model.Where(x => x.IsDownPayment == true).Sum(d => d.Balance).ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+}
+@if (Model.Select(d => d.AccountPaymentPlanID).Distinct().OrderBy(d => d).ToList().Count() > 0)
+{
+    foreach (var AccountPaymentPlanID in Model.Select(d => d.AccountPaymentPlanID).Distinct().OrderBy(d => d).ToList())
+    {
+        <div class="col-lg-12">
+            <div class="ibox-title no-top-border" style="min-height:30px !important">
+                <h5>
+                    @Model.FirstOrDefault(d => d.AccountPaymentPlanID == AccountPaymentPlanID).PaymentPlanName
+                </h5>
+            </div>
+            <div class="ibox-content no-padding-top no-padding-bottom">
+                <div class="row">
+                    <div class="table-responsive m-t m-b project-list">
+                        <table class="table table-multi-row" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-1 text-left"></th>
+                                    <th class="col-lg-1 text-left">@LocalResource.TermNumber</th>
+                                    <th class="col-lg-1 text-left">
+                                        @LocalResource.MonthlyDueDate
+                                    </th>
+                                    <th class="col-lg-2 text-left">
+                                        @GlobalResource.ServiceName
+                                    </th>
+                                    <th class="text-right col-lg-2">
+                                        @GlobalResource.Principal
+                                    </th>
+                                    <th class="text-right col-lg-2">
+                                        @LocalResource.ProjectedInterests
+                                    </th>
+                                    <th class="text-right col-md-2">
+                                        @LocalResource.LateInterest
+                                    </th>
+                                    <th class="text-right col-lg-2">
+                                        @LocalResource.MonthlyAmount
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@{
+                                        List<AccountPaymentPlanDetailModel> list = Model.Where(x => x.IsDownPayment == false).GroupBy(d => new { d.ID, d.AccountPaymentPlanID, d.ServiceName, d.ServiceID, d.SequenceID, d.SelectedItem, d.DueDate, d.IsPaid, d.PaymentDate }).Select(d =>
+                                         new AccountPaymentPlanDetailModel
+                                         {
+                                             ID = d.Key.ID,
+                                             AccountPaymentPlanID = d.Key.AccountPaymentPlanID,
+                                             ServiceName = d.Key.ServiceName,
+                                             ServiceID = d.Key.ServiceID,
+                                             PreviousMeasure = d.Min(k => k.PreviousMeasure),
+                                             ActualMeasure = d.Max(k => k.ActualMeasure),
+                                             WaterConsumption = (d.Max(k => k.ActualMeasure) - d.Min(k => k.PreviousMeasure)),
+                                             Balance = d.Sum(k => k.Balance),
+                                             SequenceID = d.Key.SequenceID,
+                                             SelectedItem = d.Key.SelectedItem,
+                                             DueDate = d.Key.DueDate,
+                                             Principal = d.Sum(k => k.Principal),
+                                             Interest = d.Sum(k => k.Interest),
+                                             LateInterest = d.Sum(k => k.LateInterest),
+                                             IsPaid = d.Key.IsPaid,
+                                             PaymentDate = d.Key.PaymentDate
+                                         }).ToList();
+                                    }*@
+                                @if (Model.Where(x => x.IsDownPayment == false && x.AccountPaymentPlanID == AccountPaymentPlanID).Count() > 0)
+                                {
+
+                                    List<AccountPaymentPlanDetailModel> list = Model.Where(x => x.IsDownPayment == false && x.AccountPaymentPlanID == AccountPaymentPlanID).GroupBy(d => new { d.ID, d.AccountPaymentPlanID, d.ServiceName, d.ServiceID, d.SequenceID, d.SelectedItem, d.DueDate, d.IsPaid, d.PaymentDate }).Select(d =>
+                                     new AccountPaymentPlanDetailModel
+                                     {
+                                         ID = d.Key.ID,
+                                         AccountPaymentPlanID = d.Key.AccountPaymentPlanID,
+                                         ServiceName = d.Key.ServiceName,
+                                         ServiceID = d.Key.ServiceID,
+                                         PreviousMeasure = d.Min(k => k.PreviousMeasure),
+                                         ActualMeasure = d.Max(k => k.ActualMeasure),
+                                         WaterConsumption = (d.Max(k => k.ActualMeasure) - d.Min(k => k.PreviousMeasure)),
+                                         Balance = d.Sum(k => k.Balance),
+                                         SequenceID = d.Key.SequenceID,
+                                         SelectedItem = d.Key.SelectedItem,
+                                         DueDate = d.Key.DueDate,
+                                         Principal = d.Sum(k => k.Principal),
+                                         Interest = d.Sum(k => k.Interest),
+                                         LateInterest = d.Sum(k => k.LateInterest),
+                                         IsPaid = d.Key.IsPaid,
+                                         PaymentDate = d.Key.PaymentDate
+                                     }).ToList();
+
+                                    var i = 0; int CurrModuleName = 0; var LastIndex = list.Count(); var Flag = true;
+                                    foreach (var item in list)
+                                    {
+                                        <tr id="@item.ID">
+                                            @{
+                                                if (downPayment != null)
+                                                {
+                                                    IsReadOnly = true;
+                                                    item.SelectedItem = false;
+                                                }
+                                                else if (i == 0)
+                                                {
+                                                    IsReadOnly = false;
+                                                }
+                                                else if ((list[i - 1].SelectedItem == false))
+                                                {
+                                                    IsReadOnly = true;
+                                                    item.SelectedItem = false;
+                                                }
+                                                else if ((list[i - 1].SelectedItem == true))
+                                                {
+                                                    IsReadOnly = false;
+                                                }
+                                                else if (Model.Where(d => d.SequenceID < item.SequenceID - 1 && d.AccountPaymentPlanID == item.AccountPaymentPlanID && d.SelectedItem == false && Model.FirstOrDefault(k => k.SequenceID == item.SequenceID - 1 && k.SelectedItem == true) != null).Count() > 0 || downPayment != null)
+                                                {
+                                                    IsReadOnly = true;
+                                                    item.SelectedItem = false;
+                                                }
+                                                else
+                                                {
+                                                    IsReadOnly = false;
+                                                }
+
+                                            }
+
+                                            @if (Flag)
+                                            {
+                                                <td class="text-left border-left">
+                                                    @if (IsReadOnly)
+                                                    {
+
+                                                        @Html.CheckBox("SelectedItem", item.SelectedItem,
+                                                                                                                                                           new
+                                                                                                                                                           {
+                                                                                                                                                               @onclick = "GetAccountPaymentPlanServiceDetailSelectedItems(this);",
+                                                                                                                                                               dataAccountPaymentPlanDetailID = item.ID,
+                                                                                                                                                               @class = "chkSelectedItem",
+                                                                                                                                                               @disabled = "disabled"
+                                                                                                                                                           })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.CheckBox("SelectedItem", item.SelectedItem,
+                                                                                                                                                          new
+                                                                                                                                                          {
+                                                                                                                                                              @onclick = "GetAccountPaymentPlanServiceDetailSelectedItems(this);",
+                                                                                                                                                              dataAccountPaymentPlanDetailID = item.ID,
+                                                                                                                                                              @class = "chkSelectedItem"
+                                                                                                                                                          })
+
+                                                    }
+
+                                                </td>
+                                                <td class="text-left">
+                                                    @item.SequenceID
+                                                </td>
+                                                <td class="text-left">
+                                                    @item.DueDate.ToString("d")
+                                                </td>
+                                                foreach (var objitem in Model.Where(x => x.ID == item.ID).ToList())
+                                                {
+                                                    using (Html.BeginCollectionItem("AccountPaymentPlanDetailList"))
+                                                    {
+                                                        @Html.Hidden("ID", objitem.ID)
+                                                        @Html.Hidden("AccountPaymentPlanID", objitem.AccountPaymentPlanID)
+                                                        @Html.Hidden("AccountPaymentPlanServiceDetailID", objitem.AccountPaymentPlanServiceDetailID)
+                                                        @Html.Hidden("Balance", objitem.Balance)
+                                                        @Html.Hidden("IsDownPayment", objitem.IsDownPayment)
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            }
+                                            <td class="text-left">
+                                                @Html.Raw(
+                                                                                                                    @item.ServiceName
+                                                                                                                  //+
+                                                                                                                  //(
+                                                                                                                  //item.ServiceID >= 9 && item.ServiceID <= 13
+                                                                                                                  //? "<br />" + AccountServiceLocalResource.PreviousMeasure + ": " +
+                                                                                                                  //(item.PreviousMeasure.HasValue ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                                                                                  //+ " - " + AccountServiceLocalResource.ActualMeasure + ": " +
+                                                                                                                  //(item.ActualMeasure.HasValue ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                                                                                  //+ " - " + AccountServiceLocalResource.WaterConsumption + ": " +
+                                                                                                                  //(item.WaterConsumption.HasValue ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : null)
+                                                                                                                  //: ""
+                                                                                                                  //)
+                                                                                                                  )
+                                            </td>
+                                            <td class="text-right">
+                                                @item.Principal.ToString("c")
+                                            </td>
+                                            <td class="text-right">
+                                                @item.Interest.ToString("c")
+                                            </td>
+                                            <td class="text-right">
+                                                @item.LateInterest.ToString("c")
+                                            </td>
+                                            <td class="text-right border-right">
+                                                @item.Balance.ToString("c")
+                                            </td>
+                                        </tr>
+
+                                        if (i == 0) { CurrModuleName = item.SequenceID; }
+                                        if (i != LastIndex - 1)
+                                        {
+                                            if (CurrModuleName != list[i + 1].SequenceID)
+                                            {
+                                                Flag = true;
+                                                <tr class="font-bold">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-right">@GlobalResource.Total</td>
+                                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal).ToString("C")</td>
+                                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest).ToString("C")</td>
+                                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest).ToString("C")</td>
+                                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Balance).ToString("C")</td>
+
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                Flag = false;
+                                            }
+                                            CurrModuleName = list[i + 1].SequenceID;
+                                        }
+                                        else if (i == LastIndex - 1)
+                                        {
+                                            <tr class="font-bold">
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="text-right">@GlobalResource.Total</td>
+                                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal).ToString("C")</td>
+                                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest).ToString("C")</td>
+                                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest).ToString("C")</td>
+                                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Balance).ToString("C")</td>
+
+                                            </tr>
+                                        }
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" class="text-center">@GlobalResource.NoDataMessage</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @if (AccountPaymentPlanID == LastAccountPaymentPlanID)
+                            {
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                        <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                        <td class="text-right">
+                                            <span id="spnNetPayment" class="spnFooterAmount"> @Model.Sum(x => x.Balance).ToString("c") </span>
+                                        </td>
+                                    </tr>
+                                    @if (Model.Where(x => x.SelectedItem == true).Count() > 0)
+                                    {
+                                        <tr>
+                                            <td colspan="6"></td>
+                                            <td class="text-right"><strong>Sub Total :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Principal).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Interest :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Interest).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6"></td>
+                                            <td class="text-right"><strong>@LocalResource.LateInterest :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.LateInterest).ToString("c") </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="6"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Balance).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tfoot>
+                            }
+                        </table>
+                    </div>
+                    @Html.Hidden("AccountPaymentPlanDetailIDs", string.Join(",", Model.Where(d => d.SelectedItem == true).Select(d => d.ID)))
+                    <input type="hidden" id="hdnTotal" value="@Html.Raw(Model != null && Model.Count() > 0 ? Model.Where(x => x.SelectedItem == true).Sum(x => x.Balance).ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))" />
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@if (downPayment == null && Model.Select(d => d.AccountPaymentPlanID).Distinct().OrderBy(d => d).ToList().Count() == 0)
+{
+    <div class="col-lg-12">
+        <div class="ibox-content no-padding-top no-padding-bottom">
+            <div class="row">
+                <div class="table-responsive m-t m-b project-list">
+                    <table class="table table-multi-row" id="mytable">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-1 text-left"></th>
+                                <th class="col-lg-1 text-left">@LocalResource.TermNumber</th>
+                                <th class="col-lg-1 text-left">@LocalResource.MonthlyDueDate</th>
+                                <th class="col-lg-2 text-left">@GlobalResource.ServiceName</th>
+                                <th class="text-right col-lg-2">@GlobalResource.Principal</th>
+                                <th class="text-right col-lg-2">@LocalResource.ProjectedInterests</th>
+                                <th class="text-right col-md-2">@LocalResource.LateInterest</th>
+                                <th class="text-right col-lg-2">@LocalResource.MonthlyAmount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8" class="text-center">@GlobalResource.NoDataMessage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,79 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div id="dvCaseSearchView" class="row hidden">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top-15">
+        <div class="panel panel-default no-margin-bottom">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.CaseID</label>
+                                    @Html.TextBoxFor(m => m.CaseID, new { @class = "form-control", @maxlength = "13", @Value = "" })
+                                    @Html.HiddenFor(m => Model.StatusID, new { @id = "hdnStatusID" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Key</label>
+                                    @Html.TextBoxFor(m => m.KeyCode, new { @class = "form-control", @maxlength = "50" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Municipality</label>
+                                    @Html.DropDownListFor(m => Model.CompanyID, (Model.CompanyList == null ? Enumerable.Empty<SelectListItem>() : Model.CompanyList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown position-inherit" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@GlobalResource.Business</label>
+                                    @Html.TextBoxFor(m => m.BusinessName, new { @class = "input-sm form-control", @maxlength = "50" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Priority</label>
+                                    @Html.DropDownListFor(m => Model.PriorityID, (Model.CasePriorityList == null ? Enumerable.Empty<SelectListItem>() : Model.CasePriorityList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown position-inherit" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Weight</label>
+                                    @Html.DropDownListFor(m => Model.Weight, (Model.WeightList == null ? Enumerable.Empty<SelectListItem>() : Model.WeightList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown position-inherit" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.AssignedTo</label>
+                                    @Html.DropDownListFor(m => Model.AssignToID, (Model.CaseTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.CaseTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown position-inherit" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-group">
+                                    <label class="control-label">@GlobalResource.Reason</label>
+                                    @Html.DropDownListFor(m => Model.ReasonID, (Model.WorkflowReason == null ? Enumerable.Empty<SelectListItem>() : Model.WorkflowReason.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown position-inherit" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding-right padding-right-5">
+                                <div class="form-group">
+                                    <label class="control-label invisible">@GlobalResource.Go</label>
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnGo"> @GlobalResource.Go</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

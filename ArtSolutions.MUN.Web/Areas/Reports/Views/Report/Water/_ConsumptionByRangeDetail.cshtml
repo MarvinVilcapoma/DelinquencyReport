@@ -1,0 +1,68 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ConsumptionByRangeModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblConsumptionRange" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.Consecutive
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.MeterNo
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.RightNumber
+                </th>
+                <th style="min-width:100px;">
+                    @ReportResource.AccountID
+                </th>
+                <th style="min-width:100px;">
+                    @GlobalResource.AccountName
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.LastReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.CurrentReading
+                </th>
+                <th style="min-width:100px;" class="text-right">
+                    @ReportResource.Consumption (<em>m</em> <sup>3</sup>)
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Water/_ConsumptionRangeDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyConsumptionRange">
+                    <td class="text-center"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"></td>
+                    <td class="text-right"></td>
+                    <td class="text-right">
+                        <a id="consumptionRangeShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.ConsumptionRangeList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreConsumptionRange(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

@@ -1,0 +1,323 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ExportBankPaymentsModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Data;
+
+<div class="table-responsive m-t">
+    <table id="tblExportBankPayments" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                @if (Model.ExportBankPaymentsList.Rows.Count == 0)
+                {
+                    <th style="min-width:100px;" class="text-center"> CODIGOBANC </th>
+                    <th style="min-width:100px;" class="text-center"> CODIGOEMPR </th>
+                    <th style="min-width:100px;" class="text-center"> CODIGOCONV </th>
+                    <th style="min-width:100px;" class="text-center"> TIPOREGIST </th>
+                    <th style="min-width:100px;" class="text-center"> IDENTIFICA </th>
+                    <th style="min-width:100px;" class="text-center"> CEDULA 	 </th>
+                    <th style="min-width:100px;" class="text-center"> NOMBRE 	 </th>
+                    <th style="min-width:100px;" class="text-center"> CODIGOMONE </th>
+                    <th style="min-width:100px;" class="text-center"> LLAVEACCES </th>
+                    <th style="min-width:100px;" class="text-center"> PERIODOREC </th>
+                    <th style="min-width:100px;" class="text-center"> FECHA_VENC </th>
+                    <th style="min-width:100px;" class="text-center"> FECHA_RECA </th>
+                    <th style="min-width:100px;" class="text-center"> MONTO_RECI </th>
+                    <th style="min-width:100px;" class="text-center"> MONTO_COMI </th>
+                    <th style="min-width:100px;" class="text-center"> MONTO_INT  </th>
+                    <th style="min-width:100px;" class="text-center"> MONTO_MORA </th>
+                    <th style="min-width:100px;" class="text-center"> NUMER_RECI </th>
+                    <th style="min-width:100px;" class="text-center"> SELF_VERIF </th>
+                    <th style="min-width:100px;" class="text-center"> CANT_RUBRO </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR01 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR01 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR01 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR01 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR02 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR02 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR02 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR02 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR03 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR03 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR03 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR03 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR04 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR04 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR04 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR04 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR05 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR05 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR05 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR05 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR06 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR06 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR06 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR06 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR07 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR07 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR07 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR07 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR08 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR08 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR08 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR08 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR09 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR09 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR09 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR09 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR10 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR10 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR10 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR10 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR11 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR11 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR11 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR11 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR12 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR12 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR12 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR12 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR13 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR13 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR13 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR13 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR14 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR14 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR14 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR14 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR15 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR15 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR15 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR15 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR16 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR16 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR16 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR16 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR17 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR17 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR17 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR17 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR18 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR18 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR18 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR18 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR19 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR19 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR19 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR19 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR20 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR20 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR20 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR20 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR21 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR21 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR21 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR21 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR22 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR22 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR22 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR22 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR23 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR23 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR23 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR23 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR24 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR24 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR24 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR24 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR25 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR25 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR25 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR25 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR26 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR26 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR26 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR26 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR27 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR27 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR27 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR27 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR28 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR28 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR28 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR28 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR29 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR29 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR29 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR29 </th>
+                    <th style="min-width:100px;" class="text-center"> COD_RUBR30 </th>
+                    <th style="min-width:100px;" class="text-center"> MON_RUBR30 </th>
+                    <th style="min-width:100px;" class="text-center"> PER_RUBR30 </th>
+                    <th style="min-width:100px;" class="text-center"> DES_RUBR30 </th>
+                }
+                else
+                {
+                    foreach (DataColumn col in Model.ExportBankPaymentsList.Columns)
+                    {
+                        <th style="min-width:100px;" class="text-center">@col.ColumnName</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @{
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Bank/_ExportBankPaymentsDetailList.cshtml", Model.ExportBankPaymentsList);
+            }
+
+            @if (Model.TotalRecord > 10)
+            {
+                <tr id="tbodyExportBankPayments">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <a id="exportBankPaymentsShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.ExportBankPaymentsList.Rows.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreExportBankPayments(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

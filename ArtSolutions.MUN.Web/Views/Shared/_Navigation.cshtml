@@ -1,0 +1,159 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using CompanyResource = ArtSolutions.MUN.Web.Resources.Company
+
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span>
+                        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.ProfileImage > 0)
+                        {
+                            var imageURL = ArtSolutions.MUN.Web.Common.SecurityFileURL + ArtSolutions.MUN.Web.Helpers.UserSession.Current.ProfileImage;
+                            <img src="@imageURL" alt="image" class="img-responsive img-md img-circle">
+                        }
+                        else
+                        {
+                            <button class="btn btn-success btn-circle btn-lg" type="button">
+                                <i class="fa fa-user"></i>
+                            </button>
+                        }
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">
+                                    @if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                                    {
+                                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username<b class="caret">&nbsp;</b>
+                                    }
+                                    else
+                                    {
+                                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Email<b class="caret">&nbsp;</b>
+                                    }
+                                </strong>
+                            </span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.IsOwner && ArtSolutions.MUN.Web.Helpers.UserSession.Current.CompanyID > 0)
+                        {
+                            <li><a href="@Url.Action("Edit", "Company", new { area = "Companies" })">@CompanyResource.NavEditTitle </a></li>
+                        }
+                        <li><a href="@Url.Action("LogOff", "Home", new { area = "" })">@GlobalResource.Logout</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    RULE
+                </div>
+            </li>
+            <li class="@Html.IsSelected(controller: "Home")">
+                <a href="~/"><i class="fa fa-th"></i> <span class="nav-label" data-i18n="nav.Dashboard">@GlobalResource.Dashboard</span></a>
+            </li>
+            <li class="@Html.IsSelected(controller: "Account,AccountService,AccountPaymentPlan,AccountProperty,PropertyTransfer")">
+                <a href="javascript:;"><i class="fa fa-book"></i> <span class="nav-label" data-i18n="nav.appviews">@GlobalResource.Accounts</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level @Html.IsSelected(controller: "Account")">
+                    <li class="@Html.IsSelected(controller: "Account")"><a href="@Url.Action("List", "Account", new { area = "Accounts" })">@GlobalResource.Account</a></li>
+                    <li class="@Html.IsSelected(controller: "AccountService")"><a href="@Url.Action("List", "AccountService", new { area = "Accounts" })">@GlobalResource.AccountService</a></li>
+                    <li class="@Html.IsSelected(controller: "AccountProperty")"><a href="@Url.Action("List", "AccountProperty", new { area = "Accounts" })">@GlobalResource.AccountProperty</a></li>
+                    <li class="@Html.IsSelected(controller: "PropertyTransfer")"><a href="@Url.Action("Index", "PropertyTransfer", new { area = "Collections" })">@GlobalResource.PropertyTransfer </a></li>
+                    <li class="@Html.IsSelected(controller: "AccountPaymentPlan")"><a href="@Url.Action("List", "AccountPaymentPlan", new { area = "Accounts" })">@GlobalResource.AccountPaymentPlan</a></li>
+                </ul>
+            </li>
+
+            <li class="@Html.IsSelected(controller: "Invoice,Payment,ClosingEntry,DepositEntry,CreditNote,DebitNote,PostingProcess")">
+                <a href="javascript:;"><i class="fa fa-money"></i>  <span class="nav-label" data-i18n="nav.appviews">@GlobalResource.Collections</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level @Html.IsSelected(controller: "Invoice,Payment") ">
+                    <li class="@Html.IsSelected(controller: "Invoice")"><a href="@Url.Action("Index", "Invoice", new { area = "Collections" })">@GlobalResource.Invoices</a></li>
+                    <li class="@Html.IsSelected(controller: "Payment")"><a href="@Url.Action("Index", "Payment", new { area = "Collections" })">@GlobalResource.PaymentReceipt </a></li>
+                    <li class="@Html.IsSelected(controller: "ClosingEntry")"><a href="@Url.Action("Index", "ClosingEntry", new { area = "Collections" })">@GlobalResource.CloseEntryDay </a></li>
+                    <li class="@Html.IsSelected(controller: "DepositEntry")"><a href="@Url.Action("Index", "DepositEntry", new { area = "Collections" })">@GlobalResource.DepositEntry </a></li>
+                    <li class="@Html.IsSelected(controller: "CreditNote")"><a href="@Url.Action("Index", "CreditNote", new { area = "Collections" })">@GlobalResource.CreditNote </a></li>
+                    <li class="@Html.IsSelected(controller: "DebitNote")"><a href="@Url.Action("Index", "DebitNote", new { area = "Collections" })">@GlobalResource.DebitNote </a></li>
+                    @*<li class="@Html.IsSelected(controller: "PostingProcess",action:"Index,Add,View")"><a href="@Url.Action("Index", "PostingProcess", new { area = "Collections" })">@GlobalResource.Post </a></li>*@
+                    <li class="@Html.IsSelected(controller: "PostingProcess",action:"List,NewPost")"><a href="@Url.Action("List", "PostingProcess", new { area = "Collections" })">@GlobalResource.AccountingRecord</a></li>
+                </ul>
+            </li>
+            <li class="@Html.IsSelected(controller: "Service,CollectionTemplate,PaymentPlan")">
+                <a href="javascript:;"><i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.Service">@GlobalResource.ServiceMenu</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level @Html.IsSelected(controller: "Service,CollectionTemplate")">
+                    <li class="@Html.IsSelected(controller: "Service")"><a href="@Url.Action("List", "Service", new { area = "Services" })">@GlobalResource.Service</a></li>
+                    <li class="@Html.IsSelected(controller: "CollectionTemplate")"><a href="@Url.Action("List", "CollectionTemplate", new { area = "Services" })">@GlobalResource.CollectionTemplate</a></li>
+                    <li class="@Html.IsSelected(controller: "PaymentPlan")"><a href="@Url.Action("List", "PaymentPlan", new { area = "Services" })">@GlobalResource.ServicePaymentPlan</a></li>
+                    <li class="@Html.IsSelected(controller: "SchedulerEmail")"><a href="@Url.Action("List", "SchedulerEmail", new { area = "Schedulers" })">@GlobalResource.SchedulerEmail</a></li>
+                </ul>
+            </li>
+
+            @*@if (Convert.ToBoolean(TempData["IsMuniTaxModuleExist"]) == true)
+            {*@
+                <li class="@Html.IsSelected(controller: "Case, PrintTemplate")">
+                    <a href="javascript:;">
+                        <i class="fa fa-files-o"></i>
+                        <span class="nav-label" data-i18n="nav.Munitax">@GlobalResource.Munitax</span><span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level">
+                        <li class="@Html.IsSelected(controller: "Case", action: "Dashboard")"><a href="@Url.Action("Dashboard", "Case", new { area = "Cases" })">@GlobalResource.Dashboard</a></li>
+                        @{
+                            if (TempData[Common.T_DocumentWorkflow] != null)
+                            {
+                                List<SelectListItemViewModel> selectListItemViewModel = TempData[Common.T_DocumentWorkflow] as List<SelectListItemViewModel>;
+                                <li class="@Html.IsSelected(controller: "Case", action: "List,View,PrintLetter")">
+                                    <a href="#"><span class="nav-label" data-i18n="nav.Cases">@GlobalResource.Cases</span><span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level @Html.IsSelected(controller: "Case", action: "List,View,PrintLetter", id: string.Join(",", selectListItemViewModel.Select(a => a.ID).ToArray()), cssClass: "in")">
+                                        @if (selectListItemViewModel != null && selectListItemViewModel.Any())
+                                        {
+                                            foreach (var item in selectListItemViewModel)
+                                            {
+                                                <li class="@Html.IsSelected(controller: "Case", id: item.ID.ToString(), action: "List,View,PrintLetter")"><a href="@Url.Action("List", "Case", new { area = "Cases", id = item.ID })">@item.Name</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+
+                            }
+                        }
+
+                        <li class="@Html.IsSelected(controller: "PrintTemplate", action: "List")"><a href="@Url.Action("List", "PrintTemplate", new { area = "PrintTemplates" })">@GlobalResource.PrintTemplate</a></li>
+                        <li class="@Html.IsSelected(controller: "Case", action: "PrintLetterList")"><a href="@Url.Action("PrintLetterList", "Case", new { area = "Cases" })">@GlobalResource.PrintCenter</a></li>
+                    </ul>
+                </li>
+                @{TempData.Keep("IsMuniTaxModuleExist"); }
+            @*  }*@
+
+
+            <li class="@Html.IsSelected(controller: "Report")">
+                <a href="@Url.Action("Report", "Report", new { area="Reports" })"><i class="fa fa-file-text-o"></i> <span class="nav-label" data-i18n="nav.Service">@GlobalResource.Reports</span></a>
+            </li>
+            <li class="@Html.IsSelected(controller: "Workflow,WorkflowForm,WorkflowGroup,WorkflowReason",action:"List,Add,Edit,Editor,Get")">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="nav-label" data-i18n="nav.Workflow">
+                        @GlobalResource.Workflow
+                    </span><span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level @Html.IsSelected(controller: "Workflow")">
+                    <li class="@Html.IsSelected(controller: "Workflow", action: "List,Add,Edit,Editor")">
+                        <a href="@Url.Action("List", "Workflow", new { area = "Workflows" })">
+                            @GlobalResource.Workflow
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(controller: "WorkflowReason", action: "List,Get")">
+                        <a href="@Url.Action("List", "WorkflowReason", new { area = "Workflows" })">
+                            @GlobalResource.Reason
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(controller: "WorkflowGroup", action: "List,Add")">
+                        <a href="@Url.Action("List", "WorkflowGroup", new { area = "Workflows" })">
+                            @GlobalResource.Group
+                        </a>
+                    </li>
+                    <li class="@Html.IsSelected(controller: "WorkflowForm", action: "List")">
+                        <a href="@Url.Action("List", "WorkflowForm", new { area = "Workflows" })">
+                            @GlobalResource.Form
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,180 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ReceiptDetail;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportReceiptDetail", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">                                   
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control periodDate textblur", tabindex = 1, @data_required_msg = LocalResource.FromDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control periodDate textblur", tabindex = 2, @data_required_msg = LocalResource.ToDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" class="text-underline" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" onclick="return validateForm();" tabindex="5">@GlobalResource.Excel</button>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline m-l-n">
+                                    <span class="label label-warning pull-left hide" id="spnBalanceRange">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('balance')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedAccount">  <i class="fa fa-search"></i> <span id="AccountIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('accounts')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedCollector">  <i class="fa fa-search"></i> <span id="CollectorIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('collector')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedDocument">  <i class="fa fa-search"></i> <span id="DocumentSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('documents')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedAccountServiceType">  <i class="fa fa-search"></i> <span id="AccountServiceTypeIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('accountservicetypes')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedInvoiceType">  <i class="fa fa-search"></i> <span id="InvoiceTypeIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('invoicetypes')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedPaymentPlanType">  <i class="fa fa-search"></i> <span id="PaymentPlanTypeIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('paymentplantypes')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedBankAccount">  <i class="fa fa-search"></i> <span id="BankAccountIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('bankaccounts')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedGrant">  <i class="fa fa-search"></i> <span id="GrantIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('grants')"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedCheckbook">  <i class="fa fa-search"></i> <span id="CheckbookIdSearchText"></span>  <i class="fa fa-close report-cursor-pointer" onclick="clearSearch('checkbooks')"></i></span>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div id="divReceiptDetailReport">
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.BalanceFrom)
+                @Html.HiddenFor(x => x.BalanceTo)
+                @Html.HiddenFor(x => x.FilterAccountID)
+                @Html.HiddenFor(x => x.FilterCashierID)
+                @Html.HiddenFor(d => d.FilterInvoiceTypeID)
+                @Html.HiddenFor(d => d.FilterPaymentPlanTypeID)
+                @Html.HiddenFor(d => d.FilterBankAccountID)
+                @Html.HiddenFor(d => d.FilterGrantID)
+                @Html.HiddenFor(d => d.FilterCheckbookID)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Account</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("AccountIDs", new SelectList(Model.AccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "6" })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.Collector</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("CashierIDs", new SelectList(Model.CashierList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "7" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Grant</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("GrantIDs", new SelectList(Model.GrantList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "8" })
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.Checkbook</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("CheckbookIDs", new SelectList(Model.CheckbookList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "9" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.BankAccount</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("BankAccountIDs", new SelectList(Model.BankAccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "10" })
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.ServiceType</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("AccountServiceTypeIDs", new SelectList(Model.AccountServiceTypeList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "11" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.InvoiceItem</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("InvoiceTypeIDs", new SelectList(Model.InvoiceTypeList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "12" })
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.PaymentPlan</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("PaymentPlanTypeIDs", new SelectList(Model.PaymentPlanTypeList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "13" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.BalanceFrom</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("BalanceFrom", Model.BalanceFrom, new { @class = "form-control inputdecimal text-right", @id = "txtBalanceFrom", autofocus = "autofocus", @data_title = LocalResource.BalanceFrom, @data_val_msg = LocalResource.BalanceFromRequiredMsg, tabindex = 12 })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.BalanceTo</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("BalanceTo", Model.BalanceTo, new { @class = "form-control inputdecimal text-right", @id = "txtBalanceTo", @data_title = LocalResource.BalanceTo, @data_val_msg = LocalResource.BalanceToRequiredMsg, tabindex = 13 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex=14>@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex=15>@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script type="text/javascript">
+        var SelectedAccount = '@Html.Raw(LocalResource.SelectedAccount)';
+        var SelectedCollector = '@Html.Raw(LocalResource.SelectedCollector)';
+        var SelectedServiceType = '@Html.Raw(GlobalResource.ServiceType)';
+        var SelectedInvoiceItem = '@Html.Raw(GlobalResource.InvoiceItem)';
+        var SelectedPaymentPlan = '@Html.Raw(GlobalResource.PaymentPlan)';
+        var SelectedBankAccount = '@Html.Raw(GlobalResource.BankAccount)';
+        var SelectedGrant = '@Html.Raw(GlobalResource.Grant)';
+        var SelectedCheckbook = '@Html.Raw(GlobalResource.Checkbook)';
+        var balanceFromRequiredMsg = '@Html.Raw(LocalResource.BalanceFromRequiredMsg)';
+        var balanceToRequiredMsg = '@Html.Raw(LocalResource.BalanceToRequiredMsg)';
+        var compareBalanceValidationMsg = '@Html.Raw(LocalResource.CompareBalanceValidationMsg)';
+        var BalanceRange = '@Html.Raw(LocalResource.BalanceRange)';
+        var NoDataMsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="~/Scripts/app/repreceiptdetail.js"></script>
+}

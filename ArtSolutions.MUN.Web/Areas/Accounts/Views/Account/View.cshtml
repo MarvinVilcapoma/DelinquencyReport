@@ -1,0 +1,1792 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using InvoiceResource = ArtSolutions.MUN.Web.Resources.COLInvoice
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = LocalResource.ViewTitle;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.Account</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Account", new { area = "Accounts" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+@Html.HiddenFor(model => model.RowVersion, new { id = "hdAccountRowVersion" })
+@Html.HiddenFor(model => model.ServiceId)
+<div class="wrapper wrapper-content project-manager">
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <div class="btn-group pull-right">
+                                    <button id="btnActions"
+                                            data-toggle="dropdown"
+                                            class="btn btn-primary btn-xs dropdown-toggle">
+                                        @GlobalResource.Actions<span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a id="lnkViewEdit" target="_blank"
+                                               class="@(Model.IsActive ? "" : "disabled")"
+                                               href='@Url.Content("~/Account/Edit?accountID=" + Model.ID + "&accountType=" + Model.AccountTypeID)'>
+                                                <button type="button">@GlobalResource.Edit</button>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href='@Url.Content("~/Report/AccountStatement?accountID=" + Model.ID)'>
+                                                <button type="button">@GlobalResource.AccountStatement</button>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href='@Url.Content("~/Report/HistoricalReadingsByMeter?accountID=" + Model.ID)'>
+                                                <button type="button">@GlobalResource.WaterReadings</button>
+                                            </a>
+                                        </li>
+                                        @if (Model.IsInJudicialCollection == true)
+                                        {
+                                            if (Model.AllowRemoveFromJudicialCollection == true)
+                                            {
+                                                <li id="lnkRemoveFromJudicialCollection" onclick="ConfirmAddRemoveForJudicialCollection('unblock');"><a> @GlobalResource.JudicialCollection </a></li>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (Model.AllowAddInJudicialCollection == true)
+                                            {
+                                                <li id="lnkAddInJudicialCollection" onclick="ConfirmAddRemoveForJudicialCollection('block');"><a> @GlobalResource.JudicialCollection </a></li>
+                                            }
+                                        }
+                                        @*@if (Model.IsNeedTempRight == true)
+                                            {*@
+                                        <li id="lnkRemoveFromJudicialCollection" onclick="ConfirmTemporaryRightAdded();"><a> @GlobalResource.TemporaryAcountProperty </a></li>
+
+                                        @*}*@
+                                        <li id="lnkAddCreditHistory"><a> @GlobalResource.Credit </a></li>
+                                        <li id="lnkAddDebitHistory"><a> @GlobalResource.Debit </a></li>
+                                    </ul>
+                                </div>
+
+                                <h2 class="text-description-field">
+                                    <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Model.DisplayName">
+                                        @Model.DisplayName
+                                    </span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                @if (Model.AccountTypeID == 4)
+                                {
+                                    <dt>@LocalResource.IDType:</dt>
+                                    <dd class="text-description-field">
+                                        @if (string.IsNullOrEmpty(@Model.GeneralIndividualModel.IDType))
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                        else
+                                        {
+                                            @Model.GeneralIndividualModel.IDType
+                                        }
+                                    </dd>
+                                }
+                                @if (Model.AccountTypeID == 4)
+                                {
+                                    <dt class="m-t-sm">@GlobalResource.SocialSecurity:</dt>
+                                    <dd class="m-t-sm text-description-field">@Model.TaxNumber</dd>
+                                }
+                                @if (Model.AccountTypeID == 5)
+                                {
+                                    <dt>@LocalResource.EIN:</dt>
+                                    <dd class="text-description-field">@Model.TaxNumber</dd>
+
+                                    if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+                                    {
+                                        <dt class="m-t-sm">@LocalResource.StateDepartmentRegisterNumber1:</dt>
+                                        <dd class="m-t-sm text-description-field">@Model.StateNumber</dd>
+                                        <dt class="m-t-sm">@LocalResource.TreasuryDepartment:</dt>
+                                        <dd class="m-t-sm text-description-field">@Model.TreasuryNumber</dd>
+                                    }
+                                }
+                                <dt class="m-t-sm">@GlobalResource.Reference:</dt>
+                                <dd class="m-t-sm text-description-field">@Model.RegisterNumber</dd>
+
+                                @if (Model.AccountTypeID == 5 && ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52) // Business
+                                {
+                                    <dt class="m-t-sm">@LocalResource.NAICSCode:</dt>
+                                    <dd class="m-t-sm text-description-field">@Model.RegistrationBusinessModel.NAICSCode</dd>
+                                }
+
+                                <dt class="m-t-sm">@LocalResource.Identifica:</dt>
+                                <dd class="m-t-sm">@Model.BanacioIdentifica</dd>
+
+                                <dt class="m-t-sm">@LocalResource.IsSponsor:</dt>
+                                <dd class="m-t-sm">@Html.Raw(Model.IsSponsor ? GlobalResource.Yes : GlobalResource.No)</dd>
+
+                                <dt class="m-t-sm">@GlobalResource.Creditbalance:</dt>
+                                <dd class="m-t-sm">@Model.CreditBalance.ToString("C")</dd>
+
+                                <dt class="m-t-sm">@GlobalResource.DebitBalance:</dt>
+                                <dd class="m-t-sm">@Model.DebitBalance.ToString("C")</dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6" id="cluster_info">
+                            <dl class="dl-horizontal">
+                                <dt>@GlobalResource.Status:</dt>
+                                <dd>
+                                    @if (Model.IsActive == true)
+                                    {
+                                        <a href="javascript:;" id="active_@Model.ID" onclick="ConfirmActivedeactive('Active', @Model.ID,true,false,false,false)"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                        <a href="javascript:;" id="deactive_@Model.ID" style="display:none;" onclick="ConfirmActivedeactive('Deactive', @Model.ID,true,false,false,false)"><span class="label label-warning">@GlobalResource.InActivebtn</span></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:;" id="active_@Model.ID" style="display:none;" onclick="ConfirmActivedeactive('Active', @Model.ID,true,false,false,false)"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                        <a href="javascript:;" id="deactive_@Model.ID"><span class="label label-warning" onclick="ConfirmActivedeactive('Deactive', @Model.ID,true,false,false,false)">@GlobalResource.InActivebtn</span></a>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@GlobalResource.LastUpdated:</dt>
+                                <dd class="m-t-sm">@Model.ModifiedDate.ToString("g") </dd>
+                                <dt class="m-t-sm">@GlobalResource.Created:</dt>
+                                <dd class="m-t-sm">@Model.CreatedDate.ToString("g")</dd>
+
+                                @if (Model.AccountTypeID == 5 && ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52) // Business
+                                {
+                                    <dt class="m-t-sm">@LocalResource.Zone:</dt>
+                                    <dd class="m-t-sm text-description-field">@Model.RegistrationBusinessModel.Zone</dd>
+                                    <dt class="m-t-sm">@LocalResource.BusinessType:</dt>
+                                    <dd class="m-t-sm text-description-field">@Model.RegistrationBusinessModel.BusinessType</dd>
+                                }
+
+                                <dt class="m-t-sm">@LocalResource.RegisterNumber:</dt>
+                                <dd class="m-t-sm">@Model.RegisterNumber</dd>
+
+                                <dt class="m-t-sm">@LocalResource.ExemptFromIVA:</dt>
+                                <dd class="m-t-sm">@Html.Raw(Model.ExemptFromIVA ? GlobalResource.Yes : GlobalResource.No)</dd>
+                            </dl>
+                        </div>
+
+                        @if (Model.IsInJudicialCollection != null)
+                        {
+                            <div class="col-lg-12">
+                                <h5 class="text-right text-danger bold">
+                                    @GlobalResource.PersonHasaJudicialCollectionMsg
+                                </h5>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="row m-t-sm no-padding">
+                        <div class="col-lg-12 no-padding">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading no-padding">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a id="tbProperty" href="#tabProperty" data-toggle="tab">@GlobalResource.Property </a></li>
+                                            <li class=""><a id="tbService" href="#tabServices" data-toggle="tab">@GlobalResource.Services </a></li>
+                                            @if (Model.AccountTypeID == 4) // Individual
+                                            {
+                                                <li class=""><a id="tbLicence" href="#tabBusiness" data-toggle="tab">@GlobalResource.Business </a></li>
+                                            }
+                                            <li class=""><a id="tbOtherService" href="#tabOtherServices" data-toggle="tab">@GlobalResource.OtherService</a></li>
+                                            <li class=""><a id="tbPaymentPlan" href="#tabPaymentPlan" data-toggle="tab">@GlobalResource.PaymentPlan</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body no-padding">
+                                    <div class="tab-content">
+                                        <div class="tab-pane project-list active" id="tabProperty">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('property', 'txtPropertySearch');" id="btnPropertyRefresh" class="btn btn-white btn-sm" tabindex="3"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtPropertySearch" onkeydown="SearchItemsOnKeyPress('property',event);" tabindex="1">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('property');" class="btn btn-sm btn-primary" id="btnPropertySearch" tabindex="2"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped" id="tblAccountProperty"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane project-list" id="tabServices">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('accountservice', 'txtAccountServiceSearch');" id="btnAccountServiceRefresh" class="btn btn-white btn-sm" tabindex="6"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtAccountServiceSearch" onkeydown="SearchItemsOnKeyPress('accountservice',event);" tabindex="4">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('accountservice');" class="btn btn-sm btn-primary" id="btnAccountServiceSearch" tabindex="5"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped table-responsive" id="tblAccountService"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        @if (Model.AccountTypeID == 4) // Individual
+                                        {
+                                            <div class="tab-pane project-list" id="tabBusiness">
+                                                <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                    <div class="row">
+                                                        <div class="col-sm-2 col-md-2 col-lg-2">
+                                                            <button type="button" onclick="RefreshItems('business', 'txtBusinessSearch');" id="btnBusinessRefresh" class="btn btn-white btn-sm" tabindex="15"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                        </div>
+                                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                                            <div class="input-group">
+                                                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtBusinessSearch" onkeydown="SearchItemsOnKeyPress('business',event);" tabindex="13">
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" onclick="SearchItems('business');" class="btn btn-sm btn-primary" id="btnBusinessSearch" tabindex="14"> @GlobalResource.Go</button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <fieldset class="form-horizontal" id="divBusinessTab">
+                                                        @Html.Partial("~/Areas/Accounts/Views/Account/_BusinessList.cshtml", Model)
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="tab-pane project-list" id="tabOtherServices">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('otherservice', 'txtOtherServiceSearch');" id="btnOtherServiceRefresh" class="btn btn-white btn-sm" tabindex="9"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtOtherServiceSearch" onkeydown="SearchItemsOnKeyPress('otherservice',event);" tabindex="7">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('otherservice');" class="btn btn-sm btn-primary" id="btnOtherServiceSearch" tabindex="8"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped table-responsive" id="tblInvoiceList"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane project-list" id="tabPaymentPlan">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('paymentplan', 'txtPaymentPlanSearch');" id="btnPaymentPlanRefresh" class="btn btn-white btn-sm" tabindex="12"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtPaymentPlanSearch" onkeydown="SearchItemsOnKeyPress('paymentplan',event);" tabindex="10">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('paymentplan');" class="btn btn-sm btn-primary" id="btnPaymentPlanSearch" tabindex="11"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped table-responsive" id="tblAccountPaymentPlan"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @LocalResource.Emails
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach (var item in Model.EmailList)
+                            {
+                                <label class="control-label">@item.Type</label>
+                                <p class="form-control-static-sm m-l-md">@item.Email</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @LocalResource.Phones
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach (var item in Model.PhoneList)
+                            {
+                                <label class="control-label">@item.PhoneType</label>
+                                <p class="form-control-static-sm m-l-md">@item.PhoneNumber</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @LocalResource.Addresses
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach (var item in Model.AddressList)
+                            {
+                                <label class="control-label">@item.AddressType</label>
+                                <p class="form-control-static-sm m-l-md">
+                                    @Html.Raw(ArtSolutions.MUN.Web.Areas.Accounts.Models.AddressModel.GetFullAddress(item))
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @GlobalResource.Contacts
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @foreach (var item in Model.ContactList)
+                            {
+                                <label class="control-label">
+                                    <a onclick="ViewContact(@item.ID)" href="javascript:void(0);" class="text-underline">@item.FirstName @item.LastName</a>
+                                </label>
+                                <p class="form-control-static-sm m-l-md"><u>@GlobalResource.Position:</u> @item.PositionType</p>
+                                <p class="form-control-static-sm m-l-md"><u>@LocalResource.Email:</u> @item.PrimaryEmail</p>
+                                <p class="form-control-static-sm m-l-md"><u>@GlobalResource.Phone:</u> @item.PrimaryPhoneNumber</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @GlobalResource.AttachmentsFiles
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled project-files">
+                        @foreach (var item in Model.FileList)
+                        {
+                            string ext = System.IO.Path.GetExtension(item.Description);
+                            string cssclass = "fa-file";
+                            <li class="text-description-field">
+                                <a href='@Url.Content("~/File/DownloadFile?id=" + item.FileID)'>
+                                    @if ((".xlsx .xls").Contains(ext))
+                                    {
+                                        cssclass = "fa-file-excel-o";
+                                    }
+                                    else if (ext.Contains(".pdf"))
+                                    {
+                                        cssclass = "fa-file-pdf-o";
+                                    }
+                                    else if ((".docx,.doc").Contains(ext))
+                                    {
+                                        cssclass = "fa-file-word-o";
+                                    }
+                                    else if ((".jpg,.jpeg,.gif,.png,.bmp").Contains(ext))
+                                    {
+                                        cssclass = "fa-file-image-o";
+                                    }
+                                    else if ((".flv,.wmv,.mp4,.mp3,.mpeg").Contains(ext))
+                                    {
+                                        cssclass = "fa-file-Video-o";
+                                    }
+                                    <i class="fa @cssclass m-r-xxs">
+                                    </i>
+                                    &nbsp;@item.Name
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @GlobalResource.Notes
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if ((!string.IsNullOrEmpty(Model.Notes)) && Model.Notes.Length > 120)
+                            {
+                                var accountNotes = Model.Notes;
+                                var lessNotes = accountNotes.Substring(0, 120);
+                                var moreNotes = accountNotes.Substring(120);
+
+                                <span style="word-break: break-word;">@lessNotes</span>
+                                <span id="MoreNotes">@moreNotes</span>
+                                <a href="#MoreNotes" id="lnkMoreNotes">@GlobalResource.ShowMoreText</a>
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.Notes)
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="rightModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvRightModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="contactmodel" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divNewContact">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="DeleteConfirmModal" data-accountserviceid="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteService" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal inmodal" id="StatusConfirmModal" data-action="" data-accountserviceid="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmStatusService" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 class="lblStatus">  </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalStatus" type="button" tabindex="2" class="btn btn-primary"> </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal inmodal" id="creditHistoryModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn divCreditHistory">
+
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="debitHistoryModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn divDebitHistory">
+
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+
+    <style>
+        #MoreNotes {
+            display: none;
+        }
+
+        .tooltip-inner {
+            max-width: 500px !important;
+            text-align: left;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var activemsg = '@Html.Raw(GlobalResource.ActiveMessage)';
+        var deactivemsg = '@Html.Raw(GlobalResource.DeActiveMessage)';
+        var inactiveconfirm = '@Html.Raw(GlobalResource.InActiveConfirm)';
+        var activeconfirm = '@Html.Raw(GlobalResource.ActiveConfirm)';
+        var suremsg = '@Html.Raw(GlobalResource.SureMessage)';
+        var showMoreText = '@Html.Raw(GlobalResource.ShowMoreText)';
+        var showLessText = '@Html.Raw(GlobalResource.ShowLessText)';
+        var deleteConfirmationMsg = '@Html.Raw(GlobalResource.DeleteConfirmationMsg)';
+        var addConfirmMsg = '@Html.Raw(GlobalResource.AddConfirm)';
+        var removeConfirmMsg = '@Html.Raw(GlobalResource.RemoveConfirm)';
+
+        var _id = '@Model.ID';
+        var _accountType = '@Model.AccountType';
+        var _accountTypeID = '@Model.AccountTypeID';
+        var _accountID = '@Model.AccountID';
+        var _isActive =  '@Model.IsActive';
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var view = '@Html.Raw(GlobalResource.View)';
+        var Delete = '@Html.Raw(GlobalResource.Delete)';
+        var edit = '@Html.Raw(GlobalResource.Edit)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+
+        var active = '@Html.Raw(GlobalResource.Active)';
+        var inActivebtn ='@Html.Raw(GlobalResource.InActivebtn)';
+
+        //Service
+        var newService = '@Html.Raw(AccountServiceResource.NewService)';
+        var serviceType = '@Html.Raw(GlobalResource.ServiceType)';
+        var service = '@Html.Raw(GlobalResource.Service)';
+        var customField1 = '@Html.Raw(AccountServiceResource.CustomField1)';
+        var serviceID = '@Html.Raw(AccountServiceResource.ServiceID)';
+        var year = '@Html.Raw(GlobalResource.Year)';
+        var property = '@Html.Raw(GlobalResource.Property)';
+        var balance = '@Html.Raw(AccountServiceResource.Balance)';
+        var addRight = '@Html.Raw(AccountPropertyResource.AddRight)';
+        var editRight = '@Html.Raw(AccountPropertyResource.EditRight)';
+        var audit = '@Html.Raw(GlobalResource.Audit)';
+        var createdDate = '@Html.Raw(GlobalResource.CreatedDate)';
+        var modifiedDate = '@Html.Raw(GlobalResource.ModifiedDate)';
+        var createdUser = '@Html.Raw(GlobalResource.CreatedUser)';
+
+        //Other Service
+        var newInvoice = '@Html.Raw(InvoiceResource.NewInvoice)';
+        var number = '@Html.Raw(GlobalResource.Number)';
+        var serviceName = '@Html.Raw(GlobalResource.Service)';
+        var status = '@Html.Raw(GlobalResource.Status)';
+        var amount = '@Html.Raw(GlobalResource.Amount)';
+
+        //Right
+        var editInactiveRightValidationMsg = '@Html.Raw(AccountPropertyResource.EditInactiveRightValidationMsg)';
+        var propertyNumber = '@Html.Raw(AccountPropertyResource.PropertyNumber)';
+        var cadastralPlanNumber ='@Html.Raw(AccountPropertyResource.CadastralPlanNumber)';
+        var totalArea = '@Html.Raw(AccountPropertyResource.TotalArea)';
+        var toTalValue = '@Html.Raw(AccountPropertyResource.TotalValue)';
+        var newProperty = '@Html.Raw(AccountPropertyResource.NewProperty)';
+        var validRightHasDebt = '@Html.Raw(AccountPropertyResource.ValidRightCannotDeleted)';
+        var okResource = '@Html.Raw(GlobalResource.Ok)';
+
+        //Account Payment Plan
+        var planID ='@Html.Raw(AccountPaymentPlanResource.PlanID)';
+        var paymentPlan ='@Html.Raw(GlobalResource.PaymentPlan)';
+        var startDate ='@Html.Raw(GlobalResource.StartDate)';
+        var endDate ='@Html.Raw(GlobalResource.EndDate)';
+        var months = '@Html.Raw(GlobalResource.Months)';
+        var totalAmountOfPaymentPlan = '@Html.Raw(AccountPaymentPlanResource.TotalAmountOfPaymentPlan)';
+        var confAddedTemporaryRightMessage ='@Html.Raw(GlobalResource.ConfirmAddedTemporaryRight)';
+        var ValCreditBalancePositive = '@Html.Raw(GlobalResource.ValCreditBalancePositive)';
+        $(document).ready(function () {
+            $('.businessList').footable();
+
+            InitializeAccountPropertyDataTable();
+            InitializeAccountServiceDataTable();
+            InitializeAccountOtherServiceDataTable();
+            InitializeAccountPaymentPlanDataTable();
+
+            //
+            if ($("#lnkViewEdit").hasClass("disabled")) {
+                $("#lnkViewEdit").removeAttr("href");
+            }
+            //
+        });
+
+        //Search List
+        function SearchItems(type) {
+            if (type == 'business') {
+                InitializeBusinessList();
+            }
+            if (type == 'property') {
+                $('#tblAccountProperty').DataTable().search($('#txtPropertySearch').val()).draw();
+            }
+            if (type == 'accountservice') {
+                $('#tblAccountService').DataTable().search($('#txtAccountServiceSearch').val()).draw();
+            }
+            if (type == 'otherservice') {
+                $('#tblInvoiceList').DataTable().search($('#txtOtherServiceSearch').val()).draw();
+            }
+            if (type == 'paymentplan') {
+                $('#tblAccountPaymentPlan').DataTable().search($('#txtPaymentPlanSearch').val()).draw();
+            }
+        }
+
+        //Search When Key Press
+        function SearchItemsOnKeyPress(type, event) {
+            if (event.keyCode == 13)  // the enter key code
+            {
+                if (type == 'business')
+                    $('#btnBusinessSearch').click();
+                if (type == 'property')
+                    $('#btnPropertySearch').click();
+                if (type == 'accountservice')
+                    $('#btnAccountServiceSearch').click();
+                if (type == 'otherservice')
+                    $('#btnOtherServiceSearch').click();
+                if (type == 'paymentplan')
+                    $('#btnPaymentPlanSearch').click();
+                return false;
+            }
+        }
+        //
+        //
+
+        //Refresh List
+        function RefreshItems(type, searchTextID) {
+            $("#" + searchTextID).focus();
+            $("#" + searchTextID).val('');
+            if (type == 'business') {
+                InitializeBusinessList();
+            }
+            if (type == 'property') {
+                InitializeAccountPropertyDataTable();
+            }
+            if (type == 'accountservice') {
+                InitializeAccountServiceDataTable();
+            }
+            if (type == 'otherservice') {
+                InitializeAccountOtherServiceDataTable();
+            }
+            if (type == 'paymentplan') {
+                InitializeAccountPaymentPlanDataTable();
+            }
+        }
+        //
+
+        //Business List (Search)
+        function InitializeBusinessList() {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: ROOTPath + "/Account/GetBusinessAccounts",
+                data: {
+                    "parentId": _accountID, "filterText": $("#txtBusinessSearch").val()
+                },
+                success: function (data) {
+                    if (data.status == false) {
+                        showAlert('error', data.message);
+                        e.stopPropagation();
+                    }
+                    else {
+                        $("#divBusinessTab").html(data);
+                        $('.businessList').footable();
+                        $("#lnkNewBusiness").removeClass("disabled");
+                    }
+                }, error: function () {
+                }
+            }).always(function () {
+            });
+        }
+        //
+
+        //Service List
+        function InitializeAccountServiceDataTable() {
+            $('#tblAccountService').dataTable({
+                "oLanguage": {
+                    "sEmptyTable": nodatamsg,
+                    oPaginate: {
+                        sPrevious: previous,
+                        sNext: next
+                    }
+                },
+                "fnDrawCallback": function () {
+                    $('#tblAccountService tbody tr td').each(function () {
+                        if($(this).index() != 0 && $(this).index() != 8)
+                            this.setAttribute('title', $(this).text());
+                    });
+
+                    /* Apply the tooltips */
+                    $('#tblAccountService tbody tr td').tooltip({
+                        container: "body",
+                        html: true
+                    });
+
+                    if (_isActive.toLowerCase() == "false")
+                        $("#btnNewService").attr("disabled", true);
+                    else
+                        $("#btnNewService").attr("disabled", false);
+                },
+                "serverSide": true,
+                "processing": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "pageLength": pageSize,
+                "ordering": true,
+                "order": [[1, "asc"]],
+                "conditionalPaging": true,
+                "ajax": {
+                    "url": ROOTPath + '/AccountService/Get',
+                    "type": "POST",
+                    "data": function (data) {
+                        data.accountID = _accountID;
+                        data.filterText = $("#txtAccountServiceSearch").val();
+                    }
+                },
+                destroy: true,
+                "columns": [
+                    {
+                        name: "Active",
+                        "bSortable": false,
+                        className: "col-lg-1",
+                        "data": function (row) {
+                            var str = "";
+                            if (row.IsActive == true)
+                                str = '<a href="javascript:;" id="active_' + row.ID + '" onclick="ConfirmActivedeactive(\'Active\',' + row.ID + ',false,false,true,false)"><span class="label label-primary">' + active + '</span></a>' + '<a href="javascript:;" onclick="ConfirmActivedeactive(\'Deactive\',' + row.ID + ',false,false,true,false)" style="display:none;" id="deactive_' + row.ID + '"><span class="label label-warning">' + inActivebtn + '</span></a>';
+
+                            if (row.IsActive == false)
+                                str = '<a href="javascript:;" id="deactive_' + row.ID + '" onclick="ConfirmActivedeactive(\'Deactive\',' + row.ID + ',false,false,true,false)"><span class="label label-warning">' + inActivebtn + '</span></a>' + '<a href="javascript:;" onclick="ConfirmActivedeactive(\'Active\',' + row.ID + ',false,false,true,false)" style="display:none;" id="active_' + row.ID + '"><span class="label label-primary">' + active + '</span></a>';
+
+                            return str;
+                        }
+                    },
+                    {
+                        name: "ServiceName", title: service, "data": "ServiceName", className: "col-lg-3 table-description-field"
+                    },
+                    {
+                        name: "LicenseNumber", title: serviceID, "data": "LicenseNumber", className: "col-lg-1 table-description-field"
+                    },
+                    {
+                        name: "CustomField1", title: customField1, "data": "CustomField1", className: "col-lg-1 table-description-field"
+                    },
+                    {
+                        name: "Year", title: year, "data": "Year", className: "col-lg-1"
+                    },
+                    {
+                        name: "Property", title: property, "data": "Property", className: "col-lg-1 table-description-field"
+                    },
+                    {
+                        name: "FormattedAnnualIncome", title: balance, "data": "FormattedAnnualIncome", className: "col-lg-2 text-right"
+                    },
+                    {
+                        name: "Audit",
+                        title: audit,
+                        className: "col-lg-1 text-center",
+                        "bSortable": false,
+                        "data": function (row) {
+                            var str = createdDate + " : " + row.FormattedCreatedDate + "<br/>" +
+                                      modifiedDate + " : " + row.FormattedModifiedDate + "<br/>" +
+                                      createdUser + " : " + row.FormattedCreatedUser;
+                            return '<a href="#" data-toggle="tooltip" data-placement="top" data-html="true" title="' + str+'"><i class="fa fa-ellipsis-h"></i></a>';
+                        }
+                    },
+                    {
+                        name: "Actions",
+                        className: "col-lg-1 text-right",
+                        "bSortable": false,
+                        "data": function (row) {
+                            var str = "";
+                            str = '<a href=' + ROOTPath + "/AccountService/View?accountServiceID=" + row.ID + ' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> ' + view + ' </a>';
+                            //if (row.PaidAmount == null || row.PaidAmount == 0)
+                            //{
+                            if (row.AccountPaymentPlanID == null || row.AccountPaymentPlanID == 0) {
+                                str = str + '<a href="javascript:void(0)" data-id="' + row.ID + '" class="btn btn-white btn-sm btnDelete m-t-sm"><i class="fa fa-trash"></i> ' + Delete + ' </a>';
+                            }
+                            //}
+                            return str;
+                        }
+                    }
+                ],
+                "headerCallback": function (thead, data, start, end, display) {
+                        var str = "";
+                        if (_accountType != 6) {
+                            str = '<a id="btnNewService" href=' + ROOTPath + "/AccountService/Add?accountId=" + _id + '&accountTypeId=' + _accountTypeID + '&serviceType=' + 0 + '  class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> ' + newService + ' </a>';
+                        }
+                        else {
+                            str = '<a id="btnNewService" href=' + ROOTPath + "/AccountService/Add?ID=" + _id + '&accountId=' + _accountID + '&accountTypeId=6&serviceType=' + 0 + '  class="btn btn-primary btn-xs"><i class="fa fa-plus"></i> ' + newService + ' </a>';
+                        }
+                        $(thead).find('th').eq(8).html(str);
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+
+                    var serviceTypeID = aData.ServiceTypeID;
+
+                    if (
+                        (aData.Property == '-')
+                        &&
+                        (serviceTypeID == 1 || serviceTypeID == 11 || serviceTypeID == 16 || serviceTypeID == 17 || serviceTypeID == 18 || serviceTypeID == 19 || serviceTypeID == 24 || serviceTypeID == 27)
+                    ) {
+                        $('td:eq(5)', nRow).html('<a id="addRight" data-ServiceTypeID="' + aData.ServiceTypeID + '"   data-AccountPropertyID="' + aData.AccountPropertyID + '" data-AccountServiceID="' + aData.ID + '" data-AccountID="' + aData.AccountID + '" data-Year="' + aData.Year + '" data-rowVersion64="' + aData.RowVersion64 + '" data-ServiceID=' + aData.ServiceID + " class='text-underline'>" + addRight + "</a>")
+                    }
+                    else {
+
+                        //CO-1151 - Done
+                        if (aData.Property != null) {
+                            if (
+                                aData.IsDeletedProperty != true
+                                        &&
+                                aData.ServiceTypeID  !=20
+                            )
+                            {
+                                $('td:eq(5)', nRow).html('<a id="addRight" data-ServiceTypeID="' + aData.ServiceTypeID + '" data-AccountPropertyID="' + aData.AccountPropertyID + '"  data-AccountServiceID="' + aData.ID + '" data-AccountID="' + aData.AccountID + '" data-Year="' + aData.Year + '" data-rowVersion64="' + aData.RowVersion64 + '" data-ServiceID=' + aData.ServiceID + " class='text-underline'>" + aData.Property + "</a>")
+                            }
+                            else {
+                                $('td:eq(5)', nRow).html(aData.Property)
+                            }
+                        }
+
+                    }
+
+                },
+            });
+        }
+
+        $(document).on('click', '#addRight', function (e) {
+
+            var accountServiceModel = {};
+            accountServiceModel.ID = $(this).attr("data-AccountServiceID");
+            accountServiceModel.AccountID = $(this).attr("data-AccountID");
+            accountServiceModel.Year = $(this).attr("data-Year");
+            accountServiceModel.ServiceID = $(this).attr("data-ServiceID");
+            accountServiceModel.RowVersion64 = $(this).attr("data-rowVersion64");
+            accountServiceModel.AccountPropertyID = $(this).attr("data-accountpropertyid");
+            accountServiceModel.ServiceTypeID = $(this).attr("data-ServiceTypeID");
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: ROOTPath + "/AccountService/AddRight",
+                data: {'model': accountServiceModel},
+                success: function (data) {
+                    $("#dvRightModal").html(data);
+                    $.validator.unobtrusive.parse('#frmAddRight');
+                    $("#rightModal").modal('show');
+                    $(".select2dropdown").select2({ width: '100%' });
+                    $('#frmAddRight').validate();
+                    $("#ddlRight").focus();
+
+                    //Right Required
+                    if (
+                        accountServiceModel.ServiceTypeID == 20 ||  //20= PROPERTIES
+                        accountServiceModel.ServiceTypeID == 22 ||  //22 = PROPERTY TAX 96 / 97
+                        accountServiceModel.ServiceTypeID == 27 ||  //27 = ParkMaintanance
+                        accountServiceModel.ServiceTypeID == 24     //24 = Road Cleaning
+                    ) {
+                        $("#spRight").removeClass("hide");
+                    }
+                    else {
+                        $("#spRight").addClass("hide");
+                    }
+
+                }, error: function () { }
+            }).always(function () {
+            });
+        });
+
+        function RightSuccessCallback(response) {
+            $("#rightModal").modal('hide');
+
+            if (response.status === false) {
+                showAlert("error", response.message);
+            }
+            else {
+                activaTab('tabServices');
+                InitializeAccountServiceDataTable();
+                showAlert('success', response.message);
+            }
+        }
+
+        $(document).on('click', '#btnAddRight', function (e) {
+
+            var serviceTypeID = $(this).attr("data-ServiceTypeID");
+
+            // Right Required
+            if (
+                serviceTypeID == 20 ||  //20= PROPERTIES
+                serviceTypeID == 22 ||  //22 = PROPERTY TAX 96 / 97
+                serviceTypeID == 27 ||  //27 = ParkMaintanance
+                serviceTypeID == 24     //24 = Road Cleaning
+            )
+            {
+                $("#ddlRight").addClass("required");
+            }
+            else {
+                $("#ddlRight").removeClass("required");
+                $("#rightModal").modal('hide');
+            }
+
+        });
+        //
+        //CreditHistory Block Start
+        $(document).on('click', '#lnkAddCreditHistory', function (e) {
+            showLoading();
+            $.ajax({
+                url: ROOTPath + "/Account/CreditHistory",
+                async: false,
+                data: { accountID: _accountID },
+                success: function (data) {
+                    $(".divCreditHistory").html(data);
+                    $("#creditHistoryModal").modal("show");
+                    initializeFillingDate();
+                    hideLoading();
+                },
+                error: function (xhtml, data) {
+                    console.log('Error: ', xhtml.responseText);
+                    hideLoading();
+                }
+            });
+        });
+        function initializeFillingDate() {
+            $('#Date').datepicker({
+                todayHighlight: true,
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: __dateFormat,
+                language: __culture,
+            });
+            $('#Date').datepicker('update', new Date());
+        }
+        function ValidateCreditHistory() {
+            showLoading();
+            var retVal = true;
+            if ($("#frmCreditHistory #CreditAmount").val() != "" && GlobalConvertToDecimal($("#frmCreditHistory #CreditAmount").val()) <= 0 ) {
+                showAlert("warning", ValCreditBalancePositive);
+                retVal = false;
+            }
+            
+            if ($('#frmCreditHistory').valid()) {
+                return retVal;
+            } else {
+                hideLoading();
+                return false;
+            }
+        }
+        function CreditHistorySuccessCallback(response) {
+            if (response.status) {
+                //window.location.reload();
+                $(".divCreditHistory").html("");
+                $("#creditHistoryModal").modal("hide");
+                showAlert("success", response.message);
+                hideLoading();
+            }
+            else
+                showAlert("error", response.message);
+                hideLoading();
+        }
+        //End
+
+        //DebitHistory Block Start
+        $(document).on('click', '#lnkAddDebitHistory', function (e) {
+            showLoading();
+            $.ajax({
+                url: ROOTPath + "/Account/DebitHistory",
+                async: false,
+                data: { accountID: _accountID },
+                success: function (data) {
+                    $(".divDebitHistory").html(data);
+                    $("#debitHistoryModal").modal("show");
+                    initializeFillingDateDebitHistory();
+                    hideLoading();
+                },
+                error: function (xhtml, data) {
+                    console.log('Error: ', xhtml.responseText);
+                    hideLoading();
+                }
+            });
+        });
+        
+        function ValidateDebitHistory() {
+            showLoading();
+            var retVal = true;
+            if ($("#frmDebitHistory #DebitAmount").val() != "" && GlobalConvertToDecimal($("#frmDebitHistory #DebitAmount").val()) <= 0) {
+                showAlert("warning", ValCreditBalancePositive);
+                retVal = false;
+            }
+
+            if ($('#frmDebitHistory').valid()) {
+                return retVal;
+            } else {
+                hideLoading();
+                return false;
+            }
+        }
+        function DebitHistorySuccessCallback(response) {
+            if (response.status) {
+                $(".divDebitHistory").html("");
+                $("#debitHistoryModal").modal("hide");
+                showAlert("success", response.message);
+                hideLoading();
+            }
+            else
+                showAlert("error", response.message);
+            hideLoading();
+        }
+        
+        function initializeFillingDateDebitHistory() {
+            $('#debitHistoryDate').datepicker({
+                todayHighlight: true,
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: __dateFormat,
+                language: __culture,
+            });
+            $('#debitHistoryDate').datepicker('update', new Date());
+        }
+        //End
+
+        //Other Service List
+        function InitializeAccountOtherServiceDataTable() {
+            $('#tblInvoiceList').dataTable({
+                "oLanguage": {
+                    "sEmptyTable": nodatamsg,
+                    oPaginate: {
+                        sPrevious: previous,
+                        sNext: next
+                    }
+                },
+                "fnDrawCallback": function () {
+                    $('#tblInvoiceList tbody tr td').each(function () {
+                        if ($(this).index() == 1)
+                            this.setAttribute('title', $(this).text());
+                    });
+
+                    /* Apply the tooltips */
+                    $('#tblInvoiceList tbody tr td').tooltip({
+                        container: "body",
+                        html: true
+                    });
+
+                    if (_isActive.toLowerCase() == "false")
+                        $("#btnNewOtherService").attr("disabled", true);
+                    else
+                        $("#btnNewOtherService").attr("disabled", false);
+                },
+                "serverSide": true,
+                "processing": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "pageLength": pageSize,
+                "ordering": true,
+                "order": [[0, "desc"]],
+                "conditionalPaging": true,
+                "ajax": {
+                    "url": ROOTPath + '/Invoice/Get',
+                    "type": "POST",
+                    "data": function (data) {
+                        data.accountID = _accountID;
+                        data.filterText = $("#txtOtherServiceSearch").val();
+                    }
+                },
+                destroy: true,
+                "columns": [
+                    {
+                        name: "Number", title: number, "data": "Number", className: "col-lg-2"
+                    },
+                    {
+                        name: "ServiceName", title: serviceName, "data": "ServiceName", className: "col-lg-2 table-description-field"
+                    },
+                    {
+                        name: "Status", title: status, "data": "Status", className: "col-lg-1"
+                    },
+                    {
+                        name: "Total", title: amount, "data": "FormattedTotal", className: "col-lg-2 text-right"
+                    },
+                    {
+                        name: "Actions",
+                        className: "col-lg-2 text-right",
+                        "bSortable": false,
+                        "data": function (row) {
+                            return '<a href=' + ROOTPath + "/Collections/Invoice/View?ID=" + row.ID + ' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> ' + view + ' </a>';
+                        }
+                    }
+                ],
+                "headerCallback": function (thead, data, start, end, display) {
+                    var str = '<a  id="btnNewOtherService" href=' + ROOTPath + "/Collections/Invoice/Add?accountID=" + _accountID + ' class="btn btn-primary pull-right btn-xs"><i class="fa fa-plus"></i> ' + newInvoice + ' </a>';
+                    $(thead).find('th').eq(4).html(str);
+                },
+                "createdRow": function (row, data, dataIndex) {
+                    if (data.IsVoid === true) {
+                        $(row).children("td").not(":last-child").addClass("text-danger");
+                    }
+                }
+            });
+        }
+        //
+
+        //Right List
+        function InitializeAccountPropertyDataTable() {
+            $('#tblAccountProperty').dataTable({
+                "oLanguage": {
+                    "sEmptyTable": nodatamsg,
+                    oPaginate: {
+                        sPrevious: previous,
+                        sNext: next
+                    }
+                },
+                "serverSide": true,
+                "processing": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "pageLength": pageSize,
+                "ordering": true,
+                "order": [[1, "asc"]],
+                "conditionalPaging": true,
+                "ajax": {
+                    "url": ROOTPath + '/AccountProperty/Get',
+                    "type": "POST",
+                    "data": function (data) {
+                        data.accountID = _id;
+                        data.filterText = $("#txtPropertySearch").val();
+                    }
+                },
+                destroy: true,
+                "columns": [
+                    {
+                        name: "FincaID", title: propertyNumber, "data": "FincaID", className: "col-lg-2 table-description-field"
+                    },
+                    {
+                        name: "CadastralPlanNumber", title: cadastralPlanNumber, "data": "CadastralPlanNumber", className: "col-lg-2 table-description-field"
+                    },
+                    {
+                        name: "Area", title: totalArea, "data": "FormattedArea", className: "col-lg-2 text-right"
+                    },
+                    {
+                        name: "ToTalValue", title: toTalValue, "data": "FormattedTotalValue", className: "col-lg-2 text-right"
+                    },
+                    {
+                        name: "Actions",
+                        className: "col-lg-4 text-right",
+                        "bSortable": false,
+                        "data": function (row) {
+                            var str = "";
+                            str = '<a id="btnView_' + row.ID + '" href=' + ROOTPath + "/AccountProperty/View?ID=" + row.ID + ' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> ' + view + ' </a>';
+                            str = str + '<a id="btnEdit_' + row.ID + '" onclick=' + "EditRight(" + row.ID + ")" + ' class="btn btn-white btn-sm m-l-xs ' + ((row.IsActive == true) ? "" : "hide") + '"><i class="fa fa-pencil"></i> ' + edit + ' </a>';
+                            str = str + '<a id="btnDelete_' + row.ID + '" onclick=' + "DeleteRight(" + row.ID + ',' + row.OwnerID +")" + ' class="btn btn-white btn-sm m-l-xs ' + ((row.IsActive == true) ? "" : "hide") + '"><i class="fa fa-trash"></i> ' + Delete + ' </a>';
+                            return str;
+                        }
+                    }
+                ],
+                "headerCallback": function (thead, data, start, end, display) {
+                    var str = '<a  id="lnkNewProperty" href=' + ROOTPath + "/AccountProperty/Add?ownerID=" + _accountID + ' class="btn btn-primary pull-right btn-xs"><i class="fa fa-plus"></i> ' + newProperty + ' </a>';
+                    $(thead).find('th').eq(4).html(str);
+                },
+                "fnDrawCallback": function (oSettings) {
+                    if (_isActive.toLowerCase() == "false")
+                        $("#lnkNewProperty").attr("disabled", true);
+                    else
+                        $("#lnkNewProperty").attr("disabled", false);
+                },
+                "fnRowCallback": function (nRow, aData) {
+                    $('td:eq(0)', nRow).html('<a id="viewRight" target="_blank" href=' + ROOTPath + "/AccountProperty/View?ID=" + aData.ID + ' class="text-underline">' + aData.FincaID + '</a>')
+                },
+            });
+        }
+
+        //Edit Right Link
+        function EditRight(id) {
+            $.ajax({
+                url: ROOTPath + "/AccountProperty/GetAccountProperty",
+                data: {
+                    "id": id
+                },
+                success: function (data) {
+                    if (data.IsActive == false) {
+                        showAlert("error", editInactiveRightValidationMsg);
+                    }
+                    else {
+                        window.open(ROOTPath + "/AccountProperty/Edit?ID=" + id, '_blank');
+                    }
+
+                }, error: function () {
+                }
+            }).always(function () {
+            });
+        }
+        //
+
+        //Account Payment Plan List
+        function InitializeAccountPaymentPlanDataTable() {
+            $('#tblAccountPaymentPlan').dataTable({
+                "oLanguage": {
+                    "sEmptyTable": nodatamsg,
+                    oPaginate: {
+                        sPrevious: previous,
+                        sNext: next
+                    }
+                },
+                "fnDrawCallback": function () {
+                    $('#tblAccountPaymentPlan tbody tr td').each(function () {
+                        if ($(this).index() == 2)
+                            this.setAttribute('title', $(this).text());
+                    });
+
+                    /* Apply the tooltips */
+                    $('#tblAccountPaymentPlan tbody tr td').tooltip({
+                        container: "body",
+                        html: true
+                    });
+                },
+                "serverSide": true,
+                "processing": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "pageLength": pageSize,
+                "ordering": true,
+                "order": [[1, "asc"]],
+                "conditionalPaging": true,
+                "ajax": {
+                    "url": ROOTPath + '/Accounts/AccountPaymentPlan/List',
+                    "type": "POST",
+                    "data": function (data) {
+                        data.accountID = _id;
+                        data.filterText = $("#txtPaymentPlanSearch").val();
+                    }
+                },
+                destroy: true,
+                "columns": [
+                    {
+                        name: "Active",
+                        "bSortable": false,
+                        className: "col-lg-1",
+                        "data": function (row) {
+                            var str = "";
+                            if (row.IsActive == true)
+                                str = '<a href="javascript:;" id="active_' + row.ID + '" onclick="ConfirmActivedeactive(\'Active\',' + row.ID + ',false,false,false,false)"><span class="label label-primary">' + active + '</span></a>' + '<a href="javascript:;" onclick="ConfirmActivedeactive(\'Deactive\',' + row.ID + ',false,false,false,false)" style="display:none;" id="deactive_' + row.ID + '"><span class="label label-warning">' + inActivebtn + '</span></a>';
+
+                            if (row.IsActive == false)
+                                str = '<a href="javascript:;" id="deactive_' + row.ID + '" onclick="ConfirmActivedeactive(\'Deactive\',' + row.ID + ',false,false,false,false)"><span class="label label-warning">' + inActivebtn + '</span></a>' + '<a href="javascript:;" onclick="ConfirmActivedeactive(\'Active\',' + row.ID + ',false,false,false,false)" style="display:none;" id="active_' + row.ID + '"><span class="label label-primary">' + active + '</span></a>';
+
+                            return str;
+                        }
+                    },
+                    {
+                        name: "Number", title: planID, "data": "Number", className: "col-lg-1 table-description-field",
+                    },
+                    {
+                        name: "PaymentPlanName", title: paymentPlan, "data": "PaymentPlanName", className: "col-lg-2 table-description-field",
+                    },
+                    {
+                        name: "StartDateByCulture", title: startDate, "data": "StartDateByCulture", className: "col-lg-2",
+                    },
+                    {
+                        name: "EndDateByCulture", title: endDate, "data": "EndDateByCulture", className: "col-lg-2",
+                    },
+                    {
+                        name: "Months", title: months, "data": "Months", className: "col-lg-1 text-right",
+                    },
+                    {
+                        name: "TotalPayment", title: totalAmountOfPaymentPlan, "data": "TotalPaymentByCulture", className: "col-lg-2 text-right",
+                    },
+                    {
+                        name: "Actions",
+                        className: "col-lg-1 text-right",
+                        "bSortable": false,
+                        "data": function (row) {
+                            var str = "";
+                            str = '<a href=' + ROOTPath + "/Accounts/AccountPaymentPlan/View?accountPaymentPlanID=" + row.ID + '  class="btn btn-white btn-sm"><i class="fa fa-folder"></i> ' + view + ' </a>';
+                            return str;
+                        }
+                    }
+                ],
+            });
+        }
+        //
+
+        $.urlParam = function (name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+                .exec(window.location.href);
+
+        if (results) return results[1] || 0; else return null;
+        }
+
+        var tabName;
+        var accType = $.urlParam('accountType');
+        var groupId = $.urlParam('groupId')
+        var isBusiness = $.urlParam('isBusiness')
+
+        if (groupId == 1 || groupId == 2 || groupId == 0)
+            tabName = 'tabServices';
+        else if (groupId == 3)
+            tabName = 'tabOtherServices';
+        else if (isBusiness)
+            tabName = 'tabBusiness';
+        activaTab(tabName);
+
+        function activaTab(tab) {
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
+
+        $("#tblAccountService").on("click", ".btnDelete", function () {
+            var confMessage = "";
+            var textmessage = "";
+            var AccountServiceID = $(this).attr("data-id");
+            $("#txtReason").val('');
+            $("#DeleteConfirmModal").attr("data-accountserviceid", AccountServiceID)
+            $("#DeleteConfirmModal").modal("show")
+
+        });
+
+        function DeleteRight(ID, ownerID) {
+            var confMessage = "";
+            $.ajax({
+                type: "GET",
+                url: ROOTPath + '/Accounts/AccountProperty/AccountPropertyHasDebt',
+                data: { id: ID, accountID: ownerID },
+                success: function (data) {
+                    if (data.status == true) {
+                        if (data.HasDebt == true) {
+                            swal({
+                                title: "",
+                                text: validRightHasDebt,
+                                type: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: okResource,
+                                closeOnConfirm: true
+                            });
+                        }
+                        else {
+
+                            //deleteConfirmationMsg
+                            //rightDeletedMsg
+
+                            swal({
+                                title: suremsg,
+                                text: "",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: deleteConfirmationMsg,
+                                cancelButtonText: cancel,
+                                closeOnConfirm: true
+                            }, function () {
+                                DeleteAccountProperty(ID);
+                            });
+                        }
+                    }
+                    else
+                        showAlert('error', data.message);
+                },
+                error: function () { }
+            });
+
+
+        }
+
+        function DeleteAccountProperty(ID) {
+            $.ajax({
+                type: "GET",
+                url: ROOTPath + '/Accounts/AccountProperty/Delete',
+                data: { id: ID, isWindowReload: true },
+                success: function (data) {
+                    if (data.status == true) {
+                        window.location.reload();
+                    }
+                    else
+                        showAlert('error', data.message);
+                },
+                error: function () { }
+            });
+        }
+
+        $("#DeleteConfirmModal").on("click", "#btnModalDelete", function () {
+            var confMessage = "";
+            var textmessage = "";
+            var AccountServiceID = $("#DeleteConfirmModal").attr("data-accountserviceid");
+            if ($("#frmDeleteService").valid()) {
+                swal({
+                    title: suremsg,
+                    text: textmessage,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: confMessage,
+                    cancelButtonText: cancel,
+                    closeOnConfirm: true
+                }, function () {
+                    DeleteRecord(AccountServiceID);
+                });
+            }
+        });
+
+        function DeleteRecord(AccountServiceID) {
+            $.ajax({
+                type: "GET",
+                url: ROOTPath + '/Accounts/AccountService/Delete',
+                data: { id: AccountServiceID, Reason: $("#DeleteConfirmModal #txtReason").val(), isWindowReload: true },
+                success: function (data) {
+                    if (data.status == true) {
+                        window.location.reload();
+                    }
+                    else
+                        showAlert('error', data.message);
+                },
+                error: function () { }
+            });
+
+        }
+
+        $("#StatusConfirmModal").on("click", "#btnModalStatus", function () {
+            var confMessage = $("#btnModalStatus").html();
+            var textmessage = "";
+            var AccountServiceID = $("#StatusConfirmModal").attr("data-accountserviceid");
+            var action = $("#StatusConfirmModal").attr("data-action");
+            if ($("#frmStatusService").valid()) {
+                swal({
+                    title: suremsg,
+                    text: textmessage,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: confMessage,
+                    cancelButtonText: cancel,
+                    closeOnConfirm: true
+                }, function () {
+                    InActiveRecord(AccountServiceID, action, false, false, true, false);
+                });
+            }
+        });
+
+        function ConfirmActivedeactive(str, val, isAccount, IsProperty, isService, isBusinessAccount) {
+
+            if (IsProperty == undefined)
+                IsProperty = false;
+
+            var textmessage = "";
+            var confMessage = "";
+            var action = true;
+
+            if (str.trim().toLowerCase() == "active") {
+                confMessage = inactiveconfirm;
+                action = false;
+            }
+            else {
+                confMessage = activeconfirm;
+                action = true;
+            }
+            if (isService) {
+                var AccountServiceID = val;
+                $("#txtReason").val('');
+                //$(".lblStatus").html(str.trim())
+                $("#btnModalStatus").html(confMessage)
+                $("#StatusConfirmModal #txtReason").val('')
+                $("#StatusConfirmModal").attr("data-accountserviceid", AccountServiceID)
+                $("#StatusConfirmModal").attr("data-action", action)
+                $("#StatusConfirmModal").modal("show")
+            }
+            else {
+                swal({
+                    title: suremsg,
+                    text: textmessage,
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: confMessage,
+                    cancelButtonText: cancel,
+                    closeOnConfirm: true
+                }, function () {
+                    InActiveRecord(val, action, isAccount, IsProperty, isService, isBusinessAccount);
+                });
+            }
+        }
+
+        function InActiveRecord(Id, isActive, isAccount, IsProperty, isService, isBusinessAccount)
+        {
+            isActive = isActive == null ? "" : isActive.toString();
+
+            var urlStr = null, objdata;
+            if (IsProperty) {
+                urlStr = '@Url.Content("~/AccountProperty/ActiveDeactive")';
+            }
+            else if (isService) {
+                urlStr = '@Url.Content("~/AccountService/ActiveDeactive")';
+            }
+            else {
+                if (isAccount || isBusinessAccount)
+                    urlStr = '@Url.Content("~/Account/ActiveDeactive")';
+                else
+                    urlStr = '@Url.Content("~/AccountPaymentPlan/ActiveDeactive")';
+            }
+            objdata = { "isActive": isActive, "id": Id};
+            if (isService) {
+                objdata = { "isActive": isActive, "id": Id, "Reason": $("#StatusConfirmModal #txtReason").val() };
+            }
+
+            $.ajax({
+                type: "GET",
+                url: urlStr,
+                data: objdata,
+                success: function (data) {
+
+                    if (data.status == true) {
+                        if (isActive == "true") {
+                            msg = activemsg;
+                            $("#deactive_" + Id).css("display", "none");
+                            $("#active_" + Id).css("display", "block");
+
+                            if (!isAccount)
+                                $("#tr_" + Id).children("td").not(":last-child").removeClass("text-danger");
+                        }
+                        else {
+                            msg = deactivemsg;
+                            $("#active_" + Id).css("display", "none");
+                            $("#deactive_" + Id).css("display", "block");
+
+                            if (!isAccount)
+                                $("#tr_" + Id).children("td").not(":last-child").addClass("text-danger");
+                        }
+                        showAlert('success', msg);
+                        if (isService) {
+                            $("#StatusConfirmModal").modal("hide");
+                        }
+                        if (isAccount && isActive == "true") {
+                            $("#lnkNewProperty").removeClass("disabled");
+                            $("#lnkNewBusiness").removeClass("disabled");
+                            $("#lnkViewEdit").attr("href", ROOTPath + "/Account/Edit?accountID=" + _accountID + "&accountType=" + _accountTypeID);
+                            $("#btnNewLicense").removeClass("disabled");
+                            $("#btnNewLicense").prop("disabled", "");
+                            $("#btnIVULicense").removeClass("disabled");
+                            $("#btnIVULicense").prop("disabled", "");
+                            $("#btnNewService").removeClass("disabled");
+                            $("#btnNewService").prop("disabled", "");
+                            $("#btnNewOtherService").removeClass("disabled");
+                            $("#btnNewOtherService").prop("disabled", "");
+                        }
+                        else if (isAccount && isActive != "true") {
+                            $("#lnkNewProperty").addClass("disabled");
+                            $("#lnkNewBusiness").addClass("disabled");
+                            $("#lnkViewEdit").removeAttr("href");
+                            $("#btnNewLicense").addClass("disabled");
+                            $("#btnNewLicense").prop("disabled", "disabled");
+                            $("#btnIVULicense").addClass("disabled");
+                            $("#btnIVULicense").prop("disabled", "");
+                            $("#btnNewService").addClass("disabled");
+                            $("#btnNewService").prop("disabled", "");
+                            $("#btnNewOtherService").addClass("disabled");
+                            $("#btnNewOtherService").prop("disabled", "");
+                        }
+                    }
+                    else
+                        showAlert('error', data.message);
+                }, error: function () { }
+            }).always(function () {
+            });
+        }
+
+        $('#lnkMoreNotes').on('click', function () {
+            $('#MoreNotes').toggle();
+            if ($(this).text() == showLessText) $(this).text(showMoreText);
+            else $(this).text(showLessText);
+        });
+
+        //-- View Contact PopUp
+        function ViewContact(id) {
+            $.ajax({
+                type: "POST",
+                url: ROOTPath + "/Account/ViewContact",
+                data: { 'id': id},
+                success: function (data) {
+                    if (data.status == false) {
+                        showAlert('error', data.message);
+                        e.stopPropagation();
+                    }
+                    else {
+                            $("#divNewContact").html(data);
+                            $("#contacttitle").html(viewTitle);
+                            $("#frmContacts input").prop("disabled", true);
+                            $('#frmContacts select').prop('disabled', true);
+                            $("#btnAddContact").hide();
+                            $('#contactmodel').modal('show');
+                    }
+
+                }, error: function () {
+                }
+            }).always(function () {
+            });
+
+        }
+        //
+
+        //Judicial Collection
+        function ConfirmAddRemoveForJudicialCollection(str)
+        {
+            var textmessage = "";
+            var confMessage = "";
+            var action = true;
+
+            if (str.trim().toLowerCase() == "block") {
+                confMessage = addConfirmMsg;
+                action = true;
+            }
+            else {
+                confMessage = removeConfirmMsg;
+                action = false;
+            }
+            swal({
+                title: suremsg,
+                text: textmessage,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: confMessage,
+                cancelButtonText: cancel,
+                closeOnConfirm: true
+            }, function () {
+                 BlockRecord(action);
+            });
+        }
+
+        function BlockRecord(isBlock)
+        {
+            accountModel = {};
+            accountModel.ID = _id;
+            accountModel.RowVersion = $("#hdAccountRowVersion").val();
+            accountModel.IsInJudicialCollection = isBlock ? true : null;
+
+            var urlStr = null, objdata;
+            urlStr = '@Url.Content("~/Account/UpdateForJudicialCollection")';
+            objdata = { "model": accountModel };
+
+            $.ajax({
+                type: "POST",
+                url: urlStr,
+                data: objdata,
+                success: function (data) {
+                    if (data.status == true) {
+                        window.location = ROOTPath + "/Account/View?AccountId=" + _id + "&accountType=" + _accountTypeID;
+                    }
+                    else {
+                        showAlert("error", data.message);
+                    }
+                }, error: function () { }
+            }).always(function () {
+            });
+        }
+        //
+
+        //Temporary Account Property Added
+        function ConfirmTemporaryRightAdded() {
+            var textmessage = "";
+            var action = true;
+            swal({
+                title: suremsg,
+                text: textmessage,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: confAddedTemporaryRightMessage,
+                cancelButtonText: cancel,
+                closeOnConfirm: true
+            }, function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Content("~/Account/AddTemporaryAccountProperty")',
+                    data: { "AccountID": _accountID},
+                success: function (data) {
+                    if (data.status == true) {
+                        window.location = ROOTPath + "/Account/View?AccountId=" + _id + "&accountType=" + _accountTypeID;
+                    }
+                    else {
+                        showAlert("error", data.message);
+                    }
+                }, error: function () { }
+            }).always(function () {
+            });
+            });
+        }
+    </script>
+}

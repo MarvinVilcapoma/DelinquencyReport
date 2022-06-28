@@ -1,0 +1,1347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddMoreIDs" xml:space="preserve">
+    <value>Add more IDs</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Contacts" xml:space="preserve">
+    <value>Contacts</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="Deactive" xml:space="preserve">
+    <value>Deactive</value>
+  </data>
+  <data name="DropDownSelectMessage" xml:space="preserve">
+    <value>-- Select --</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="GeneralInformation" xml:space="preserve">
+    <value>General Information</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go!</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="IsPrimary" xml:space="preserve">
+    <value>Is Primary</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="NoDataMessage" xml:space="preserve">
+    <value>No Data Available!</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="RegistrationInformation" xml:space="preserve">
+    <value>Registration Information</value>
+  </data>
+  <data name="RequiredValidationMsg" xml:space="preserve">
+    <value>This field is required!</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SavedSuccessfullyMessage" xml:space="preserve">
+    <value>Record(s) saved successfully.</value>
+  </data>
+  <data name="SureMessage" xml:space="preserve">
+    <value>Are You Sure?</value>
+  </data>
+  <data name="TopSearchPlaceholder" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ValidEmailAddressMsg" xml:space="preserve">
+    <value>Please, enter valid email address.</value>
+  </data>
+  <data name="ValPhoneNumber" xml:space="preserve">
+    <value>Please, enter valid phone number.</value>
+  </data>
+  <data name="ValWebsiteUrl" xml:space="preserve">
+    <value>Please, enter valid URL (http://example.com).</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="ViewDetails" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="Valzipcode" xml:space="preserve">
+    <value>Invalid Zip Code</value>
+  </data>
+  <data name="SaveNew" xml:space="preserve">
+    <value>Save and New</value>
+  </data>
+  <data name="Uploadedfilelimitmessage" xml:space="preserve">
+    <value>Only one picture is allowed at a time.</value>
+  </data>
+  <data name="Uploadedfilemaxsizemessage" xml:space="preserve">
+    <value>Uploaded file size exceeded.</value>
+  </data>
+  <data name="Uploadedfiletypemessage" xml:space="preserve">
+    <value>Uploaded file type is not allowed.</value>
+  </data>
+  <data name="Uploadedeachfilemaxsizemessage" xml:space="preserve">
+    <value>Uploaded file size exceeded. File Name: </value>
+  </data>
+  <data name="AccountService" xml:space="preserve">
+    <value>Account Service</value>
+  </data>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Account Number</value>
+  </data>
+  <data name="LicenseNumber" xml:space="preserve">
+    <value>License Number</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SSEIN" xml:space="preserve">
+    <value>SS / EIN</value>
+  </data>
+  <data name="AccountName" xml:space="preserve">
+    <value>Account Name</value>
+  </data>
+  <data name="ActiveConfirm" xml:space="preserve">
+    <value>Yes, activate it!</value>
+  </data>
+  <data name="ActiveMessage" xml:space="preserve">
+    <value>Activated successfully!</value>
+  </data>
+  <data name="DeActiveMessage" xml:space="preserve">
+    <value>Inactivated successfully!</value>
+  </data>
+  <data name="InActiveConfirm" xml:space="preserve">
+    <value>Yes, deactivate it!</value>
+  </data>
+  <data name="RequiredMinValueMsg" xml:space="preserve">
+    <value>Value must be at least 1.</value>
+  </data>
+  <data name="Uploadedfilemaxlimitmessage" xml:space="preserve">
+    <value>Upload File max limit exceeded.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Issue" xml:space="preserve">
+    <value>Issue</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>Lock</value>
+  </data>
+  <data name="RePrint" xml:space="preserve">
+    <value>Re-Print</value>
+  </data>
+  <data name="Void" xml:space="preserve">
+    <value>Void</value>
+  </data>
+  <data name="InActivebtn" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="LastUpdated" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UploadfileInitialMessage" xml:space="preserve">
+    <value>Drop files here to upload</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="RemoveFile" xml:space="preserve">
+    <value>Remove File</value>
+  </data>
+  <data name="Case" xml:space="preserve">
+    <value>Case</value>
+  </data>
+  <data name="AdvanceSearch" xml:space="preserve">
+    <value>Advance Search</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="ServiceNumber" xml:space="preserve">
+    <value>Service Number</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Service Type</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>last</value>
+  </data>
+  <data name="Cases" xml:space="preserve">
+    <value>Cases</value>
+  </data>
+  <data name="Munitax" xml:space="preserve">
+    <value>Munitax</value>
+  </data>
+  <data name="GeneralErrorMessage" xml:space="preserve">
+    <value>Some error has occured while processing your request</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="RequiredGridValidationMsg" xml:space="preserve">
+    <value>Please, select record(s) for process.</value>
+  </data>
+  <data name="NoActionFound" xml:space="preserve">
+    <value>No Action Available!</value>
+  </data>
+  <data name="ApplicationURLInValidMessage" xml:space="preserve">
+    <value>Application under development</value>
+  </data>
+  <data name="PrintTemplate" xml:space="preserve">
+    <value>Print Template</value>
+  </data>
+  <data name="ListPrintTemplates" xml:space="preserve">
+    <value>Print Templates</value>
+  </data>
+  <data name="NewPrintTemplate" xml:space="preserve">
+    <value>New Print Template</value>
+  </data>
+  <data name="Generate" xml:space="preserve">
+    <value>Generate</value>
+  </data>
+  <data name="PDF" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="PrintLetter" xml:space="preserve">
+    <value>Print Letter</value>
+  </data>
+  <data name="Word" xml:space="preserve">
+    <value>Word</value>
+  </data>
+  <data name="Priview" xml:space="preserve">
+    <value>Priview</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Department</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="PrintCenter" xml:space="preserve">
+    <value>Print Center</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="AreaCode" xml:space="preserve">
+    <value>Area Code</value>
+  </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>Country Code</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="FilingDate" xml:space="preserve">
+    <value>Filing Date</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="AllowOnly" xml:space="preserve">
+    <value>Allow only {0} file(s).</value>
+  </data>
+  <data name="Uploadeddocumentmaxsizemessage" xml:space="preserve">
+    <value>Only one document is allowed at a time.</value>
+  </data>
+  <data name="VirtualAssistant" xml:space="preserve">
+    <value>Virtual Assistant</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="FilingDueDate" xml:space="preserve">
+    <value>Filing Due Date</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="IVU" xml:space="preserve">
+    <value>IVU</value>
+  </data>
+  <data name="InitialDate" xml:space="preserve">
+    <value>Initial Date</value>
+  </data>
+  <data name="License" xml:space="preserve">
+    <value>License</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Business" xml:space="preserve">
+    <value>Business</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>File Name</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Collections" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="Invoices" xml:space="preserve">
+    <value>Invoices</value>
+  </data>
+  <data name="ValDecimalValue" xml:space="preserve">
+    <value>Please, enter valid value.</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="ValMaxLength" xml:space="preserve">
+    <value>Maximum length reached.</value>
+  </data>
+  <data name="ValNull" xml:space="preserve">
+    <value>Parameter Value can not be null.</value>
+  </data>
+  <data name="ValRequiredCommon" xml:space="preserve">
+    <value>Fields mark * are mandatory!</value>
+  </data>
+  <data name="PaymentReceipt" xml:space="preserve">
+    <value>Payment Receipt</value>
+  </data>
+  <data name="Attachment" xml:space="preserve">
+    <value>Attachment(s)</value>
+  </data>
+  <data name="DownloadFile" xml:space="preserve">
+    <value>Download File</value>
+  </data>
+  <data name="NoFile" xml:space="preserve">
+    <value>No File Available!</value>
+  </data>
+  <data name="CloseEntryDay" xml:space="preserve">
+    <value>Daily Cash Register</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="DepositEntry" xml:space="preserve">
+    <value>Deposit Entry</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="CollectionTemplate" xml:space="preserve">
+    <value>Collection Template</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="TermsAndConditions" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+  </data>
+  <data name="Excel" xml:space="preserve">
+    <value>Excel</value>
+  </data>
+  <data name="CreatedDate" xml:space="preserve">
+    <value>Created Date</value>
+  </data>
+  <data name="ServicePaymentPlan" xml:space="preserve">
+    <value>Service Payment Plan</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="AccountPaymentPlan" xml:space="preserve">
+    <value>Account Payment Plan</value>
+  </data>
+  <data name="SelectAtLeastOneItemRequiredMsg" xml:space="preserve">
+    <value>Please, select at least one item.</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Months</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="PaymentPlan" xml:space="preserve">
+    <value>Payment Plan</value>
+  </data>
+  <data name="DropDownSelectAllMessage" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="DownPaymentAmount" xml:space="preserve">
+    <value>Down Payment Amount</value>
+  </data>
+  <data name="DownPaymentDate" xml:space="preserve">
+    <value>Down Payment Date</value>
+  </data>
+  <data name="Certification" xml:space="preserve">
+    <value>Certification</value>
+  </data>
+  <data name="DownPayment" xml:space="preserve">
+    <value>Down Payment</value>
+  </data>
+  <data name="ViewPlan" xml:space="preserve">
+    <value>View Plan</value>
+  </data>
+  <data name="Collection" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="IdentityMunicipal" xml:space="preserve">
+    <value>Identity Municipal</value>
+  </data>
+  <data name="TotalFinal" xml:space="preserve">
+    <value>Total Final</value>
+  </data>
+  <data name="FieldRequiredMessage" xml:space="preserve">
+    <value>Field is required!</value>
+  </data>
+  <data name="OtherService" xml:space="preserve">
+    <value>Other Services</value>
+  </data>
+  <data name="CompanyLogo" xml:space="preserve">
+    <value>Company Logo</value>
+  </data>
+  <data name="AddressDetail" xml:space="preserve">
+    <value>Address Detail</value>
+  </data>
+  <data name="ClosingSummaryServiceTypeTitle" xml:space="preserve">
+    <value>Cash Register Summary By Service Type</value>
+  </data>
+  <data name="CollectionType" xml:space="preserve">
+    <value>Collection Type</value>
+  </data>
+  <data name="PreliminaryClosingServiceTypeReport" xml:space="preserve">
+    <value>Preliminary Cash Register Summary By Service Type Report</value>
+  </data>
+  <data name="TotalReceived" xml:space="preserve">
+    <value>Total Received</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour</value>
+  </data>
+  <data name="Cashier" xml:space="preserve">
+    <value>Cashier</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="ClosingType" xml:space="preserve">
+    <value>Closing Type</value>
+  </data>
+  <data name="DepositType" xml:space="preserve">
+    <value>Deposit Type</value>
+  </data>
+  <data name="VoidReason" xml:space="preserve">
+    <value>Void Reason</value>
+  </data>
+  <data name="IPost" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="Issued" xml:space="preserve">
+    <value>Issued</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Form" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="Workflow" xml:space="preserve">
+    <value>Workflow</value>
+  </data>
+  <data name="DeletedMessage" xml:space="preserve">
+    <value>Record(s) deleted successfully!</value>
+  </data>
+  <data name="MoveAll" xml:space="preserve">
+    <value>Move All</value>
+  </data>
+  <data name="RemoveAll" xml:space="preserve">
+    <value>Remove All</value>
+  </data>
+  <data name="ProjectTitle" xml:space="preserve">
+    <value>Municipality and Business Cloud Platform</value>
+  </data>
+  <data name="RequiredMonthRangeValidationMsg" xml:space="preserve">
+    <value>Please, enter a month between 1 and 12.</value>
+  </data>
+  <data name="BTNRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="Debit" xml:space="preserve">
+    <value>Debit</value>
+  </data>
+  <data name="DocumentType" xml:space="preserve">
+    <value>Document Type</value>
+  </data>
+  <data name="Grant" xml:space="preserve">
+    <value>Grant</value>
+  </data>
+  <data name="Memo" xml:space="preserve">
+    <value>Memo</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Percentage</value>
+  </data>
+  <data name="Journal" xml:space="preserve">
+    <value>Journal</value>
+  </data>
+  <data name="CreditAmount" xml:space="preserve">
+    <value>Amount to Credit</value>
+  </data>
+  <data name="AvailableAmount" xml:space="preserve">
+    <value>Available Amount</value>
+  </data>
+  <data name="CreditNote" xml:space="preserve">
+    <value>Credit Note</value>
+  </data>
+  <data name="Refund" xml:space="preserve">
+    <value>Refund</value>
+  </data>
+  <data name="Accounting" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
+  <data name="FinanceAccount" xml:space="preserve">
+    <value>Finance Account</value>
+  </data>
+  <data name="ViewCreditNote" xml:space="preserve">
+    <value>View Credit Note</value>
+  </data>
+  <data name="ReFillingDate" xml:space="preserve">
+    <value>Filing Edited Date</value>
+  </data>
+  <data name="Patente" xml:space="preserve">
+    <value>Patente</value>
+  </data>
+  <data name="AsofDate" xml:space="preserve">
+    <value>As of Date</value>
+  </data>
+  <data name="ListPostingProcess" xml:space="preserve">
+    <value>Posting Processes</value>
+  </data>
+  <data name="NewPostingProcess" xml:space="preserve">
+    <value>New Post</value>
+  </data>
+  <data name="PostingProcess" xml:space="preserve">
+    <value>Posting Process</value>
+  </data>
+  <data name="SequenceNo" xml:space="preserve">
+    <value>Sequence No</value>
+  </data>
+  <data name="ViewPostingProcess" xml:space="preserve">
+    <value>View Post</value>
+  </data>
+  <data name="RequiredSelectionValidationMsg" xml:space="preserve">
+    <value>Please select at least one journal for posting</value>
+  </data>
+  <data name="Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="Voided" xml:space="preserve">
+    <value>Voided</value>
+  </data>
+  <data name="InvalidAction" xml:space="preserve">
+    <value>You cannot perform this action.</value>
+  </data>
+  <data name="ValInternalError" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
+  <data name="ShowJournalEntry" xml:space="preserve">
+    <value>Show Journal Entry</value>
+  </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value>Bank Account</value>
+  </data>
+  <data name="Integrated" xml:space="preserve">
+    <value>Integrated In Finance</value>
+  </data>
+  <data name="TotalDeposits" xml:space="preserve">
+    <value>Total Deposits</value>
+  </data>
+  <data name="ReasonForFailIntegration" xml:space="preserve">
+    <value>Reason For Failed Integration</value>
+  </data>
+  <data name="Bank" xml:space="preserve">
+    <value>Bank</value>
+  </data>
+  <data name="CreditApplied" xml:space="preserve">
+    <value>Credit Applied</value>
+  </data>
+  <data name="AttachmentsFiles" xml:space="preserve">
+    <value>Attachments / Files</value>
+  </data>
+  <data name="CollectionItem" xml:space="preserve">
+    <value>Collection Item</value>
+  </data>
+  <data name="CollectionRule" xml:space="preserve">
+    <value>Collection Rule</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="FiscalYear" xml:space="preserve">
+    <value>Fiscal year</value>
+  </data>
+  <data name="Interest" xml:space="preserve">
+    <value>Interest</value>
+  </data>
+  <data name="ItemList" xml:space="preserve">
+    <value>Item List</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="PaidAmount" xml:space="preserve">
+    <value>Paid Amount</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="Payments" xml:space="preserve">
+    <value>Payments</value>
+  </data>
+  <data name="Penalties" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="Principal" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="SalesVolume" xml:space="preserve">
+    <value>Total Value</value>
+  </data>
+  <data name="ServiceGroup" xml:space="preserve">
+    <value>Service Group</value>
+  </data>
+  <data name="ServiceName" xml:space="preserve">
+    <value>Service Name</value>
+  </data>
+  <data name="SocialSecurity" xml:space="preserve">
+    <value>Social Security</value>
+  </data>
+  <data name="ReceiptNumber" xml:space="preserve">
+    <value>Receipt Number</value>
+  </data>
+  <data name="ID" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ItemType" xml:space="preserve">
+    <value>Item Type</value>
+  </data>
+  <data name="ClosingSummaryByPaymentType" xml:space="preserve">
+    <value>Cash Register Summary By Payment Type</value>
+  </data>
+  <data name="Posted" xml:space="preserve">
+    <value>Posted</value>
+  </data>
+  <data name="ReceiptDate" xml:space="preserve">
+    <value>Receipt Date</value>
+  </data>
+  <data name="Checkbook" xml:space="preserve">
+    <value>Checkbook</value>
+  </data>
+  <data name="NetPayment" xml:space="preserve">
+    <value>Net Payment</value>
+  </data>
+  <data name="CashRegisterSummaryByInvoice" xml:space="preserve">
+    <value>Cash Register Summary By Invoice</value>
+  </data>
+  <data name="CashRegisterSummaryByPaymentPlan" xml:space="preserve">
+    <value>Cash Register Summary By Payment Plan</value>
+  </data>
+  <data name="JournalID" xml:space="preserve">
+    <value>Journal Entry Number</value>
+  </data>
+  <data name="ServiceCode" xml:space="preserve">
+    <value>Service Code</value>
+  </data>
+  <data name="AccountProperty" xml:space="preserve">
+    <value>Rights</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ShowLessText" xml:space="preserve">
+    <value>Show Less</value>
+  </data>
+  <data name="ShowMoreText" xml:space="preserve">
+    <value>Show More</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Years</value>
+  </data>
+  <data name="ValidPercentageValidationMsg" xml:space="preserve">
+    <value>The percentage should be between 1 and 100.</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="BankAccountName" xml:space="preserve">
+    <value>Bank Account Name</value>
+  </data>
+  <data name="BankAccountNumber" xml:space="preserve">
+    <value>Bank Account Number</value>
+  </data>
+  <data name="ChecbookName" xml:space="preserve">
+    <value>Checbook Name</value>
+  </data>
+  <data name="GrantCode" xml:space="preserve">
+    <value>Grant Code</value>
+  </data>
+  <data name="InvoiceItem" xml:space="preserve">
+    <value>Invoice Item</value>
+  </data>
+  <data name="ValidChambersValidationMsg" xml:space="preserve">
+    <value>Maximum allowed value: 100!</value>
+  </data>
+  <data name="ValidFloorsValidationMsg" xml:space="preserve">
+    <value>Maximum allowed value: 100!</value>
+  </data>
+  <data name="PercentageRangeValidationMsg" xml:space="preserve">
+    <value>The percentage should be between 0 and 100.</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="MinimumInputSearchCharacterMessage" xml:space="preserve">
+    <value>Please enter 3 or more characters</value>
+  </data>
+  <data name="ServiceMenu" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="PropertyTransfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="Water" xml:space="preserve">
+    <value>Water</value>
+  </data>
+  <data name="Trimester" xml:space="preserve">
+    <value>Trimester</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="AccountStatement" xml:space="preserve">
+    <value>Account Statement</value>
+  </data>
+  <data name="WaterReadings" xml:space="preserve">
+    <value>Water Readings</value>
+  </data>
+  <data name="FooterNameForCostaRica" xml:space="preserve">
+    <value>Republic of Costa Rica</value>
+  </data>
+  <data name="FooterNameForPuertoRico" xml:space="preserve">
+    <value>Commonwealth of Puerto Rico</value>
+  </data>
+  <data name="WrongDateValidationMsg" xml:space="preserve">
+    <value>Wrong date!</value>
+  </data>
+  <data name="ValidEmptyExcelFile" xml:space="preserve">
+    <value>You cannot upload this file due to it is empty. You need to provide a valid one.</value>
+  </data>
+  <data name="Charges" xml:space="preserve">
+    <value>Charges</value>
+  </data>
+  <data name="TaxNumber" xml:space="preserve">
+    <value>Tax Number</value>
+  </data>
+  <data name="Audit" xml:space="preserve">
+    <value>Audit</value>
+  </data>
+  <data name="ModifiedDate" xml:space="preserve">
+    <value>Modified Date</value>
+  </data>
+  <data name="CreatedUser" xml:space="preserve">
+    <value>Created User</value>
+  </data>
+  <data name="Others" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="DeletedBy" xml:space="preserve">
+    <value>Deleted By</value>
+  </data>
+  <data name="MadeBy" xml:space="preserve">
+    <value>Made By</value>
+  </data>
+  <data name="Observation" xml:space="preserve">
+    <value>Observations</value>
+  </data>
+  <data name="VBAdminTax" xml:space="preserve">
+    <value>V.B Admin Tax</value>
+  </data>
+  <data name="BalanceAmountByService" xml:space="preserve">
+    <value>Balance Amount by Service</value>
+  </data>
+  <data name="TotalValue" xml:space="preserve">
+    <value>Total Value</value>
+  </data>
+  <data name="EffectiveToShouldBeGreaterThanEffectiveFromMsg" xml:space="preserve">
+    <value>Effective To should be greater than Effective From.</value>
+  </data>
+  <data name="NewPost" xml:space="preserve">
+    <value>New Post</value>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>New Split</value>
+  </data>
+  <data name="Merge" xml:space="preserve">
+    <value>New Merge</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="PrintMsg" xml:space="preserve">
+    <value>Do you want to print?</value>
+  </data>
+  <data name="Penalty" xml:space="preserve">
+    <value>Penalty</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="IVA" xml:space="preserve">
+    <value>IVA</value>
+  </data>
+  <data name="RequiredValidationAccountServiceMsg" xml:space="preserve">
+    <value>Please add at least one account service before continuing</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="PastYear" xml:space="preserve">
+    <value>Past Year</value>
+  </data>
+  <data name="Migration" xml:space="preserve">
+    <value>Migration</value>
+  </data>
+  <data name="ImportBankPayments" xml:space="preserve">
+    <value>Import Bank Payments</value>
+  </data>
+  <data name="TextFileFormat" xml:space="preserve">
+    <value>File Format TXT</value>
+  </data>
+  <data name="EmptyFileMsg" xml:space="preserve">
+    <value>You cannot upload this file due to it is empty. You need to provide a valid one.</value>
+  </data>
+  <data name="Periods" xml:space="preserve">
+    <value>Periods</value>
+  </data>
+  <data name="OfThe" xml:space="preserve">
+    <value>of the</value>
+  </data>
+  <data name="WithTaxNumber" xml:space="preserve">
+    <value>With TaxNumber</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ToThe" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="InvalidData" xml:space="preserve">
+    <value>Invalid Data</value>
+  </data>
+  <data name="InValidDataFileMsg" xml:space="preserve">
+    <value>Please select a file with valid data.</value>
+  </data>
+  <data name="DeleteConfirmationMsg" xml:space="preserve">
+    <value>Yes, Delete!</value>
+  </data>
+  <data name="Quarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="Validate" xml:space="preserve">
+    <value>Validate</value>
+  </data>
+  <data name="FileSuccessfullyGeneratedMsg" xml:space="preserve">
+    <value>File Successfully Generated.</value>
+  </data>
+  <data name="IsValid" xml:space="preserve">
+    <value>Is Valid</value>
+  </data>
+  <data name="CSVFileFormat" xml:space="preserve">
+    <value>File Format CSV</value>
+  </data>
+  <data name="FileFormatForImportMeasuredWaterFiling" xml:space="preserve">
+    <value>File Format XLSX</value>
+  </data>
+  <data name="TaxNumberName" xml:space="preserve">
+    <value>Tax Number / Name</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="ColumnDoesntMatchWithSampleFileMsg" xml:space="preserve">
+    <value>Column doesn't match with sample file.</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
+  <data name="AssignRight" xml:space="preserve">
+    <value>Assign Right</value>
+  </data>
+  <data name="CellularPhoneNumber" xml:space="preserve">
+    <value>Cell phone number</value>
+  </data>
+  <data name="IssueDate" xml:space="preserve">
+    <value>Date of Issue</value>
+  </data>
+  <data name="Representative" xml:space="preserve">
+    <value>Representative</value>
+  </data>
+  <data name="Isequalto" xml:space="preserve">
+    <value>Is equal to</value>
+  </data>
+  <data name="Isgreaterthanorequalto" xml:space="preserve">
+    <value>Is greater than or equal to</value>
+  </data>
+  <data name="Islessthanorequalto" xml:space="preserve">
+    <value>Is less than or equal to</value>
+  </data>
+  <data name="RangeFilter" xml:space="preserve">
+    <value>Range Filter</value>
+  </data>
+  <data name="AssignTo" xml:space="preserve">
+    <value>Assign To</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="ViewWorkflowHistory" xml:space="preserve">
+    <value>View Workflow History</value>
+  </data>
+  <data name="WaitingProcessInfoMsg" xml:space="preserve">
+    <value>Please wait...&lt;br /&gt;We are working on process.</value>
+  </data>
+  <data name="FinancingInterest" xml:space="preserve">
+    <value>Financing Interest</value>
+  </data>
+  <data name="Interestforlatepayment" xml:space="preserve">
+    <value>Interest for late payment</value>
+  </data>
+  <data name="AddConfirm" xml:space="preserve">
+    <value>Yes, add it!</value>
+  </data>
+  <data name="RemoveConfirm" xml:space="preserve">
+    <value>Yes, remove it!</value>
+  </data>
+  <data name="PersonHasaJudicialCollectionMsg" xml:space="preserve">
+    <value>This person has a judicial collection.</value>
+  </data>
+  <data name="AccountUnderJudicialCollectionMsg" xml:space="preserve">
+    <value>The account is under judicial collection.</value>
+  </data>
+  <data name="JudicialCollection" xml:space="preserve">
+    <value>Judicial Collection</value>
+  </data>
+  <data name="ValidDateFormatInddmmyyyMsg" xml:space="preserve">
+    <value>Format of Date is invalid.Provide in DDMMYYYY format.</value>
+  </data>
+  <data name="InvalidDate" xml:space="preserve">
+    <value>Invalid Date.</value>
+  </data>
+  <data name="ValidSplitFillingError" xml:space="preserve">
+    <value>The original owner already has a filing for the next year. Please delete the filing before continuing.</value>
+  </data>
+  <data name="ValidSplitCurrentValueError" xml:space="preserve">
+    <value>Split can't create new Right with zero value</value>
+  </data>
+  <data name="SchedulerEmail" xml:space="preserve">
+    <value>Scheduler Email</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="NewSchedulerEmailTitle" xml:space="preserve">
+    <value>New Scheduler Email</value>
+  </data>
+  <data name="EditShedulerEmail" xml:space="preserve">
+    <value>Edit Scheduler Email</value>
+  </data>
+  <data name="SchedulerEmailTitle" xml:space="preserve">
+    <value>Scheduler Emails</value>
+  </data>
+  <data name="DeleteSchedulerEmailSuccMsg" xml:space="preserve">
+    <value>Scheduler email deleted successfully.</value>
+  </data>
+  <data name="InvalidScheduleEmailNumber" xml:space="preserve">
+    <value>Invalid Schedule Email Number</value>
+  </data>
+  <data name="ValidSplitTypeError" xml:space="preserve">
+    <value>Original Owner is require for land only divide</value>
+  </data>
+  <data name="FinanceJournalID" xml:space="preserve">
+    <value>Finance Journal ID</value>
+  </data>
+  <data name="JournalEntryNo" xml:space="preserve">
+    <value>Journal Entry No</value>
+  </data>
+  <data name="Agreement" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="ValCreditBalancePositive" xml:space="preserve">
+    <value>Credit amount must be positive value</value>
+  </data>
+  <data name="ValidAreaMsg" xml:space="preserve">
+    <value>New Terrain Area must be less than or equal to Original Terrain Area</value>
+  </data>
+  <data name="ValidConstructionAreaMsg" xml:space="preserve">
+    <value>New Construction/Complementary Area Value must be less than or equal to Original Construction/Complementary Area</value>
+  </data>
+  <data name="ByFilling" xml:space="preserve">
+    <value>By Filling</value>
+  </data>
+  <data name="ByCreditNote" xml:space="preserve">
+    <value>By Credit Note</value>
+  </data>
+  <data name="ConfirmAddedTemporaryRight" xml:space="preserve">
+    <value>Are you sure you want to add temporary account property</value>
+  </data>
+  <data name="TemporaryAcountProperty" xml:space="preserve">
+    <value>Temporary Acount Property</value>
+  </data>
+  <data name="TypeofPayment" xml:space="preserve">
+    <value>Type Of Payment</value>
+  </data>
+  <data name="AccountingRecord" xml:space="preserve">
+    <value>Accounting Record</value>
+  </data>
+  <data name="NewAccountingRecord" xml:space="preserve">
+    <value>New Accounting Record</value>
+  </data>
+  <data name="ViewAccountingRecord" xml:space="preserve">
+    <value>View Accounting Record</value>
+  </data>
+  <data name="ValidationGreaterorEqualTodayDate" xml:space="preserve">
+    <value>Please select date greater than or equal to today.</value>
+  </data>
+  <data name="Amnesty" xml:space="preserve">
+    <value>Amnesty</value>
+  </data>
+  <data name="FileValidation" xml:space="preserve">
+    <value>File Validation</value>
+  </data>
+  <data name="Revalidate" xml:space="preserve">
+    <value>Revalidate</value>
+  </data>
+  <data name="SelectFiletoValidate" xml:space="preserve">
+    <value>Select File to Validate</value>
+  </data>
+  <data name="ValidatedSuccessfullyMessage" xml:space="preserve">
+    <value>Record(s) validated successfully.</value>
+  </data>
+  <data name="UpdatedSuccessfullyMessage" xml:space="preserve">
+    <value>Record(s) updated successfully.</value>
+  </data>
+  <data name="TaxManagement" xml:space="preserve">
+    <value>Tax Management</value>
+  </data>
+  <data name="CreditHistory" xml:space="preserve">
+    <value>Credit History</value>
+  </data>
+  <data name="Creditbalance" xml:space="preserve">
+    <value>Credit Balance</value>
+  </data>
+  <data name="PaymentNo" xml:space="preserve">
+    <value>Payment Number</value>
+  </data>
+  <data name="NotPaidMonths" xml:space="preserve">
+    <value>Not Paid Months</value>
+  </data>
+  <data name="PaidMonths" xml:space="preserve">
+    <value>Paid Months</value>
+  </data>
+  <data name="DebitNote" xml:space="preserve">
+    <value>Debit Note</value>
+  </data>
+  <data name="ViewDebitNote" xml:space="preserve">
+    <value>View Debit Note</value>
+  </data>
+  <data name="DebitAmount" xml:space="preserve">
+    <value>Amount to Debit</value>
+  </data>
+  <data name="DebitHistory" xml:space="preserve">
+    <value>Debit History</value>
+  </data>
+  <data name="DebitBalance" xml:space="preserve">
+    <value>Debit Balance</value>
+  </data>
+  <data name="ViewCreditHistory" xml:space="preserve">
+    <value>View Credit History</value>
+  </data>
+  <data name="CreditAmountlbl" xml:space="preserve">
+    <value>Credit Amount</value>
+  </data>
+  <data name="IsPaid" xml:space="preserve">
+    <value>IsPaid</value>
+  </data>
+  <data name="ViewDebitHistory" xml:space="preserve">
+    <value>View Debit History</value>
+  </data>
+  <data name="HasPendingPayment" xml:space="preserve">
+    <value>Has Pending Payment</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+</root>

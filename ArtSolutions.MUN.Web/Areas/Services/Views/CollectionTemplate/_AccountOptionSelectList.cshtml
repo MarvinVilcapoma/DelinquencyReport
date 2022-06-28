@@ -1,0 +1,12 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Services.Models.FinAccountModel>
+
+@*@Html.DropDownList( Guid.NewGuid().ToString(), new SelectList(Model, "ID", "NameFriendly") , @ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage, new { @class = "form-control required select2dropdown" })*@
+<select class="form-control required select2dropdown @ViewBag.Class" id="@ViewBag.Id" name="@ViewBag.Name">
+    <option value="">@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.ID"
+                data-code="@item.CodeFriendly"
+                data-name="@item.Name">@item.NameFriendly</option>
+    }
+</select>

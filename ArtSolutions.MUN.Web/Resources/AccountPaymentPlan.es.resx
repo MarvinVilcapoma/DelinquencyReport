@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmountTotal" xml:space="preserve">
+    <value>Monto Concepto</value>
+  </data>
+  <data name="CalculatePaymentPlan" xml:space="preserve">
+    <value>Calcular Plan de Pago</value>
+  </data>
+  <data name="Concept" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
+  <data name="Daysofthemonthof" xml:space="preserve">
+    <value>días del mes de</value>
+  </data>
+  <data name="InitialAndMonthlyFeeAmounts" xml:space="preserve">
+    <value>Montos De Cuota Inicial Y Mensual</value>
+  </data>
+  <data name="InitialPayment" xml:space="preserve">
+    <value>Monto Inicial Pagado</value>
+  </data>
+  <data name="InstalmentAmount" xml:space="preserve">
+    <value>Monto a plazos</value>
+  </data>
+  <data name="InvalidAccountPaymentPlan" xml:space="preserve">
+    <value>Plan de pago de cuenta inválido</value>
+  </data>
+  <data name="LateInterestPercentage" xml:space="preserve">
+    <value>Porcentaje de Interés Tardío</value>
+  </data>
+  <data name="LateInterest" xml:space="preserve">
+    <value>Interés Tardío</value>
+  </data>
+  <data name="ListAccountPaymentPlan" xml:space="preserve">
+    <value>Lista de Plan de Pago de Cuenta</value>
+  </data>
+  <data name="ManageraCollection" xml:space="preserve">
+    <value>Gestor(A) Cobro</value>
+  </data>
+  <data name="MonthlyAmount" xml:space="preserve">
+    <value>Monto Mensual</value>
+  </data>
+  <data name="MonthlyAmountToPay" xml:space="preserve">
+    <value>Monto mensual a pagar</value>
+  </data>
+  <data name="MonthlyDueDate" xml:space="preserve">
+    <value>Fecha de vencimiento mensual</value>
+  </data>
+  <data name="MonthlyInstallment" xml:space="preserve">
+    <value>Pagos Mensuales</value>
+  </data>
+  <data name="MonthlyPayments" xml:space="preserve">
+    <value>Monto de Cuotas Pagadas</value>
+  </data>
+  <data name="MonthsOfPlan" xml:space="preserve">
+    <value>Meses de Plan</value>
+  </data>
+  <data name="NewAccountPaymentPlan" xml:space="preserve">
+    <value>Plan de Pago de Nueva Cuenta</value>
+  </data>
+  <data name="PaymentPlanSummary" xml:space="preserve">
+    <value>Resumen del Plan de Pago</value>
+  </data>
+  <data name="PlanID" xml:space="preserve">
+    <value>Identificación del plan</value>
+  </data>
+  <data name="PlanStartDate" xml:space="preserve">
+    <value>Fecha de inicio del plan</value>
+  </data>
+  <data name="PleaseCalculatePaymentPlanBeforeSaveMsg" xml:space="preserve">
+    <value>Por favor, calcula el plan de pago antes de guardar.</value>
+  </data>
+  <data name="PrintAccountPaymentPlan" xml:space="preserve">
+    <value>Plan de Pago de Cuenta Impresa</value>
+  </data>
+  <data name="PrintPaymentPlanDesc1" xml:space="preserve">
+    <value>El (La) Gestor(a) de COBRO MUNICIPAL, con fundamento en ART. 74 de la LEY No. 7794 del 30 ABRIL 1998, y ARTICULOS 6, 7 Y 16 del REGLAMENTO para el COBRO ADMINISTRATIVO Y JUDICIAL DE LA INSTITUCION. Realiza el siguiente ARREGLO de PAGO CON EL (LA) SENOR (A) (ITA)</value>
+  </data>
+  <data name="PrintPaymentPlanDesc2" xml:space="preserve">
+    <value>Que adeuda por concepto de tributos municipales, lo siguiente</value>
+  </data>
+  <data name="PrintPaymentPlanDesc3" xml:space="preserve">
+    <value>Se acuerda realizar este arreglo de la siguiente forma: un primer pago de</value>
+  </data>
+  <data name="PrintPaymentPlanDesc4" xml:space="preserve">
+    <value>y el saldo en</value>
+  </data>
+  <data name="PrintPaymentPlanDesc5" xml:space="preserve">
+    <value>cuotas mensuales de</value>
+  </data>
+  <data name="PrintPaymentPlanDesc6" xml:space="preserve">
+    <value>A partir del</value>
+  </data>
+  <data name="PrintPaymentPlanDesc7" xml:space="preserve">
+    <value>Se firma el presente arreglo de pago en FLORES a los</value>
+  </data>
+  <data name="TermNumber" xml:space="preserve">
+    <value>Número de término</value>
+  </data>
+  <data name="TotalAmountOfPaymentPlan" xml:space="preserve">
+    <value>Monto Total del Plan de Pago</value>
+  </data>
+  <data name="TotalDebt" xml:space="preserve">
+    <value>Deuda total</value>
+  </data>
+  <data name="TotalInterest" xml:space="preserve">
+    <value>Interés total</value>
+  </data>
+  <data name="TotalPaidAmount" xml:space="preserve">
+    <value>Monto total pagado</value>
+  </data>
+  <data name="ViewAccountPaymentPlan" xml:space="preserve">
+    <value>Ver Plan de Pago de Cuenta</value>
+  </data>
+  <data name="LatePaymentsInterest" xml:space="preserve">
+    <value>Intereses de Pagos en Atraso</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Monto Total</value>
+  </data>
+  <data name="ProjectedInterests" xml:space="preserve">
+    <value>Intereses Proyectados</value>
+  </data>
+  <data name="Interest" xml:space="preserve">
+    <value>Interés</value>
+  </data>
+  <data name="EditAccountPaymentPlan" xml:space="preserve">
+    <value>Editar Plan de Pago de la Cuenta</value>
+  </data>
+</root>

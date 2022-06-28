@@ -1,0 +1,25 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ConsumptionByRangeModel
+
+@if (Model.ConsumptionRangeList != null && Model.ConsumptionRangeList.Count() > 0)
+{
+    foreach (var item in Model.ConsumptionRangeList)
+    {
+
+        <tr>
+            <td class="text-center">@item.RowNo</td>
+            <td>
+                @item.FormattedMeter
+                @Html.Hidden("hdMeter", @item.Meter)
+            </td>
+            <td>@item.FincaID</td>
+            <td>@item.TaxNumber</td>
+            <td>
+                @item.FormattedAccountName
+                @Html.Hidden("hdAccountName", @item.AccountName)
+            </td>
+            <td class="text-right">@item.FormattedLastReading</td>
+            <td class="text-right">@item.FormattedCurrentReading</td>
+            <td class="text-right">@item.FormattedConsumption</td>
+        </tr>
+    }
+}

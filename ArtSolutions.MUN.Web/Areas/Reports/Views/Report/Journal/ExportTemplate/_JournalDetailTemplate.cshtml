@@ -1,0 +1,136 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.JournalDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.JournalDetailTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table class="table table-report" id="tblJournalDetail">
+            <thead>
+                <tr class="sub-header">
+                    <th width="3%" class="table-border-center-th">@GlobalResource.ID</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.Type</th>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.Number</th>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.AccountNumber</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.AccountName</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Memo</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.CollectionType</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.ServiceType</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.BankAccount</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Bank</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Checkbook</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Grant</th>
+                    <th width="4%" class="table-border-center-th">@GlobalResource.Percentage</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.FinanceAccount</th>
+                    <th width="4%" class="table-border-right-th">@GlobalResource.Debit</th>
+                    <th width="4%" class="table-border-right-th">@GlobalResource.Credit</th>
+                </tr>
+            </thead>
+            <tbody id="accountRows">
+                @if (Model.JournalDetailListModel != null && Model.JournalDetailListModel.Count() > 0)
+                {
+                    var i = 0; int CurrModuleName = 0; var LastIndex = Model.JournalDetailListModel.Count(); var Flag = true;
+                    foreach (var item in Model.JournalDetailListModel)
+                    {
+                        <tr>
+                            @if (Flag)
+                            {
+                                <td class="table-border-center-td">@item.ID</td>
+                                <td class="table-border-left-td">@item.Name</td>
+                                <td class="table-border-left-td">@Convert.ToDateTime(item.Date).ToShortDateString()</td>
+                                <td class="table-border-left-td">@string.Format("{0} ({1})", item.ReceiptNumber, item.Status)</td>
+                            }
+                            else
+                            {
+                                <td colspan="4" width="28%" class="table-border-left-td"></td>
+                            }
+                            <td class="table-border-left-td" title="@item.RegisterNumber">@item.RegisterNumber</td>
+                            <td class="table-border-left-td" title="@item.ReferenceAccountName">@item.ReferenceAccountName</td>
+                            <td class="table-border-left-td" title="@item.Memo">@item.Memo</td>
+                            <td class="table-border-left-td" title="@item.CollectionTypeName">@item.CollectionTypeName</td>
+                            <td class="table-border-left-td" title="@item.ServiceTypeName">@item.ServiceTypeName</td>
+                            <td class="table-border-left-td" title="@item.BankAccountName">@item.BankAccountName</td>
+                            <td class="table-border-left-td" title="@item.BankName">@item.BankName</td>
+                            <td class="table-border-left-td" title="@item.ChecbookName">@item.ChecbookName</td>
+                            <td class="table-border-left-td" title="@item.Grant">@item.Grant</td>
+                            <td class="table-border-right-td" title="@item.Percentage">@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString("0.#####") + "%" : "")</td>
+                            <td class="table-border-left-td" title="@item.NameFriendly">@item.NameFriendly</td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Debit.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Credit.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                        if (i == 0) { CurrModuleName = item.ID; }
+                        if (i != LastIndex - 1)
+                        {
+                            if (CurrModuleName != Model.JournalDetailListModel[i + 1].ID)
+                            {
+                                Flag = true;
+                                <tr>
+                                    <td colspan="14" class="table-bg-bold-right-td"></td>
+                                    <td class="table-bg-bold-right-td">@GlobalResource.Total</td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @item.Amount.ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @item.Amount.ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                Flag = false;
+                            }
+                            CurrModuleName = Model.JournalDetailListModel[i + 1].ID;
+                        }
+                        else if (i == LastIndex - 1)
+                        {
+                            <tr>
+                                <td colspan="14" class="table-bg-bold-right-td"></td>
+                                <td class="table-bg-bold-right-td">@GlobalResource.Total</td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @item.Amount.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @item.Amount.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="17" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

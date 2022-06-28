@@ -1,0 +1,232 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptBusinessLicenseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ReceiptBusinessLicenseTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.IdentityMunicipal</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.FiscalYear</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.FirstSemester</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.SecondSemester</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Penalty</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Surcharges</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Interests</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.Discount</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.PaymentAmount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                {
+                    int currentIndex = 0;
+                    foreach (var item in Model.BusinessLicenseReceiptDetailList.OrderBy(g => g.Date))
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountDisplayName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountRegisterNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Number
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedFiscalYearID
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal1.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal2.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Penalties.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Charges.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Interest.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Discount.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.TotalPayment.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                        if (currentIndex != Model.BusinessLicenseReceiptDetailList.Count() - 1)
+                        {
+                            if (item.Date.ToString("MM/dd/yyyy") != Model.BusinessLicenseReceiptDetailList[currentIndex + 1].Date.ToString("MM/dd/yyyy"))
+                            {
+                                <tr>
+                                    <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal1).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal2).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Penalties.Value).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Charges.Value).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Interest.Value).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Discount.Value).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal1).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal2).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Penalties.Value).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Charges.Value).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Interest.Value).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Discount.Value).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.BusinessLicenseReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.BusinessLicenseReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        currentIndex++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total  </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Principal1).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Principal2).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Penalties.Value).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Charges.Value).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Interest.Value).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.Discount.Value).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseReceiptDetailList != null && Model.BusinessLicenseReceiptDetailList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseReceiptDetailList.Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

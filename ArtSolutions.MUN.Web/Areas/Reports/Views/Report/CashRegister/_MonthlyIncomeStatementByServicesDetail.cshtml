@@ -1,0 +1,93 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MonthlyIncomeStatementByServicesModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblMonthlyIncomeStatementByServices" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-left">
+
+                </th>
+                <th style="min-width:150px;" class="text-left">
+
+                </th>
+                <th style="min-width:50px;" class="text-right">
+
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.CurrentMonth
+                </th>
+                <th style="min-width:50px;" class="text-right">
+
+                </th>
+                <th style="min-width:50px;" class="text-right">
+
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.LastMonth
+                </th>
+                <th style="min-width:50px;" class="text-right">
+
+                </th>
+            </tr>
+            <tr>
+                <th style="min-width:50px;" class="text-left">
+                    @GlobalResource.Code
+                </th>
+                <th style="min-width:150px;" class="text-left">
+                    @GlobalResource.Description
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @GlobalResource.Penalty
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.Interest
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.Income
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @GlobalResource.Penalty
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.Interest
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.Income
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/CashRegister/_MonthlyIncomeStatementByServicesDetailList.cshtml", Model);
+            }
+
+            @*@if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyMonthlyIncomeStatementByServices">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <a id="monthlyIncomeStatementByServicesShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.MonthlyIncomeStatementByServicesList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreMonthlyIncomeStatementByServices(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }*@
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

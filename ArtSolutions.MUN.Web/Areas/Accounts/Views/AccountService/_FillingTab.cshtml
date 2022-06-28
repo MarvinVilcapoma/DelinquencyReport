@@ -1,0 +1,344 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFillingModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    string rateFormat = Model.Count() > 0 ? Model.First().GetRateFormat : "";
+}
+<div class="full-height-scroll">
+    <div class="ibox-content">
+        <div class="table-responsive m-t">
+            <table class="table" data-page="false">
+                <thead>
+                    <tr>
+                        <th>@LocalResource.ServicePeriodList</th>
+                        @if (Model[0].ServiceTypeID != 26)
+                        {
+                            <th>@GlobalResource.FilingDate</th>
+                            <th>@GlobalResource.ReFillingDate</th>
+                        }
+                        @if ((Model[0].ServiceTypeID == 26 && Model[0].Rate > 0) || Model[0].ServiceTypeID != 26)
+                        {
+                            <th class="text-right">@ViewBag.TotalValueLabel</th>
+                            <th class="text-right">@LocalResource.Rate@rateFormat</th>
+                        }
+                        <th class="text-right">@GlobalResource.Principal</th>
+                        <th class="text-right">@GlobalResource.Penalties</th>
+                        <th class="text-right">@LocalResource.Debt</th>
+                        @if (Model.First().FilingFormID == (int)EnFilingForm.PropertyTax)
+                        {
+                            <th class="text-right">@LocalResource.Exemption</th>
+                        }
+                        else
+                        {
+                            <th class="text-right">@GlobalResource.Discount</th>
+                        }
+                        <th class="text-right">@GlobalResource.PaidAmount</th>
+                        <th class="text-right">@LocalResource.Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="11" class="col-lg-12">
+                                <center> @GlobalResource.NoDataMessage </center>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="col-lg-2">
+                                    @if (Model.Count > 4)
+                                    {
+                                        @Html.Raw(@item.ServiceName + " - " + String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate))
+                                    }
+                                    else
+                                    {
+                                        @item.ServiceNameWithYear
+                                    }
+                                </td>
+                                @if (item.ServiceTypeID != 26)
+                                {
+                                    <td class="col-lg-1">
+                                        @if (item.FillingDate != null)
+                                        {
+                                            @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", item.FillingDate))
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                    </td>
+                                    <td class="col-lg-1">
+                                        @if (item.ReFillingDate != null)
+                                        {
+                                            @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", item.ReFillingDate))
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw("-")
+                                        }
+                                    </td>
+                                }
+                                @if ((Model[0].ServiceTypeID == 26 && Model[0].Rate > 0) || Model[0].ServiceTypeID != 26)
+                                {
+                                    <td class="col-lg-1 text-right filingLink">
+                                        @{
+                                            if (item.FillingDate != null)
+                                            {
+                                                if (item.FilingFormID == (int)EnFilingForm.License || item.FilingFormID == (int)EnFilingForm.LiquorLicense)
+                                                {
+                                                    @item.SalesVolume.ToString("C")
+                                                    if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                    {
+                                                        <i style="cursor:pointer;" id="viewFillingLicense" class="fa fa-search"
+                                                           data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName"
+                                                           data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"
+                                                           data-percentagevalue="@item.PercentageValue" data-servicetypeid="@item.ServiceTypeID"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" 
+                                                           data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue" data-servicetypeid="@item.ServiceTypeID"></i>
+                                                    }
+                                                    <span id="viewFilling"></span>
+                                                }
+                                                else if (item.FilingFormID == (int)EnFilingForm.IVU)
+                                                {
+                                                    @item.SalesVolume.ToString("C")
+                                                    if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                    {
+                                                        <i style="cursor:pointer;" id="viewFillingTax" class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    <span id="viewFilling"></span>
+                                                }
+                                                else if (item.FilingFormID == (int)EnFilingForm.Unit)
+                                                {
+                                                    @item.SalesVolume.ToString(Common.NumberPoints)
+                                                    if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                    {
+                                                        <i style="cursor:pointer;" id="viewFillingUnit" class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId"
+                                                           data-serviceid="@item.ServiceID" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle"
+                                                           data-exceptionValue="@item.ExceptionValue" data-servicetypeid="@item.ServiceTypeID">
+                                                        </i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    <span id="viewFilling"></span>
+                                                }
+                                                else if (item.FilingFormID == (int)EnFilingForm.MeasuredWater)
+                                                {
+                                                    @item.SalesVolume.ToString(Common.NumberPoints)
+                                                    if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                    {
+                                                        <i style="cursor:pointer;" id="viewFillingMeasuredWater" class="fa fa-search" data-sequenceid="@item.SequenceID" data-startperiodid="@item.ServiceStartPeriod.Value" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-sequenceid="@item.SequenceID" data-startperiodid="@item.ServiceStartPeriod.Value" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    <span id="viewFilling"></span>
+                                                }
+                                                else if (item.FilingFormID == (int)EnFilingForm.PropertyTax)
+                                                {
+                                                    @item.SalesVolume.ToString(Common.NumberPoints)
+                                                    if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                    {
+                                                        <i style="cursor:pointer;" id="viewFillingPropertyTax" class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-search" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"></i>
+                                                    }
+                                                    <span id="viewFilling"></span>
+                                                }
+                                            }
+                                            else
+                                            {                                               
+                                                if (
+                                                        item.IsLock == null 
+                                                                || 
+                                                        item.IsLock == false
+                                                                ||
+                                                        (item.IsLock==true && item.IsInJudicialCollection == true) 
+                                                                ||
+                                                        (((item.ServiceID >= 9 && item.ServiceID <= 13) || (item.ServiceID >= 19287 && item.ServiceID <= 19291)) && item.IsEditPermission == 1)
+                                                )
+                                                {
+                                                    if (item.FilingFormID == (int)EnFilingForm.License || item.FilingFormID == (int)EnFilingForm.LiquorLicense)
+                                                    {
+                                                        if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                        {
+                                                            <a data-target="#licensemodal" data-toggle="modal" id="addLicenseAmount" class="addFillingLicense"
+                                                               data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName"
+                                                               data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue"
+                                                               data-percentagevalue="@item.PercentageValue" data-rowVersion="@item.RowVersion"
+                                                               data-rowVersion64="@item.RowVersion64" data-groupid="@item.GroupID" data-servicetypeid="@item.ServiceTypeID">
+                                                                <i class="fa fa-plus"></i>
+                                                                @LocalResource.Filling
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else if (item.FilingFormID == (int)EnFilingForm.IVU)
+                                                    {
+                                                        if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                        {
+                                                            <a data-target="#taxmodal" data-toggle="modal" id="addTaxAmount" class="addFillingTax" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue" data-rowVersion="@item.RowVersion" data-rowVersion64="@item.RowVersion64" data-groupid="@item.GroupID">
+                                                                <i class="fa fa-plus"></i>
+                                                                @LocalResource.Filling
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else if (item.FilingFormID == (int)EnFilingForm.Unit)
+                                                    {
+                                                        if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                        {
+                                                            <a data-target="#Unitmodal" data-toggle="modal" id="addUnitAmount" class="addFillingUnit"
+                                                               data-detailid="@item.AccountServiceCollectionDetailId" data-serviceid="@item.ServiceID"
+                                                               data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle"
+                                                               data-exceptionValue="@item.ExceptionValue" data-rowVersion="@item.RowVersion"
+                                                               data-rowVersion64="@item.RowVersion64" data-groupid="@item.GroupID" data-servicetypeid="@item.ServiceTypeID">
+                                                                <i class="fa fa-plus"></i>
+                                                                @LocalResource.Filling
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else if (item.FilingFormID == (int)EnFilingForm.MeasuredWater)
+                                                    {
+                                                        if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                        {
+                                                            <a data-target="#measuredwatermodal" data-toggle="modal" id="addMeasuredWaterAmount" class="addFillingMeasuredWater" data-detailid="@item.AccountServiceCollectionDetailId" data-sequenceid="@item.SequenceID" data-startperiodid="@item.ServiceStartPeriod.Value" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue" data-rowVersion="@item.RowVersion" data-rowVersion64="@item.RowVersion64" data-groupid="@item.GroupID">
+                                                                <i class="fa fa-plus"></i>
+                                                                @LocalResource.Filling
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else if (item.FilingFormID == (int)EnFilingForm.PropertyTax)
+                                                    {
+                                                        if (item.SequenceID >= item.ServiceStartPeriod.Value)
+                                                        {
+                                                            <a data-target="#propertytaxmodal" data-toggle="modal" id="addPropertyTaxAmount" class="addFillingPropertyTax" data-detailid="@item.AccountServiceCollectionDetailId" data-servicename="@item.ServiceName" data-serviceperiod="@item.PopupServiceTitle" data-exceptionValue="@item.ExceptionValue" data-rowVersion="@item.RowVersion" data-rowVersion64="@item.RowVersion64" data-groupid="@item.GroupID">
+                                                                <i class="fa fa-plus"></i>
+                                                                @LocalResource.Filling
+                                                            </a>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span> - </span>
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td class="col-lg-1 text-right"> @item.GetFormattedCollectionRate </td>
+                                }
+                                <td class="col-lg-1 text-right">@item.Principal.ToString("C")</td>
+                                <td class="col-lg-1 text-right">
+                                    @if (item.Penalties > 0)
+                                    {
+                                        <a onclick="loadDebtTab('Debt' ,@item.AccountServiceID,@item.AccountServiceCollectionDetailId)">  @item.Penalties.ToString("C") </a>
+                                    }
+                                    else
+                                    {
+                                        @item.Penalties.ToString("C")
+                                    }
+                                </td>
+                                <td class="col-lg-1 text-right">
+                                    @item.Debt.ToString("C")
+                                </td>
+                                <td class="col-lg-1 text-right">
+                                    @if (item.Discount > 0)
+                                    {
+                                        if (item.FilingFormID == (int)EnFilingForm.PropertyTax)
+                                        {
+                                            <a onclick="activateTab('Exemption');">  @item.Discount.ToString("C") </a>
+                                        }
+                                        else
+                                        {
+                                            <a onclick="loadDiscountTab('Discount' ,0,@item.AccountServiceCollectionDetailId)">  @item.Discount.ToString("C") </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @item.Discount.ToString("C")
+                                    }
+                                </td>
+                                <td class="col-lg-1 text-right">
+                                    @if (item.PaidAmount > 0)
+                                    {
+                                        <a onclick="loadPaymentHistoryTab('Payment' ,0,@item.AccountServiceCollectionDetailId)">  @item.PaidAmount.ToString("C") </a>
+                                    }
+                                    else
+                                    {
+                                        @item.PaidAmount.ToString("C")
+                                    }
+                                </td>
+                                <td class="col-lg-1 text-right">
+                                    @item.Total.ToString("C")
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="11" class="col-lg-12"></td>
+                    </tr>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr>
+                            @if (Model[0].ServiceTypeID != 26)
+                            {
+                                <td colspan="5" class="col-lg-4 text-right"><strong>@GlobalResource.Total.ToUpper() : </strong></td>
+                            }
+                            else if ((Model[0].ServiceTypeID == 26 && Model[0].Rate > 0) || Model[0].ServiceTypeID != 26)
+                            {
+                                <td colspan="3" class="col-lg-4 text-right"><strong>@GlobalResource.Total.ToUpper() : </strong></td>
+                            }
+                            else
+                            {
+                                <td class="col-lg-4 text-right"><strong>@GlobalResource.Total.ToUpper() : </strong></td>
+                            }
+                           
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @Model.Sum(e => e.Principal).ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @Model.Sum(e => e.Penalties).ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @Model.Sum(e => e.Debt).ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @Model.Sum(e => e.Discount).ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @Model.Sum(e => e.PaidAmount).ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right border-bottom font-bold">
+                                @{
+                                    decimal total = Model.Sum(e => e.Total);
+                                }
+                                @total.ToString("C")
+                                @Html.Hidden("hdnTotal", total)
+                            </td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

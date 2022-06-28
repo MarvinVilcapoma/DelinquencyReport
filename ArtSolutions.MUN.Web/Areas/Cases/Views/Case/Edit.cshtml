@@ -1,0 +1,43 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@{
+    ViewBag.Title = LocalResource.EditTitle;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@GlobalResource.Cases</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Case", new { area = "Cases", id = (string)Html.ViewContext.RouteData.Values["id"] })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+@Html.Partial("_Edit", Model, ViewData)
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/ionRangesliderStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/ionRangeslider")
+    <script>
+        var requiredValidationMsg =  '@Html.Raw(GlobalResource.RequiredValidationMsg)'; 
+    </script>
+    <script src="~/Scripts/app/caseedit.js"></script>
+}

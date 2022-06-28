@@ -1,0 +1,232 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPaymentPlanPrintModel
+@using ArtSolutions.MUN.Web.Helpers
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.Service
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    ViewBag.Title = LocalResource.PrintAccountPaymentPlan;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+    var currencyName = UserSession.Current.CountryID == 52 ? "colones" : @UserSession.Current.CurrencyName;
+    DateTime PaymentStartDate = Model.AccountPaymentPlanList.FirstOrDefault().StartDate;
+}
+<style type="text/css" media="print">
+        @@page {
+            size: landscape;
+            max-height: 100%;
+            max-width: 100%
+        }
+    </style>
+
+@if (Model.AccountModel != null)
+{
+    <div class="wrapper wrapper-content p-xl">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="1" width="15%">
+                        <img alt="Company Logo" class="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td colspan="5" width="85%">
+                        <h2 class="center no-margin">
+                            @if (Model.CompanyModel != null)
+                            {
+                                @Html.Raw(Model.CompanyModel.Name);
+                            }
+                        </h2>
+                        <h4 class="center no-margin">@GlobalResource.TaxManagement</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <p>
+                            @LocalResource.PrintPaymentPlanDesc1:
+                            <b>@Model.AccountModel.DisplayName</b>
+                        </p>
+                        <p>
+                            @GlobalResource.WithTaxNumber.ToUpper():
+                            <b>@Model.AccountModel.TaxNumber</b>
+                        </p>
+                        <p>
+                            @AccountResource.Address.ToUpper():
+                            <b>
+                                @Model.AccountModel.Address
+                            </b>
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <p>
+                            @LocalResource.PrintPaymentPlanDesc2:
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <table cellspacing="0" style="font-size:12px !important;">
+                            <thead>
+                                <tr>
+                                    <th width="10%" class="left bg-gray bold table-border-td">
+                                        @LocalResource.Concept.ToUpper()
+                                    </th>
+                                    <th width="25%" class="center bg-gray bold table-border-td">
+                                        @GlobalResource.Description.ToUpper()
+                                    </th>
+                                    <th width="17%" class="center bg-gray bold table-border-td">
+                                        @GlobalResource.Periods.ToUpper()
+                                    </th>
+                                    <th width="8%" class="right bg-gray bold table-border-td">
+                                        @GlobalResource.Principal.ToUpper()
+                                    </th>
+                                    <th width="8%" class="right bg-gray bold table-border-td">
+                                        @GlobalResource.FinancingInterest.ToUpper()
+                                    </th>
+                                    @*<th width="8%" class="right bg-gray bold table-border-td">
+                                            @GlobalResource.Interestforlatepayment.ToUpper()
+                                        </th>*@
+                                    <th width="8%" class="right bg-gray bold table-border-td">
+                                        @LocalResource.TotalAmount.ToUpper()
+                                    </th>
+                                    <th width="8%" class="right bg-gray bold table-border-td">
+                                        @ServiceResource.StartAmount.ToUpper()
+                                    </th>
+                                    <th width="8%" class="right bg-gray bold table-border-td">
+                                        @LocalResource.MonthlyAmount.ToUpper()
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.AccountPaymentPlanList != null || Model.AccountPaymentPlanList.Count > 0)
+                                {
+                                    foreach (var item in Model.AccountPaymentPlanList)
+                                    {
+                                        <tr>
+                                            <td class="left table-border-td">@item.Code</td>
+                                            <td class="center table-border-td">@item.ServiceName</td>
+                                            <td class="center table-border-td">
+                                                @if (string.IsNullOrEmpty(item.Periods))
+                                                {
+                                                    @Html.Raw(" - ")
+                                                }
+                                                else
+                                                {
+                                                    @*{
+                                                            var period = item.Periods.Split(',');
+                                                            @Html.Raw(period[0] + " " + GlobalResource.ToThe.ToUpper() + " " + period[1])
+                                                        }*@
+                                                    @Html.Raw(item.Periods)
+                                                }
+                                            </td>
+                                            <td class="right table-border-td">@item.Principal.ToString("C")</td>
+                                            <td class="right table-border-td">@item.Interest.ToString("C")</td>
+                                            @*<td class="right table-border-td">@item.LateInterest.ToString("C")</td>*@
+                                            <td class="right table-border-td">@item.TotalAmount.Value.ToString("C")</td>
+                                            <td class="right table-border-td">@item.StartAmount.Value.ToString("C")</td>
+                                            <td class="right table-border-td">@item.MonthlyAmount.Value.ToString("C")</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td class="center table-border-td" colspan="8">
+                                            <center>@GlobalResource.NoDataMessage</center>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (Model.AccountPaymentPlanList != null || Model.AccountPaymentPlanList.Count > 0)
+                                {
+                                    <tr>
+                                        <td class="bold table-border-td" colspan="3">@PaymentResource.TotalAmount.ToUpper()</td>
+                                        <td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.Principal).ToString("C")</td>
+                                        <td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.Interest).ToString("C")</td>
+                                        @*<td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.LateInterest).ToString("C")</td>*@
+                                        <td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.TotalAmount).Value.ToString("C")</td>
+                                        <td class="right bold table-border-td"></td>
+                                        <td class="right bold table-border-td"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold table-border-td" colspan="6">@LocalResource.InitialAndMonthlyFeeAmounts.ToUpper()</td>
+                                        <td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.StartAmount).Value.ToString("C")</td>
+                                        <td class="right bold table-border-td">@Model.AccountPaymentPlanList.Sum(e => e.MonthlyAmount).Value.ToString("C")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <p>
+                            @{
+                                decimal? startAmount = 0;
+                                decimal? monthlyAmount = 0;
+                                int months = 0;
+
+                                if (Model.AccountPaymentPlanList != null || Model.AccountPaymentPlanList.Count > 0)
+                                {
+                                    startAmount = Model.AccountPaymentPlanList.Sum(x => x.StartAmount).Value;
+                                    monthlyAmount = Model.AccountPaymentPlanList.Sum(x => x.MonthlyAmount).Value;
+                                }
+
+                                if (Model.AccountPaymentPlanModel != null)
+                                {
+                                    months = Model.AccountPaymentPlanModel.Months;
+                                }
+                            }
+
+                            @LocalResource.PrintPaymentPlanDesc3
+                            ****@startAmount.Value.ToString(Common.NumberPoints)
+                            @currencyName @LocalResource.PrintPaymentPlanDesc4
+                            @months
+                            @LocalResource.PrintPaymentPlanDesc5
+                            ****@monthlyAmount.Value.ToString(Common.NumberPoints)
+                            @currencyName. @LocalResource.PrintPaymentPlanDesc6 @Html.Raw(PaymentStartDate.ToString("m") + " " + GlobalResource.OfThe + " " + PaymentStartDate.Year).
+
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <p>
+                            @Html.Raw(LocalResource.PrintPaymentPlanDesc7 + " " + DateTime.Now.Day + " " + LocalResource.Daysofthemonthof + " " + String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM}", DateTime.Now) + " " + DateTime.Now.Year)
+                        </p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td colspan="2" class="center">
+                        <p>
+                            <br /> <br /> <br />
+                            ____________________________________
+                            <h3>@LocalResource.ManageraCollection.ToUpper()</h3>
+                        </p>
+                    </td>
+                    <td colspan="2" class="center">
+                        <p>
+                            <br /> <br /> <br />
+                            ____________________________________
+                            <h3>@GlobalResource.Account.ToUpper()</h3>
+                        </p>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+<script type="text/javascript">
+    window.print();
+</script>

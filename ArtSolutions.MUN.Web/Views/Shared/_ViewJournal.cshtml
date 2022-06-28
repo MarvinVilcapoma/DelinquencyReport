@@ -1,0 +1,128 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Reports.Models.JournalDetailListModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.JournalDetailTitle;
+}
+<div class="modal fadeIn" id="modalviewjournal" tabindex="-1" role="dialog" aria-hidden="true" style="z-index:10000 !important">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" id="modeljournal">
+            <div class="modal-body no-padding">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5 id="addresstitle">@GlobalResource.ShowJournalEntry</h5>
+                        <button type="button" class="close" data-dismiss="modal" data-previouspopup-toggle="#myModal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="slim-scroll">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 text-right control-label">@GlobalResource.JournalID</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBox("JournalID", Model.FirstOrDefault().ID, new { @class = "form-control", @disabled = true })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 text-right control-label">@GlobalResource.Date</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBox("Date", Model.FirstOrDefault().Date.ToShortDateString(), new { @class = "form-control", @disabled = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-t-sm">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 text-right control-label">@GlobalResource.ReceiptNumber</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBox("ReceiptNumber", (string)ViewBag.ReceiptNumber, new { @class = "form-control", @disabled = true })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 text-right control-label">@LocalResource.CustomerName</label>
+                                        <div class="col-sm-8">
+                                            @Html.TextBox("FINJournalID", Model.FirstOrDefault().ReferenceAccountName, new { @class = "form-control", @disabled = true })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive m-t">
+                                <table class="table table-multi-row" id="mytable">
+                                    <thead>
+                                        <tr>                                            
+                                            <th class="col-md-2 textleft">@GlobalResource.BankAccount</th>
+                                            <th class="col-md-2 textleft">@GlobalResource.Checkbook</th>
+                                            <th class="col-md-2 textleft">@GlobalResource.Grant</th>
+                                            <th class="col-md-1 textleft">@GlobalResource.Percentage</th>
+                                            <th class="col-md-3 textleft">@GlobalResource.FinanceAccount</th>
+                                            <th class="col-md-1 textright textright">@GlobalResource.Debit</th>
+                                            <th class="col-md-1 textright">@GlobalResource.Credit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="accountRows">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>                                              
+                                                <td class="textleft">@item.BankAccountName</td>
+                                                <td class="textleft">@item.ChecbookName</td>
+                                                <td class="textleft">@item.Grant</td>
+                                                <td class="textleft">@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString("0.#####") + "%" : "")</td>
+                                                <td class="textleft">@item.NameFriendly</td>
+                                                <td class="textright">@item.Debit.ToString("C")</td>
+                                                <td class="textright">@item.Credit.ToString("C")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>                                            
+                                            <td colspan="5" class="textright bottom-border">
+                                                @LocalResource.TotalBalance :
+                                            </td>
+                                            <td class="textright bottom-border">
+                                                @Model.Sum(x => x.Debit).ToString("C")
+                                            </td>
+                                            <td class="textright bottom-border">
+                                                @Model.Sum(x => x.Credit).ToString("C")
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancel" type="button" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .textleft {
+        text-align: left !important;
+    }
+    .textright {
+        text-align: right !important;
+    }
+</style>
+@Scripts.Render("~/plugins/slimScroll")
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".slim-scroll").slimscroll({
+            opacity: 0,
+            height: 550,
+            width: '100%',
+            allowPageScroll: false,
+            railVisible: true,
+        }).mouseover(function () {
+            $(this).next('.slimScrollBar').css('opacity', 0.4);
+        });
+    });
+</script>

@@ -1,0 +1,346 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using CollectionTemplateResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+@using HtmlHelpers.BeginCollectionItem;
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.NewPaymentReceiptByOtherService;
+    string Class = Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0 ? "col-lg-2" : "col-lg-6";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.PaymentReceipt</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Payment", new {area = "Collections" })">@LocalResource.ListPaymentReceipt </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "Payment", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "return onPaymentBegin()",
+                    OnSuccess = "paymentSuccessCallback(data)"
+                }, new
+                {
+                    @class = "form-horizontal",
+                    role = "form",
+                    id = "frmPayment"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.AttachmentID)
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@LocalResource.NewPaymentReceiptByOtherService</h5>
+                        <div class="ibox-tools">
+                            @*<div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=9>@GlobalResource.Save <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a><button id="btnSave" type="button" name="actionType" value="otherservicesave" onclick="return confirmprint('otherservicesave');">@GlobalResource.Save</button></a></li>
+                                        <li><a><button id="btnSaveNew" type="button" name="actionType" value="otherservicesaveandcontinue" onclick="return confirmprint('otherservicesaveandcontinue');">@GlobalResource.SaveNew</button></a></li>
+                                    </ul>
+                                </div>*@
+                            <button class="btn btn-white" type="button" tabindex="10" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.AccountName <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @if (Model.AccountID > 0)
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                                    {
+                                        @class = "form-control select2dropdown required",
+                                        tabindex = 1,
+                                        onchange = "loadPostedInvoices(this)",
+                                        @disabled = "disabled"
+                                    })
+                                    @Html.HiddenFor(x => x.AccountID)
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID,Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                                    {
+                                       @class = "form-control select2dropdown required",
+                                       tabindex = 1,
+                                       onchange = "loadPostedInvoices(this)"
+                                    })
+                                }
+                                @Html.ValidationMessageFor(x => x.AccountID)
+
+                            </div>
+                            <label class="col-sm-2 control-label">@GlobalResource.Date<span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x.Date, new
+                           {
+                               @class = "form-control",
+                               tabindex = 2,
+                               @disabled = true
+                           })
+                                @Html.ValidationMessageFor(x => x.Date)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-6"></div>
+                            @if (Model.AllowManualReceipt)
+                            {
+                                <label class="col-sm-2 control-label">@LocalResource.ManualReceipt </label>
+                                <div class="col-sm-1 m-t-xs"> @Html.CheckBoxFor(x => x.IsManual, new { tabindex = "3", @onchange = "toggleVisibility(this.checked,'dvPaymentNumber');" }) </div>
+                                <div id="dvPaymentNumber" class="hide">
+                                    <label class="col-sm-1 control-label"> @GlobalResource.Number<span class="text-danger">&nbsp;*</span></label>
+                                    <div class="col-sm-2">
+                                        @Html.TextBoxFor(x => x.Number, new
+                                   {
+                                       @class = "form-control required",
+                                       tabindex = 4,
+                                       maxlength = "50",
+                                   })
+                                        @Html.ValidationMessageFor(x => x.Number)
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t">
+                                    <table class="table table-multi-row" id="mytable">
+                                        <thead>
+                                            <tr>
+                                                <th class="@Class itemTypeHead">
+                                                    @GlobalResource.Service
+                                                </th>
+                                                @if (Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0)
+                                                {
+                                                    <th class="col-lg-2 CheckbookHead">
+                                                        @CollectionTemplateResource.Checkbook
+                                                    </th>
+                                                }
+                                                <th class="col-lg-3">
+                                                    @GlobalResource.Description
+                                                </th>
+                                                <th class="text-right @Html.Raw(Model.ID > 0 && (Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0)?" col-lg-3": " col-lg-2")">
+                                                    @GlobalResource.Amount
+                                                </th>
+                                                <th class="text-center col-lg-1">
+                                                    <a class="btn btn-primary btn-sm " onclick="addServiceTypeOption()" id="addInvoiceRow" title="Add Row">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoiceRows">
+                                            @foreach (var item in Model.InvoiceDetail)
+                                            {
+                                                @Html.Partial("~/Areas/Collections/Views/Invoice/_ServiceTypetOptionList.cshtml", item);
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="@Html.Raw(Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0?"3":"2")" class="FotterSpan"></td>
+                                                <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                                <td class="text-right">
+                                                    @Html.Hidden("NetPayment", "", new { @class = "spnFooterAmount" })
+                                                    <span id="spnNetPayment" class="spnFooterAmount">@Html.Raw(0.ToString("c"))</span>
+                                                </td>                                                
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t-sm">
+                                    <table class="table table-multi-row" id="tblPaymentOptions">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-3">
+                                                    @LocalResource.PaymentOption
+                                                </th>
+                                                <th class="col-lg-6">
+                                                    @LocalResource.PaymentNotes
+                                                </th>
+                                                <th class="col-lg-2 text-right">
+                                                    @GlobalResource.Amount
+                                                </th>
+                                                <th class="col-lg-1 text-center">
+                                                    <a class="btn btn-primary btn-xs" id="addOption" tabindex="5" onclick="addPaymentOption();">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="optionrows">
+                                            @foreach (var item in Model.PaymentOptionList)
+                                            {
+                                                @Html.Partial("~/Areas/Collections/Views/Payment/_PaymentOptionList.cshtml", item);
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="text-right"> @LocalResource.TotalAmount :</td>
+                                                <td class="text-right" id="paymentoptionTotal" data-total="0"> @Html.Raw(0.ToString("c")) </td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t-sm">
+                                    <table class="table table-multi-row" id="tblCreditBalance">
+                                        <thead>
+                                            <tr class="row">
+                                                <th class="col-lg-6">
+                                                    @LocalResource.ApplyCredit
+                                                </th>
+                                                <th class="col-lg-6"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="row">
+                                                <td class="col-lg-6 form-group">
+                                                    <div class="">
+                                                        <label class="col-lg-5 control-label">@LocalResource.AvailableCredit</label>
+                                                        <div class="col-lg-7">
+                                                            @Html.TextBox("CreditAmount", Model.ApplyCreditAmount.ToString("C"), new
+                                                       {
+                                                           @class = "form-control inputdecimal text-right amountinput",
+                                                           disabled="disabled",@data_credit= Model.ApplyCreditAmount
+                                                       })
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="col-lg-6 form-group ">
+                                                    <div class="">
+                                                        <label class="col-lg-5 control-label">@LocalResource.AppliedCredit</label>
+                                                        <div class="col-lg-7">
+                                                            @Html.TextBox("ApplyCreditAmount","", new
+                                                       {
+                                                           @class = "form-control Currencyinputdecimal text-right amountinput",
+                                                           tabindex = 6
+                                                       })
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="row">
+                                                <td class="col-lg-6"></td>
+                                                <td class="col-lg-6"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@LocalResource.InternalNotes</label>
+                                    <div class="col-sm-10">
+                                        @Html.TextAreaFor(x => x.Notes, new { @class = "form-control", rows = "3", tabindex = 8 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">@GlobalResource.Attachment</label>
+                                    <div class="col-sm-10">
+                                        <div id="paymentFileDropzone" class="dropzone text-center">
+                                            <div id="paymentFilePreview" class="dropzone-previews"></div>
+                                            <div class="dz-message" data-dz-message><span>@GlobalResource.Uploadeddocumentmaxsizemessage</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title ibox-title-with-button">
+                        <div class="ibox-tools">
+                            <div class="btn-group dropup">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=9>@GlobalResource.Save <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a><button id="btnSave" type="button" name="actionType" value="otherservicesave" onclick="return confirmprint('otherservicesave');">@GlobalResource.Save</button></a></li>
+                                    <li><a><button id="btnSaveNew" type="button" name="actionType" value="otherservicesaveandcontinue" onclick="return confirmprint('otherservicesaveandcontinue');">@GlobalResource.SaveNew</button></a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" tabindex="10" onclick="window.location.href = '@Url.Action("Index", "Payment")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        #paymentFooter.table > tbody > tr > td {
+            border: none;
+            text-align: right;
+        }
+
+        #mytable thead th {
+            vertical-align: middle !important;
+        }
+
+        table.table-multi-row > tbody > tr {
+            border-left: 1px solid #e7e7e7 !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script type="text/javascript">
+        var uploadmaxsizemsg = '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)',
+            valTotalPayment = '@Html.Raw(LocalResource.ValTotalPayment)',
+            valMinOneInvoice = '@Html.Raw(LocalResource.ValMinOneInvoice)';
+        swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        postPayment = '@Html.Raw(LocalResource.PostPayment)';
+        var maxFileLength = '@Common.MaxFileLengthToUpload';
+        var allowedFileTypes = '@Common.AllowedFileTypesToUpload';
+        var SelectInvoice = '@Html.Raw(LocalResource.SelectInvoice)';
+        var ValCompareTotalAmount = '@Html.Raw(LocalResource.ValCompareTotalAmount)';
+        var ValTotalAmountRequired = '@Html.Raw(LocalResource.ValTotalAmountRequired)';
+        var ManualReceiptConfirmMsg = '@Html.Raw(LocalResource.ManualReceiptConfirmMsg)';
+        var ValCreditBalance = '@Html.Raw(LocalResource.ValCreditBalance)'
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var printmsg = '@Html.Raw(GlobalResource.PrintMsg)';
+        var noBtnText = '@Html.Raw(GlobalResource.No)';
+        var yesBtnText = '@Html.Raw(GlobalResource.Yes)';
+        var ValCreditBalancePositive = '@Html.Raw(GlobalResource.ValCreditBalancePositive)';
+    </script>
+    <script src='@Url.Content("~/Scripts/app/paymentreceiptaddbotherservice.js")'></script>
+}

@@ -1,0 +1,55 @@
+﻿
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.ClosingEntryModel>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    bool? isViewMode = null;
+    if (ViewBag.IsViewMode != null)
+    {
+        isViewMode = true;
+    }
+}
+@using HtmlHelpers.BeginCollectionItem;
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr id="@item.ID">
+            @using (Html.BeginCollectionItem("ClosedEntryList"))
+            {
+                if (!(isViewMode.HasValue && isViewMode.Value))
+                {
+                    <td class="text-center border-left">
+                        @Html.CheckBox("SelectedClosedEntry", item.SelectedClosedEntry, new { onclick = "onEntrySelect(this)", tabindex = "4",@class= "chkSelectedEntry" })
+                    </td>
+                }
+                <td class="text-left @((isViewMode.HasValue && isViewMode.Value)?"border-left":"")">
+                    @item.Date.ToString("d")
+                </td>
+                <td class="text-left">
+                    @item.Number
+                </td>
+                <td class="text-left">
+                    @item.CashierName
+                </td>
+                <td class="text-left">
+                    @item.Description
+                </td>
+                <td class="text-left text-description-field">
+                    @item.PaymentOption
+                </td>
+                <td class="text-right border-right">
+                    @item.NetClosing.ToString("C")
+                </td>
+                //Hidden Fields
+                @Html.Hidden("ID", item.ID)
+                @Html.Hidden("NetClosing", item.NetClosing, new { @class = "netClosing" })
+            }
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="7" class="text-center">@GlobalResource.NoDataMessage</td>
+    </tr>
+}

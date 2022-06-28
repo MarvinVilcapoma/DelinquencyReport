@@ -1,0 +1,59 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.StatisticsofReceiptsCollectedModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+
+<div class="table-responsive m-t">
+    <table id="StatisticsofReceiptsCollectedTable" class="table table-report display nowrap">
+        <thead class="hide">
+            <tr>
+                <th class="text-center">
+                </th>
+                <th class="text-center">
+                </th>
+                <th class="text-center">
+                </th>
+                <th class="text-center">
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @if (Model.StatisticsofReceiptsCollectedList != null && Model.StatisticsofReceiptsCollectedList.Count() > 0)
+            {
+                foreach (var item in Model.StatisticsofReceiptsCollectedList)
+                {
+                    <tr>
+                        <td class="text-left font-bold">
+                            @ReportResource.TotalRecords :
+                        </td>
+                        <td class="text-left">
+                            @item.TotalLinesInFileReceived
+                        </td>
+                        <td class="text-left font-bold">
+                            @ReportResource.TotalPayments :
+                        </td>
+                        <td class="text-left">
+                            @item.TotalLinesWithPayments
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-left font-bold">
+                            @ReportResource.AmountRaised :
+                        </td>
+                        <td class="text-left">
+                            @item.TotalAmount.ToString("C")
+                        </td>
+                        <td class="text-left font-bold">
+                            @ReportResource.AmountCharged
+                        </td>
+                        <td class="text-left">
+                            @item.TotalCommission.ToString("C")
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

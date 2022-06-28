@@ -1,0 +1,26 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.CompanyModel
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="row  border-bottom white-bg dashboard-header">
+
+    <div class="col-sm-12 text-center">
+        <h1 style="color: #01547e;font-weight: bold;">@Model.Name</h1>
+
+        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52)
+        {
+            <img style="-webkit-user-select: none;cursor: zoom-in;"
+                 src="https://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=438%2C480&amp;ssl=1"
+                 width="349"
+                 height="383">
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+    </script>
+}

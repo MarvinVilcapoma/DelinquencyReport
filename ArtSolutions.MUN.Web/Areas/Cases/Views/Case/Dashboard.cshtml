@@ -1,0 +1,54 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@{
+    ViewBag.Title = GlobalResource.Dashboard;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@GlobalResource.Dashboard</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <input type="hidden" name="hdnCaseBalance" id="hdnCaseBalance" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.CaseModels)" />
+            <input type="hidden" name="hdnCaseCount" id="hdnCaseCount" value="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.CaseCounts)" />
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@LocalResource.CasesMoneybyStatus</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <canvas id="cnvCaseBalance" height="125"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@LocalResource.CasesCountbyStatus</h5>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <canvas id="cnvCaseCount" height="125"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/chartjs")
+    <script src="~/Scripts/app/casedashboard.js"></script>
+}

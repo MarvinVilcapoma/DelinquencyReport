@@ -1,0 +1,81 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@using (Ajax.BeginForm("Comment", "Case", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "formComment", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>@LocalResource.Comments</h5>
+                <button type="button" class="close" id="aCancelCommentForm"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.AssignedTo</label>
+                                    @Html.DropDownListFor(m => Model.AssignToID, (Model.CaseTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.CaseTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control select2dropdown", @id = "ddlCommentAssignTo" })
+                                    <input type="hidden" name="hdnStatusIDTarget" value="0" id="hdnStatusIDTarget" />
+                                    <input type="hidden" name="hdnStatusIDTargetName" value="" id="hdnStatusIDTargetName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">@GlobalResource.Reason</label>
+                                @Html.DropDownListFor(m => Model.ReasonID, Enumerable.Empty<SelectListItem>(), new { @class = "form-control select2dropdown", @id = "ddlCommentReasons" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">@LocalResource.Comment</label>
+                                @Html.TextAreaFor(m => m.Comments, new { @class = "form-control textarea-vertical-resize", @rows = 4, @cols = 80 })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-3 col-xs-12">
+                        <div class="tab-content">
+                            <div class="tab-pane visible-lg">
+                                <div id="vertical-timeline" class="vertical-container dark-timeline">                                                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <label class="control-label">@GlobalResource.Attachment</label>
+                                <div id="commentDropzone" class="dropzone">
+                                    <div id="commentPreview" class="dropzone-previews">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive m-t hidden" id="dvCommentFileUpload">
+                                <table class="table table-hover" id="tblCommentFileUpload">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-lg-6 col-sm-6 col-md-6 col-xs-12">Name <span class="text-danger">*</span></th>
+                                            <th class="col-lg-6 col-sm-6 col-md-6 col-xs-12">File Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="btnAddComments" class="btn btn-primary as-btn-text">@GlobalResource.Add</button>
+        <button type="button" id="btnCancelComments" class="btn btn-default as-btn-text">@GlobalResource.Cancel</button>
+    </div>
+}

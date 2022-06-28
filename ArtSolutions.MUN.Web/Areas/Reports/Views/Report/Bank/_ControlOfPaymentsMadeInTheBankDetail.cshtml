@@ -1,0 +1,129 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ControlOfPaymentsMadeInTheBankModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblControlOfPaymentsMadeInTheBank" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-left">
+                    @GlobalResource.ReceiptNumber
+                </th>
+                <th style="min-width:150px;" class="text-left">
+                    @ReportResource.IDNumber
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.TaxpayerName
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.Concept
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @GlobalResource.Amount
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @if (Model.ControlOfPaymentsMadeInTheBankList != null && Model.ControlOfPaymentsMadeInTheBankList.Count() > 0)
+            {
+                foreach (var item in Model.ControlOfPaymentsMadeInTheBankList.GroupBy(d => d.RecieptNumber).Select(d => new { RecieptNumber = d.Key }).ToList())
+                {
+                    int i = 0;
+
+                    foreach (var objItem in Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber))
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @if (i == 0)
+                                {
+                                    @Html.Raw(objItem.RecieptNumber)
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (i == 0)
+                                {
+                                    @Html.Raw(objItem.TaxNumber)
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (i == 0)
+                                {
+                                    @Html.Raw(objItem.AccountName)
+                                }
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw(objItem.ServiceName)
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw(objItem.Amount.Value.ToString("C"))
+                            </td>
+                        </tr>
+
+                        i = i + 1;
+                    }
+
+                    decimal? delayOnTaxInterest = Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.DelayOnTaxInterest).Value;
+                    decimal? delayInServiceInterest = Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.DelayInServiceInterest).Value;
+
+                    if (delayOnTaxInterest > 0)
+                    {
+                        <tr>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw("INTERESES POR MORA EN IMPUESTOS")
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw((delayOnTaxInterest ?? 0).ToString("C"))
+                            </td>
+                        </tr>
+                    }
+
+                    if (delayInServiceInterest > 0)
+                    {
+                        <tr>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw("INTERESES POR MORA EN SERVICIOS")
+                            </td>
+                            <td class="text-center">
+                                @Html.Raw((delayInServiceInterest ?? 0).ToString("C"))
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class="sub-header">
+                        <td class="text-center font-bold"></td>
+                        <td class="text-center font-bold"></td>
+                        <td class="text-center font-bold"></td>
+                        <td class="text-right font-bold">@ReportResource.TotalByReceipt : </td>
+                        <td class="text-center font-bold">
+                            @Html.Raw((Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.Payment) ?? 0).ToString("C"))
+                        </td>
+                    </tr>
+                }
+                <tr class="sub-header">
+                    <td class="text-center font-bold"></td>
+                    <td class="text-center font-bold"></td>
+                    <td class="text-center font-bold"></td>
+                    <td class="text-right font-bold">@GlobalResource.Total : </td>
+                    <td class="text-center font-bold">
+                        @Html.Raw((Model.ControlOfPaymentsMadeInTheBankList.Sum(x => x.Payment) ?? 0).ToString("C"))
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

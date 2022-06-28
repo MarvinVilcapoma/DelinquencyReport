@@ -1,0 +1,60 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceExemptionModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+
+@using (Ajax.BeginForm("ExemptionUpdate", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "ExemptionSuccessCallback(data)" }, new { role = "form", id = "frmAccountService_Exemption", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.EditExemption </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.Period <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        <select id="CollectionDetail" readonly class="form-control select2dropdown required" multiple="multiple" name="CollectionDetail" tabindex="1">
+                            <option value="0">@GlobalResource.All</option>
+                            @foreach (var item in Model.CollectionDetail)
+                            {
+                            <option value="@item.ID" data-balance="@Html.Raw(item.PaidAmount > 0 ? item.Principal - ((item.PaidAmount - item.Interest - item.Penalties)) : item.Principal)">
+                                @item.ServiceFrequencyName
+                            </option>
+                            }
+                        </select>
+                        @Html.HiddenFor(d => d.AccountServiceCollectionDetailId)
+                        @Html.ValidationMessage("CollectionDetail", GlobalResource.FieldRequiredMessage)
+                        @Html.HiddenFor(d => d.ID)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.Balance</label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBox("txtBalance", "", new { @class = "required form-control text-right", @id = "txtBalance", @disabled = "disabled" })
+                    </div>
+                </div>                
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.ExemptionAmount <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBoxFor(x => x.Amount, new { @class = "required form-control inputdecimal text-right", @id = "txtExemptionAmount" })
+                        @Html.ValidationMessageFor(x => x.Amount)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.ExemptionReason <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextAreaFor(x => x.Reason, new { @class = "required form-control", @id = "txtExemptionReason" })
+                        @Html.ValidationMessageFor(x => x.Reason)
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.AccountServiceId)
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnExemptionSave" type="button" class="btn btn-primary">@GlobalResource.Save</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+}

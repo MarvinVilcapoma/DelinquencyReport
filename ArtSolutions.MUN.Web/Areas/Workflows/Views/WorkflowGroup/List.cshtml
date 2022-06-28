@@ -1,0 +1,84 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GLobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ListGroup;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GLobalResource.Workflow</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GLobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title  </h5>
+                    <div class="ibox-tools">
+                        <a href="@Url.Action("Add","WorkflowGroup",new { area="Workflows",id=0,actionType=1 })" class="btn btn-primary btn-xs">
+                            @LocalResource.NewGroup
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> @GLobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search" class="input-sm form-control readdata" id="txtSearch" tabindex="2">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="3"> @GLobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-list">
+                        <div class="table-responsive">
+                            <table class="table table-stripped" id="tblGroups"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script>
+        var nodatamsg = "@GLobalResource.NoDataMessage",
+            first = "@GLobalResource.First",
+            last = "@GLobalResource.Last",
+            next = "@GLobalResource.Next",
+            previous = "@GLobalResource.Previous",
+            documentType = "@GLobalResource.DocumentType",
+            name = "@GLobalResource.Name",
+            description = "@GLobalResource.Description",
+            action = "@GLobalResource.Action",
+            view = "@GLobalResource.View",
+            edit = "@GLobalResource.Edit",
+            isBack = '@ViewBag.IsBack',
+            cancel = "@GLobalResource.Cancel",
+            add = "@GLobalResource.Add",
+            isEditorPage = false;
+
+    </script>
+    <script src="~/Scripts/app/workflowgroup.js"></script>
+}

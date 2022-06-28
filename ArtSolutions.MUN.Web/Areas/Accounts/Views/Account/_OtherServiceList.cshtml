@@ -1,0 +1,64 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLInvoice
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover serviceList" data-page="false" data-sorting="false">
+        <thead>
+            <tr>
+                <th class="col-lg-2">@GlobalResource.Number</th>
+                <th class="col-lg-4">@GlobalResource.Service</th>
+                <th class="col-lg-2"> @GlobalResource.Status </th>
+                <th class="col-lg-2 text-right" data-type="numeric">@GlobalResource.Amount</th>
+                <th class="col-lg-2 text-right"><button type="button" id="btnNewOtherService" class="@(Model.IsActive? "btn btn-primary btn-xs": "btn btn-primary btn-xs disabled")" onclick="location.href='@Url.Content("~/Collections/Invoice/Add")'" @(Model.IsActive ? "" : "disabled")><i class="fa fa-plus"></i> @LocalResource.NewInvoice</button></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OtherServiceList == null || Model.OtherServiceList.Count == 0)
+            {
+                <tr>
+                    <td colspan="10" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.OtherServiceList)
+                {
+                    <tr>
+                        <td class="col-lg-2">
+                            @item.Number
+                        </td>
+                        <td class="col-lg-4 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.ServiceName">
+                            @item.ServiceName
+                        </td>
+                        <td class="col-lg-2">
+                            @if (item.IsPost)
+                            {
+                                @Html.Raw(GlobalResource.Post)
+                            }
+                            else
+                            {
+                                @Html.Raw(GlobalResource.Void)
+                            }
+                        </td>
+                        <td class="col-lg-2 text-right" data-sort-value="@item.Total">
+                            @item.Total.ToString("C")
+                        </td>
+                        <td class="col-lg-2 text-right">
+                            <a href='@Url.Content("~/Collections/Invoice/View?ID="+ item.ID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

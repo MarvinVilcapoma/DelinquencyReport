@@ -1,0 +1,61 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.FinishViewAccountPropertyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="project-list table-responsive" id="divfinishtable">
+
+            @if (Model.HeaderColumnList != null && Model.HeaderColumnList.Count > 0)
+            {
+                <table class="table table-hover" id="tblFinish">
+                    <thead>
+                        <tr>
+                            @for (int i = 0; i < Model.HeaderColumnList.Count; i++)
+                            {
+                                <th>@Model.HeaderColumnList[i]</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="white-bg">
+                        @foreach (var row in Model.ImportAccountPropertyViewModel)
+                        {
+                            <tr>
+                                <td>@row.GroupCode</td>
+                                <td>@row.RightNumber</td>
+                                <td>@row.Duplicate</td>
+                                <td>@row.Horizontal</td>
+                                <td>@row.RightCode</td>
+                                <td>@row.TaxNumber</td>
+                                <td>
+                                    @Html.Raw(@row.TerrainArea == null ? null : @row.TerrainArea.Value.ToString(Common.DecimalPoints))
+                                </td>
+                                <td>
+                                    @Html.Raw(@row.Percentage == null ? null : (@row.Percentage / 100).Value.ToString("P"))
+                                </td>
+                                <td>@row.MaterialType</td>
+                                <td>@row.ConstructionType</td>
+                                <td>@row.CurrentAge</td>
+                                <td>
+                                    @Html.Raw(@row.BuildingArea == null ? null : @row.BuildingArea.Value.ToString(Common.DecimalPoints))
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="@Model.HeaderColumnList.Count()">
+                                <ul class="pagination list-inline pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    #divfinishtable {
+        height: 700px;
+    }
+</style>

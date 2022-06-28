@@ -1,0 +1,505 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.NewTitle;
+    int AccountType = Model.AccountTypeID;
+    string requiredCSS = Model.AccountTypeID == 4 ? "" : "required";
+}
+
+@using (Ajax.BeginForm("Add", "Account", new AjaxOptions { HttpMethod = "POST", OnSuccess = "UserSuccessCallback(data)" }, new { role = "form", id = "form", data_ajax_mode = "replace-with" }))
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>@GlobalResource.Account</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("List", "Account", new { area = "Accounts" })">@LocalResource.ListTitle</a>
+                </li>
+                <li class="active">
+                    <strong>@ViewBag.Title</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    @Html.HiddenFor(x => x.EmailJson)
+    @Html.HiddenFor(x => x.PhoneJson)
+    @Html.HiddenFor(x => x.AddressJson)
+    @Html.HiddenFor(x => x.ContactJson)
+    @Html.HiddenFor(x => x.FileJson)
+    @Html.HiddenFor(x => x.CurrencyISOCode)
+    @Html.HiddenFor(x => x.AccountTypeID)
+    @Html.HiddenFor(x => x.GeneralIndividualModel.IDTypeID)
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@GlobalResource.GeneralInformation</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=28>@GlobalResource.Save <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a><button id="btnSave" type="submit" name="actionType" value="1">@GlobalResource.Save</button></a></li>
+                                    <li><a><button id="btnSaveNew" type="submit" name="actionType" value="2">@GlobalResource.SaveNew</button></a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" onclick="resolveRedirectURL(3)" tabindex=29>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        @if (AccountType == 4)
+                        {
+                            <div class="project-list" id="divIndividualGeneralInfo">
+                                @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_IndividualGeneralInfo.cshtml", Model); }
+                            </div>
+                        }
+                        @if (AccountType == 5)
+                        {
+                            <div class="project-list" id="divBusinessGeneralInfo">
+                                @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_BusinessGeneralInfo.cshtml", Model); }
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">@GlobalResource.DisplayName <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(x => x.DisplayName, new { @class = "form-control required", id = "txtDispalyName", maxlength = 250, tabindex = 7 })
+                                    @Html.ValidationMessageFor(x => x.DisplayName)
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.BusinessDescription</label>
+                                    @Html.TextBoxFor(x => x.BusinessDescription, new { @class = "form-control", maxlength = 500, tabindex = 8 })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Email</label>
+                                    <div class="control-label pull-right">
+                                        <a data-target="#emailmodel" data-toggle="modal" id="addEmail">@LocalResource.AddMoreEmails</a>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = "txtPrimaryEmail", maxlength = 50, tabindex = 9 })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Website</label>
+                                    @Html.TextBoxFor(x => x.Website, new { @class = "form-control", maxlength = 250, tabindex = 10 })
+                                    @Html.ValidationMessageFor(x => x.Website)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.WorkPhone </label>
+                                    <small class="pull-right m-t-phone">
+                                        @GlobalResource.CountryCode + @GlobalResource.AreaCode + @GlobalResource.Phone
+                                    </small>
+                                    @Html.TextBoxFor(x => x.WorkPhone, new { @class = "form-control inputphonenumber", id = "txtPrimaryWorkPhone", maxlength = 15, tabindex = 11 })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Mobile</label>
+                                    <div class="control-label pull-right">
+                                        <a data-target="#phonemodel" data-toggle="modal" id="addPhoneNumber">@LocalResource.AddMorePhones</a>
+                                    </div>
+                                    @Html.TextBoxFor(x => x.Mobile, new { @class = "form-control inputphonenumber", id = "txtPrimaryMobile", maxlength = 15, tabindex = 12 })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@GlobalResource.Currency <span class="text-danger">*</span></label>
+                                    @Html.DropDownListFor(x => x.CurrencyID, Model.CurrencyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown", @id = "ddlCurrency", @onchange = "GetCurrencyISOCode();", tabindex = 13 })
+                                    @Html.ValidationMessageFor(x => x.CurrencyID)
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.IsSubAccount</label>
+                                    @if (Convert.ToInt32(TempData.Peek("ParentAccountType")) > 0)
+                                    {
+                                        @Html.DropDownListFor(x => x.ParentID, Model.SubAccountList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown disabled", @id = "ddlParent", disabled = "disabled", tabindex = 14 })
+                                        @Html.HiddenFor(x => x.ParentID)
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => x.ParentID, Model.SubAccountList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown disabled", @id = "ddlParent", tabindex = 14 })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@GlobalResource.Notes</label>
+                                    @Html.TextBoxFor(x => x.Notes, new { @class = "form-control", maxlength = 500, tabindex = 15 })
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="control-label">&nbsp;</label>
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(x => x.IsSponsor, new { tabindex = 16 })
+                                    @Html.LabelFor(x => x.IsSponsor)
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <label class="control-label">&nbsp;</label>
+                                <div class="form-group m-t-xxs">
+                                    @Html.CheckBoxFor(x => x.ExemptFromIVA, new { tabindex = 16 })
+                                    @Html.LabelFor(x => x.ExemptFromIVA)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">@LocalResource.Identifica</label>
+                                    @Html.TextBoxFor(x => x.BanacioIdentifica, new { @class = "form-control inputnumber", maxlength = 3, tabindex = 17 })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ibox">
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@GlobalResource.RegistrationInformation</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            @if (Model.AccountTypeID == 4)// Individual - SSN
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">@LocalResource.IDType</label>
+                                        @*@Html.DropDownListFor(x => x.GeneralIndividualModel.IDTypeID, Model.IDTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlIDType", tabindex = 18 })*@
+                                        <select class="form-control select2dropdown" id="ddlIDType" tabindex="18">
+                                            <option>@GlobalResource.DropDownSelectMessage</option>
+                                            @foreach (var item in Model.IDTypeList)
+                                            {
+                                                <option value="@item.ID" data-Identifica="@item.Description">@item.Name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="col-md-6">
+                                @if (Model.CurrencyID == 7 || (Model.CurrencyID == null && ArtSolutions.MUN.Web.Helpers.UserSession.Current.Culture == "es-CR"))
+                                {
+                                    if (AccountType == 4) // Individual - SSN
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label">@GlobalResource.SocialSecurity <span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(x => x.TaxNumber, new { @class = "form-control inputnumberletterswithhyphen required", maxlength = 20, autocomplete = "off", ondragstart = "return false", tabindex = 19 })
+                                            @Html.ValidationMessageFor(x => x.TaxNumber)
+                                        </div>
+                                    }
+                                    else if (AccountType == 5) // business EIN
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label">@LocalResource.EIN <span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(x => x.TaxNumber, new { @class = "form-control inputnumberletterswithhyphen required", maxlength = 20, autocomplete = "off", ondragstart = "return false", tabindex = 19 })
+                                            @Html.ValidationMessageFor(x => x.TaxNumber)
+                                        </div>
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (AccountType == 4) // Individual - SSN
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label">@GlobalResource.SocialSecurity <span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(x => x.TaxNumber, new { @class = "form-control required", maxlength = 250, data_mask = "999-99-9999", ondragstart = "return false", tabindex = 19 })
+                                            @Html.ValidationMessageFor(x => x.TaxNumber)
+                                        </div>
+                                    }
+                                    else if (AccountType == 5) // business EIN
+                                    {
+                                        <div class="form-group">
+                                            <label class="control-label">@LocalResource.EIN <span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(x => x.TaxNumber, new { @class = "form-control required", maxlength = 250, data_mask = "99-9999999", ondragstart = "return false", tabindex = 19 })
+                                            @Html.ValidationMessageFor(x => x.TaxNumber)
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+                            @if (Model.AccountTypeID == 5)
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.InitialDate <span class="text-danger">*</span></label>
+                                        @Html.TextBox("InitialDate", Model.InitialDate.ToString("d"), new { @class = "form-control initialDate required textblur", tabindex = 20 })
+                                        @Html.ValidationMessageFor(x => x.InitialDate)
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.AccountTypeID == 4)
+                        {
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.InitialDate <span class="text-danger">*</span></label>
+                                        @Html.TextBox("InitialDate", Model.InitialDate.ToString("d"), new { @class = "form-control initialDate required textblur", tabindex = 20 })
+                                        @Html.ValidationMessageFor(x => x.InitialDate)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+                        {
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            @LocalResource.TreasuryDepartment
+
+                                            @if (requiredCSS != "")
+                                            {
+                                                <span class="text-danger">*</span>
+                                            }
+                                        </label>
+                                        @Html.TextBoxFor(x => x.TreasuryNumber, new { @class = requiredCSS + " form-control", maxlength = 250, tabindex = 21 })
+
+                                        @if (requiredCSS != "")
+                                        {
+                                            @Html.ValidationMessageFor(x => x.TreasuryNumber, GlobalResource.RequiredValidationMsg)
+                                        }
+                                        else
+                                        {
+                                            @Html.ValidationMessageFor(x => x.TreasuryNumber)
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            @LocalResource.StateDepartmentRegisterNumber
+
+                                            @if (requiredCSS != "")
+                                            {
+                                                <span class="text-danger">*</span>
+                                            }
+                                        </label>
+                                        @Html.TextBoxFor(x => x.StateNumber, new { @class = requiredCSS + " form-control", maxlength = 250, tabindex = 22 })
+
+                                        @if (requiredCSS != "")
+                                        {
+                                            @Html.ValidationMessageFor(x => x.StateNumber, GlobalResource.RequiredValidationMsg)
+                                        }
+                                        else
+                                        {
+                                            @Html.ValidationMessageFor(x => x.StateNumber)
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            if (AccountType == 5)
+                            {
+                                <div class="project-list" id="divBusinessRegistrationInfo">
+                                    @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_BusinessRegistrationInfo.cshtml", Model); }
+                                </div>
+                            }
+                        }
+
+
+
+                        @*@if (AccountType == 5)
+                            {
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                @LocalResource.TreasuryDepartment
+
+                                                @if (requiredCSS != "")
+                                                {
+                                                    <span class="text-danger">*</span>
+                                                }
+                                            </label>
+                                            @Html.TextBoxFor(x => x.TreasuryNumber, new { @class = requiredCSS + " form-control", maxlength = 250, tabindex = 20 })
+
+                                            @if (requiredCSS != "")
+                                            {
+                                                @Html.ValidationMessageFor(x => x.TreasuryNumber, GlobalResource.RequiredValidationMsg)
+                                            }
+                                            else
+                                            {
+                                                @Html.ValidationMessageFor(x => x.TreasuryNumber)
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                @LocalResource.StateDepartmentRegisterNumber
+
+                                                @if (requiredCSS != "")
+                                                {
+                                                    <span class="text-danger">*</span>
+                                                }
+                                            </label>
+                                            @Html.TextBoxFor(x => x.StateNumber, new { @class = requiredCSS + " form-control", maxlength = 250, tabindex = 21 })
+
+                                            @if (requiredCSS != "")
+                                            {
+                                                @Html.ValidationMessageFor(x => x.StateNumber, GlobalResource.RequiredValidationMsg)
+                                            }
+                                            else
+                                            {
+                                                @Html.ValidationMessageFor(x => x.StateNumber)
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (AccountType == 5)
+                            {
+                                <div class="project-list" id="divBusinessRegistrationInfo">
+                                    @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_BusinessRegistrationInfo.cshtml", Model); }
+                                </div>
+                            }*@
+                    </div>
+                </div>
+
+                <div class="panel-group payments-method" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading panel-heading-with-button">
+                            <div class="pull-right m-t-n-xs">
+                                <a data-target="#addressmodal" data-toggle="modal" id="addAddress"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseaddress" tabindex=25>@LocalResource.Addresses</a>
+                            </h5>
+                        </div>
+                        <div id="collapseaddress" class="panel-collapse collapse collapsepanel">
+                            <div class="panel-body">
+                                <div class="table-responsive" id="divAddress">
+                                    @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_AddressList.cshtml", Model.AddressList); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading panel-heading-with-button">
+                            <div class="pull-right m-t-n-xs">
+                                <a data-target="#contactmodel" data-toggle="modal" id="addContact"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapsecontact" tabindex=26>@GlobalResource.Contacts</a>
+                            </h5>
+                        </div>
+                        <div id="collapsecontact" class="panel-collapse collapse collapsepanel">
+                            <div class="panel-body">
+                                <div class="table-responsive" id="divContact">
+                                    @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_ContactsList.cshtml", Model.ContactList); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading panel-heading-with-button">
+                            <div class="pull-right m-t-n-xs">
+                                <a data-target="#attachementmodel" data-toggle="modal" id="addFile"><i class="fa fa-plus"></i></a>
+                            </div>
+                            <h5 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseattachement" tabindex=27>@GlobalResource.AttachmentsFiles</a>
+                            </h5>
+                        </div>
+                        <div id="collapseattachement" class="panel-collapse collapse collapsepanel">
+                            <div class="panel-body">
+                                <div class="table-responsive" id="divFile">
+                                    @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_AttachmentsFilesList.cshtml", Model.FileList); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal inmodal" id="emailmodel" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn" id="divNewEmail">
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="phonemodel" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn" id="divNewPhone">
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="addressmodal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divNewAddress">
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="contactmodel" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divNewContact">
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="attachementmodel" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn">
+            @{ Html.RenderPartial("~/Areas/Accounts/Views/Account/_AttachmentsFiles.cshtml", Model); }
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/jasnyBootstrapStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/jasnyBootstrap")
+
+    <script type="text/javascript">
+        var removefile =  '@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage =  '@Html.Raw(GlobalResource.UploadfileInitialMessage)';
+        var uploadmaxsizemsg =   '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)';
+        var addressvalidationmsg = '@Html.Raw(LocalResource.RequiredValidationAddressMsg)';
+        var allowedFileTypes = '@Html.Raw(Common.AllowedFileTypesToUpload)';
+        var maxFileLength = '@Html.Raw(Common.MaxFileLengthToUpload)';
+        var uploadfiletypemsg = '@Html.Raw(GlobalResource.Uploadedfiletypemessage)';
+        var MaxLimitMessage = '@Html.Raw(GlobalResource.Uploadedfilemaxlimitmessage)';
+        var MaxFilesToUpload = '@Html.Raw(Common.MaxFilesToUpload)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="~/Scripts/app/accountadd.js"></script>
+}

@@ -1,0 +1,101 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUBalanceSheetModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.IVUBalanceSheetTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.AccountNumber</th>
+                    <th width="14%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Period</th>
+                    <th width="11%" class="table-border-center-th">@ArtSolutions.MUN.Web.Resources.AccountService.TaxableSales</th>
+                    <th width="11%" class="table-border-center-th">@GlobalResource.IVU</th>
+                    <th width="11%" class="table-border-center-th">@LocalResource.Penalty</th>
+                    <th width="11%" class="table-border-center-th">@LocalResource.Surcharges</th>
+                    <th width="11%" class="table-border-center-th">@LocalResource.Interests</th>
+                    <th width="11%" class="table-border-center-th">@LocalResource.Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.IVUBalanceSheetList != null && Model.IVUBalanceSheetList.Count() > 0)
+                {
+                    foreach (var item in Model.IVUBalanceSheetList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.CustomerNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CustomerName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedPeriod
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.TotalTaxableSales.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Penalties.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Charges.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Interest.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Balance.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="8" class="table-bg-bold-right-td"> @GlobalResource.Total : </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.IVUBalanceSheetList != null && Model.IVUBalanceSheetList.Count() > 0)
+                        {
+                            @Model.IVUBalanceSheetList.Sum(i => i.Balance).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

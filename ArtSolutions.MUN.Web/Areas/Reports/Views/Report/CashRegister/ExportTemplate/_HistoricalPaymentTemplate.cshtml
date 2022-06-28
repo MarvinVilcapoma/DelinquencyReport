@@ -1,0 +1,145 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalPaymentReportModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = ReportResource.HistoricalPaymentReport;
+
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.TaxpayerName
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.TaxpayerID
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.ServiceCode
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.ServiceName
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.NumberOfReceipt
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Principal
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Interest
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.IVA
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.Fine
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @AccountServiceResource.Exemption/@GlobalResource.Discount
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.TotalPayment
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.DateOfPayment
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.TypeOfPayment
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.BillerName
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.HistoricalPaymentList != null && Model.HistoricalPaymentList.Count() > 0)
+                {
+                    foreach (var item in Model.HistoricalPaymentList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.TaxpayerName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.TaxpayerID
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.ServiceCoe
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.RecieptNumber
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.Principal.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.Interest.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.IVA.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.Fine.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.Discount.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.TotalPayment.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.DateOfPayment.Value.ToString("d")
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.TypeOfPayment
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.BillerName
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="14" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label class="control-label">@GlobalResource.Name <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(x => x.GeneralIndBusinessModel.LegalName, new { @class = "form-control required", @onchange = "BuisnessDisplayName();" ,id= "txtLegalName", autofocus = "autofocus", maxlength = 250, tabindex = 1 })
+            @Html.ValidationMessageFor(x => x.GeneralIndBusinessModel.LegalName)
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.DBAName</label>
+            @Html.TextBoxFor(x => x.GeneralIndBusinessModel.DBAName, new { @class = "form-control", maxlength = 250, tabindex = 2 })
+        </div>
+    </div>
+</div>

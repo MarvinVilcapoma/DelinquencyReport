@@ -1,0 +1,183 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ConsumptionByRangeModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ConsumptionByRangeReport;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportConsumptionByRange", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.FromDate, Model.FromDate.ToString("MM yyyy"), new { @class = "form-control periodDate textblur", tabindex = 1, @data_required_msg = LocalResource.FromDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.ToDate, Model.ToDate.ToString("MM yyyy"), new { @class = "form-control periodDate textblur", tabindex = 2, @data_required_msg = LocalResource.ToDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="11" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="12" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();" tabindex="13">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline">
+                                    <span class="label label-warning pull-left hide" id="spnRange" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close" onclick="clearSearch('range')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnTaxNumber" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="TaxNumberSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('taxnumber')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnMeter" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="MeterSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('meter')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divConsumptionByRange">
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.From)
+                @Html.HiddenFor(x => x.To)
+                @Html.HiddenFor(x => x.TaxNumber)
+                @Html.HiddenFor(x => x.Meter)
+                @Html.HiddenFor(x => x.FormattedFromDate)
+                @Html.HiddenFor(x => x.FormattedToDate)
+                @Html.HiddenFor(x => x.ddlFrom)
+                @Html.HiddenFor(x => x.ddlTo)
+                @Html.HiddenFor(x => x.ConditionTypeID)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.AccountID</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("TaxNumber", Model.TaxNumber, new { @class = "form-control", @id = "txtTaxNumber", @data_title = LocalResource.AccountID, tabindex = 7 })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.MeterNo</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("Meter", Model.Meter, new { @class = "form-control", @id = "txtMeter", @data_title = LocalResource.MeterNo, tabindex = 8 })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <h5>  @GlobalResource.RangeFilter  </h5><hr class="no-margin-top" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6">
+                                @*<label class="col-lg-2 control-label">@LocalResource.RangeFrom (<em>m</em> <sup>3</sup>)</label>*@
+                                @Html.DropDownList("ddlConditionFrom", new List<SelectListItem>() {
+                               new SelectListItem {Text=GlobalResource.Isgreaterthanorequalto,Value=">="},
+                               new SelectListItem {Text=GlobalResource.Islessthanorequalto,Value="<="},
+                               new SelectListItem {Text=GlobalResource.Isequalto,Value="="},
+                           }, new { @class = "form-control select2dropdown", @tabindex = 10 })
+                            </div>
+                            <div class="col-lg-6">
+                                @Html.TextBox("From", Model.From, new { @class = "form-control inputdecimal", @id = "txtFrom", @data_title = LocalResource.RangeFrom, @data_val_msg = LocalResource.RangeFromRequiredMsg, tabindex = 5 })
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6">
+                                <div class="radio  m-l-md text-right">
+                                    @Html.RadioButton("ConditionType", "AND", new { @id = "rdlConditionAnd", @class = "required", @tabindex = "13", @checked = true })
+
+                                    <label for="rdlConditionAnd" class="font-bold m-t-xxs">
+                                        @LocalResource.AND
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="radio  m-l-md">
+                                    @Html.RadioButton("ConditionType", "OR", new { @id = "rdlConditionOr", @class = "required", @tabindex = "13" })
+
+                                    <label for="rdlConditionOr" class="font-bold m-t-xxs">
+                                        @LocalResource.OR
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @*<label class="col-lg-2 control-label">@LocalResource.RangeTo (<em>m</em> <sup>3</sup>)</label>*@
+                            <div class="col-lg-6">
+                                @Html.DropDownList("ddlConditionTo", new List<SelectListItem>() {
+                               new SelectListItem {Text=GlobalResource.Isgreaterthanorequalto,Value=">="},
+                               new SelectListItem {Text=GlobalResource.Islessthanorequalto,Value="<="},
+                               new SelectListItem {Text=GlobalResource.Isequalto,Value="="},
+                           }, new { @class = "form-control select2dropdown", @tabindex = 10 })
+                            </div>
+                            <div class="col-lg-6">
+                                @Html.TextBox("To", Model.To, new { @class = "form-control inputdecimal", @id = "txtTo", @data_title = LocalResource.RangeTo, @data_val_msg = LocalResource.RangeToRequiredMsg, tabindex = 6 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex=9>@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex=10>@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+
+        var consumptionRange = '@Html.Raw(LocalResource.ConsumptionRange)';
+        var compareRangeValidationMsg = '@Html.Raw(LocalResource.CompareRangeValidationMsg)';
+        var rangeFromRequiredMsg = '@Html.Raw(LocalResource.RangeFromRequiredMsg)';
+        var rangeToRequiredMsg = '@Html.Raw(LocalResource.RangeToRequiredMsg)';
+        var accountID = '@Html.Raw(LocalResource.AccountID)';
+        var meterNo = '@Html.Raw(LocalResource.MeterNo)';
+    </script>
+    <script src="~/Scripts/app/repconsumptionbyrange.js"></script>
+}

@@ -1,0 +1,77 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ImportMeasuredWaterFilingFieldModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<form id="frmSaveValidateMeasuredWaterFiling">
+    @if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Any())
+    {
+        var model = Model.MeasuredWaterFilingList.FirstOrDefault();
+
+        @Html.Hidden("RowNo", model.RowNo, new { @id = "hfEditRowNo" })
+        @Html.Hidden("PeriodDate", Model.PeriodDate, new { @id = "hfEditPeriodDate" })
+
+        <div class="modal-body no-padding">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>@AccountServiceResource.ValidateMeasuredWaterFiling</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                </div>
+                <div class="ibox-content">
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label  text-right">@GlobalResource.Category <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("CATEGORIA", model.CATEGORIA, new { @id = "hdCATEGORIA" })
+                            @Html.Label("CATEGORIA", model.CATEGORIA, new { @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                        <label class="col-lg-3 control-label  text-right">@GlobalResource.TaxNumber <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("TaxNumber", model.TaxNumber, new { @id = "hdTaxNumber" })
+                            @Html.Label("TaxNumber", model.TaxNumber, new { @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label  text-right">Ubicacion <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("UBICACION", model.UBICACION, new { @id = "hdUbicacion" })
+                            @Html.Label("UBICACION", model.UBICACION, new { @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                        <label class="col-lg-3 control-label  text-right">@AccountServiceResource.Codigom <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("CODIGOM", model.CODIGOM, new { @id = "hdCODIGOM" })
+                            @Html.Label("CODIGOM", model.CODIGOM, new { @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label  text-right">@LocalResource.CurrentReading <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("LECTURAACT", model.LECTURAACT, new { @id = "txtLECTURAACT", @class = "form-control required inputnumber", @onchange = "CalculateDifference();", maxlength = 12 })
+                            @Html.ValidationMessage("LECTURAACT", GlobalResource.RequiredValidationMsg)
+                        </div>
+                        <label class="col-lg-3 control-label  text-right">@AccountServiceResource.LastReading <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("LastReading", model.LastReading, new { @id = "txtLastReading", @class = "form-control required inputnumber", @onchange = "CalculateDifference();", maxlength = 12 })
+                            @Html.ValidationMessage("LastReading", GlobalResource.RequiredValidationMsg)
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label  text-right">@LocalResource.Difference <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("Difference", model.Difference, new { @id = "hdDifference" })
+                            @Html.Label("Difference", model.Difference, new { @id = "lblDifference", @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                        <label class="col-lg-3 control-label  text-right">@GlobalResource.Date <span class="text-danger">*</span> </label>
+                        <div class="col-lg-3">
+                            @Html.Hidden("FECHA", model.FECHA, new { @id = "hdFECHA" })
+                            @Html.Label("FECHA", model.FECHA, new { @class = "control-label font-normal", @style = "border: 0 !important;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="btnUpdate" type="button" class="btn btn-primary">@GlobalResource.Update</button>
+            <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+        </div>
+    }
+</form>

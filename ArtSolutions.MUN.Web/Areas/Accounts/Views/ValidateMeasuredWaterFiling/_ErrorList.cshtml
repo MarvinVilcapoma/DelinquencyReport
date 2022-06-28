@@ -1,0 +1,231 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ValidMeasuredWaterFilingModel
+@using System.Data;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using HtmlHelpers.BeginCollectionItem;
+
+<h2>@LocalResource.ImportStep3SubTitle</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+
+        @if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+        {
+            <input type="hidden" value="@Model.MeasuredWaterFilingList.Count" id="ValidOk" />
+        }
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @GlobalResource.FileValidation: </label>
+                    @if (Model.Valid)
+                    {
+                        <span class="label label-success">@LocalResource.Passed</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">@LocalResource.Fail</span>
+                    }
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-sm-4 text-right">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-8" style="margin-left: -25px;">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtSearch"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch">@GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="project-list" id="divtblItems">
+        <div class="table-responsive m-t">
+            <table class="table table-hover footable" id="tblInValidRecordsResult" data-page-size="25" data-page="true" data-sort="false">
+                <thead>
+                    <tr>
+                        @if (!Model.Valid)
+                        {
+                            <th style="min-width:48px;">@GlobalResource.Category</th>
+                            <th style="min-width:120px;">@GlobalResource.TaxNumber</th>
+                            <th style="min-width:135px;">Ubicacion</th>
+                            <th style="min-width:110px;">@AccountServiceResource.Codigom</th>
+                            <th style="min-width:85px;">@LocalResource.CurrentReading</th>
+                            <th style="min-width:85px;">@AccountServiceResource.LastReading</th>
+                            <th style="min-width:85px;">@LocalResource.Difference</th>
+                            <th style="min-width:95px;">@GlobalResource.Date</th>
+                            <th style="min-width:250px;">@GlobalResource.Reason</th>
+                            <th style="min-width:100px;">@GlobalResource.IsValid</th>
+                        }
+
+                        @if (Model.Valid)
+                        {
+                            <th style="min-width:50px;">@GlobalResource.Category</th>
+                            <th style="min-width:100px;">@GlobalResource.TaxNumber</th>
+                            <th style="min-width:100px;">Ubicacion</th>
+                            <th style="min-width:100px;">@AccountServiceResource.Codigom</th>
+                            <th style="min-width:50px;">@LocalResource.CurrentReading</th>
+                            <th style="min-width:50px; ">@AccountServiceResource.LastReading</th>
+                            <th style="min-width:50px; ">@LocalResource.Difference</th>
+                            <th style="min-width:50px;">@GlobalResource.Date</th>
+                            <th style="min-width:30px;">@GlobalResource.Action</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody id="tblInValidDetailRow">
+                    @if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+                    {
+                        if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+                        {
+                            foreach (var item in Model.MeasuredWaterFilingList)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("CATEGORIA", item.CATEGORIA, new { @id = "lblCATEGORIA", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("CATEGORIA", item.CATEGORIA, new { @class = "form-control inputnumber", maxlength = 2, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("TaxNumber", item.TaxNumber, new { @id = "lblTaxNumber", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("TaxNumber", item.TaxNumber, new { @class = "form-control", maxlength = 250, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("UBICACION", item.UBICACION, new { @id = "lblUBICACION", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("UBICACION", item.UBICACION, new { @class = "form-control", maxlength = 250, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("CODIGOM", item.CODIGOM, new { @id = "lblCODIGOM", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("CODIGOM", item.CODIGOM, new { @class = "form-control", maxlength = 250, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("LECTURAACT", item.LECTURAACT, new { @id = "lblLECTURAACT", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("LECTURAACT", item.LECTURAACT, new { @class = "form-control", maxlength = 250, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("LastReading", item.LastReading, new { @id = "lblLastReading", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("LastReading", item.LastReading, new { @class = "form-control", maxlength = 250, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.Label("Difference", item.Difference, new { @id = "lblDifference", @class = "font-normal", @style = "border: 0 !important;" })
+                                    </td>
+                                    <td>
+                                        @if (Model.Valid)
+                                        {
+                                            @Html.Label("FECHA", item.FECHA, new { @id = "lblFECHA", @class = "font-normal", @style = "border: 0 !important;" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox("FECHA", item.FECHA, new { @class = "form-control inputnumber", maxlength = 8, @style = "height:32px !important;" })
+                                        }
+                                    </td>
+
+                                    @if (!Model.Valid)
+                                    {
+                                        <td>
+                                            @item.Note
+                                        </td>
+                                        <td>
+                                            <select id="ddlIsValid" name="ddlIsValid" class="form-control required" onchange="EnableDisable(this)" tabindex=9>
+                                                <option value="true">@GlobalResource.Yes</option>
+                                                <option value="false" selected="selected">@GlobalResource.No</option>
+                                            </select>
+                                        </td>
+                                    }
+
+                                    @if (Model.Valid)
+                                    {
+                                        <td>
+                                            <a id="btnEdit" class='btn btn-white btn-sm m-l-xs' title="@GlobalResource.Edit" onclick="Edit(this,@item.RowNo);"><i class='fa fa-pencil'></i></a>
+                                        </td>
+                                    }
+                                    @Html.Hidden("RowNo", item.RowNo, new { @id = "hdfRowNo" })
+                                </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!Model.Valid)
+                        {
+                            <tr>
+                                <td colspan="10" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="9" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    @if (!Model.Valid)
+                    {
+                        <tr>
+                            <td colspan="10">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

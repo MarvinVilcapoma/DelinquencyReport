@@ -1,0 +1,254 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Collections.Models.JournalListForPosting>
+@using ArtSolutions.MUN.Web.Areas.Cases.Models
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = GlobalResource.ViewAccountingRecord;
+    List<CaseWorkflowStatus> WorkflowStatus = (List<CaseWorkflowStatus>)ViewBag.WorkflowStatusList;
+    bool IsNotApprove = (WorkflowStatus != null && WorkflowStatus.Count() > 0);
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountingRecord </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "PostingProcess", new {area = "Collections" })">@GlobalResource.AccountingRecord </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" id="dvdepositentry">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        @Html.Hidden("WorkflowStatusID", (int)ViewBag.WorkflowStatusID)
+                        @Html.HiddenFor(x => x.FirstOrDefault().PostingProcessID, new { @id = "PostingProcessID" })
+                        @{ Html.RenderPartial("~/Views/Shared/_WorkFlowStatus.cshtml", WorkflowStatus); }
+                        <button class="btn btn-white" type="button" tabindex="2" onclick="window.location.href = '@Url.Action("List", "PostingProcess")';">@GlobalResource.Cancel</button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-t-sm m-b">
+                        <div class="col-lg-12">
+                            <div class="form-inline">
+                                <label class="m-r-md">@GlobalResource.DocumentType</label>
+                                <div class="form-group m-r-md w-300">
+                                    @Html.DropDownList("DocumentTypeID", (List<SelectListItem>)ViewBag.lstDocumentType, Model.FirstOrDefault().DocumentTypeDetail, new { @class = "input-sm form-control select2dropdown", @disabled = true })
+                                </div>
+                                <label class="m-r-md">@GlobalResource.AsofDate</label>
+                                <div class="form-group m-r-md">
+                                    @Html.TextBoxFor(d => Model.FirstOrDefault().FormattedAsOfDate, new { @class = "form-control periodDate textblur", @id = "AsOfDate", @data_required_msg = GlobalResource.RequiredValidationMsg, @disabled = true })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="JournalListForPosting">
+                        <div class="full-height-scroll">
+                            <div class="table-responsive m-t">
+                                <table class="table table-report" id="tblJournalDetail">
+                                    <thead>
+                                        <tr class="sub-header">
+                                            <th style="width:3%">
+                                                @GlobalResource.ID
+                                            </th>
+                                            <th style="width:10%">
+                                                @GlobalResource.Type
+                                            </th>
+                                            <th style="width:10%">
+                                                @GlobalResource.Date
+                                            </th>
+                                            <th style="width:8%">
+                                                @GlobalResource.Number
+                                            </th>
+                                            @if (IsNotApprove)
+                                            {
+                                                <th style="width:5%">
+                                                    @GlobalResource.Integrated
+                                                </th>
+                                                <th style="width:5%">
+                                                    @GlobalResource.ReasonForFailIntegration
+                                                </th>
+                                            }
+                                            <th style="width:15%">
+                                                @GlobalResource.Name
+                                            </th>
+                                            <th style="width:8%">
+                                                @*@GlobalResource.JournalEntryNo*@
+                                                @GlobalResource.FinanceJournalID
+                                            </th>
+                                            <th style="width:10%">
+                                                @GlobalResource.CollectionType
+                                            </th>
+                                            <th style="width:10%">
+                                                @GlobalResource.Grant
+                                            </th>
+                                            <th style="width:4%">
+                                                @GlobalResource.Percentage
+                                            </th>
+                                            <th style="width:15%">
+                                                @GlobalResource.FinanceAccount
+                                            </th>
+
+                                            <th style="width:4%" class="text-right">
+                                                @GlobalResource.Debit
+                                            </th>
+                                            <th style="width:4%" class="text-right">
+                                                @GlobalResource.Credit
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="accountRows">
+                                        @if (Model != null && Model.Count() > 0)
+                                        {
+                                            var i = 0; int CurrModuleName = 0; var LastIndex = Model.Count(); var Flag = true;
+                                            foreach (var item in Model)
+                                            {
+                                        <tr>
+
+                                            @if (Flag)
+                                            {
+                                                <td class="" width="3%" title="@item.ID">@item.ID</td>
+                                                /*form-control-auto-width*/
+                                                <td class="" width="15%" title="@item.Name">@item.Name</td>
+                                                <td class="" width="10%">@item.Date.ToString("d")</td>
+                                                <td class="" width="8%">@string.Format("{0} ({1})", item.ReceiptNumber, item.Status)</td>
+                                                if (IsNotApprove)
+                                                {
+                                                    <td class="" width="5%">@Html.Raw(item.FINJournalID > 0 ? GlobalResource.Yes : GlobalResource.No)</td>
+                                                    <td class="" width="5%">@Html.Raw(item.FINJournalID > 0 ? "" : item.IntegrationError)</td>
+                                                }
+                                                <td class="" width="15%" title="@item.ReferenceAccountName">@item.ReferenceAccountName</td>
+                                            }
+                                            else
+                                            {
+                                                <td colspan="@Html.Raw(IsNotApprove?"7":"5")" width="28%"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                <td style="display:none"></td>
+                                                if (IsNotApprove)
+                                                {
+                                                    <td style="display:none"></td>
+                                                    <td style="display:none"></td>
+                                                }
+                                                <td style="display:none"></td>
+                                            }
+                                            @*<td class="" width="12%" title="@item.FINJournalEntrySequence">@item.FINJournalEntrySequence</td>*@
+                                            <td class="" width="8%" title="@item.FINJournalID">@item.FINJournalID</td>
+                                            <td class="" width="10%" title="@item.CollectionTypeName">@item.CollectionTypeName</td>
+                                            <td class="" width="10%" title="@item.Grant">@item.Grant</td>
+                                            <td class="" width="4%" title="@item.Percentage">@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString(Common.DecimalPoints) + "%" : "")</td>
+                                            <td class="" width="15%" title="@item.NameFriendly">@item.NameFriendly</td>
+                                            <td class="text-right" width="4%">@item.Debit.ToString("C")</td>
+                                            <td class="text-right" width="4%">@item.Credit.ToString("C")</td>
+                                        </tr>
+                                                if (i == 0) { CurrModuleName = item.ID; }
+                                                if (i != LastIndex - 1)
+                                                {
+                                                    if (CurrModuleName != Model[i + 1].ID)
+                                                    {
+                                                        Flag = true;
+                                                        <tr class="sub-header font-bold">
+                                                            <td colspan="@Html.Raw(IsNotApprove?"11":"9")" width="62%"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                            @if (IsNotApprove)
+                                                            {
+                                                                <td style="display:none"></td>
+                                                                <td style="display:none"></td>
+                                                            }
+                                                            <td class="text-right" width="30%">@GlobalResource.Total</td>
+                                                            <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                                            <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        Flag = false;
+                                                    }
+                                                    CurrModuleName = Model[i + 1].ID;
+                                                }
+                                                else if (i == LastIndex - 1)
+                                                {
+                                                    <tr class="sub-header font-bold">
+                                                        <td colspan="@Html.Raw(IsNotApprove?"11":"9")" width="62%"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        <td style="display:none"></td>
+                                                        @if (IsNotApprove)
+                                                        {
+                                                            <td style="display:none"></td>
+                                                            <td style="display:none"></td>
+                                                        }
+                                                        <td class="text-right" width="30%">@GlobalResource.Total</td>
+                                                        <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                                        <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                                    </tr>
+                                                }
+                                                i++;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="sub-header">
+                                                <td colspan="@Html.Raw(IsNotApprove?"14":"12")" class="text-center" width="100%">
+                                                    @GlobalResource.NoDataMessage
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        var pagelen = 60;
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+    </script>
+    <script src="~/Scripts/app/postingprocessview.js"></script>
+}

@@ -1,0 +1,65 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionTemplateModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+
+    if (Model.EnableViewMode == true)
+    {        
+        ViewBag.Title = LocalResource.ViewTitle;
+    }
+    else
+    {
+        ViewBag.Title = LocalResource.EditTitle;
+    }
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.CollectionTemplate</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "CollectionTemplate", new { area = "Services" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox" id="dvCollectionTemplate">
+                @Html.Partial("_AddEdit")
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    <style>
+        .panel-body {
+            padding: 5px;
+        }
+        .width90 {
+            width: 90px !important;
+        }
+        .disable-anchor {
+            pointer-events: none;
+            cursor: default;
+        }
+    </style>
+
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    <script src="~/Scripts/app/collectiontemplateaddedit.js"></script>
+    <script src="~/Scripts/app/collectiontemplateview.js"></script>
+    <script type="text/javascript">
+        var isViewMode = '@Model.EnableViewMode';
+    </script>
+}

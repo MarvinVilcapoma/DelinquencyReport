@@ -1,0 +1,301 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    var dateType = (EnDateTypes)ViewBag.DateType;
+    bool showDateTable = false;
+}
+
+<form id="frmServiceView">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="titleId"></h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                @if (dateType == EnDateTypes.FillingDueDates && (Model.FilingDueType==1 || Model.FilingDueType==2 || Model.FilingDueType==3))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 text-left">
+                            @if (Model.FilingDueType == 1)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodStartDate : </label>
+                            }
+                            else if (Model.FilingDueType == 2)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodEndDate : </label>
+                            }
+                            else if (Model.FilingDueType == 3)
+                            {
+                                <label for="rbFixDate"> @LocalResource.UseFixDays : </label>
+                            }
+
+                        </div>
+                        <div class="col-lg-3 text-left">
+                            @if (Model.FilingDueType == 1)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodStartDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.FilingDueType == 2)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodEndDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.FilingDueType == 3)
+                            {
+                                <label class="font-normal"> @( Model.FillingDueDays == null ? "0" : Model.FillingDueDays.ToString() ) </label>
+                            }
+
+                        </div>
+                        <div class="col-lg-7"></div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.PaymentDueDates && (Model.PaymentDueType == 1 || Model.PaymentDueType == 2 || Model.PaymentDueType == 3))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 text-left">
+                            @if (Model.PaymentDueType == 1)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodStartDate : </label>
+                            }
+                            else if (Model.PaymentDueType == 2)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodEndDate : </label>
+                            }
+                            else if (Model.PaymentDueType == 3)
+                            {
+                                <label for="rbFixDate"> @LocalResource.UseFixDays : </label>
+                            }
+                        </div>
+                        <div class="col-lg-3 text-left">
+                            @if (Model.PaymentDueType == 1)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodStartDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.PaymentDueType == 2)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodEndDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.PaymentDueType == 3)
+                            {
+                                <label class="font-normal"> @( Model.PaymentDueDays == null ? "0" : Model.PaymentDueDays.ToString() ) </label>
+                            }
+
+                        </div>
+                        <div class="col-lg-7"></div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.DiscountDates && (Model.DiscountDueType == 1 || Model.DiscountDueType == 2 || Model.DiscountDueType == 3))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 text-left">
+                            @if (Model.DiscountDueType == 1)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodStartDate : </label>
+                            }
+                            else if (Model.DiscountDueType == 2)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodEndDate : </label>
+                            }
+                            else if (Model.DiscountDueType == 3)
+                            {
+                                <label for="rbFixDate"> @LocalResource.UseFixDays : </label>
+                            }
+                        </div>
+                        <div class="col-lg-2">
+                            @if (Model.DiscountDueType == 1)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodStartDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.DiscountDueType == 2)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodEndDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.DiscountDueType == 3)
+                            {
+                                <label> @LocalResource.DueDays :  </label> <label class="font-normal"> @( Model.DiscountDueDays == null ? "0" : Model.DiscountDueDays.ToString() )  </label>
+                            }
+
+                        </div>
+                        <div class="col-lg-2">
+                            <label> @LocalResource.DiscountPercentageHeaderTitle : </label> <label class="font-normal"> @( Model.DiscountPercentage == null ? "0" : @Model.DiscountPercentage.Value.ToString(Common.DecimalPoints)) </label>
+                        </div>
+
+                        <div class="col-lg-6"></div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.PaymentGraceDates && (Model.PaymentGraceType == 1 || Model.PaymentGraceType == 2 || Model.PaymentGraceType == 3))
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-2 text-left">
+                            @if (Model.PaymentGraceType == 1)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodStartDate : </label>
+                            }
+                            else if (Model.PaymentGraceType == 2)
+                            {
+                                <label for="rbFixDate"> @LocalResource.PeriodEndDate : </label>
+                            }
+                            else if (Model.PaymentGraceType == 3)
+                            {
+                                <label for="rbFixDate"> @LocalResource.UseFixDays : </label>
+                            }
+                        </div>
+                        <div class="col-lg-3 text-left">
+                            @if (Model.PaymentDueType == 1)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodStartDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.PaymentDueType == 2)
+                            {
+                                <label class="font-normal"> @( Model.ServiceCalculationDateList != null ? Convert.ToDateTime(Model.ServiceCalculationDateList.FirstOrDefault().CurrentPeriodEndDate).ToString("dd-MMM-yyyy") : "" ) </label>
+                            }
+                            else if (Model.PaymentDueType == 3)
+                            {
+                                <label class="font-normal"> @( Model.PaymentGracePeriod == null ? "0" : Model.PaymentGracePeriod.ToString() ) </label>
+                            }
+                        </div>
+                        <div class="col-lg-7"></div>
+                    </div>
+                }
+
+                <div class="row form-group">
+                    @if (dateType == EnDateTypes.FillingDueDates && Model.FilingDueType == 4 )
+                    {
+                        <div class="col-lg-2">
+                            <label for="rbFixDate1"> @LocalResource.UseFixDates : </label>
+                        </div>
+                        showDateTable = true;
+                    }
+                    else if (dateType == EnDateTypes.PaymentDueDates && Model.PaymentDueType == 4)
+                    {
+                        <div class="col-lg-2">
+                            <label for="rbFixDate1"> @LocalResource.UseFixDates : </label>
+                        </div>
+                        showDateTable = true;
+                    }
+                    else if (dateType == EnDateTypes.DiscountDates && Model.DiscountDueType == 4)
+                    {
+                        <div class="col-lg-2">
+                            <label for="rbFixDate1"> @LocalResource.UseFixDates : </label>
+                        </div>
+                        showDateTable = true;
+                    }
+                    else if (dateType == EnDateTypes.PaymentGraceDates && Model.PaymentGraceType == 4)
+                    {
+                        <div class="col-lg-2">
+                            <label for="rbFixDate1"> @LocalResource.UseFixDates : </label>
+                        </div>
+                        showDateTable = true;
+                    }
+                    @if (showDateTable)
+                    {
+                        <div class="col-lg-10">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> @GlobalResource.Year</th>
+                                        <th class="text-center"> @LocalResource.StartPeriod </th>
+                                        <th class="text-center"> @LocalResource.EndPeriod </th>
+                                        <th class="text-center"> @GlobalResource.Date </th>
+                                        @if (dateType == EnDateTypes.DiscountDates)
+                                        {
+                                            <th class="text-center"> @LocalResource.DiscountPercentageHeaderTitle </th>
+                                        }
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblRow">
+                                    @foreach (var item in Model.ServiceCalculationDateList)
+                                    {
+                                        <tr>
+                                            <td class="text-center col-lg-2">
+                                                @item.FiscalYearID
+                                            </td>
+                                            <td class="text-center col-lg-2">
+                                                @*@item.StartPeriodID*@
+                                                @Convert.ToDateTime(item.CurrentPeriodStartDate).ToString("dd-MMM-yyyy")
+                                            </td>
+                                            <td class="text-center col-lg-2">
+                                                @*@item.EndPeriodID*@
+                                                @Convert.ToDateTime(item.CurrentPeriodEndDate).ToString("dd-MMM-yyyy")
+                                            </td>
+
+                                            @if (dateType == EnDateTypes.FillingDueDates)
+                                            {
+                                                <td class="text-center col-lg-3">
+                                                    @if (Model.UseFixedFillingDueDate == false)
+                                                    {
+                                                        <span> - </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="font-normal"> @( item.FillingDueDate == null ? "-" : DateTime.Parse(item.FillingDueDate).ToString("d")) </label>
+                                                    }
+                                                </td>
+                                                <td class="col-lg-3"></td>
+                                            }
+                                            else if (dateType == EnDateTypes.PaymentDueDates)
+                                            {
+                                                <td class="text-center col-lg-3">
+                                                    @if (Model.UseFixedPaymentDueDate == false)
+                                                    {
+                                                        <span> - </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="font-normal"> @( item.PaymentDueDate == null ? "-" : DateTime.Parse(item.PaymentDueDate).ToString("d")) </label>
+                                                    }
+                                                </td>
+                                                <td class="col-lg-3"></td>
+                                            }
+                                            else if (dateType == EnDateTypes.DiscountDates)
+                                            {
+
+                                                if (Model.UseFixedDiscountDate == false)
+                                                {
+                                                    <td class="text-center col-lg-6">
+                                                        <span> - </span>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center col-lg-3">
+                                                        <label class="font-normal"> @( item.DiscountDate == null ? "-" : DateTime.Parse(item.DiscountDate).ToString("d")) </label>
+                                                    </td>
+                                                    <td class="text-center col-lg-3">
+                                                        <label class="font-normal"> @( item.DiscountPercentage == null ? "-" : item.DiscountPercentage.Value.ToString("#.##") ) </label>
+                                                    </td>
+
+                                                }
+                                            }
+                                            else if (dateType == EnDateTypes.PaymentGraceDates)
+                                            {
+                                                <td class="text-center col-lg-3">
+                                                    @if (Model.UseFixedPaymentGracePeriod == false)
+                                                    {
+                                                        <span> - </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="font-normal"> @( item.PaymentGraceDate == null ? "-" : DateTime.Parse(item.PaymentGraceDate).ToString("d")) </label>
+                                                    }
+                                                </td>
+                                                <td class="col-lg-3"></td>
+                                            }
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>

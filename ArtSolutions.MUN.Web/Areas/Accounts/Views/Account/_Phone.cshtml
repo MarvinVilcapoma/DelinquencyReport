@@ -1,0 +1,50 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.PhoneModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<form id="frmPhone">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="phonetitle">@LocalResource.NewPhone</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            @Html.HiddenFor(x => x.ID, new { id = "phoneId" })
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.PhoneType <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(x => x.PhoneTypeID, Model.PhoneTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown", @id = "ddlPhoneType" })
+                            @Html.ValidationMessageFor(x => x.PhoneTypeID)
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <small class="pull-right m-t-phone">
+                                @GlobalResource.CountryCode + @GlobalResource.AreaCode + @GlobalResource.Phone
+                            </small>
+
+                            <label class="control-label">@GlobalResource.PhoneNumber <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control inputphonenumber required", id = "txtPhoneNumber", maxlength = 15 })
+                            @Html.ValidationMessageFor(x => x.PhoneNumber)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddPhoneNumber" type="button" class="btn btn-primary" data-form-type="1">@GlobalResource.Add</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var viewTitle = '@Html.Raw(LocalResource.ViewPhone)';
+    var editTitle = '@Html.Raw(LocalResource.EditPhone)';
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse('#frmPhone');
+    });
+</script>

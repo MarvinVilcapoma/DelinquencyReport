@@ -1,0 +1,152 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    int SearchTypeID = TempData["SearchTypeID"] != null ? (int)TempData["SearchTypeID"] : 0;
+    //TempData.Keep("SearchTypeID");
+}
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            @using (Html.BeginForm("ChangeSearchDetails", "Home", new { area = "" }, FormMethod.Post, new { role = "form", @class = "form-inline  minimalize-styl-3" }))
+            {
+                <a class="navbar-minimalize btn btn-primary" href="javascript:;"><i class="fa fa-bars"></i></a>
+                <div class="form-group">
+                    <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" value="@TempData["Search"]" class="input-sm form-control" name="top-search" id="top-search">
+                </div>
+                // TempData.Keep("Search");
+                <div class="form-group">
+                    @Html.DropDownList("SearchTypeID", new List<SelectListItem>{new SelectListItem {Text=GlobalResource.Account,Value=((int)Common.SearchTypeEnum.Account).ToString(), Selected = ((int)Common.SearchTypeEnum.Account == SearchTypeID?true:false)},
+                                                                       new SelectListItem { Text = GlobalResource.AccountService, Value = ((int)Common.SearchTypeEnum.AccountService).ToString(), Selected = ((int)Common.SearchTypeEnum.AccountService == SearchTypeID?true:false) },
+                                                                       new SelectListItem { Text = GlobalResource.AccountProperty, Value = ((int)Common.SearchTypeEnum.AccountProperty).ToString(), Selected = ((int)Common.SearchTypeEnum.AccountProperty == SearchTypeID?true:false) }
+               }, new { @id = "ddlSearchTypeList",@class = "form-control form-control-company" })
+                </div>
+                <button type="button" class="btn btn-sm btn-white btn-rounded" onclick="this.form.submit()"><span style="font-weight: bold; color: #006fa8;">@GlobalResource.Go</span></button>
+            }
+        </div>
+        @using (Html.BeginForm("ChangeCompanyDetails", "Home", new { area = "" }, FormMethod.Post))
+        {
+            <ul class="nav navbar-top-links navbar-right">
+                @if (Request.IsAuthenticated && TempData["CompanyList"] != null && ((List<ArtSolutions.MUN.Web.Models.CompanyDropdownModel>)TempData["CompanyList"]).Count > 1)
+                {
+                    <li class="navbar-form">
+                        @Html.DropDownList("UserCompanyID", new SelectList((List<ArtSolutions.MUN.Web.Models.CompanyDropdownModel>)TempData["CompanyList"], "CompanyID", "CompanyName", ArtSolutions.MUN.Web.Helpers.UserSession.Current.CompanyID), new { @id = "ddlCompanyList", @class = "form-control form-control-company", @onchange = "this.form.submit()" })
+                    </li>
+                    TempData.Keep("CompanyList");
+                }
+                @{
+                    if (ViewBag.Languages != null)
+                    {
+                        List<ArtSolutions.MUN.Web.Models.LanguageModel> languageModels = ViewBag.Languages as List<ArtSolutions.MUN.Web.Models.LanguageModel>;
+                        string lang_flag = "en";
+                        if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.Language == "es")
+                        {
+                            lang_flag = "pr";
+                        }
+                        else if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.Language == "es-cr")
+                        {
+                            lang_flag = "cr";
+                        }
+                        <li class="dropdown">
+                            @if (languageModels.Count == 1)
+                            {
+                                lang_flag = languageModels[0].LanguageCode;
+                                if (languageModels[0].LanguageCode == "es")
+                                {
+                                    lang_flag = "pr";
+                                }
+                                else if (languageModels[0].LanguageCode == "es-cr")
+                                {
+                                    lang_flag = "cr";
+                                }
+
+                                <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="flag-icon flag-icon-@lang_flag"></i>
+                                </a>
+                            }
+                            @if (languageModels.Count > 1)
+                            {
+                                <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="flag-icon flag-icon-@lang_flag"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-language">
+                                    @{
+                                        if (languageModels != null && languageModels.Any())
+                                        {
+                                            foreach (ArtSolutions.MUN.Web.Models.LanguageModel languageModel in languageModels)
+                                            {
+                                                lang_flag = languageModel.LanguageCode;
+                                                if (languageModel.LanguageCode == "es")
+                                                {
+                                                    lang_flag = "pr";
+                                                }
+                                                else if (languageModel.LanguageCode == "es-cr")
+                                                {
+                                                    lang_flag = "cr";
+                                                }
+                                                <li><a href="@Url.Action("ChangeLanguage", "Home", new { area = "", language = languageModel.LanguageCode })"><i class="flag-icon flag-icon-@lang_flag"></i>@languageModel.Language</a></li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                }
+                @*<li class="dropdown">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="true">
+                            <i class="flag-icon @(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Language=="en"? "flag-icon-us" : "flag-icon-es")"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-language">
+                            <li><a href="@Url.Action("ChangeLanguage", "Home",new { area="", language="en"})"><i class="flag-icon flag-icon-us"></i>@GlobalResource.English</a></li>
+                            <li><a href="@Url.Action("ChangeLanguage", "Home",new { area="", language="es"})"><i class="flag-icon flag-icon-es"></i>@GlobalResource.Spanish</a></li>
+                        </ul>
+                    </li>*@
+                @{
+                    if (TempData["CompanyApplications"] != null)
+                    {
+                        var compApplications = (List<ArtSolutions.MUN.Web.Models.ApplicationModel>)TempData["CompanyApplications"];
+                        if (Request.IsAuthenticated && compApplications.Count > 0)
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="javascript:;" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="pe-7s-keypad" style="font-size:16px;"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-alerts dropdown-homer animated flipInX">
+                                    <div class="row">
+                                        @foreach (var item in compApplications)
+                                        {
+                                            <div class="col-lg-4 text-center">
+                                                <a href="@Url.Action("UpdateLastApplicationAccessed", "Home", new { Area ="", applicationID=item.ID, q= HttpUtility.UrlEncode(item.ApplicationURL) })">
+                                                    @if (item.MenuImageID == null)
+                                                    {
+                                                        <img alt="image" class="img-circle img-center img-responsive" src="~/Content/Images/no_image_available.png">
+                                                    }
+                                                    else
+                                                    {
+                                                        var imageURL = ArtSolutions.MUN.Web.Common.SecurityFileURL + item.MenuImageID;
+                                                        <img alt="image" class="img-center img-responsive" src="@imageURL">
+                                                    }
+                                                    <h5>@item.Name</h5>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        TempData.Keep("CompanyApplications");
+                    }
+                }
+                <li>
+                    <a href="@Url.Action("LogOff", "Home",new { area=""})">
+                        <i class="fa fa-sign-out"></i> @GlobalResource.Logout
+                    </a>
+                </li>
+                @*<li>
+                    <a class="right-sidebar-toggle">
+                        <i class="fa fa-comments-o" id="clientchatlogo"></i>
+                    </a>
+                </li>*@
+            </ul>
+        }
+    </nav>
+</div>

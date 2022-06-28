@@ -1,0 +1,75 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+<fieldset class="form-horizontal">
+    <h2>@LocalResource.AdditionalInformationTitle</h2>
+
+    <div class="full-height-scroll-additional">
+        <div class="row form-group">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.ServiceGroup </label>
+            <label id="lblServiceGroup" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.ServiceType </label>
+            <label id="lblServiceType" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.Service </label>
+            <label id="lblService" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.FiscalYear </label>
+            <label id="lblFiscalYear" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group hide" id="dvSummaryException">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@LocalResource.Exception </label>
+            <label id="lblServiceExceptionValue" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52)
+        {
+            <div class="row form-group hide" id="dvSummaryProperty">
+                <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.Property </label>
+                <label id="lblPropertyValue" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+            </div>
+        }
+        <div class="row form-group divCustomField1">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomField1"></label>
+            <label id="lblCustomField1Value" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divCustomField2">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomField2"></label>
+            <label id="lblCustomField2Value" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divCustomField3">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomField3"></label>
+            <label id="lblCustomField3Value" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divCustomDateField">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomDateField"></label>
+            <label id="lblCustomDateFieldValue" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divCustomField4">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomField4 summaryCustomField4"></label>
+            <label id="lblCustomField4Value" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divCustomField5">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label lblCustomField5 summaryCustomField5"></label>
+            <label id="lblCustomField5Value" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+
+        <div class="row form-group" id="dvSummaryPreviousMeasure">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@LocalResource.PreviousMeasure</label>
+            <label id="lblPreviousMeasureValue" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+
+        <div class="row form-group divServiceStartPeriod">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.Period</label>
+            <label id="lblServiceStartPeriod" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+        <div class="row form-group divLicenseAccountService">
+            <label class="col-lg-4 col-md-4 col-sm-4 control-label">@GlobalResource.AccountService</label>
+            <label id="lblLicenseAccountService" class="col-lg-8 col-md-8 col-md-8 wizard-confirm-content m-t-xs"></label>
+        </div>
+    </div>
+
+</fieldset>

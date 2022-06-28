@@ -1,0 +1,118 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.FinishViewBankPaymentsModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="project-list table-responsive" id="divfinishtable">
+
+            @if (Model.HeaderColumnList != null && Model.HeaderColumnList.Count > 0)
+            {
+                <table class="table table-hover" id="tblFinish">
+                    <thead>
+                        <tr>
+                            @*@for (int i = 0; i < Model.HeaderColumnList.Count; i++)
+                                {
+                                    if (i != 0)
+                                    {
+                                        <th>@Model.HeaderColumnList[i]</th>
+                                    }
+                                }*@
+                            <th>@PaymentResource.Contract</th>
+                            <th>@GlobalResource.TaxNumber</th>
+                            <th>
+                                PERIODOREC
+                            </th>
+                            <th>
+                                @PaymentResource.PaymentDate
+                            </th>
+                            <th>
+                                @ArtSolutions.MUN.Web.Resources.Report.MeterNo
+                            </th>
+                            <th>@GlobalResource.ServiceName</th>
+                            <th>@GlobalResource.Amount</th>
+                            <th>@GlobalResource.ReceiptNumber</th>
+                        </tr>
+                    </thead>
+                    <tbody class="white-bg">
+                        @if (Model.ImportList.Rows.Count == 0)
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+
+                            foreach (var row in Model.ImportList.Rows)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.Raw(((System.Data.DataRow)row).ItemArray[1])
+                                    </td>
+                                    <td>
+                                        @Html.Raw(((System.Data.DataRow)row).ItemArray[2])
+                                    </td>
+                                    <td>
+                                        @{
+                                            string PERIODOREC = ((System.Data.DataRow)row).ItemArray[3].ToString();
+
+                                            DateTime dtPeriod = new DateTime(Convert.ToInt32(PERIODOREC.Substring(0, 4)),
+                                                  Convert.ToInt32(PERIODOREC.Substring(4, 2)),
+                                                  Convert.ToInt32(PERIODOREC.Substring(6, 2)));
+                                        }
+                                        @dtPeriod.ToString("d")
+                                    </td>
+                                    <td>
+                                        @{
+                                            string PaymentDate = ((System.Data.DataRow)row).ItemArray[4].ToString();
+
+
+                                            DateTime dtPaymentDate = new DateTime(Convert.ToInt32(PaymentDate.Substring(0, 4)),
+                                                                      Convert.ToInt32(PaymentDate.Substring(4, 2)),
+                                                                      Convert.ToInt32(PaymentDate.Substring(6, 2)));
+                                        }
+                                        @dtPaymentDate.ToString("d")
+                                    </td>
+                                    <td>
+                                        @Html.Raw(((System.Data.DataRow)row).ItemArray[8])
+                                    </td>
+                                    <td>
+                                        @Html.Raw(((System.Data.DataRow)row).ItemArray[7])
+                                    </td>
+                                    <td>
+                                        @{
+                                            string Amount = ((System.Data.DataRow)row).ItemArray[5].ToString();
+                                            decimal amount = Convert.ToDecimal(Amount.Substring(0, 16)) + Convert.ToDecimal("0." + Amount.Substring(16, 2));
+                                        }
+                                        @amount.ToString("C")
+                                    </td>
+                                    <td>
+                                        @Html.Raw(((System.Data.DataRow)row).ItemArray[6])
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="8">
+                                <ul class="pagination list-inline pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    #divfinishtable {
+        height: 700px;
+    }
+</style>

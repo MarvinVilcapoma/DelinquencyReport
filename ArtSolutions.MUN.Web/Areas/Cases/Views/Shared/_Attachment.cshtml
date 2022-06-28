@@ -1,0 +1,53 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="attachmentDropzone" class="dropzone">
+            <div id="attachmentPreview" class="dropzone-previews">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-stripped" id="tblAttachments"></table>
+    </div>
+</div>
+<div class="modal inmodal" id="dvAttachmentsModel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+        @using (Ajax.BeginForm("AddAttachment", "Case", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "formAttachment" }))
+        {
+            <div class="modal-body no-padding">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>@LocalResource.NewAttachment</h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-group">
+                            <div class="col-lg-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="table-responsive m-t">
+                                    <table class="table table-hover" id="tbldvAttachments">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-6 col-sm-6 col-md-6 col-xs-12">@GlobalResource.Name <span class="text-danger">*</span></th>
+                                                <th class="col-lg-6 col-sm-6 col-md-6 col-xs-12">@GlobalResource.FileName</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnUploadAttachment" class="btn btn-primary as-btn-text">@GlobalResource.Upload</button>
+                <button type="button" id="btnCancelAttachment" class="btn btn-default as-btn-text">@GlobalResource.Cancel</button>
+            </div>
+        }
+        </div>
+    </div>
+</div>

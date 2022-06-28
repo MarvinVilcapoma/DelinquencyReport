@@ -1,0 +1,15 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ExceptionReportModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+
+@if (Model.ExceptionList != null && Model.ExceptionList.Count() > 0)
+{
+    foreach (var item in Model.ExceptionList)
+    {
+
+        <tr>
+            <td class="text-left">@Html.Raw(item.ExceptionDateTime.ToString("d"))</td>
+            <td class="text-left">@Html.Raw(item.Message)</td>
+            <td class="text-left">@Html.Raw(item.Source)</td>
+        </tr>
+    }
+}

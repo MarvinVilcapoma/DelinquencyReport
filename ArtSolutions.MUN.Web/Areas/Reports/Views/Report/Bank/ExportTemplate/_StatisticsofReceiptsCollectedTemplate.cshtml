@@ -1,0 +1,149 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.StatisticsofReceiptsCollectedModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = ReportResource.StatisticsOfReceiptsCollected;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+
+
+    string bankName = null;
+    string contractName = null;
+
+    if (Model.BankID > 0)
+    {
+        bankName = new ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel().GetSupportValues(17).Where(x => x.ID == Model.BankID).FirstOrDefault().Name;
+    }
+
+    if (Model.Contract != null)
+    {
+        contractName = new ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel().GetSupportValues(46).Where(x => x.Description == Model.Contract).FirstOrDefault().Name;
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td colspan="7">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <h4 class="center">
+                            @Html.Raw(Model.ReportCompanyModel.Title + " " + ReportResource.IN + " " + ReportResource.The)
+                        </h4>
+                        <h4 class="center">
+                            @if (bankName != null && Model.Date != null && Model.Contract != null && contractName != null)
+                            {
+                                @Html.Raw(bankName + " " + ReportResource.The + " " + Model.Date.Value.ToString("d") + "    " + GlobalResource.Agreement + "  " + Model.Contract + " = " + contractName)
+                            }
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table id="AccountPropertyRemovedTable" class="table table-report display nowrap">
+            <tbody id="tblDetailRow">
+                @if (Model.StatisticsofReceiptsCollectedList != null && Model.StatisticsofReceiptsCollectedList.Count() > 0)
+                {
+                    foreach (var item in Model.StatisticsofReceiptsCollectedList)
+                    {
+                        <tr>
+                            <td colspan="3" class="table-border-bold-left-td" style="@msoTextFormat">
+                                @ReportResource.TotalRecords :
+                            </td>
+                            <td colspan="2" class="table-border-left-td" style='@msoTextFormat'>
+                                @item.TotalLinesInFileReceived
+                            </td>
+                            <td colspan="3" class="table-border-bold-left-td" style="@msoTextFormat">
+                                @ReportResource.TotalPayments :
+                            </td>
+                            <td colspan="2" class="table-border-left-td" style='@msoTextFormat'>
+                                @item.TotalLinesWithPayments
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="table-border-bold-left-td" style="@msoTextFormat">
+                                @ReportResource.AmountRaised :
+                            </td>
+                            <td colspan="2" class="table-border-left-td" style='@msoNumberFormat'>
+                                @item.TotalAmount.ToString(Common.NumberPoints)
+                            </td>
+                            <td colspan="3" class="table-border-bold-left-td" style="@msoTextFormat">
+                                @ReportResource.AmountCharged
+                            </td>
+                            <td colspan="2" class="table-border-left-td" style='@msoNumberFormat'>
+                                @item.TotalCommission.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-td center" style="@msoTextFormat">
+                            <center>
+                                <label>
+                                    @GlobalResource.NoDataMessage
+                                </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

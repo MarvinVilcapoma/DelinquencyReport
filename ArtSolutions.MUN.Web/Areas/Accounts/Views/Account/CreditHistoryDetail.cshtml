@@ -1,0 +1,161 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.CreditHistoryDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using CreditNoteResource = ArtSolutions.MUN.Web.Resources.ColCreditNote
+@{
+    ViewBag.Title = GlobalResource.ViewCreditHistory;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.CreditHistory </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "CreditNote", new { area = "Collections" })">@LocalResource.ListCreditHistory </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" id="dvdepositentry">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        @Html.HiddenFor(x => x.CreditHistory.ID, new { @id = "CreditHistoryID" })
+                        <button class="btn btn-white" type="button" tabindex="6" onclick="window.location.href = '@Url.Action("Index", "CreditNote")';">@GlobalResource.Cancel</button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.Date:</label>
+                                <div class="col-sm-7 text-left">
+                                    @Model.CreditHistory.FormattedDate
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.Number:</label>
+                                <div class="col-sm-7">
+                                    @Model.CreditHistory.Number
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.Owner:</label>
+                                <div class="col-sm-7">
+                                    @Model.CreditHistory.AccountDisplayName
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.CreditAmountlbl:</label>
+                                <div class="col-sm-7">
+                                    @Model.CreditHistory.CreditAmount.ToString("C")
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.Reason:</label>
+                                <div class="col-sm-7">
+                                    @Model.CreditHistory.Reason
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label text-right">@GlobalResource.AvailableAmount:</label>
+                                <div class="col-sm-7">
+                                    @Model.CreditHistory.AvailableAmount.ToString("C")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox-title no-borders">
+                                <h5>@CreditNoteResource.CreditNoteAppliedDetail</h5>
+                            </div>
+                            <div class="ibox-content no-padding-left no-padding-right">
+                                <div class="table-responsive project-list">
+                                    <table class="table table-multi-row" id="mytable" data-sorting="false">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-lg-2" data-sort-ignore="true">
+                                                    @GlobalResource.Date
+                                                </th>
+                                                <th class="col-lg-3" data-sort-ignore="true">
+                                                    @GlobalResource.Number
+                                                </th>
+                                                <th class="text-left col-lg-2" data-sort-ignore="true">
+                                                    @GlobalResource.Status
+                                                </th>
+                                                <th class="text-right col-lg-3" data-sort-ignore="true">
+                                                    @GlobalResource.Amount
+                                                </th>
+                                                <th class="text-right col-md-2" data-sort-ignore="true">
+                                                    @GlobalResource.Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="CredHistoryDetailsRows">
+                                            @if (Model.CreditHistoryDetailList.Count() > 0)
+                                            {
+                                                foreach (var item in Model.CreditHistoryDetailList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-left col-lg-2 @Html.Raw(item.IsVoid?"text-danger":"")">
+                                                            @item.Date.ToString("d")
+                                                        </td>
+                                                        <td class="text-left col-lg-3 @Html.Raw(item.IsVoid?"text-danger":"")">
+                                                            @item.Number
+                                                        </td>
+                                                        <td class="text-left col-lg-2 @Html.Raw(item.IsVoid?"text-danger":"")">
+                                                            @Html.Raw(item.IsVoid == true ? GlobalResource.Void : GlobalResource.Post)
+                                                        </td>
+                                                        <td class="text-right col-lg-3 @Html.Raw(item.IsVoid?"text-danger":"")">
+                                                            @item.Amount.ToString("C")
+                                                        </td>
+                                                        <td class="text-right col-lg-2">
+                                                            <a href="@Url.Content("~/Collections/Payment/View?ID=" + @item.ID + "&Type=" + @Html.Raw(!string.IsNullOrEmpty(item.PaymentPlanName)?"PaymentPlan":"Service&TypeID=" + item.ServiceTypeID))" class="btn btn-white btn-sm text-right"> <i class="fa fa-folder"></i> @GlobalResource.View </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5" class="text-center">@GlobalResource.NoDataMessage</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

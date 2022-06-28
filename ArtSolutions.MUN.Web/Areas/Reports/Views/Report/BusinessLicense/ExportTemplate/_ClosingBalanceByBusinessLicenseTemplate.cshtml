@@ -1,0 +1,169 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseBalanceClosingModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ClosingBalanceBusinessLicenseTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.IdentityMunicipal</th>
+                    <th width="8%" class="table-border-center-th">@LocalResource.CustomerName</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.FiscalYear</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.FilingDate</th>                   
+                    <th width="9%" class="table-border-center-th">@LocalResource.FirstSemester</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.SecondSemester</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.Penalties</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Surcharges</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Interests</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.AdjustBalance</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                {                    
+                    foreach (var item in Model.BusinessLicenseBalanceByClosingList.OrderBy(g => g.Date))
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.AccountRegisterNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountDisplayName
+                            </td>                           
+                            <td class="table-border-left-td">
+                                @item.FormattedFiscalYearID
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Principal1.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Principal2.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Penalties.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Charges.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Interest.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.Adjustment.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.TotalPayment.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="11" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }           
+                <tr>
+                    <td colspan="4" class="table-bg-bold-right-td"> @LocalResource.TotalBalance  </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Principal1).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Principal2).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Penalties).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Charges).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Interest).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.Adjustment).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseBalanceByClosingList != null && Model.BusinessLicenseBalanceByClosingList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseBalanceByClosingList.Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

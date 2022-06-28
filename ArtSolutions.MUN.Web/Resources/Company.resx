@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddressDetail" xml:space="preserve">
+    <value>Address Details</value>
+  </data>
+  <data name="BusinessName" xml:space="preserve">
+    <value>Business Name</value>
+  </data>
+  <data name="CompanyCode" xml:space="preserve">
+    <value>Company Code (MUNITAX)</value>
+  </data>
+  <data name="CompanyConfigurationTitle" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="CompanyConfirmationTitle" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="CompanyDetailsTitle" xml:space="preserve">
+    <value>Company Details</value>
+  </data>
+  <data name="CompanyModulesTitle" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="CompanyNotConfiguredMessage" xml:space="preserve">
+    <value>&lt;p&gt;
+                    Company you are trying to access is not configured.
+                &lt;/p&gt;
+                &lt;p&gt;Please, contact your company owner.&lt;/p&gt;</value>
+  </data>
+  <data name="CompanyNotConfiguredTitle" xml:space="preserve">
+    <value>Company not configured</value>
+  </data>
+  <data name="CompanySize" xml:space="preserve">
+    <value>Company Size</value>
+  </data>
+  <data name="CompanySucessMessage" xml:space="preserve">
+    <value>Your Company has been saved successfully!</value>
+  </data>
+  <data name="DuplicateCompanyCode" xml:space="preserve">
+    <value>Company code already exists!</value>
+  </data>
+  <data name="EditTitle" xml:space="preserve">
+    <value>Edit Company</value>
+  </data>
+  <data name="LegalName" xml:space="preserve">
+    <value>Legal Name</value>
+  </data>
+  <data name="Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="NavEditTitle" xml:space="preserve">
+    <value>Edit Company</value>
+  </data>
+  <data name="NoOfDecimalPointsAllowed" xml:space="preserve">
+    <value>No. of Decimal Points Allowed</value>
+  </data>
+  <data name="NoOfDecimalPointsRangeMessage" xml:space="preserve">
+    <value>Only 0 to 5 decimal points are allowed.</value>
+  </data>
+  <data name="Terms" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies, arcu sit amet tempus semper, orci ante tempor sapien, nec condimentum ipsum urna non sapien. Donec ut placerat elit. Donec varius lacus vitae vehicula vestibulum. In eu fringilla sem. Duis lacinia ligula ut scelerisque placerat. Donec euismod magna ac ligula laoreet, quis cursus libero sodales. Sed interdum, erat non efficitur sagittis, odio lectus tempor mauris, in tincidunt velit metus non dolor. Sed eget lorem ultrices, interdum nulla vitae, scelerisque tortor. Donec consequat eros in feugiat rhoncus. Nullam placerat turpis sed efficitur ultrices. Quisque at erat sed orci cursus consequat eget ac nisl.
+
+Ut sit amet libero et quam porttitor laoreet. In euismod velit non mauris pulvinar tincidunt. Suspendisse imperdiet lacinia leo sit amet viverra. Mauris lobortis tristique ligula tincidunt fringilla. Mauris in pretium ipsum. Praesent ut leo lorem. Morbi purus dolor, mattis vel vestibulum sit amet, porta non leo. Integer mattis mauris non felis dapibus, in varius lorem sollicitudin. Sed sit amet augue nec dolor tincidunt dapibus. Fusce nec rutrum ipsum. Morbi vehicula felis a eros sollicitudin, luctus dictum odio sagittis.
+
+Nullam purus risus, bibendum quis purus eget, pellentesque venenatis dolor. Sed placerat malesuada sapien vitae rhoncus. Etiam sodales a lacus eget rutrum. Morbi scelerisque, metus sit amet laoreet congue, orci nunc elementum odio, vitae bibendum ipsum sapien eget sem. Sed iaculis quam felis, ultrices semper nisi dignissim quis. Morbi mauris arcu, scelerisque ut erat eget, egestas ullamcorper neque. Cras sed nulla facilisis risus auctor dictum id vitae erat. Suspendisse aliquam nec lorem commodo efficitur. Phasellus ultricies rutrum maximus. Duis vel enim a est fringilla lobortis sed et libero. Vivamus fringilla, dui sed congue semper, diam tellus mollis tortor, vel facilisis justo lectus sit amet felis. Praesent ultrices vulputate felis ut rutrum. Donec ut turpis magna.
+
+Vivamus sit amet est vel lacus accumsan blandit. Aliquam imperdiet efficitur tincidunt. Cras eleifend eros a nibh consequat molestie. Donec nunc risus, laoreet ut sagittis non, molestie ac felis. Proin tempor ornare ante vitae facilisis. Sed nunc sem, finibus ac lacus ullamcorper, tempor lacinia augue. Nam fringilla sollicitudin viverra. Nulla at ligula tristique, malesuada velit ut, malesuada sem. In luctus dui eu eleifend hendrerit. Fusce vel metus pulvinar, mollis leo at, eleifend dolor. Sed sed feugiat tortor. Quisque hendrerit erat quis ligula pellentesque, id interdum felis porta. Sed lobortis consequat dignissim. Phasellus bibendum nisl justo, id porttitor tellus feugiat in. Proin eget est risus.</value>
+  </data>
+  <data name="TermsAndPolicyMessage" xml:space="preserve">
+    <value>I agree the terms and policy.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Company Registration</value>
+  </data>
+  <data name="UseAccountReceivableJournal" xml:space="preserve">
+    <value>Create Account Receivable Journal</value>
+  </data>
+  <data name="UseLeapYear" xml:space="preserve">
+    <value>Use Leap Year</value>
+  </data>
+  <data name="WebSite" xml:space="preserve">
+    <value>Website</value>
+  </data>
+</root>

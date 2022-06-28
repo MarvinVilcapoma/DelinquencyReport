@@ -1,0 +1,188 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionRuleModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    int? copyRuleID = ViewBag.CopyRuleID;
+}
+
+@{
+    decimal fixedAmount = 0;
+    decimal percentVal = 0;
+    decimal secondVal = 0;
+    decimal Factor = 0;
+    if (Model.ServiceCollectionRuleDetailList.Count() > 0)
+    {
+        var detailItem = Model.ServiceCollectionRuleDetailList[0];
+        if (Model.CollectionRuleID == 1)
+        {
+            fixedAmount = detailItem.Value;
+        }
+        else if (Model.CollectionRuleID == 2)
+        {
+            percentVal = detailItem.Value;
+        }
+        else if (Model.CollectionRuleID == 3)
+        {
+            percentVal = detailItem.Value;
+            secondVal = detailItem.SecondValue.Value;
+        }
+        else if (Model.CollectionRuleID == 10)
+        {
+            Factor = detailItem.Value;
+        }
+    }
+
+}
+@using (Ajax.BeginForm("SaveRule", "Service", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "frmSaveRule", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>@LocalResource.NewCollectionRule</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.CollectionRuleName <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control  required", @id = "txtRuleName" })
+                        @Html.ValidationMessageFor(x => x.Name)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.CollectionType <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @Html.DropDownListFor(x => x.CollectionTypeID, Model.CollectionTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown disable", @id = "ddlCollectionType" })
+                        @Html.ValidationMessageFor(x => x.CollectionTypeID)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.CollectionField <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @Html.DropDownListFor(x => x.CollectionFieldID, Model.CollectionFieldList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required disable", @onchange = "enableFeeRule(false,true);", @id = "ddlCollectionField" })
+                        @Html.ValidationMessageFor(x => x.CollectionFieldID)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.EffectiveFrom <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @*19-Feb-2020 - Added , @data_type = "datepicker", onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;"*@
+                        @*@Html.TextBox("EffectiveFrom", Model.EffectiveFrom != null ? DateTime.Parse(Model.EffectiveFrom).ToString("d") : null, new { @class = "form-control popupinputdate required disable", @id = "txtruleEffectiveFrom", @data_type = "datepicker", onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;" })*@
+                        @Html.TextBox("EffectiveFrom", Model.EffectiveFrom != null ? DateTime.Parse(Model.EffectiveFrom).ToString("d") : null, new { @class = "form-control copypopupinputdate popupinputdate required disable", @id = "txtruleEffectiveFrom", @data_type = "datepicker", onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;" })
+                        @Html.ValidationMessageFor(x => x.EffectiveFrom)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.EffectiveTo <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @*19-Feb-2020 - Added , @data_type = "datepicker", onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;"*@
+                        @Html.TextBox("EffectiveTo", Model.EffectiveTo != null ? DateTime.Parse(Model.EffectiveTo).ToString("d") : null, new { @class = "form-control popupinputdate required ", @id = "txtruleEffectiveTo", @data_type = "datepicker", onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;" })
+                        @Html.ValidationMessageFor(x => x.EffectiveTo)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.Frequency <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @Html.DropDownListFor(x => x.FrequencyID, Model.FrequencyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required disable", @id = "ddlRuleFrequency" })
+                        @Html.ValidationMessageFor(x => x.FrequencyID)
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.ApplyOn <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.RadioButton("ApplyOnPaymentDueDate", false, new { id = "rbFilling", @class = "disable" })<label for="rbFilling" class="font-normal">   &nbsp; @GlobalResource.FilingDate  &nbsp; </label>
+                        @Html.RadioButton("ApplyOnPaymentDueDate", true, new { id = "rbPayment", @class = "disable" }) <label for="rbPayment" class="font-normal">   &nbsp;  @LocalResource.PaymentDueDate </label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.CollectionRule <span class="text-danger">*</span> </label>
+                    <div class="col-lg-9">
+                        @Html.DropDownListFor(x => x.CollectionRuleID, Model.CollectionRuleList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required disable", @id = "ddlCollectionRule", @onchange = "enableRuleDetailInput('dropdown');" })
+                        @Html.ValidationMessageFor(x => x.CollectionRuleID)
+                    </div>
+                </div>
+                <div class="row form-group RuleDetailInput" id="dvRuleDetailInput">
+                    <label class="col-lg-3 control-label">@LocalResource.FixAmount <span class="text-danger">*</span> </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("txtFixedAmount", fixedAmount, new { @class = "form-control text-right required inputdecimal singleValue disable", @id = "txtFixedAmount", maxlength = 12 })
+                        @Html.ValidationMessage("txtFixedAmount", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                    </div>
+                    <label class="col-lg-3 control-label p-r-none"> @LocalResource.Factor <span class="text-danger">*</span> </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("txtFactor", Factor, new { @class = "form-control text-right required inputdecimal singleValue disable", @id = "txtFactor", maxlength = 10 })
+                        @Html.ValidationMessage("txtFactor", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row form-group RuleDetailInput">
+                    <label class="col-lg-3 control-label p-r-none"> @LocalResource.PercentValue <span class="text-danger">*</span> </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("txtPercent", percentVal, new { @class = "form-control text-right required inputpercentage singleValue disable", @id = "txtPercent", maxlength = 8 })
+                        @Html.ValidationMessage("txtPercent", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                    </div>
+                    <label class="col-lg-3 control-label p-r-none"> @LocalResource.PercentOfPercentValue <span class="text-danger">*</span> </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("txtSecondPercent", secondVal, new { @class = "form-control text-right required inputpercentage singleValue disable", @id = "txtSecondPercent", maxlength = 8 })
+                        @Html.ValidationMessage("txtSecondPercent", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row form-group RuleDetailInput">
+                    <div class="col-lg-12">
+                        <div class="clients-list" id="dvRangeTab">
+                            <ul class="nav nav-tabs">
+                                <li id="lidetail1" class="active" data-linkeddiv="tabdetail1"><a data-toggle="tab" href="#tabdetail1"> <label id="lblTab1Text">@LocalResource.RangeFlat</label></a></li>
+                                <li id="lidetail2" class="hide" data-linkeddiv="tabdetail2"><a data-toggle="tab" href="#tabdetail2"> <label id="lblTab2Text"></label> </a></li>
+                                <li id="lidetail3" class="hide" data-linkeddiv="tabdetail3"><a data-toggle="tab" href="#tabdetail3"> <label id="lblTab3Text"></label> </a></li>
+                            </ul>
+                            <div class="clear"></div>
+                            <div class="tab-content">
+                                @{
+                                    List<ServiceCollectionRuleDetailModel> Tab1_List = Model.ServiceCollectionRuleDetailList.Where(x => x.Value > 0 && (x.SecondValue <= 0 || x.SecondValue == null) && x.CollectionRuleID > 3 && x.CollectionRuleID < 10).ToList();
+                                    List<ServiceCollectionRuleDetailModel> Tab2_List = Model.ServiceCollectionRuleDetailList.Where(x => (x.Value <= 0) && x.SecondValue > 0 && x.CollectionRuleID > 3 && x.CollectionRuleID < 10).ToList();
+                                    List<ServiceCollectionRuleDetailModel> Tab3_List = Model.ServiceCollectionRuleDetailList.Where(x => x.CollectionRuleID > 10).ToList();
+                                    Tab1_List = new ServiceCollectionRuleDetailModel().AppendBlankListItem(Tab1_List);
+                                    Tab2_List = new ServiceCollectionRuleDetailModel().AppendBlankListItem(Tab2_List);
+                                    Tab3_List = new ServiceCollectionRuleDetailModel().AppendBlankListItem(Tab3_List);
+                                }
+                                <div id="tabdetail1" class="tabdetail tab-pane active" style="height:auto;">
+                                    @Html.Partial("~/Areas/Services/Views/Service/_ServiceCollectionRuleDetail.cshtml", Tab1_List)
+                                </div>
+                                <div id="tabdetail2" class="tabdetail tab-pane hide" style="height:auto;">
+                                    @Html.Partial("~/Areas/Services/Views/Service/_ServiceCollectionRuleDetail.cshtml", Tab2_List)
+                                </div>
+                                <div id="tabdetail3" class="tabdetail tab-pane hide" style="height:auto;">
+                                    @Html.Partial("~/Areas/Services/Views/Service/_ServiceCollectionRuleDetailForExceed.cshtml", Tab3_List)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddRule" type="submit" class="btn btn-primary" onclick="return SaveRule(@copyRuleID);">
+            @if (Model.ID > 0)
+            {
+                @GlobalResource.Update
+            }
+            else
+            {
+                @GlobalResource.Add
+            }
+        </button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal">@GlobalResource.Cancel</button>
+    </div>
+    @Html.HiddenFor(x => x.ID, new { @Id = "hdnRuleId" })
+    @Html.HiddenFor(x => x.SequenceID, new { @Id = "hdnRuleSeqId" })
+    @Html.HiddenFor(x => x.IsNew, new { @Id = "hdnNew", @Value = Model.IsNew == null ? true : Model.IsNew })
+    if (fixedAmount > 0 || percentVal > 0 || secondVal > 0 || Factor > 0)
+    {
+        @Html.HiddenFor(x => x.ServiceCollectionRuleDetailList[0].ID, new { @Id = "hdnRuleDetailId" })
+        @Html.HiddenFor(x => x.ServiceCollectionRuleDetailList[0].SequenceID, new { @Id = "hdnRuleDetailSeqId" })
+    }
+}
+@Html.Hidden("CopyMode")

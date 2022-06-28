@@ -1,0 +1,45 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GLobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                <label>
+                    @GLobalResource.DocumentType<span class="text-danger">*</span>
+                </label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                @Html.DropDownListFor(a => a.DocumentTypeID, Model.DocumentTypeList == null ? Enumerable.Empty<SelectListItem>() : Model.DocumentTypeList.Select(a => new SelectListItem { Text = a.Name, Value = Convert.ToString(a.ID) }).ToList(), new { @class = "form-control required select2dropdown" })
+                @Html.ValidationMessageFor(a => a.DocumentTypeID)
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                <label>
+                    @GLobalResource.Name<span class="text-danger">*</span>
+                </label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                @Html.TextBoxFor(a => a.Name, new { @class = "form-control required", @maxlength = 50 })
+                @Html.ValidationMessageFor(a => a.Name)
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                <label>
+                    @GLobalResource.Description
+                </label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                @Html.TextAreaFor(a => a.Description, 5, 10, new { @class = "form-control", @maxlength = 500 })
+            </div>
+        </div>
+    </div>
+</div>
+

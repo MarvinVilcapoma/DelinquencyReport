@@ -1,0 +1,167 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CashReceiptControlModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    ViewBag.Title = ReportResource.CashReceiptControl;
+
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th width="6%" class="table-border-center-th">
+                        @GlobalResource.Date
+                    </th>
+                    <th width="8%" class="table-border-center-th">
+                        @GlobalResource.ReceiptNumber
+                    </th>
+                    <th width="5%" class="table-border-center-th">
+                        @ReportResource.VoidedReceipts
+                    </th>
+                    <th width="7%" class="table-border-center-th">
+                        @ReportResource.TotalAmountOfReceipt
+                    </th>
+                    <th width="8%" class="table-border-center-th">
+                        @ReportResource.PaymentMethod
+                    </th>
+                    <th width="9%" class="table-border-center-th">
+                        @GlobalResource.Penalty
+                    </th>
+                    <th width="9%" class="table-border-center-th">
+                        @GlobalResource.Interest
+                    </th>
+                    <th width="9%" class="table-border-center-th">
+                        @ReportResource.IVA
+                    </th>
+                    <th width="7%" class="table-border-center-th">
+                        @ReportResource.ReceiptCreator
+                    </th>
+                    <th width="6%" class="table-border-center-th">
+                        @ReportResource.CashRegisterDate
+                    </th>
+                    <th width="7%" class="table-border-center-th">
+                        @ReportResource.CashRegisterCreator
+                    </th>
+                    <th width="6%" class="table-border-center-th">
+                        @ReportResource.DepositEntryDate
+                    </th>
+                    <th width="7%" class="table-border-center-th">
+                        @GlobalResource.Bank
+                    </th>
+                    <th width="6%" class="table-border-center-th">
+                        @ReportResource.DepositCreator
+                    </th>
+                </tr>
+                @if (Model.CashReceiptControlList != null && Model.CashReceiptControlList.Count() > 0)
+                {
+                    foreach (var item in Model.CashReceiptControlList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.ReceiptNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.VoidedReceipts
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.TotalReceipt.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.PaymentMethod
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.Penalties.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @if (item.Interest != null)
+                                {
+                                    @item.Interest.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                }
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @if (item.IVA == null)
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.IVA.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedReceiptCreator
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedCashRegisterDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedCashRegisterCreator
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedDepositEntryDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Bank
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedDepositCreator
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="table-bg-bold-center-td">@GlobalResource.Total</td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td">@Model.CashReceiptControlList.Sum(x => x.TotalReceipt).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")</td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td">@Model.CashReceiptControlList.Sum(x => x.Penalties).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")</td>
+                        <td class="table-bg-bold-center-td">@Model.CashReceiptControlList.Sum(x => x.Interest).Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")</td>
+                        <td class="table-bg-bold-center-td">@Model.CashReceiptControlList.Sum(x => x.IVA).Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")</td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="14" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

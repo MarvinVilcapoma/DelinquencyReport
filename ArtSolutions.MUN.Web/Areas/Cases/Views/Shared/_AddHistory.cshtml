@@ -1,0 +1,51 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseMeetingNotes
+
+<div class="modal inmodal" id="dvHistoryModel" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            @using (Ajax.BeginForm("AddHistory", "Case", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "form", data_ajax_mode = "replace-with" }))
+            {
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5 id="emailtitle">@LocalResource.NewActivity</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="control-label">@LocalResource.MeetingType <span class="text-danger">*</span></label>
+                                            @Html.DropDownListFor(m => Model.MeetingTypeID, (Model.MeetingTypes == null ? Enumerable.Empty<SelectListItem>() : Model.MeetingTypes.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown", @data_rule_selectRule = "true", @id = "ddlAddMeetingTypes" })
+                                            @Html.ValidationMessageFor(m => m.MeetingTypeID)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.InitialDate<span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(m => Model.Date, new { @class = "form-control initialDate required datepickerDate", @readonly= "readonly",@id= "txtAddDate" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label class="control-label">@GlobalResource.Note<span class="text-danger">*</span></label>
+                                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control required textarea-vertical-resize", @rows = 10, @cols = 80, @id = "txtAddNote" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAddHistory" class="btn btn-primary as-btn-text">@GlobalResource.Add</button>
+                    <button type="button" id="btnCancelHistory" class="btn btn-default as-btn-text">@GlobalResource.Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

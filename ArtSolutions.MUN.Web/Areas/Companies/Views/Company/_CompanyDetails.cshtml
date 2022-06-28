@@ -1,0 +1,56 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.CompanyModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Company;
+
+<fieldset>
+    <h2>@LocalResource.CompanyDetailsTitle</h2>
+    <div class="full-height-scroll-detail">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <label>@LocalResource.BusinessName <span class="text-danger">*</span></label>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control required", id = "txtBusinessName", maxlength = 250, tabindex = 1 })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div class="form-group">
+                    <label>@LocalResource.LegalName <span class="text-danger">*</span></label>
+                    @Html.TextBoxFor(m => m.LegalName, new { @class = "form-control required", id = "txtLegalName", maxlength = 250, tabindex = 2 })
+                    @Html.ValidationMessageFor(m => m.LegalName)
+                </div>
+                <div class="form-group">
+                    <small class="pull-right m-t-phone">
+                        @GlobalResource.CountryCode + @GlobalResource.AreaCode + @GlobalResource.Phone
+                    </small>
+                    <label>@GlobalResource.PhoneNumber <span class="text-danger">*</span></label>
+                    @Html.TextBoxFor(m => m.WorkPhone, new { @class = "form-control inputphonenumber required", id = "txtPhoneNumber", maxlength = 15, tabindex = 3 })
+                    @Html.ValidationMessageFor(m => m.WorkPhone)
+                </div>
+                <div class="form-group">
+                    <label>@LocalResource.WebSite <span class="text-danger">*</span></label>
+                    @Html.TextBoxFor(m => m.URL, new { @class = "form-control required", id = "txtWebSite", maxlength = 50, tabindex = 4 })
+                    @Html.ValidationMessageFor(m => m.URL)
+                </div>
+                @Html.HiddenFor(m => m.CompanySize)
+                <div class="form-group">
+                    <label>@GlobalResource.Country <span class="text-danger">*</span></label>
+                    @Html.DropDownListFor(m => m.CountryID, Model.CountryList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required", tabindex = 5 })
+                    @Html.ValidationMessageFor(m => m.CountryID)
+                </div>
+                <div class="form-group">
+                    <label>@GlobalResource.Currency <span class="text-danger">*</span></label>
+                    @Html.DropDownListFor(m => m.CurrencyModel.ID, Model.CurrencyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control required", id = "ddlCurrency", tabindex = 6 })
+                    @Html.ValidationMessageFor(m => m.CurrencyModel.ID)
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.LogoID)
+                    <div id="companyPictureDropzone" class="dropzone" tabindex=7>
+                        <div id="companyPicturePreview" class="dropzone-previews">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

@@ -1,0 +1,163 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptBusinessLicenseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ReceiptBusinessLicenseTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportReceiptByBusinessLicense", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control periodDate textblur", tabindex = "1", @data_required_msg = LocalResource.FromDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control periodDate textblur", tabindex = "2", @data_required_msg = LocalResource.ToDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <span class="label label-warning pull-left hide" id="spnBalanceRange" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close" onclick="clearSearch('balance')" style="cursor:pointer;"></i></span>
+                                <span class="label label-warning pull-left hide" id="spnSelectedAccount" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="AccountIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('accounts')" style="cursor:pointer;"></i></span>
+                                <span class="label label-warning pull-left hide" id="spnSelectedCollector" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="CollectorIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('collector')" style="cursor:pointer;"></i></span>
+                            </div>
+                        </div>
+                        <div class="table-responsive p-sm m-t" id="dvUpdate">
+                            <table class="table table-report table-tbody-total" id="tblBusinessLicenseReceipt">
+                                <tfoot class="hide" id="tblFooter">
+                                    <tr>
+                                        <th colspan="5" style="text-align: center !important"> @GlobalResource.TotalFinal </th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.BalanceFrom)
+                @Html.HiddenFor(x => x.BalanceTo)
+                @Html.HiddenFor(x => x.FilterAccountID)
+                @Html.HiddenFor(x => x.FilterCashierID)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Account</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("AccountIDs", new SelectList(Model.AccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "5" })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.Collector</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("CashierIDs", new SelectList(Model.CashierList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "6" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.BalanceFrom</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("BalanceFrom", Model.BalanceFrom, new { @class = "form-control inputdecimal", @id = "txtBalanceFrom", @data_title = LocalResource.BalanceFrom, @data_val_msg = LocalResource.BalanceFromRequiredMsg, tabindex = "7" })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.BalanceTo</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("BalanceTo", Model.BalanceTo, new { @class = "form-control inputdecimal", @id = "txtBalanceTo", @data_title = LocalResource.BalanceTo, @data_val_msg = LocalResource.BalanceToRequiredMsg, tabindex = "8" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex="9">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="10">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/dataTablesGroup")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/Culture")
+
+    <script type="text/javascript">
+        var balanceFromRequiredMsg = '@Html.Raw(LocalResource.BalanceFromRequiredMsg)';
+        var balanceToRequiredMsg = '@Html.Raw(LocalResource.BalanceToRequiredMsg)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var totaltxt = '@Html.Raw(GlobalResource.Total)';
+        var recieptNumber = '@Html.Raw(GlobalResource.ReceiptNumber)';
+        var identitymunicipal = '@Html.Raw(GlobalResource.IdentityMunicipal)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var name = '@Html.Raw(GlobalResource.Name)';
+        var penalty = '@Html.Raw(LocalResource.Penalty)';
+        var interests = '@Html.Raw(LocalResource.Interests)';
+        var surcharges = '@Html.Raw(LocalResource.Surcharges)';
+        var discount = '@Html.Raw(GlobalResource.Discount)';
+        var paymentamount = '@Html.Raw(LocalResource.PaymentAmount)';
+        var compareBalanceValidationMsg = '@Html.Raw(LocalResource.CompareBalanceValidationMsg)';
+        var BalanceRange = '@Html.Raw(LocalResource.BalanceRange)';
+        var fiscalyear = '@Html.Raw(GlobalResource.FiscalYear)';
+        var firstsemester = '@Html.Raw(LocalResource.FirstSemester)';
+        var secondsemester = '@Html.Raw(LocalResource.SecondSemester)';
+        var SelectedAccount = '@Html.Raw(LocalResource.SelectedAccount)';
+        var SelectedCollector = '@Html.Raw(LocalResource.SelectedCollector)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="~/Scripts/app/repreceiptbypatente.js"></script>
+}

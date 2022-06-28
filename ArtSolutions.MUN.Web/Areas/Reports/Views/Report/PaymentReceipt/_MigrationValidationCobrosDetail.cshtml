@@ -1,0 +1,79 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationCobrosModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblMigrationValidationFactu" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.MeterNo
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    RULE
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    SIM
+                </th>
+                @*<th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - RULE
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - SIM
+                </th>*@
+                <th style="min-width:50px;" class="text-center">
+                   RULE - @GlobalResource.Amount
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                   SIM - @GlobalResource.Amount
+                </th>
+                @*<th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - RULE - @GlobalResource.Amount
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.PastYear - SIM - @GlobalResource.Amount
+                </th>*@
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/PaymentReceipt/_MigrationValidationCobrosDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+            <tr id="tbodyMigrationValidationCobros">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                @*<td></td>
+                <td></td>
+                <td></td>
+                <td></td>*@
+                <td></td>
+                <td class="text-right">
+                    <a id="migrationValidationCobrosShowMore"
+                       href="javascript:void(0);"
+                       data-totalrecord="@Model.MigrationValidationCobrosList.Count"
+                       data-currentpage="1"
+                       onclick="loadMoreMigrationValidationCobros(this);">
+                        @ReportResource.LoadMore ...
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

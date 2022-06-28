@@ -1,0 +1,136 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.Service
+
+
+<fieldset>
+    <h2>@LocalResource.AdditionalInformationTitle</h2>
+    <div class="full-height-scroll-additional">
+        @Html.Hidden("SelectedServiceId")
+        <div class="row m-t-lg">
+            <div class="form-group col-lg-9 col-md-9 col-sm-9">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.Year <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.DropDownListFor(x => x.Year, Model.FiscalYearList, new { @class = "form-control select2dropdown required", @id = "ddlYear", @onchange = "GetAdditionalInfo();" })
+                    @Html.ValidationMessageFor(x => x.Year)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.InitialDate <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.StartDate, new { @id = "InitialDate", @class = "form-control initialDate required", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(x => x.StartDate, GlobalResource.RequiredValidationMsg)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.EndDate <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.EndDate, new { @id = "EndDate", @class = "form-control initialDate required", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(x => x.EndDate, GlobalResource.RequiredValidationMsg)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divLicenseAccountService">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.AccountService <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    <select id="ddlLicenseAccountServiceId" class="form-control select2dropdown required" name="LicenseAccountServiceID">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                    </select>
+                    @Html.ValidationMessage("LicenseAccountServiceID", GlobalResource.RequiredValidationMsg)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 hide" id="dvFilingDate">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.FilingDueDate <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.FilingDueDate, new { @class = "form-control filingDate required" })
+                    @Html.ValidationMessageFor(x => x.FilingDueDate, GlobalResource.RequiredValidationMsg)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 hide" id="dvPaymentDueDate">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@ServiceResource.PaymentDueDate <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.PaymentDueDate, new { @class = "form-control filingDate required" })
+                    @Html.ValidationMessageFor(x => x.PaymentDueDate, GlobalResource.RequiredValidationMsg)
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 hide" id="dvException">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@LocalResource.Exception </label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    <select id="ddlServiceException" class="form-control select2dropdown" name="ExceptionID"></select>
+                </div>
+            </div>
+
+            @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52)
+            {
+                <div class="form-group col-lg-9 col-md-9 col-sm-9" id="dvProperty">
+                    <label class="col-lg-5 col-md-5 col-sm-5 control-label">@GlobalResource.Property </label>
+                    <div class="col-lg-6 col-md-6 col-md-6">
+                        <select id="ddlProperty" class="form-control select2dropdown" name="PropertyID"></select>
+                    </div>
+                </div>
+            }
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomField1">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomField1"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomField1, new { @class = "form-control clearinput", maxlength = 250 })
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomField2">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomField2"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomField2, new { @class = "form-control clearinput", maxlength = 250 })
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomField3">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomField3"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomField3, new { @class = "form-control clearinput", maxlength = 250 })
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomDateField">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomDateField"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomDateField, new { @class = "form-control clearinput inputdatefield" })
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomField4">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomField4"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomField4, new { @class = "form-control clearinput required", maxlength = 250 })
+                </div>
+            </div>
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divCustomField5">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label lblCustomField5"></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.CustomField5, new { @class = "form-control clearinput required", maxlength = 250 })
+                </div>
+            </div>
+
+
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divPreviousMeasure">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@LocalResource.PreviousMeasure</label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    @Html.TextBoxFor(x => x.PreviousMeasure,
+                       new
+                       {
+                           @class = "form-control text-right clearinput",
+                           maxlength = 9,
+                           @Value = (Model.PreviousMeasure == null ? null : Model.PreviousMeasure.Value.ToString(Common.DecimalPoints))
+                       }
+                    )
+                    @Html.ValidationMessageFor(x => x.PreviousMeasure, LocalResource.PleaseEnterNoMoreThan12CharactersMsg)
+                </div>
+            </div>
+
+
+            <div class="form-group col-lg-9 col-md-9 col-sm-9 divServiceStartPeriod">
+                <label class="col-lg-5 col-md-5 col-sm-5 control-label">@LocalResource.AsOfPeriod <span class="text-danger">*</span></label>
+                <div class="col-lg-6 col-md-6 col-md-6">
+                    <select id="ddlServiceStartPeriod" class="form-control select2dropdown" name="ServiceStartPeriodID">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

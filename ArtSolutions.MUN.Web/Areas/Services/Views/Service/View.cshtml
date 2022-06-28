@@ -1,0 +1,729 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ViewTitle;
+    var serviceModel = Newtonsoft.Json.JsonConvert.SerializeObject(Model);
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.Service</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Service", new { area = "Services" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content project-manager">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <h2 class="text-description-field">
+                                    <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Model.Name">
+                                        @Model.Name
+                                    </span>
+                                </h2>
+                                <h4 class="font-normal text-description-field">
+                                    <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Model.Description">
+                                        @Model.Description
+                                    </span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>@GlobalResource.ServiceGroup:</dt>
+                                <dd>@Model.Group</dd>
+                                <dt class="m-t-sm">@GlobalResource.ServiceType:</dt>
+                                <dd class="m-t-sm">@Model.Type</dd>
+                                <dt class="m-t-sm">@GlobalResource.ServiceCode:</dt>
+                                <dd class="m-t-sm">@Model.Code</dd>
+                                <dt class="m-t-sm">@LocalResource.Frequency:</dt>
+                                <dd class="m-t-sm">@Model.Frequency </dd>
+                                <dt class="m-t-sm">@LocalResource.FilingType:</dt>
+                                <dd class="m-t-sm">@Model.FilingType</dd>
+                                <dt class="m-t-sm">@LocalResource.FillingDueDates:</dt>
+                                <dd class="m-t-sm">
+                                    @if (@Model.FilingTypeID == 3)
+                                    {
+                                        <a class="btn btn-primary btn-xs" id="fillingdueon" onclick="viewCalculationDatesPopup(@serviceModel,@((int)EnDateTypes.FillingDueDates ),'@LocalResource.FillingDueDatesTitle',@Model.FilingDueType)">
+                                            <span id="spFillingAdd">
+                                                @LocalResource.ViewFillingDate:
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span>  -  </span>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.PaymentDueDates:</dt>
+                                <dd class="m-t-sm">
+                                    @if (@Model.FilingTypeID == 3)
+                                    {
+                                        <a class="btn btn-primary btn-xs" id="paymentdueon" onclick="viewCalculationDatesPopup(@serviceModel,@((int)EnDateTypes.PaymentDueDates),'@LocalResource.PaymentDueDatesTitle',@Model.PaymentDueType)">
+                                            <span id="spPaymentAdd">
+                                                @LocalResource.ViewPaymentDueDates:
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span>  -  </span>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.PaymentGracePeriods:</dt>
+                                <dd class="m-t-sm">
+                                    @if (@Model.FilingTypeID == 3 && Model.UseFixedPaymentGracePeriod != null)
+                                    {
+                                        <a class="btn btn-primary btn-xs" id="paymentgraceperiod" onclick="viewCalculationDatesPopup(@serviceModel,@((int)EnDateTypes.PaymentGraceDates),'@LocalResource.PaymentGracePeriodsTitle',@Model.PaymentGraceType)">
+                                            <span id="spGraceAdd">
+                                                @LocalResource.ViewPaymentGracePeriods:
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span>  -  </span>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.DiscountDates:</dt>
+                                <dd class="m-t-sm">
+                                    @if (@Model.FilingTypeID == 3 && Model.UseFixedDiscountDate != null)
+                                    {
+                                        <a class="btn btn-primary btn-xs" id="discounton" onclick="viewCalculationDatesPopup(@serviceModel,@((int)EnDateTypes.DiscountDates),'@LocalResource.DiscountDatesTitle',@Model.DiscountDueType)">
+                                            <span id="spDiscountAdd">
+                                                @LocalResource.ViewDiscountDates:
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span> - </span>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomField 1:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomField1) ? Model.CustomField1 : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomField1) && Model.AllowDuplicateCustomField1)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomField 3:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomField3) ? Model.CustomField3 : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomField3) && Model.AllowDuplicateCustomField3)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomField 5:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomField5) ? Model.CustomField5 : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomField5) && Model.AllowDuplicateCustomField5)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.FilingForm:</dt>
+                                <dd class="m-t-sm"><span>@Html.Raw(Model.FilingFormID != null ? Model.FilingFormTypeList.FirstOrDefault(d => d.Value == Model.FilingFormID.Value.ToString()).Text : "-") </span></dd>
+                                <dt class="m-t-sm">@LocalResource.MultipleServicesPerYear:</dt>
+                                <dd class="m-t-sm"><span>@Html.Raw(Model.MultipleServicesPerYear == true ? GlobalResource.Yes : GlobalResource.No) </span></dd>
+                                <dt class="m-t-sm">@LocalResource.TotalValueLabel:</dt>
+                                <dd class="m-t-sm"><span>@Model.TotalValueLabel</span></dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6" id="cluster_info">
+                            <dl class="dl-horizontal">
+                                <dt>@LocalResource.PeriodStartDate:</dt>
+                                <dd>@Model.StartDate.ToString("MMM dd")</dd>
+                                <dt class="m-t-sm">@LocalResource.PeriodEndDate:</dt>
+                                <dd class="m-t-sm">@Model.EndDate.ToString("MMM dd")</dd>
+                                <dt class="m-t-sm">@LocalResource.EffectiveFrom:</dt>
+                                <dd class="m-t-sm">@Model.EffectiveFrom.ToString("d") </dd>
+                                <dt class="m-t-sm">@LocalResource.EffectiveTo:</dt>
+                                <dd class="m-t-sm">@Model.EffectiveTo.ToString("d") </dd>
+
+                                <dt class="m-t-sm">@GlobalResource.CollectionTemplate:</dt>
+                                <dd class="m-t-sm">
+                                    @if (string.IsNullOrEmpty(Model.CollectionTemplateName))
+                                    {
+                                        <span>  -  </span>
+                                    }
+                                    else
+                                    {
+                                        @Model.CollectionTemplateName
+                                    }
+                                </dd>
+
+                                <dt class="m-t-sm">@GlobalResource.PrintTemplate:</dt>
+                                <dd class="m-t-sm">
+                                    @if (string.IsNullOrEmpty(Model.PrintTemplateName))
+                                    {
+                                        <span>  -  </span>
+                                    }
+                                    else
+                                    {
+                                        @Model.PrintTemplateName
+                                    }
+                                </dd>
+
+                                <dt class="m-t-sm">@GlobalResource.LastUpdated:</dt>
+                                <dd class="m-t-sm">@Model.ModifiedDate.ToString("g") </dd>
+                                <dt class="m-t-sm">@GlobalResource.Created:</dt>
+                                <dd class="m-t-sm">@Model.CreatedDate.ToString("g")</dd>
+                                <dt class="m-t-sm">@LocalResource.ServiceException:</dt>
+                                <dd class="m-t-sm">
+                                    @if (!string.IsNullOrEmpty(Model.ServiceExceptionListJSON) && Model.ServiceExceptionListJSON != "[]")
+                                    {
+                                        <a class="btn btn-primary btn-xs" id="viewexception" onclick="viewExceptionPopup()">
+                                            <span id="spExceptionView">
+                                                @LocalResource.ViewServiceException:
+                                            </span>
+                                        </a>
+                                        @Html.HiddenFor(x => x.ServiceExceptionListJSON)
+                                    }
+                                    else
+                                    {
+                                        <span> - </span>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomField 2:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomField2) ? Model.CustomField2 : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomField2) && Model.AllowDuplicateCustomField2)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomField 4:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomField4) ? Model.CustomField4 : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomField4) && Model.AllowDuplicateCustomField4)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.CustomDateField:</dt>
+                                <dd class="m-t-sm">
+                                    <span>
+                                        @Html.Raw(!string.IsNullOrEmpty(Model.CustomDateField) ? Model.CustomDateField : "-")
+
+                                        @if (!string.IsNullOrEmpty(Model.CustomDateField) && Model.AllowDuplicateCustomDateField)
+                                        {
+                                            @Html.Raw("(" + LocalResource.AllowDuplicates + ")");
+                                        }
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.AutoCreation:</dt>
+                                <dd class="m-t-sm"><span>@Html.Raw(Model.AutoCreation == true ? GlobalResource.Yes : GlobalResource.No) </span></dd>
+                                <dt class="m-t-sm">@LocalResource.AccountType:</dt>
+                                @{
+                                    string[] AccountTypeValueArray = new string[] { };
+                                    if (!string.IsNullOrEmpty(Model.AccountTypeIDs))
+                                    { AccountTypeValueArray = Model.AccountTypeIDs.Split(',').ToArray(); }
+                                }
+                                <dd class="m-t-sm"><span>@Html.Raw(!string.IsNullOrEmpty(Model.AccountTypeIDs) ? string.Join(", ", Model.AccountTypeList.Where(d => AccountTypeValueArray != null && AccountTypeValueArray.Contains(d.Value)).Select(d => d.Text).ToList()) : "-") </span></dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options font-bold fa-15x">
+                                        @LocalResource.ServiceRuleTitle:
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="panel-body m-t-n-lg">
+                                    <div class="tab-content">
+                                        <div class="table-responsive">
+                                            <table class="footable table table-stripped toggle-arrow-tiny" data-sort="false">
+                                                <thead>
+                                                    <tr>
+                                                        <th data-toggle="true">@GlobalResource.Name</th>
+                                                        <th>@GlobalResource.Type</th>
+                                                        <th>@LocalResource.Rule </th>
+                                                        <th>@LocalResource.OnField</th>
+                                                        <th>@LocalResource.CalculationFrequency</th>
+                                                        <th>@LocalResource.EffectiveFrom</th>
+                                                        <th>@LocalResource.EffectiveTo</th>
+                                                        <th>@LocalResource.ApplyOn</th>
+                                                        <th data-hide="all"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model.ServiceCollectionRuleDetailList.Count == 0)
+                                                    {
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">
+                                                                @GlobalResource.NoDataMessage
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        var uniqueList = Model.ServiceCollectionRuleDetailList.Select(i => i.ServiceCollectionRuleID).Distinct();
+
+                                                        if (uniqueList != null)
+                                                        {
+                                                            foreach (int id in uniqueList)
+                                                            {
+                                                                var allList = Model.ServiceCollectionRuleDetailList.Where(i => i.ServiceCollectionRuleID == id).ToList();
+                                                                var isRuleExpired = (Convert.ToDateTime(allList[0].EffectiveTo).Date < DateTime.Now.Date ? true : false);
+
+                                                                if (allList != null)
+                                                                {
+                                                                    <tr>
+                                                                        <td class="col-lg-2 table-description-field @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @allList[0].Name
+                                                                        </td>
+                                                                        <td class="col-lg-1 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @allList[0].Type
+                                                                        </td>
+                                                                        <td class="col-lg-2 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @allList[0].Rule
+                                                                        </td>
+                                                                        <td class="col-lg-1 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @allList[0].OnField
+                                                                        </td>
+                                                                        <td class="col-lg-1 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @allList[0].CalculationFrequency
+                                                                        </td>
+                                                                        <td class="col-lg-1 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @DateTime.Parse(allList[0].EffectiveFrom).ToString("d")
+                                                                        </td>
+                                                                        <td class="col-lg-1 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @DateTime.Parse(allList[0].EffectiveTo).ToString("d")
+                                                                        </td>
+                                                                        <td class="col-lg-2 @((!@allList[0].IsActive || isRuleExpired)?"text-danger":"")">
+                                                                            @if (@allList[0].ApplyOnPaymentDueDate)
+                                                                            {
+                                                                                @LocalResource.PaymentDueDate
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                @GlobalResource.FilingDate
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            <table style="width:100%;">
+                                                                                <tr>
+                                                                                    <td class="col-lg-2 font-bold text-right">@LocalResource.Rule: </td>
+                                                                                    <td class="col-lg-10">@allList[0].Rule</td>
+                                                                                </tr>
+                                                                                @if (@allList[0].CollectionRuleID == 1)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.FixAmount: </td>
+                                                                                        <td class="col-lg-10">@Html.Raw(@allList[0].Value.ToString("C"))</td>
+                                                                                    </tr>
+                                                                                }
+                                                                                else if (@allList[0].CollectionRuleID == 2 || @allList[0].CollectionRuleID == 3)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.PercentValue: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            @Html.Raw(@allList[0].Value.ToString("0.######") + "%")
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 3)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.PercentOfPercentValue: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            @Html.Raw(@allList[0].SecondValue.Value.ToString("0.#####") + "%")
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+
+                                                                                @if (@allList[0].CollectionRuleID == 4)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.Range: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FinalAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FlatAmount</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.Value.ToString("C")</td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 5)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.RangePercentage: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FinalAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@GlobalResource.Percentage</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">
+                                                                                                                @Html.Raw(item.Value.ToString("0.#####") + "%")
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 6)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.RangeVariablePercentage: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FinalAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FlatAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@GlobalResource.Percentage</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.Value.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">
+                                                                                                                @Html.Raw(item.SecondValue.HasValue ? (item.SecondValue.Value.ToString("0.#####") + "%") : "")
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 7)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.Range: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.EndDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FlatAmount</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.Value.ToString("C")</td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 8)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.RangePercentage: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.EndDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@GlobalResource.Percentage</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">
+                                                                                                                @Html.Raw(item.Value.ToString("0.#####") + "%")
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 9)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.RangeVariablePercentage: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.EndDay</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FlatAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@GlobalResource.Percentage</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.Value.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">
+                                                                                                                @Html.Raw(item.SecondValue.HasValue ? (item.SecondValue.Value.ToString("0.#####") + "%") : "")
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 10)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.Factor: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            @Html.Raw(@allList[0].Value.ToString(Common.DecimalPoints))
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                                @if (@allList[0].CollectionRuleID == 11)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td class="col-lg-2 font-bold text-right">@LocalResource.ExceedBaseAndFee: </td>
+                                                                                        <td class="col-lg-10">
+                                                                                            <table class="table table-hover">
+                                                                                                <thead>
+                                                                                                    <tr>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.StartingUnit</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.EndUnit</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.BaseAmount</th>
+                                                                                                        <th class="font-bold col-lg-2 text-right">@LocalResource.FactorValue</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody>
+                                                                                                    @foreach (var item in allList)
+                                                                                                    {
+                                                                                                        <tr>
+                                                                                                            <td class="col-lg-2 text-right">@item.FromAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.ToAmount.ToString("0")</td>
+                                                                                                            <td class="col-lg-2 text-right">@item.Value.ToString("C")</td>
+                                                                                                            <td class="col-lg-2 text-right">@(item.SecondValue.HasValue ? item.SecondValue.Value.ToString(Common.DecimalPoints) : "")</td>
+                                                                                                        </tr>
+                                                                                                    }
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modal Popup*@
+<div class="modal inmodal" id="datesmodal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvCalculationDates">
+        </div>
+    </div>
+</div>
+@* Exception Modal Popup*@
+<div class="modal inmodal" id="exceptionModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvException">
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+    <style>
+        .disable-anchor {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .tooltip-inner {
+            max-width: 500px !important;
+        }
+    </style>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.footable').footable({ paginate: false });
+        });
+
+        function viewCalculationDatesPopup(data, dateType, viewTitle, dueType) {
+            $.ajax({
+                type: "POST",
+                //async: false,
+                url: ROOTPath + "/Service/EditCalculationDates",
+                data: { 'service': data, 'dateType': dateType },
+                success: function (response) {
+                    //if (response.status) {
+                    //    $("#dvCalculationDates").html(response.returnData);
+                    //    $("#datesmodal").modal("show");
+                    //    $("#titleId").html(viewTitle);
+                    //    $('#frmServiceView :input').not(':input[type=button]').attr("disabled", "disabled");
+                    //}
+                    //else {
+                    //    showAlert("error", response.message);
+                    //}
+
+                    if (response.status) {
+                        $("#dvCalculationDates").html(response.returnData);
+                        $("#txtDays").focus();
+                        $("input[data-duetype='" + dueType + "']").prop("checked", true);
+                        $("#frmCalDates input[type=text]").attr("disabled", true);
+                        $("#datesmodal").modal("show");
+
+                        //if ($(ele).attr("data-mode") == 'add' || service.IsTestMode == "True")
+                        //    disableUncheckedInput(dateType);
+
+                        if (dateType == 2 && dueType == 1) {
+                            $("#txtStartDiscountPercentage").val(GlobalFormat(data.ServiceCalculationDateList[0].DiscountPercentage));
+                        }
+                        else if (dateType == 2 && dueType == 2) {
+                            $("#txtEndDiscountPercentage").val(GlobalFormat(data.ServiceCalculationDateList[0].DiscountPercentage));
+                        }
+
+                        return true;
+                    }
+                    else {
+                        showAlert("error", response.message);
+                        return false;
+                    }
+                }
+            });
+        }
+
+        function disableUncheckedInput(datetype) {
+            if ($("input[name=" + datetype + "]:checked").val() == undefined)
+                $("#frmCalDates input[type=text]").attr("disabled", true);
+            else if ($("input[name=" + datetype + "]:checked").val() == "True") // disable days
+            {
+                $("#txtDays").attr("disabled", true);
+                $("#txtDiscountPercentage").attr("disabled", true);
+                $("#txtStartDiscountPercentage").attr("disabled", true);
+                $("#txtEndDiscountPercentage").attr("disabled", true);
+                $("#tblRow input[type=text]").removeAttr("disabled");
+            }
+            else if ($("input[name=" + datetype + "]:checked").val() == "False") // disable dates
+            {
+                $("#txtDays").removeAttr("disabled");
+                $("#txtDiscountPercentage").removeAttr("disabled");
+                $("#tblRow input[type=text]").attr("disabled", true);
+                $("#txtStartDiscountPercentage").attr("disabled", true);
+                $("#txtEndDiscountPercentage").attr("disabled", true);
+            }
+        }
+
+        function viewExceptionPopup() {
+            var exceptionModel = {};
+            exceptionModel.ServiceExceptionList = $.parseJSON($("#ServiceExceptionListJSON").val());
+            $.ajax({
+                type: "POST",
+                url: ROOTPath + "/Service/GetException",
+                data: { 'model': exceptionModel, 'readonlyMode': true },
+                success: function (data) {
+                    if (data.success == false) {
+                        showAlert("error", data.message);
+                    }
+                    else {
+                        $("#dvException").html(data);
+                        $("#exceptionModal").modal("show");
+                        $("#tbodyExceptionRow a.actioninput").remove();
+                        $("#thAction").addClass("hide");
+                    }
+                }
+            });
+        }
+    </script>
+}

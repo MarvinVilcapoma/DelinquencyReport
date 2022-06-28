@@ -1,0 +1,116 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationBienesModel
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = ReportResource.MigrationValidationBienesTitle;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.Property</th>
+                    <th width="20%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="15%" class="table-border-center-th">RULE - @GlobalResource.Periods</th>
+                    <th width="15%" class="table-border-center-th">SIM - @GlobalResource.Periods</th>
+                    @*<th width="10%" class="table-border-center-th">RULE - @GlobalResource.Principal</th>
+                        <th width="10%" class="table-border-center-th">SIM - @GlobalResource.Principal</th>
+                        <th width="10%" class="table-border-center-th">RULE - @AccountServiceResource.Exemption</th>
+                        <th width="10%" class="table-border-center-th">SIM - @AccountServiceResource.Exemption</th>
+                        <th width="10%" class="table-border-center-th">RULE - @GlobalResource.PaidAmount</th>
+                        <th width="10%" class="table-border-center-th">SIM - @GlobalResource.PaidAmount</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.MigrationValidationBienesList != null && Model.MigrationValidationBienesList.Count() > 0)
+                {
+                    foreach (var item in Model.MigrationValidationBienesList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.Cedula
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Finca
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Year
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.PERIODOS_RULE == null ? " - " : item.PERIODOS_RULE.Value.ToString())
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.PERIODOS_SIM <= 0 ? " - " : item.PERIODOS_SIM.ToString())
+                            </td>
+                            @*<td class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw(item.IMPUESTO_RULE == null ? " - " : item.IMPUESTO_RULE.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ","))
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw(item.IMPUESTO_SIM <= 0 ? " - " : item.IMPUESTO_SIM.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ","))
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw(item.IMPUEXENTO_RULE == null ? " - " : item.IMPUEXENTO_RULE.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ","))
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw(item.IMPUEXENTO_SIM <= 0 ? " - " : item.IMPUEXENTO_SIM.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ","))
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @if (@item.CANCELADO_RULE == null)
+                                    {
+                                        @Html.Raw(" - ")
+                                    }
+                                    else
+                                    {
+                                        @item.CANCELADO_RULE.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @if (@item.CANCELADO_SIM <= 0)
+                                    {
+                                        @Html.Raw(" - ")
+                                    }
+                                    else
+                                    {
+                                        @item.CANCELADO_SIM.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>*@
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

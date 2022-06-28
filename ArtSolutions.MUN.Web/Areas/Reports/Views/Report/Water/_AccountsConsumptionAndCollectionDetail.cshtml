@@ -1,0 +1,496 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountsConsumptionAndCollectionModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Data;
+
+@{
+    /**/
+
+    var totalRangeColumn = (Model.ColumnList != null && Model.ColumnList.Count() > 0) ? Model.ColumnList.Count() : 0;
+}
+
+<div class="row">
+    <div class="col-lg-12 m-t-lg m-b-md">
+        <div class="col-lg-2 box-border">
+            <div class="col-lg-12 no-padding">
+                <strong> @GlobalResource.Period  :  </strong>
+                <span id="spnPeriod"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row m-t-sm">
+    <div class="col-lg-12">
+        @ReportResource.InUnitsCubicMetersAndColonesTitle
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table id="tblAccountsConsumptionAndCollection" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th>
+                    *** @ReportResource.Categories
+                </th>
+                <th colspan="@totalRangeColumn" class="text-center">
+                    @ReportResource.ConsumerBlocks
+                </th>
+                <th class="text-center">
+                    @GlobalResource.Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+
+            @if (Model.DomesticWaterServiceList != null && Model.DomesticWaterServiceList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>* @ReportResource.WaterCategory</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+                for (int i = 0; i < Model.DomesticWaterServiceList.Rows.Count; i++)
+                {
+                    var row = Model.DomesticWaterServiceList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+            @if (Model.OrdinaryWaterServiceList != null && Model.OrdinaryWaterServiceList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>* @ReportResource.OrdinaryCategory</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+
+                for (int i = 0; i < Model.OrdinaryWaterServiceList.Rows.Count; i++)
+                {
+                    var row = Model.OrdinaryWaterServiceList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+            @if (Model.ReproductiveWaterServiceList != null && Model.ReproductiveWaterServiceList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>* @ReportResource.ReproductiveCategory</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+
+                for (int i = 0; i < Model.ReproductiveWaterServiceList.Rows.Count; i++)
+                {
+                    var row = Model.ReproductiveWaterServiceList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+            @if (Model.PreferedWaterServiceList != null && Model.PreferedWaterServiceList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>* @ReportResource.PreferenceCategory</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+
+                for (int i = 0; i < Model.PreferedWaterServiceList.Rows.Count; i++)
+                {
+                    var row = Model.PreferedWaterServiceList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+            @if (Model.GovernmentWaterServiceList != null && Model.GovernmentWaterServiceList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>* @ReportResource.GovernmentCategory</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+
+                for (int i = 0; i < Model.GovernmentWaterServiceList.Rows.Count; i++)
+                {
+                    var row = Model.GovernmentWaterServiceList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+
+            <tr class="sub-header font-bold">
+                <td></td>
+                @if (totalRangeColumn > 0)
+                {
+                    foreach (var item in Model.ColumnList)
+                    {
+                        <td class="text-center">
+                            @if (@item.ColumnName.Contains(">"))
+                            {
+                                @ReportResource.MoreThan120
+                            }
+                            else
+                            {
+                                @item.ColumnName
+                            }
+                        </td>
+                    }
+                }
+                <td></td>
+            </tr>
+            @if (Model.SummaryList != null && Model.SummaryList.Rows.Count > 0)
+            {
+                <tr class="sub-header font-bold">
+                    <td>
+                        <strong>@ReportResource.Summary</strong>
+                    </td>
+                    @for (int c = 0; c < totalRangeColumn; c++)
+                    {
+                        <td></td>
+                    }
+                    <td></td>
+                </tr>
+
+                for (int i = 0; i < Model.SummaryList.Rows.Count; i++)
+                {
+                    var row = Model.SummaryList.Rows[i];
+
+                    <tr>
+                        @for (int j = 0; j < row.ItemArray.Count(); j++)
+                        {
+                            if (i == 0 && j == 0)
+                            {
+                                <td>@ReportResource.Accounts</td>
+                            }
+                            else if (i == 1 && j == 0)
+                            {
+                                <td>@ReportResource.Consumption</td>
+                            }
+                            else if (i == 2 && j == 0)
+                            {
+                                <td>@GlobalResource.Collection</td>
+                            }
+                            else if (i == 3 && j == 0)
+                            {
+                                <td>@ReportResource.PercentageAccount</td>
+                            }
+                            else if (i == 4 && j == 0)
+                            {
+                                <td>@ReportResource.AverageConsumption</td>
+                            }
+                            else if (i == 5 && j == 0)
+                            {
+                                <td>@ReportResource.AverageCollection</td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints)
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,154 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyConstructionDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<form id="frmGeneralDescription">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="addresstitle">@LocalResource.NewConstructionDescription</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Type <span class="text-danger">*</span></label>
+                            @Html.DropDownListFor(d => d.MaterialTypeID, Model.MaterialTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", tabindex = 50 })
+                            @Html.ValidationMessageFor(d => d.MaterialTypeID)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.ConstructionType</label>
+                            @Html.DropDownListFor(d => d.ConstructionTypeID, Model.ConstructionTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 51 })
+                            @Html.HiddenFor(d => d.ID)
+                            @Html.Hidden("IndexID")
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.CurrentAge</label>
+                            @Html.TextBoxFor(d => d.TotalYears, new { @class = "form-control inputnumber", maxlength = 3, tabindex = 52 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.State</label>
+                            @Html.DropDownListFor(d => d.StatusID, Model.StatusList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 53 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.UsefulLife</label>
+                            @Html.TextBoxFor(d => d.UsefulLife, new { @class = "form-control inputnumber", maxlength = 20, tabindex = 54 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.NoFloors</label>
+                            @Html.TextBoxFor(d => d.Floors, new { @class = "form-control inputnumber text-right", maxlength = 3, tabindex = 55, @Value = Model.Floors > 0 ? Model.Floors : (int?)null })
+                            @Html.ValidationMessageFor(d => d.Floors)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.NoChambers</label>
+                            @Html.TextBoxFor(d => d.Chambers, new { @class = "form-control inputnumber text-right", maxlength = 3, tabindex = 56, @Value = Model.Chambers > 0 ? Model.Chambers : (int?)null })
+                            @Html.ValidationMessageFor(d => d.Chambers)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.InternalWalls</label>
+                            @Html.DropDownListFor(d => d.InternalWallsID, Model.InternalWallsList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 57 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.ExternalWalls</label>
+                            @Html.DropDownListFor(d => d.ExternalWallsID, Model.ExternalWallsList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 58 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Structure</label>
+                            @Html.DropDownListFor(d => d.StructureID, Model.StructureList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 59 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Roof</label>
+                            @Html.DropDownListFor(d => d.RoofID, Model.RoofList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 60 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Ceiling</label>
+                            @Html.DropDownListFor(d => d.CeilingID, Model.CeilingList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 61 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Floors</label>
+                            @Html.DropDownListFor(d => d.FloorID, Model.FloorsList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", tabindex = 62 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Bathroom</label>
+                            @Html.TextBoxFor(d => d.Bathroom, new { @class = "form-control inputdecimal text-right", maxlength = 8, tabindex = 63 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.BuildingArea) <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(d => d.BuildingArea, new { @class = "form-control required inputdecimal text-right", maxlength = 12, tabindex = 64 })
+                            @Html.ValidationMessageFor(d => d.BuildingArea)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.UnitValue)</label>
+                            @Html.TextBoxFor(d => d.UnitValue, new { @class = "form-control inputdecimal text-right", maxlength = 12, tabindex = 65, @Value = Model.UnitValue.HasValue ? Model.UnitValue.Value : 0, @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.BuildingTotalValue</label>
+                            @Html.TextBoxFor(d => d.TotalValue, new { @class = "form-control inputdecimal text-right", @readonly = true, maxlength = 18, tabindex = 66 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 hide">
+                        <div class="form-group">
+                            <label class="control-label padding-top-27">
+                                @Html.CheckBoxFor(x => x.IsDistributed, new { tabindex = 67 })
+                                <label class="control-label valign-middle">@LocalResource.DistributedBetweenRights</label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddConstruction" type="button" tabindex="68" class="btn btn-primary" data-form-type="1">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" tabindex="69" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>

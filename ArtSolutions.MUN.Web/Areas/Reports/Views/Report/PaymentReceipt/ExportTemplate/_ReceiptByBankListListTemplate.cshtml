@@ -1,0 +1,152 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptByBankList>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<table cellspacing="0" class="report-Table">
+    <tbody>
+        <tr>
+            <th> &nbsp;</th>
+            <th class="table-border-center-th">@LocalResource.ReceiptDate</th>
+            <th class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+            <th class="table-border-center-th">@GlobalResource.Name</th>
+            <th class="table-border-center-th">@LocalResource.Cash</th>
+            <th class="table-border-center-th">@LocalResource.ChequedelBancoNacional</th>
+            <th class="table-border-center-th">@LocalResource.CreditCard</th>
+            <th class="table-border-center-th">@LocalResource.BankTransferByBancodeCostaRica</th>
+            <th class="table-border-center-th">@LocalResource.ChequedelBancodeCostaRica</th>
+            <th class="table-border-center-th">@LocalResource.Adjustment</th>
+            <th class="table-border-center-th">@GlobalResource.Bank</th>
+            <th class="table-border-center-th">@LocalResource.BankTransferByBancoNacionaldeCostaRica</th>
+            <th class="table-border-center-th">@GlobalResource.CreditApplied</th>
+        </tr>
+        @if (Model == null && Model.Count() == 0)
+        {
+            <tr>
+                <td> &nbsp;</td>
+                <td colspan="13" class="table-bg-bold-center-td">
+                    <center>@GlobalResource.NoDataMessage</center>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.Select(d => d.ReceiptDate.Date).OrderBy(d => d).Distinct())
+            {
+                foreach (var objItem in Model.Where(d => d.ReceiptDate.Date == item))
+                {
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @objItem.ReceiptDate.ToString("d")
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @objItem.ReceiptNumber
+                        </td>
+                        <td class="table-border-center-td" style="@msoTextFormat">
+                            @objItem.AccountDisplayName
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.Cash.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.ChequedelBancoNacional.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.CreditCard.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.BankTransferByBancodeCostaRica.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.ChequedelBancodeCostaRica.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.Adjustment.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.Bank.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.BankTransferByBancoNacionaldeCostaRica.ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @objItem.ApplyCreditAmount.ToString(Common.NumberPoints)
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan="3" class="table-border-right-td">
+                        <strong>@GlobalResource.Total - @item.ToString("d")  </strong>
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Cash).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.ChequedelBancoNacional).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.CreditCard).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.BankTransferByBancodeCostaRica).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.ChequedelBancodeCostaRica).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Adjustment).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Bank).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.BankTransferByBancoNacionaldeCostaRica).ToString(Common.NumberPoints)
+                    </td>
+                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                        @Model.Where(d => d.ReceiptDate.Date == item && d.ApplyCreditAmount > 0).Sum(e => e.ApplyCreditAmount).ToString(Common.NumberPoints)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>&nbsp;</td>
+                <td colspan="3" class="table-border-right-td">
+                    <strong>@GlobalResource.Total - @Model.FirstOrDefault().BankAccount</strong>
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.Cash).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.ChequedelBancoNacional).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.CreditCard).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.BankTransferByBancodeCostaRica).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.ChequedelBancodeCostaRica).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.Adjustment).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.Bank).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Sum(e => e.BankTransferByBancoNacionaldeCostaRica).ToString(Common.NumberPoints)
+                </td>
+                <td class="table-border-center-td" style='@msoNumberFormat'>
+                    @Model.Where(d => d.ApplyCreditAmount > 0).Sum(d => d.ApplyCreditAmount).ToString(Common.NumberPoints)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

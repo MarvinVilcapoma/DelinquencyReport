@@ -1,0 +1,63 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptBySecurityBankAccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.SecurityDetailBankAccountTitle;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th width="40%" colspan="3" class="table-border-left-th">@GlobalResource.Bank</th>
+                    <th width="60%" colspan="14" class="table-border-left-th">@GlobalResource.BankAccount</th>
+                </tr>
+                @if (Model.SecurityBankAccountList != null && Model.SecurityBankAccountList.Count() > 0)
+                {
+                    foreach (var item in Model.SecurityBankAccountList)
+                    {
+                        <tr>
+                            <td colspan="3" class="table-border-left-td">
+                                @item.BankName
+                            </td>
+                            <td colspan="14" class="table-border-left-td">
+                                @item.BankAccount
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="table-border-left-td" colspan="17">
+                                @Html.Partial("~/Areas/Reports/Views/Report/PaymentReceipt/ExportTemplate/_ReceiptBySecurityBankAccountListTemplate.cshtml", item.BankAccountList)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="table-bg-bold-center-td" colspan="17">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@using (Ajax.BeginForm("UpdateRight", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "RightSuccessCallback(data)" }, new { role = "form", id = "frmAddRight", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>
+                    @if (Model.AccountPropertyID > 0)
+                    {
+                        @AccountPropertyResource.EditRight
+                    }
+                    else
+                    {
+                        @AccountPropertyResource.AddRight
+                    }
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Property <span class="text-danger hide" id="spRight">*</span></label>
+                    <div class="col-lg-8 m-t-xs">
+                        @Html.DropDownListFor(x => x.AccountPropertyID, Model.PropertyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlRight", tabindex = 15 })
+                        @Html.ValidationMessageFor(x => x.AccountPropertyID, "", new { id = "valRight" })
+                    </div>
+                </div>
+            </div>
+            @*Hidden Fields*@
+            @Html.HiddenFor(x => x.ID, new { @id = "hfID" })
+            @Html.HiddenFor(x => x.AccountPropertyID, new { @id = "hfAccountPropertyID" })
+            @Html.HiddenFor(x => x.RowVersion64, new { @id = "hfRowVersion64" })
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddRight" type="submit" class="btn btn-primary" data-ServiceTypeID="@Model.ServiceTypeID" tabindex="16">@GlobalResource.Save</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="17">@GlobalResource.Cancel</button>
+    </div>
+}

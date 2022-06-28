@@ -1,0 +1,94 @@
+﻿@using ArtSolutions.MUN.Web.Areas.Cases.Models
+@using ArtSolutions.MUN.Web.Areas.Workflows.ViewModel;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = GlobalResource.AccountingRecord;
+    List<CaseWorkflowStatus> WorkflowStatus = (List<CaseWorkflowStatus>)ViewBag.WorkflowStatusList;
+    int workflowID = Convert.ToInt32(((List<WorkflowViewModel>)ViewBag.WorkFlowList)[0].ID);
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>
+            @GlobalResource.Post
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "PostingProcess", new {area = "Collections" })">@GlobalResource.AccountingRecord </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        @Html.Hidden("hdnWorkflowID", workflowID)
+                        @{ Html.RenderPartial("~/Views/Shared/_WorkFlowStatus.cshtml", WorkflowStatus); }
+                        @*<button id="btnSave" type="button" name="actionType" value="1" tabindex="3" class="btn btn-primary">@GlobalResource.Save</button>*@
+                        <button class="btn btn-white" type="button" tabindex="4" onclick="window.location.href = '@Url.Action("Index", "PostingProcess")';">@GlobalResource.Cancel</button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-t-sm m-b">
+                        <div class="col-lg-12">
+                            <div class="form-inline">
+                                <div class="form-group m-r-md padding-bottom-5">
+                                    <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="5"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                </div>
+                                <label class="m-r-md">@GlobalResource.DocumentType</label>
+                                <div class="form-group w-300 m-r-md padding-bottom-5">
+                                    @Html.DropDownList("DocumentTypeID", (List<SelectListItem>)ViewBag.lstDocumentType, GlobalResource.All, new { @class = "form-control select2dropdown", tabindex = "6" })
+                                </div>
+                                <label class="m-r-md">@GlobalResource.AsofDate</label>
+                                <div class="form-group m-r-md padding-bottom-5">
+                                    @Html.TextBox("AsOfDate", "", new { @class = "form-control periodDate textblur", tabindex = "1", @data_required_msg = GlobalResource.FieldRequiredMessage })
+                                </div>
+                                <div class="form-group m-r-md padding-bottom-5">
+                                    <button type="button" class="btn btn-primary" id="btnSearch" tabindex="2">@GlobalResource.Go</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="JournalListForPosting">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    <script>
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        var RequiredSelectionMsg = '@GlobalResource.RequiredSelectionValidationMsg';
+        var pagelen = 60;
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+    </script>
+    <script src="~/Scripts/app/postingprocessadd.js"></script>
+}
+

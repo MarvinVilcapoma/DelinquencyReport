@@ -1,0 +1,16 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PrintTemplateModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = LocalResource.ViewSuspensionOrder;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+
+<div class="wrapper wrapper-content p-xl">
+    <div class="ibox-content p-xl">
+        @Html.Raw(Model.TemplateContent)
+    </div>
+</div>
+<script type="text/javascript">
+        window.print();
+</script>

@@ -1,0 +1,182 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = GlobalResource.AccountingRecord;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>
+            @GlobalResource.AccountingRecord
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <div class="btn-group">
+                            <a href="@Url.Action("NewPost")" class="btn btn-primary btn-xs" tabindex="3">@GlobalResource.NewAccountingRecord</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="4"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4 select2List" style="display:none">
+                            @Html.DropDownList("DocumentTypeID", (List<SelectListItem>)ViewBag.lstDocumentType, GlobalResource.All, new { @class = "input-sm form-control select2dropdown", tabindex = "5" })
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtSearch" tabindex="1" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="2">@GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-stripped" id="DatatableList"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var actions = '@Html.Raw(GlobalResource.Actions)';
+        var date = '@Html.Raw(GlobalResource.AsofDate)';
+        var number = '@Html.Raw(GlobalResource.SequenceNo)';
+        var documenttype = '@Html.Raw(GlobalResource.DocumentType)';
+        var status = '@Html.Raw(GlobalResource.Status)';
+        var amount = '@Html.Raw(GlobalResource.Amount)';
+        var availableAmount = '@Html.Raw(GlobalResource.AvailableAmount)';
+        var view = '@Html.Raw(GlobalResource.View)'
+
+
+        $(document).ready(function () {
+            $('#txtSearch').focus();
+            //if ($(".select2dropdown").length)
+            $(".select2dropdown").select2();
+            InitializeDataTable();
+        });
+
+        $(document).on('click', '#btnSearch', function () {
+            $('#DatatableList').DataTable().search($('#txtSearch').val()).draw();
+            $("#txtSearch").focus();
+        });
+
+        $("#btnrefresh").click(function () {
+            $("#txtSearch").focus();
+            $('#txtSearch').val('');
+            $("#DocumentTypeID").val("").trigger("change.select2");
+            InitializeDataTable();
+        });
+
+        function getDocumentTypeIDs() {
+            var selectDocumentTypeList = [];
+            if ($("#DocumentTypeID").select2('data').length) {
+                $.each($("#DocumentTypeID").select2('data'), function (key, item) {
+                    if (item.id != 0)
+                        selectDocumentTypeList += "," + item.id;
+                });
+            }
+            var selectedDocumentTypeIDs = "";
+            if (selectDocumentTypeList.length > 0)
+                selectedDocumentTypeIDs = selectDocumentTypeList.substring(1, selectDocumentTypeList.length);
+            return selectedDocumentTypeIDs;
+        }
+
+        function InitializeDataTable(tableName) {
+            $('#DatatableList').dataTable({
+                "oLanguage": {
+                    "sEmptyTable": nodatamsg,
+                    oPaginate: {
+                        sPrevious: previous,
+                        sNext: next
+                    }
+                },
+                "serverSide": true,
+                "processing": true,
+                "bFilter": false,
+                "bInfo": false,
+                "bLengthChange": false,
+                "autoWidth": false,
+                "pageLength": pageSize,
+                "ordering": true,
+                "order": [[0, "desc"]],
+                "conditionalPaging": true,
+                "ajax": {
+                    "url": ROOTPath + '/PostingProcess/Get',
+                    "type": "POST",
+                    "data": function (data) {
+                        data.filterText = $("#txtSearch").val();
+                        data.DocumentTypeID = getDocumentTypeIDs();
+                    }
+                },
+                destroy: true,
+                "columns": [
+                    {
+                        name: "SequenceID", title: number, "data": "SequenceID", className: "col-lg-2"
+                    },
+                    {
+                        name: "AsOfDate", title: date, "data": "FormattedDate", className: "col-lg-2"
+                    },
+                    {
+                        name: "DocumentType", title: documenttype, "data": "DocumentType", className: "col-lg-4"
+                    },
+                    {
+                        name: "Status", title: status, "data": "Status", className: "col-lg-2"
+                    },
+                    {
+                        name: "Amount", title: amount, "data": "FormattedAmount", className: "col-lg-2 text-right"
+                    },
+                    {
+                        name: "Actions",
+                        title: actions,
+                        className: "col-lg-1 text-right",
+                        "bSortable": false,
+                        "data": function (row) {
+                            var str = "";
+                            //str = '<a href=' + ROOTPath + "/Collections/PostingProcess/NewPost?ID=" + row.ID + ' class="btn btn-white btn-sm text-right"><i class="fa fa-folder"></i> ' + view + ' </a>';
+                            str = '<a href=' + ROOTPath + "/Collections/PostingProcess/View?ID=" + row.ID + ' class="btn btn-white btn-sm text-right"><i class="fa fa-folder"></i> ' + view + ' </a>';
+
+                            return str;
+                        }
+                    }
+                ],
+                "createdRow": function (row, data, dataIndex) {
+                }
+            });
+        }
+    </script>    
+}
+
+
+

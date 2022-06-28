@@ -1,0 +1,103 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseGeneralModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.GeneralBusinessLicenseTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                <tr>
+                    <th width="8%" class="table-border-center-th">@LocalResource.District</th>
+                    <th width="8%" class="table-border-center-th">@LocalResource.PatentNumber</th>
+                    <th width="8%" class="table-border-center-th">@LocalResource.CeduIa</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.PhoneNumber</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.Email</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.LandUseCertificate</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.ResolutionLocation</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.SanitaryOperatingPermit</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.Expiration</th>                    
+                    <th width="9%" class="table-border-center-th">@LocalResource.BalanceByQuarter</th>
+                </tr>
+                @if (Model.BusinessLicenseGeneralList != null && Model.BusinessLicenseGeneralList.Count() > 0)
+                {
+                    foreach (var item in Model.BusinessLicenseGeneralList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.District
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.PatentNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.TaxNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.PhoneNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Email
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CustomField1
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CustomField2
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CustomField3
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CustomField4
+                            </td>                            
+                            <td class="table-border-right-td">
+                                @item.Balance.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="9" class="table-bg-bold-right-td"> @LocalResource.TotalBalance  </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseGeneralList != null && Model.BusinessLicenseGeneralList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseGeneralList.Sum(i => i.Balance).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

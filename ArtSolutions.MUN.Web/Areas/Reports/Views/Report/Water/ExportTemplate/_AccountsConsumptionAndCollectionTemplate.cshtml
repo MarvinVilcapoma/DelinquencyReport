@@ -1,0 +1,546 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountsConsumptionAndCollectionModel
+@using ArtSolutions.MUN.Web.Helpers
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Data;
+
+
+@{
+    /**/
+
+    ViewBag.Title = ReportResource.AccountsConsumptionAndCollectionTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+    var totalRangeColumn = (Model.ColumnList != null && Model.ColumnList.Count() > 0) ? Model.ColumnList.Count() : 0;
+    var totalColumn = totalRangeColumn + 2;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%">                       
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="55%" colspan="7">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td width="15%" class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td width="15%" class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>@GlobalResource.Period: </strong>@Model.ReportCompanyModel.Period
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td colspan="@totalColumn">
+                        @ReportResource.InUnitsCubicMetersAndColonesTitle
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th class="table-border-left-th">
+                        *** @ReportResource.Categories
+                    </th>
+                    <th colspan="@totalRangeColumn" class="table-border-center-th">
+                        @ReportResource.ConsumerBlocks
+                    </th>
+                    <th class="table-border-center-th">
+                        @GlobalResource.Total
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.DomesticWaterServiceList != null && Model.DomesticWaterServiceList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>* @ReportResource.WaterCategory</strong>
+                        </td>
+                    </tr>
+                    for (int i = 0; i < Model.DomesticWaterServiceList.Rows.Count; i++)
+                    {
+                        var row = Model.DomesticWaterServiceList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.OrdinaryWaterServiceList != null && Model.OrdinaryWaterServiceList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>* @ReportResource.OrdinaryCategory</strong>
+                        </td>
+                    </tr>
+
+                    for (int i = 0; i < Model.OrdinaryWaterServiceList.Rows.Count; i++)
+                    {
+                        var row = Model.OrdinaryWaterServiceList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.ReproductiveWaterServiceList != null && Model.ReproductiveWaterServiceList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>* @ReportResource.ReproductiveCategory</strong>
+                        </td>
+                    </tr>
+
+                    for (int i = 0; i < Model.ReproductiveWaterServiceList.Rows.Count; i++)
+                    {
+                        var row = Model.ReproductiveWaterServiceList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.PreferedWaterServiceList != null && Model.PreferedWaterServiceList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>* @ReportResource.PreferenceCategory</strong>
+                        </td>
+                    </tr>
+
+                    for (int i = 0; i < Model.PreferedWaterServiceList.Rows.Count; i++)
+                    {
+                        var row = Model.PreferedWaterServiceList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.GovernmentWaterServiceList != null && Model.GovernmentWaterServiceList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>* @ReportResource.GovernmentCategory</strong>
+                        </td>
+                    </tr>
+
+                    for (int i = 0; i < Model.GovernmentWaterServiceList.Rows.Count; i++)
+                    {
+                        var row = Model.GovernmentWaterServiceList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+
+                <tr>
+                    <th class="table-border-center-th"></th>
+                    @if (totalRangeColumn > 0)
+                    {
+                        foreach (var item in Model.ColumnList)
+                        {
+                            <th class="table-border-center-th">
+                                @if (@item.ColumnName.Contains(">"))
+                                {
+                                    @ReportResource.MoreThan120
+                                }
+                                else
+                                {
+                                    @item.ColumnName
+                                }
+                            </th>
+                        }
+                    }
+                    <th class="table-border-center-th"></th>
+                </tr>
+                @if (Model.SummaryList != null && Model.SummaryList.Rows.Count > 0)
+                {
+                    <tr>
+                        <td class="table-border-left-th" colspan="@totalColumn">
+                            <strong>@ReportResource.Summary</strong>
+                        </td>
+                    </tr>
+
+                    for (int i = 0; i < Model.SummaryList.Rows.Count; i++)
+                    {
+                        var row = Model.SummaryList.Rows[i];
+
+                        <tr>
+                            @for (int j = 0; j < row.ItemArray.Count(); j++)
+                            {
+                                if (i == 0 && j == 0)
+                                {
+                                    <td>@ReportResource.Accounts</td>
+                                }
+                                else if (i == 1 && j == 0)
+                                {
+                                    <td>@ReportResource.Consumption</td>
+                                }
+                                else if (i == 2 && j == 0)
+                                {
+                                    <td>@GlobalResource.Collection</td>
+                                }
+                                else if (i == 3 && j == 0)
+                                {
+                                    <td>@ReportResource.PercentageAccount</td>
+                                }
+                                else if (i == 4 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageConsumption</td>
+                                }
+                                else if (i == 5 && j == 0)
+                                {
+                                    <td>@ReportResource.AverageCollection</td>
+                                }
+                                else
+                                {
+                                    <td class="table-border-center-td" style='@msoNumberFormat'>
+                                        @Convert.ToDecimal(@row.ItemArray[j]).ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

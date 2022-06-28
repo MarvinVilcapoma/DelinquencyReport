@@ -1,0 +1,60 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.JobSchedulerHistoryModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="JobSchedulerHistoryTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th width="30%" class="text-center">
+                    @GlobalResource.Name
+                </th>
+                <th width="10%" class="text-center">
+                    @GlobalResource.StartDate
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.StartTime
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.LastRunningDate
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.LastRunningTime
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.Duration
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.Frequency
+                </th>
+                <th width="10%" class="text-center">
+                    @GlobalResource.Status
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+            @if (Model.JobSchedulerHistoryList != null && Model.JobSchedulerHistoryList.Count() > 0)
+            {
+                foreach (var item in Model.JobSchedulerHistoryList)
+                {
+
+                    <tr>
+                        <td class="text-center">
+                            @item.JobName
+
+                        </td>
+                        <td class="text-center">
+                            @item.Start_Date.Value.ToString("d")
+                        </td>
+                        <td class="text-center">@item.Start_Time.Value.ToString(@"hh\:mm\:ss")</td>
+                        <td class="text-center">@item.Last_Running_Date.Value.ToString("d")</td>
+                        <td class="text-center">@item.Last_Running_Time.Value.ToString(@"hh\:mm\:ss")</td>
+                        <td class="text-center">@item.Duration</td>
+                        <td class="text-center">@item.Frequency</td>
+                        <td class="text-center">@item.RunStatus</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

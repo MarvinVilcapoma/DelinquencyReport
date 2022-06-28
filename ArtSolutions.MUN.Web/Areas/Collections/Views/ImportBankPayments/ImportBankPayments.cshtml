@@ -1,0 +1,86 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.ImportBankPaymentsFieldModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+
+@{
+    ViewBag.Title = GlobalResource.ImportBankPayments;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.PaymentReceipt</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Payment", new { area = "Collections" })">@LocalResource.ListPaymentReceipt</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Ajax.BeginForm("", "", null, new { id = "frmImportBankPayments", @class = "wizard-big", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <h1>@AccountResource.ImportStep1</h1>
+                        <fieldset class="divFileUpload">
+                            @{Html.RenderPartial("~/Areas/Collections/Views/ImportBankPayments/_UploadFile.cshtml");}
+                        </fieldset>
+                        <h1>@AccountResource.ImportStep3</h1>
+                        <fieldset class="divValidation"></fieldset>
+                        <h1>@GlobalResource.Finish</h1>
+                        <fieldset class="divFinish"></fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/wizardStepsStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    <style type="text/css">
+        .wizard-big.wizard > .content {
+            min-height: 450px !important;
+            overflow-y: auto;
+        }
+
+        .footable ul.pagination > li {
+            display: inline !important;
+        }
+
+        .wizard > .content > .body {
+            position: relative !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/wizardSteps")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        var nextText = '@GlobalResource.Next',
+            previousText = '@GlobalResource.Previous',
+            cancelText = '@GlobalResource.Cancel',
+            finishText = '@GlobalResource.Finish';
+            importBankPaymentProcessInfoMsg = '@Html.Raw(LocalResource.ImportBankPaymentProcessInfoMsg)';
+    </script>
+    <script src="~/Scripts/app/bankpaymentsimport.js"></script>
+}

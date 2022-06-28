@@ -1,0 +1,140 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionTemplateModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    int panelYearId = int.Parse(ViewBag.TemplateYearId);
+    List<ServiceCollectionTemplateDetailModel> list = Model.ServiceCollectionTemplateDetailList.Where(x => x.YearID == panelYearId).ToList();
+}
+@if (list.Count() == 0)
+{
+    <tr>
+        <td colspan="7" class="col-lg-12">
+            <center> @GlobalResource.NoDataMessage </center>
+        </td>
+    </tr>
+}
+else
+{
+    for (int i = Model.ServiceCollectionTemplateDetailList.FindIndex(x => x.YearID == panelYearId); i <= Model.ServiceCollectionTemplateDetailList.FindLastIndex(x => x.YearID == panelYearId); i++)
+    {
+
+        <tr id="@Model.ServiceCollectionTemplateDetailList[i].ID">
+            <td class="col-lg-2">
+                @Html.DropDownListFor(x => x.ServiceCollectionTemplateDetailList[i].CollectionTypeID, new SelectList(Model.CollectionTypeList, "Value", "Text", Model.ServiceCollectionTemplateDetailList[i].CollectionTypeID), GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown" })
+            </td>
+            <td class="col-lg-2">
+                @Html.DropDownListFor(x => x.ServiceCollectionTemplateDetailList[i].GrantID, new SelectList(Model.GrantList, "ID", "Name", Model.ServiceCollectionTemplateDetailList[i].GrantID), GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown", @onchange = "GetGrantAccounts(this," + i + ");" })
+                @Html.HiddenFor(x => x.ServiceCollectionTemplateDetailList[i].GrantCode, new { @Class = "GrantCode" })
+                @Html.HiddenFor(x => x.ServiceCollectionTemplateDetailList[i].GrantName, new { @Class = "GrantName" })
+            </td>
+            <td class="col-lg-2">
+                <span class="Checkbook">
+                    <select name="@Html.NameFor(d=>d.ServiceCollectionTemplateDetailList[i].CheckbookID)"
+                            id="@Html.IdFor(d=>d.ServiceCollectionTemplateDetailList[i].CheckbookID)"
+                            class="form-control required select2dropdown ddlCheckbook">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                        @foreach (var Item in Model.ServiceCollectionTemplateDetailList[i].CheckbookAccountList)
+                    {
+                            <option value="@Item.CheckbookId"
+                                    @Html.Raw(Item.CheckbookId == Model.ServiceCollectionTemplateDetailList[i].CheckbookID ? "selected" : "")
+                                    data-code="@Item.Code"
+                                    data-name="@Item.Name"
+                                    data-financepaymentaccountid="@Item.FinancePaymentAccountID"
+                                    data-financeaccountname="@Item.FinanceAccountName"
+                                    data-codefriendly="@Item.CodeFriendly">
+                               @Html.Raw(Item.Code+ " - "+ Item.Name)
+                            </option>
+                        }
+
+                    </select>
+                </span>
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CheckbookCode, new { @class = "CheckbookCode" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CheckbookName, new { @class = "CheckbookName" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CashAccountCode, new { @class = "CashAccountCode" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CashAccountName, new { @class = "CashAccountName" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CashAccountID, new { @class = "CashAccountID" })
+            </td>
+            <td class="col-lg-2">
+                @*@Html.DropDownListFor(x => x.ServiceCollectionTemplateDetailList[i].ReceivableAccountID, new SelectList(Model.ServiceCollectionTemplateDetailList[i].ReceivableAccountList, "ID", "NameFriendly", Model.ServiceCollectionTemplateDetailList[i].ReceivableAccountID), GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown ddlaccountReceivable" })*@
+                <span class="accountReceivable">
+                    <select name="@Html.NameFor(d=>d.ServiceCollectionTemplateDetailList[i].ReceivableAccountID)"
+                            id="@Html.IdFor(d=>d.ServiceCollectionTemplateDetailList[i].ReceivableAccountID)"
+                            class="form-control required select2dropdown ddlaccountReceivable">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                        @foreach (var Item in Model.ServiceCollectionTemplateDetailList[i].ReceivableAccountList)
+                    {
+                        <option value="@Item.ID"
+                                @Html.Raw(Item.ID == Model.ServiceCollectionTemplateDetailList[i].ReceivableAccountID ? "selected" : "")
+                                data-code="@Item.CodeFriendly"
+                                data-name="@Item.Name">
+                            @Item.NameFriendly
+                        </option>
+                        }
+
+                    </select>
+                </span>
+
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].ReceivableCode, new { @class = "ReceivableCode" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].ReceivableName, new { @class = "ReceivableName" })
+            </td>
+            <td class="col-lg-2">
+                @*  @Html.DropDownListFor(x => x.ServiceCollectionTemplateDetailList[i].RevenueAccountID, new SelectList(Model.ServiceCollectionTemplateDetailList[i].RevenueAccountList, "ID", "NameFriendly", Model.ServiceCollectionTemplateDetailList[i].RevenueAccountID), GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown ddlaccountRevenue" })*@
+                <span class="accountRevenue">
+                    <select name="@Html.NameFor(d=>d.ServiceCollectionTemplateDetailList[i].RevenueAccountID)"
+                            id="@Html.IdFor(d=>d.ServiceCollectionTemplateDetailList[i].RevenueAccountID)"
+                            class="form-control required select2dropdown ddlaccountRevenue">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                        @foreach (var Item in Model.ServiceCollectionTemplateDetailList[i].RevenueAccountList)
+                    {
+                        <option value="@Item.ID"
+                                @Html.Raw(Item.ID == Model.ServiceCollectionTemplateDetailList[i].RevenueAccountID ? "selected" : "")
+                                data-code="@Item.CodeFriendly"
+                                data-name="@Item.Name">
+                            @Item.NameFriendly
+                        </option>
+                        }
+
+                    </select>
+                </span>
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].RevenueCode, new { @class = "RevenueCode" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].RevenueName, new { @class = "RevenueName" })
+            </td>
+            <td class="col-lg-2">
+                <span class="accountCredit">
+                    <select name="@Html.NameFor(d=>d.ServiceCollectionTemplateDetailList[i].CreditAccountID)"
+                            id="@Html.IdFor(d=>d.ServiceCollectionTemplateDetailList[i].CreditAccountID)"
+                            class="form-control required select2dropdown ddlaccountCredit">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                        @foreach (var Item in Model.ServiceCollectionTemplateDetailList[i].RevenueAccountList)
+                    {
+                            <option value="@Item.ID"
+                                    @Html.Raw(Item.ID == Model.ServiceCollectionTemplateDetailList[i].CreditAccountID ? "selected" : "")
+                                    data-code="@Item.CodeFriendly"
+                                    data-name="@Item.Name">
+                                @Item.NameFriendly
+                            </option>
+                        }
+
+                    </select>
+                </span>
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CreditAccountCode, new { @class = "CreditAccountCode" })
+                @Html.HiddenFor(d => d.ServiceCollectionTemplateDetailList[i].CreditAccountName, new { @class = "CreditAccountName" })
+            </td>
+            <td class="col-lg-1 text-center">
+                @Html.TextBoxFor(x => x.ServiceCollectionTemplateDetailList[i].Percentage, new { @Value = Model.ServiceCollectionTemplateDetailList[i].Percentage.ToString(Common.DecimalPoints), @class = "form-control required inputpercentage width90 text-right" })
+            </td>
+            <td class="col-lg-1 text-center">
+                @if (!Model.EnableViewMode)
+                {
+                <a id="btnRemoveRow" class='btn btn-danger btn-xs btn-circle actioninput' title="@GlobalResource.Remove" onclick="removeDetailRow(this);"><i class='fa fa-times'></i></a>
+                }
+            </td>
+            @*Hidden Fields*@
+            @Html.HiddenFor(x => x.ServiceCollectionTemplateDetailList[i].IsRemoved, new { @class = "removedRow" })
+            @Html.HiddenFor(x => x.ServiceCollectionTemplateDetailList[i].YearID)
+        </tr>
+    }
+}
+
+

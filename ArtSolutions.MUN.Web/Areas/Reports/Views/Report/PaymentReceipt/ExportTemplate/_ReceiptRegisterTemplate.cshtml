@@ -1,0 +1,132 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptRegisterModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ReceiptRegister;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.PaymentGroup</th>
+                    <th width="13%" class="table-border-center-th">@Html.Raw(@LocalResource.StatuBatchNumber)</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.BankAccount</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.Collector</th>
+                    <th width="12%" class="table-border-center-th">@LocalResource.TotalAmountAuxiliaryReceipt</th>
+                    <th width="12%" class="table-border-center-th">@LocalResource.TotalAmountOfficialTicket</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count() > 0)
+                {
+                    foreach (var objitem in Model.ReceiptRegisterList.GroupBy(d => d.Number).Select(d => d.Key).ToList())
+                    {
+                        foreach (var item in Model.ReceiptRegisterList.Where(d => d.Number == objitem).ToList())
+                        {
+                            <tr>
+                                <td class="table-border-left-td">
+                                    @item.Number
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedDate
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.AccountDisplayName
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.PaymentType
+                                </td>
+                                <td class="table-border-left-td">
+                                    @Html.Raw(@item.FormattedStatusBatchNumber)
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.Bank
+                                </td>
+                                <td class="table-border-left-td">
+                                    @item.FormattedCashier
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @if (item.TotalAmountAuxiliaryReceipt > 0)
+                                    {
+                                        @item.TotalAmountAuxiliaryReceipt.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-right-td" style='@msoNumberFormat'>
+                                    @if (item.TotalAmountOfficialReceipt > 0)
+                                    {
+                                        @item.TotalAmountOfficialReceipt.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-right-td" colspan="7">
+                                @GlobalResource.Total
+                            </td>
+                            <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                                @{
+                                    decimal total = Model.ReceiptRegisterList.Where(d => d.Number == objitem.ToString()).Sum(d => d.TotalAmountOfficialReceipt);
+                                }
+                                @total.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-bg-bold-center-td">  </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="7" class="table-bg-bold-right-td"> @GlobalResource.Total : </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count() > 0)
+                        {
+                            @Model.ReceiptRegisterList.Sum(i => i.TotalAmountAuxiliaryReceipt).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count() > 0)
+                        {
+                            @Model.ReceiptRegisterList.Sum(i => i.TotalAmountOfficialReceipt).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

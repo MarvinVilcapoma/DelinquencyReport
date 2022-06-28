@@ -1,0 +1,165 @@
+﻿
+@model ArtSolutions.MUN.Web.Areas.Collections.Models.InvoiceDetailModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using HtmlHelpers.BeginCollectionItem;
+@{string Class = Model.ID > 0 && Model.FINGrantID > 0 ? "col-lg-2" : "col-lg-6"; }
+<tr>
+    @using (Html.BeginCollectionItem("InvoiceDetail"))
+    {
+        @*<td class="@Class">
+                 @Html.HiddenFor(d => d.ID)
+                 @if (Model.ID == 0)
+                 {
+                     @Html.DropDownListFor(x => x.ItemTypeID, Model.InvoiceTypeList, GlobalResource.DropDownSelectMessage, new
+            {
+                @class = "form-control select2dropdown required ddlItemType",
+                tabindex = 6,
+                @onchange = "LoadCollectionItem(this)",
+                @id = "ddlItemType"
+            })
+                 }
+                 else
+                 {
+                     @Html.DropDownListFor(x => x.ItemTypeID, Model.InvoiceTypeList, GlobalResource.DropDownSelectMessage, new
+            {
+                @class = "form-control select2dropdown required ddlItemType",
+                tabindex = 6,
+                @onchange = "LoadCollectionItem(this)",
+                @id = "ddlItemType",
+                @disabled = true
+            })
+                     @Html.HiddenFor(d => d.ItemTypeID)
+                 }
+                 @Html.ValidationMessageFor(x => x.ItemTypeID)
+             </td>*@
+        <td class="@Class itemtypelist">
+            @if (Model.ID == 0)
+            {
+                @*<select class="form-control select2dropdown required" tabindex="6">
+                        <option>
+                            @GlobalResource.DropDownSelectMessage
+                        </option>
+                    </select>*@
+                @Html.DropDownListFor(x => x.ServiceID, new SelectList(Model.ServiceList, "ID", "Name", Model.ServiceID), GlobalResource.DropDownSelectMessage, new
+              {
+                  @class = "form-control select2dropdown required",
+                  tabindex = 6
+
+              })
+                @Html.ValidationMessageFor(x => x.ServiceID)
+            }
+            else
+            {
+                if (Model.FINGrantID > 0)
+                {
+
+                    <select name="@Html.NameFor(d=>d.FINGrantID)"
+                            id="@Html.IdFor(d=>d.FINGrantID)"
+                            class="form-control required select2dropdown" tabindex="6" onchange="FillFINGranName(this)">
+                        <option value="">@GlobalResource.DropDownSelectMessage</option>
+                        @foreach (var item in Model.FinClassGrantList)
+                        {
+                            <option value="@item.ID"
+                                    @Html.Raw(item.ID == Model.FINGrantID ? "selected" : "")
+                                    data-code="@item.Code" data-name="@item.Name"
+                                    data-receivableaccountid="@item.ReceivableAccountID"
+                                    data-receivableaccountcode="@item.ReceivableCode"
+                                    data-receivableaccountname="@item.ReceivableName"
+                                    data-revenueaccountid="@item.RevenueAccountID"
+                                    data-revenueaccountcode="@item.RevenueCode"
+                                    data-revenueaccountname="@item.RevenueName"
+                                    data-creditaccountid="@item.CreditAccountID"
+                                    data-creditaccountcode="@item.CreditAccountCode"
+                                    data-creditaccountname="@item.CreditAccountName">
+                                @item.Name
+                            </option>
+                        }
+                    </select>
+
+
+                    @Html.HiddenFor(d => d.FINGrantName, new { @class = "FinGrantName" })
+                    @Html.HiddenFor(d => d.FINGrantCode, new { @class = "FinGrantCode" })
+                    @Html.ValidationMessageFor(x => x.FINGrantID)
+
+                    @Html.HiddenFor(d => d.ReceivableAccountID, new { @class = "ReceivableAccountID" })
+                    @Html.HiddenFor(d => d.ReceivableCode, new { @class = "ReceivableCode" })
+                    @Html.HiddenFor(d => d.ReceivableName, new { @class = "ReceivableName" })
+
+                    @Html.HiddenFor(d => d.RevenueAccountID, new { @class = "RevenueAccountID" })
+                    @Html.HiddenFor(d => d.RevenueCode, new { @class = "RevenueCode" })
+                    @Html.HiddenFor(d => d.RevenueName, new { @class = "RevenueName" })
+
+                    @*@Html.HiddenFor(d => d.CashAccountID, new { @class = "CashAccountID" })
+                        @Html.HiddenFor(d => d.CashAccountCode, new { @class = "CashAccountCode" })
+                        @Html.HiddenFor(d => d.CashAccountName, new { @class = "CashAccountName" })*@
+
+                    @Html.HiddenFor(d => d.CreditAccountID, new { @class = "CreditAccountID" })
+                    @Html.HiddenFor(d => d.CreditAccountCode, new { @class = "CreditAccountCode" })
+                    @Html.HiddenFor(d => d.CreditAccountName, new { @class = "CreditAccountName" })
+
+                    @*@Html.HiddenFor(d => d.CheckbookID, new { @class = "CheckbookID" })
+                        @Html.HiddenFor(d => d.CheckbookCode, new { @class = "CheckbookCode" })
+                        @Html.HiddenFor(d => d.CheckbookName, new { @class = "CheckbookName" })*@
+                }
+                else
+                {
+                    @Html.DropDownListFor(x => x.ServiceID, new SelectList(Model.ServiceList, "ID", "Name", Model.ServiceID), GlobalResource.DropDownSelectMessage, new
+               {
+                   @class = "form-control select2dropdown required",
+                   tabindex = 6
+
+               })
+                    @Html.ValidationMessageFor(x => x.ServiceID)
+                }
+            }
+
+        </td>
+        if (Model.FINGrantID > 0)
+        {
+            <td class="col-lg-2 checkbooklist">
+
+                <select name="@Html.NameFor(d => d.CheckbookID)"
+                        id="@Html.IdFor(d => d.CheckbookID)"
+                        class="form-control required select2dropdown" tabindex="6" onchange="FillCheckbookName(this)">
+                    <option value="">@GlobalResource.DropDownSelectMessage</option>
+                    @foreach (var item in Model.FinCheckBookList)
+                    {
+                        <option value="@item.CheckbookId"
+                                @Html.Raw(item.CheckbookId == Model.CheckbookID ? "selected" : "")
+                                data-cashaccountid="@item.FinancePaymentAccountID"
+                                data-cashaccountcode="@item.FincanceAccountCode"
+                                data-cashaccountname="@item.FinanceAccountName"
+                                data-checkbookcode="@item.Code"
+                                data-checkbookname="@item.Name">
+                            @Html.Raw(item.Code + " - " + item.Name)
+                        </option>
+                    }
+                </select>
+
+                @Html.HiddenFor(d => d.CashAccountID, new { @class = "CashAccountID" })
+                @Html.HiddenFor(d => d.CashAccountCode, new { @class = "CashAccountCode" })
+                @Html.HiddenFor(d => d.CashAccountName, new { @class = "CashAccountName" })
+
+                @Html.HiddenFor(d => d.CheckbookID, new { @class = "CheckbookID" })
+                @Html.HiddenFor(d => d.CheckbookCode, new { @class = "CheckbookCode" })
+                @Html.HiddenFor(d => d.CheckbookName, new { @class = "CheckbookName" })
+            </td>
+        }
+        <td class="col-lg-3">
+            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", rows = "2", tabindex = 6 })
+            @Html.HiddenFor(d => d.ItemTypeID, new { @Value = 1 })
+        </td>
+        <td class="@Html.Raw((Model.ID > 0 && !(Model.FINGrantID > 0))?"col-lg-3":"col-lg-2")">
+            @Html.TextBoxFor(x => x.Total, new { @class = "form-control text-right Currencyinputdecimal DetailAmount", tabindex = 6, onchange = "UpdateTotalAmount(this)", @id = "txtDetailAmount", @Value = Model.Total.HasValue ? Model.Total.Value.ToString(Common.DecimalPoints) : null })
+            @Html.ValidationMessageFor(x => x.Total)
+            @Html.HiddenFor(x => x.ID)
+        </td>
+        //if (Model.ID == 0 || (Model.ID > 0 && Model.FINGrantID > 0))
+        //{
+        <td class=" text-center col-lg-1 actionlist">
+            <a id="btnRemoveRule" class='btn btn-danger btn-xs btn-circle' onclick="removeRule(this);"><i class='fa fa-times'></i></a>
+        </td>
+        @*}*@
+
+    }
+</tr>

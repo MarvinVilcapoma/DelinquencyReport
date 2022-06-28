@@ -1,0 +1,97 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowSecurityGroupUsersViewModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow;
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div class="wrapper wrapper-content">
+    <div class="row animated fadeInRight">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <button class="btn btn-primary" id="btnSave" type="button" tabindex="9">
+                            @GlobalResource.Save
+                        </button>
+                        <a class="btn btn-default" href="@Url.Action("Editor","Workflow",new { area="Workflows", id=Model.WorkFlowID, documentTypeID=Model.DocumentTypeID })" tabindex="9">
+                            @GlobalResource.Cancel
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group no-margins">
+                                <label class="col-lg-4 control-label"></label>
+                                <div class="col-lg-8">
+                                    <label>@LocalResource.Select</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group no-margins">
+                                <label class="col-lg-4 control-label"></label>
+                                <div class="col-lg-8">
+                                    <label>@LocalResource.Assignto</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-2 control-label text-right" style="margin-top:100px;">
+                            @LocalResource.User
+                        </label>
+                        <div class="col-lg-10" id="div_Assign_Group">
+                            <select id="GroupList" name="GroupList" multiple="multiple">
+                                @foreach (var user in Model.Users)
+                                {
+                                    string selected = Model.SecurityUserList.Any(a => a.UserID == user.UserID) ? "selected" : string.Empty;
+                                    <option value="@user.UserID" @selected>@user.FullName</option>
+                                }
+                            </select>
+                            <input type="hidden" name="hdnGroupID" id="hdnGroupID" value="@Model.ID" />
+                            <input type="hidden" name="hdnWorkflowID" id="hdnWorkflowID" value="@Model.WorkFlowID" />
+                            <input type="hidden" name="hdnDocumentTypeID" id="hdnDocumentTypeID" value="@Model.DocumentTypeID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles{
+    @Styles.Render("~/plugins/DualListBoxStyle")
+    <style>
+        #bootstrap-duallistbox-nonselected-list_GroupList, #bootstrap-duallistbox-selected-list_GroupList {
+            padding: 15px !important;
+            overflow: auto !important;
+        }
+
+            #bootstrap-duallistbox-nonselected-list_GroupList option, #bootstrap-duallistbox-selected-list_GroupList option {
+                padding: 3px 0px 3px 7px !important;
+            }
+
+        .bootstrap-tagsinput {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+            .bootstrap-tagsinput .label {
+                font-size: 12px;
+                font-weight: normal;
+            }
+    </style>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/DualListBox")
+    <script>
+        var moveAll = "@GlobalResource.MoveAll",
+            removeAll = "@GlobalResource.RemoveAll";
+    </script>
+    <script src="~/Scripts/app/workflowgroupuseradd.js"></script>
+}
+
+

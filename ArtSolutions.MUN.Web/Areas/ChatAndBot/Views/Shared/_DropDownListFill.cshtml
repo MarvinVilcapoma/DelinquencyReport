@@ -1,0 +1,10 @@
+﻿@if (ViewBag.DropDownData != null)
+{
+    var Modal = ((List<SelectListItem>)ViewBag.DropDownData);
+    
+    foreach (var item in Model)
+    {    
+        <option value="@item.Value" @(item.Selected ? "selected=selected":"") >@item.Text</option>
+    }
+}
+

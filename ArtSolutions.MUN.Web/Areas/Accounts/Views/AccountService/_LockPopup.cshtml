@@ -1,0 +1,55 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@using (Ajax.BeginForm("LockService", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "LockSuccessCallback(data)" }, new { role = "form", id = "frmAccountService_Lock", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.LockService </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                @if (Model.IsLock == false)
+                {
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label">@LocalResource.LockReason <span class="text-danger">*</span></label>
+                        <div class="col-lg-9 m-t-xs">
+                            @Html.DropDownListFor(x => x.LockReasonTableValue, Model.LockReasonList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", tabindex = 1, @id = "ddlLockReason" })
+                            @Html.ValidationMessageFor(x => x.LockReasonTableValue)
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label">@GlobalResource.Action <span class="text-danger">*</span></label>
+                        <div class="col-lg-9 m-t-xs">
+                            @Html.DropDownListFor(x => x.LockActionTableValue, Model.LockApplyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", tabindex = 1, @id = "ddlLockApply" })
+                            @Html.ValidationMessageFor(x => x.LockApplyList)
+                        </div>
+                    </div>
+                }
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.Comment <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextAreaFor(x => x.LockComment, new { @class = "required form-control", @id = "txtLockComment" })
+                        @Html.ValidationMessageFor(x => x.LockComment)
+                    </div>
+                </div>
+            </div>
+            @*Hidden Fields*@
+            @Html.HiddenFor(x => x.IsLock)
+            @Html.HiddenFor(x => x.ID)
+            @Html.HiddenFor(x => x.RowVersion64)
+
+            @Html.HiddenFor(x => x.CustomField1, new { id = "hiddenForCustomField1" })
+            @Html.HiddenFor(x => x.CustomField2, new { id = "hiddenForCustomField2" })
+            @Html.HiddenFor(x => x.CustomField3, new { id = "hiddenForCustomField3" })
+            @Html.HiddenFor(x => x.CustomField4, new { id = "hiddenForCustomField4" })
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnLockSave" type="submit" class="btn btn-primary">@GlobalResource.Save</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+}
+

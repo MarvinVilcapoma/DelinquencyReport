@@ -1,0 +1,319 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.DebtCertificationModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+
+@{
+    ViewBag.Title = ReportResource.DebtCertificationTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="center" width="15%">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+
+                    </td>
+                    <td width="85%" class="bold">
+                        <h1>@Model.ReportCompanyModel.Name</h1>
+                        <br />
+                        <h4>@GlobalResource.TaxManagement</h4>
+                    </td>
+                    @*<td width="30%" class="right bold valign-bottom">@ReportResource.DebtCertificate</td>*@
+                </tr>
+                @*<tr>
+                    <td class="valign-top table-border-left-td">
+                        <span class="bold">@ReportResource.DepartmentOfFinance</span>
+                        <br />
+                        @{
+                            string compAddress = Model.ReportCompanyModel.Address1;
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.Address2))
+                            {
+                                compAddress = compAddress + ", " + Model.ReportCompanyModel.Address2;
+                                compAddress = compAddress + ",<br/>";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.StateName))
+                            {
+                                compAddress = compAddress + Model.ReportCompanyModel.StateName + ", ";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.City))
+                            {
+                                compAddress = compAddress + Model.ReportCompanyModel.City + ", ";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.CountyCode))
+                            {
+                                compAddress = compAddress + " " + Model.ReportCompanyModel.CountyCode;
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.ZipPostalCode))
+                            {
+                                compAddress = compAddress + " " + Model.ReportCompanyModel.ZipPostalCode;
+                            }
+                            compAddress = compAddress + "<br />";
+                            compAddress = compAddress + "P: " + Model.ReportCompanyModel.WorkPhone;
+
+                            @Html.Raw(compAddress)
+                        }
+                    </td>
+                    <td class="right bold valign-top">&nbsp;</td>
+                </tr>*@
+            </tbody>
+        </table>
+
+        <br />
+
+        <h4 class="center">
+            @ReportResource.LegalHeader
+        </h4>
+
+
+        <br />
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="60%" class="table-border-left-td" colspan="5">
+                            <table cellspacing="0">
+                                <tr>
+                                    <td>
+                                        <strong> @ReportResource.DebtCertificationAccountNameLabel  :  </strong>
+                                        @Model.AccountModel.DisplayName
+                                    </td>
+                                    @*<td class="right">
+                                        <strong> @GlobalResource.TaxNumber : </strong>
+                                        @Model.AccountModel.TaxNumber
+                                    </td>*@
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> @GlobalResource.TaxNumber : </strong>
+                                        @Model.AccountModel.TaxNumber
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> @AccountResource.Address : </strong>
+                                        @Model.AccountModel.Address
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="">
+                            <br />
+                            <p>
+                                @ReportResource.DebtCertificationHelpedByLabel
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <br />
+        <table cellspacing="0" class="report-Table">
+            <tbody>
+                @if (Model.DebtCertificationList != null && Model.DebtCertificationList.Count() > 0)
+                {
+                    foreach (var objService in Model.DebtCertificationList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <th colspan="8" class="table-border-left-th"><b>@objService</b></th>
+                        </tr>
+                        <tr>
+                            <th width="12%" class="table-border-center-th">
+                                @GlobalResource.Period
+                            </th>
+                            <th width="12%" class="table-border-center-th">
+                                @ReportResource.PrincipalAmount
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                % @ReportResource.Penalty
+                            </th>
+                            <th width="14%" class="table-border-center-th">
+                                @ReportResource.PenaltyAmount
+                            </th>
+                            <th width="10%" class="table-border-center-th">
+                                % @ReportResource.Interest
+                            </th>
+                            <th width="14%" class="table-border-center-th">
+                                @ReportResource.InterestAmount
+                            </th>
+                            <th width="14%" class="table-border-center-th">
+                                @ReportResource.SubTotal
+                            </th>
+                            <th width="14%" class="table-border-center-th">
+                                @GlobalResource.Total
+                            </th>
+                        </tr>
+                        foreach (var item in Model.DebtCertificationList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                <td class="table-border-center-td">
+                                    @item.FormattedPeriod
+                                </td>
+                                <td class="table-border-center-td">
+                                    @*@if (string.IsNullOrEmpty(@item.CustomField))
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                    else
+                                    {
+                                        @item.CustomField
+                                    }*@
+                                    @item.Principal.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedPenaltyPercentage
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Penalties.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedInterestPercentage
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Interest.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Principal.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Total.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-center-td table-border">@ReportResource.SubTotal</td>
+                            <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td table-border">&nbsp;</td>
+                            <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Penalties).ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td table-border">&nbsp;</td>
+                            <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Interest).ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString(Common.NumberPoints)</td>
+                            <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Total).ToString(Common.NumberPoints)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="table-border table-bg-bold-center-td">@ReportResource.Totales</td>
+                        <td class="table-bg-bold-center-td table-border">@Model.DebtCertificationList.Sum(x => x.Principal).ToString(Common.NumberPoints)</td>
+                        <td class="table-border table-bg-bold-center-td">&nbsp;</td>
+                        <td class="table-border table-bg-bold-center-td">@Model.DebtCertificationList.Sum(x => x.Penalties).ToString(Common.NumberPoints)</td>
+                        <td class="table-border table-bg-bold-center-td">&nbsp;</td>
+                        <td class="table-border table-bg-bold-center-td">@Model.DebtCertificationList.Sum(x => x.Interest).ToString(Common.NumberPoints)</td>
+                        <td class="table-border table-bg-bold-center-td">@Model.DebtCertificationList.Sum(x => x.Principal).ToString(Common.NumberPoints)</td>
+                        <td class="table-border table-bg-bold-center-td">@Model.DebtCertificationList.Sum(x => x.Total).ToString(Common.NumberPoints)</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @ReportResource.DebtCertificationBottomLine1Desc
+                        *** @Model.DebtCertificationList.Sum(x => x.Total).ToString(Common.NumberPoints)
+
+                        @if (UserSession.Current.CountryID == 52)
+                        {
+                            @Html.Raw("COLONES")
+                        }
+                        else
+                        {
+                            @UserSession.Current.CurrencyName.ToUpper()
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @ReportResource.DebtCertificationBottomLine2Desc
+                    </td>
+                </tr>
+                <tr>
+
+                    @if (Model.AccountPropertyList != null && Model.AccountPropertyList.Count > 0)
+                    {
+                        for (var i = 0; i < Model.AccountPropertyList.Count; i++)
+                        {
+                            <td class="bold">
+                                @Model.AccountPropertyList[i].FincaID
+                            </td>
+                            <td>&nbsp;</td>
+                            if ((i + 1) % 3 == 0)
+                            {
+                                @Html.Raw(" <td>&nbsp;</td></tr><tr>")
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <td colspan="7">-</td>
+                    }
+                </tr>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @Html.Raw(
+                            @ReportResource.DebtCertificationBottomLine3Desc + " " +
+                            @DateTime.Now.Day + " " +
+                            @ReportResource.DaysOfTheMonth + " " +
+                            @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) + " " +
+                            ReportResource.From + " " +
+                            @DateTime.Now.Year
+                        )
+                        <br />
+                        @Html.Raw(@ReportResource.DebtCertificationBottomLine3_1Desc)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" width="60%"></td>
+                    <td class="center padding-top-md" width="40%" colspan="3">
+                        <hr />
+                        @*@if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                        {
+                            @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                        }
+                        <br />*@
+                        @ReportResource.DebtCertificationBottomLine4Desc
+                    </td>
+                </tr>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @ReportResource.DebtCertificationBottomLine5Desc
+                        <br />
+                        @ReportResource.DebtCertificationBottomLine5_1Desc
+                        <br />
+                        @ReportResource.DebtCertificationBottomLine5_2Desc
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

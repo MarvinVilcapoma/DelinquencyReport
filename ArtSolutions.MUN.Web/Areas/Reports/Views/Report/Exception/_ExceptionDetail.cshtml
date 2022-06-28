@@ -1,0 +1,45 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ExceptionReportModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblException" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th class="col-lg-2 text-left">
+                    @GlobalResource.Date
+                </th>
+                <th class="col-lg-4 text-left">
+                    @ReportResource.Error
+                </th>
+                <th class="col-lg-6 text-left">
+                    @ReportResource.ExceptionSource
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Exception/_ExceptionDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+            <tr id="tbodyException">                
+                <td></td>
+                <td class="text-right">
+                    <a href="javascript:void(0);"
+                       data-totalrecord="@Model.ExceptionList.Count"
+                       data-currentpage="1"
+                       onclick="loadMoreException(this);">
+                        @ReportResource.LoadMore ...
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

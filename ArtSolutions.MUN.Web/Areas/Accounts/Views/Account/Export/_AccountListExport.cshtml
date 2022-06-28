@@ -1,0 +1,97 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountListExport
+@using ArtSolutions.MUN.Web.Helpers
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using Account = ArtSolutions.MUN.Web.Resources.Account
+
+@{
+    ViewBag.Title = Account.AccountList;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+            /*margin-right: 4% !important;*/
+        }
+
+        body {
+            font-family: sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 10px !important;
+        }
+        .report-Table td
+        {
+            padding: 3px 2px !important;
+            height: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th class="table-border-center-th">@GlobalResource.AccountType</th>
+                    <th class="table-border-center-th" colspan="2">@GlobalResource.Name</th>
+                    <th class="table-border-center-th">@Account.Address</th>
+                    <th class="table-border-center-th">@GlobalResource.PhoneNumber</th>
+                    <th class="table-border-center-th">@GlobalResource.HasPendingPayment</th>
+                    <th class="table-border-center-th" colspan="5">@GlobalResource.Service</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ExportAccountList != null && Model.ExportAccountList.Count() > 0)
+                {
+                    foreach (var item in Model.ExportAccountList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.AccountTypeName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat" colspan="2">
+                                @item.DisplayName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.Address
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.PhoneNumber
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @if (item.PaymentStatus)
+                                {
+                                    @GlobalResource.No
+                                }
+                                else
+                                {
+                                    @GlobalResource.Yes
+                                }
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat" colspan="5">
+                                @item.ServiceName
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

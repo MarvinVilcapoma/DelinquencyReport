@@ -1,0 +1,88 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@*@{
+
+        if (Model.LicenceList != null && Model.LicenceList.Count > 0)
+        {
+            Model.ServiceList.AddRange(Model.LicenceList);
+        }
+        if (Model.IVUList != null && Model.IVUList.Count > 0)
+        {
+            Model.ServiceList.AddRange(Model.IVUList);
+        }
+        Model.ServiceList = Model.ServiceList.OrderByDescending(d => d.Year).ToList(); ;
+    }*@
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover serviceList" data-page="false" data-sorting="false">
+        <thead>
+            <tr>
+                <th class="col-lg-2">@GlobalResource.ServiceType</th>
+                <th class="col-lg-2">@GlobalResource.Service</th>
+                <th class="col-lg-2">@LocalResource.ServiceID</th>
+                <th class="col-lg-1"> @GlobalResource.Year</th>
+                <th class="col-lg-2"> @GlobalResource.Property</th>
+                <th class="col-lg-2 text-right" data-type="numeric">@LocalResource.AmountToPay</th>
+                @if (Model.AccountType != 6)
+                {
+                    <th class="col-lg-1 text-right"><button type="button" id="btnNewService" class="@(Model.IsActive ? "btn btn-primary btn-xs" : "btn btn-primary btn-xs disabled")" onclick="location.href='@Url.Content("~/AccountService/Add?accountId=" + Model.ID + "&accountTypeId=" + Model.AccountTypeID + "&serviceType=" + 0)'" @(Model.IsActive ? "" : "disabled")><i class="fa fa-plus"></i> @LocalResource.NewService</button></th>
+                }
+                else
+                {
+                    <th class="col-lg-1 text-right"><button type="button" id="btnNewService" class="@(Model.IsActive ? "btn btn-primary btn-xs" : "btn btn-primary btn-xs disabled")" onclick="location.href='@Url.Content("~/AccountService/Add?ID="+ Model.ID +"&accountId=" + Model.AccountID + "&accountTypeId=6&serviceType=" + 0)'" @(Model.IsActive ? "" : "disabled")><i class="fa fa-plus"></i> @LocalResource.NewService</button></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if ((Model.ServiceList == null || Model.ServiceList.Count == 0))
+            {
+                <tr>
+                    <td colspan="10" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.ServiceList)
+                {
+                    <tr>
+                        <td class="col-lg-2 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.LicenseType">
+                            @item.LicenseType
+                        </td>
+                        <td class="col-lg-2 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.ServiceName">
+                            @item.ServiceName
+                        </td>
+                        <td class="col-lg-2">
+                            @item.LicenseNumber
+                        </td>
+                        <td class="col-lg-1">
+                            @item.Year
+                        </td>
+                        <td class="col-lg-2 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.Property">
+                            @item.Property
+                        </td>
+                        <td class="col-lg-2 text-right" data-sort-value="@item.AnnualIncome">
+                            @item.AnnualIncome.ToString("C")
+                        </td>
+                        <td class="col-lg-1 text-right">
+                            <a href='@Url.Content("~/AccountService/View?accountServiceID="+ item.ID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View </a>
+                            @if (item.PaidAmount > 0)
+                            {
+                                <a href='javascript:void(0);' data-id="@item.ID" class="btn btn-white btn-sm btnDelete m-t-sm"><i class="fa fa-trash"></i> @GlobalResource.Delete </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

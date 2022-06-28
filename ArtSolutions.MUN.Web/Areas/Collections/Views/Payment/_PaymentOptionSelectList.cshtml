@@ -1,0 +1,7 @@
+﻿
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentOptionModel>
+<option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+@foreach (var item in Model)
+{
+    <option value="@item.ID">@item.Name</option>
+}

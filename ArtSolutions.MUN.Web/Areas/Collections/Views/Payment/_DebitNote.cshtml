@@ -1,0 +1,67 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.DebitNoteModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("DebitNote", "Payment", new AjaxOptions { HttpMethod = "POST", OnBegin = "return ValidateDebitNote()", OnSuccess = "SuccessCallback(data)" }, new { role = "form", @id = "frmDebitNote", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @GlobalResource.DebitNote </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Date<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(d => d.Date, new { @class = "form-control required" })
+                        @Html.ValidationMessageFor(x => x.Date)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.DebitAmount<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextBox("Amount", Model.Amount > 0 ? Model.Amount.ToString() : "", new { @class = "form-control text-right required Currencyinputdecimal" })
+                        @Html.ValidationMessageFor(x => x.Amount)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Reason<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(d => d.Reason, new { @class = "form-control required", @rows = 3 })
+                        @Html.ValidationMessageFor(x => x.Reason)
+                    </div>
+                </div>
+
+                @*Upload File Control*@
+                <div class="row form-group">
+                    <div class="col-lg-12">
+                        <label class="control-label"> @GlobalResource.Documents </label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-lg-12">
+                        <div id="attachmentDropzone" class="dropzone">
+                            <div id="attachmentPreview" class="dropzone-previews">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddTax" type="submit" class="btn btn-primary">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+
+    @*Hidden Fields*@
+    <input type="hidden" id="ImageIds" name="CommaSeperatedImageIDs" />
+    @Html.HiddenFor(d => d.PaymentID)
+}

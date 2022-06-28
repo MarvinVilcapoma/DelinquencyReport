@@ -1,0 +1,77 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceExemptionModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Globalization
+@using ArtSolutions.MUN.Web.Helpers
+@{
+    var swedish = CultureInfo.GetCultureInfo("en-US");
+}
+<div class="modal-body no-padding">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5 id="addresstitle">@GlobalResource.History</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+        </div>
+        <div class="ibox-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="full-height-scroll">
+                        <div class="table-responsive m-t">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col-lg-1">@GlobalResource.Date</th>
+                                        <th class="col-lg-3">@GlobalResource.Period</th>
+                                        <th class="col-lg-4">@LocalResource.ExemptionReason</th>
+                                        <th class="col-lg-1">@GlobalResource.Amount</th>
+                                        <th class="col-lg-3">@ArtSolutions.MUN.Web.Resources.Report.User</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <td class="col-lg-1 text-capitalize">
+                                            @item.CreatedDate.ToString("d")
+                                        </td>
+                                        <td class="col-lg-3">
+                                            @item.ServicePeriod
+                                        </td>
+                                        <td class="col-lg-4">
+                                            @item.Reason
+                                        </td>
+                                        <td class="col-lg-1">
+                                            @item.Amount.Value.ToString(Common.DecimalPoints)
+                                        </td>
+                                        <td class='col-lg-3'>
+                                            @Html.Raw(new UserProfile().UserProfileGet(new UserProfileViewModel
+                                       {
+                                           UserID = item.CreatedUserID
+                                       }).FullName)
+                                        </td>
+                                        
+                                    </tr>
+                                    }
+                                    @if (@Model == null || @Model.Count <= 0)
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="col-lg-12">
+                                                <center> @GlobalResource.NoDataMessage </center>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="btnCancel" type="button" tabindex="44" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+</div>

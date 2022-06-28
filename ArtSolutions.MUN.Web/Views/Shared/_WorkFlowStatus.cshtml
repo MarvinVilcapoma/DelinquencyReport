@@ -1,0 +1,23 @@
+﻿@model  List<ArtSolutions.MUN.Web.Areas.Cases.Models.CaseWorkflowStatus>
+@using GlobalResource =ArtSolutions.MUN.Web.Resources.Global
+@{
+    <div class="btn-group" id="DDlWorkFlowStatus">
+
+        @if (Model != null && Model.Count() > 0)
+        {
+            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" id="btnAction" name="btnAction">@GlobalResource.Action &nbsp;<span class="caret"></span></button>
+            <ul class="dropdown-menu menu-group-btn pull-right">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <a href="javascript:;">
+                            <button type="button" onclick="return ValidateWorkFlowStatus(this);" class="ctmbtn" name="actionType" value="@item.ID" id="btnSave_@item.ID" data-ispost="@item.Post" data-activityname="@item.Activity">@item.Activity</button>
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+}
+

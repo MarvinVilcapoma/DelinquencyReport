@@ -1,0 +1,180 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.InvoicePrintModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLInvoice
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ViewInvoice;
+}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-6 col-sm-12 col-md-6">
+        <h2>@GlobalResource.Invoices</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Invoice", new {area = "Collections" })">@LocalResource.ListInvoice</a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-6">
+        <div class="title-action">
+            @if (Model.Invoice.IsPost && Model.Invoice.IsManual)
+            {
+
+                <a href="@Url.Action("Print","Invoice",new {area="Collections",Id = Model.Invoice.ID })" target="_blank" class="btn btn-white"><i class="fa fa-print"></i> @GlobalResource.Print</a>
+                @Html.Raw("&nbsp;")
+                <a href="@Url.Action("Add", "Payment", new { area = "Collections", ActionType = "invoice", InvoiceID = Model.Invoice.ID })" class="btn btn-primary"> @LocalResource.PayInvoice</a>
+                @Html.Raw("&nbsp;")
+                <button type="button" id="viewinvoice_btnVoidInvoice" class="btn btn-primary" onclick="$('#Invoice_VoidReason').val('');$('#voidConfirmModal').modal('show');">@LocalResource.VoidInvoice</button>
+                @Html.Raw("&nbsp;")
+                <button class="btn btn-white" type="button" onclick="window.location.href = '@Url.Action("Index", "Invoice")';">@GlobalResource.Cancel</button>
+                @*Hidden Fields*@
+                @Html.HiddenFor(x => x.Invoice.ID)
+                @Html.HiddenFor(x => x.Invoice.RowVersion64)
+                @Html.HiddenFor(x => x.Invoice.RowVersion)
+            }
+            else
+            {
+                <a href="@Url.Action("Print","Invoice",new {area="Collections",Id = Model.Invoice.ID })" target="_blank" class="btn btn-white"><i class="fa fa-print"></i> @GlobalResource.Print</a>
+                @Html.Raw("&nbsp;")
+                <button class="btn btn-white" type="button" onclick="window.location.href = '@Url.Action("Index", "Invoice")';">@GlobalResource.Cancel</button>
+            }
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <h1 style="color:red;text-align:center;">
+                        @if (Model.Invoice.IsVoid)
+                        { <strong>
+                            <span id="spStatus">
+                                @GlobalResource.Void
+                            </span>
+                        </strong>
+                        }
+                        else
+                        {
+                            <strong>
+                                <span id="spStatus">
+                                    @GlobalResource.Posted
+                                </span>
+                            </strong>
+                        }
+                    </h1>
+                    @Html.Raw(Model.PrintTemplate.TemplateContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="voidConfirmModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        @using (Ajax.BeginForm("", "", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "frmVoid", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+        {
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @LocalResource.VoidInvoice </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.VoidReason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextAreaFor(x => x.Invoice.VoidReason, new { @class = "form-control required", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessageFor(x => x.Invoice.VoidReason)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnVoid" type="button" name="actionType" value="2" tabindex="2" class="btn btn-primary" onclick="SaveVoid();">@LocalResource.VoidInvoice </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.Invoice.ID)
+            @Html.HiddenFor(x => x.Invoice.RowVersion64)
+
+        }
+    </div>
+</div>
+@section Styles{
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <link rel="stylesheet" href="~/Content/printStyle.css" type="text/css" />
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    <script type="text/javascript">
+        var voidstatus = '@Html.Raw(GlobalResource.Void)';
+        var voidinvoice = '@Html.Raw(LocalResource.VoidInvoice)';
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        function VoidSuccessCallback(response) {
+            if (response.status) {
+                window.location.href = ROOTPath + "/Collections/Invoice/View?ID=" + response.ID;
+            }
+            else {
+                showAlert("error", response.message);
+            }
+        }
+        function SaveVoid(closingId) {
+            if ($("#frmVoid").valid()) {
+                var invoice = {};
+                invoice.ID = $("#Invoice_ID").val();
+                invoice.RowVersion64 = $("#Invoice_RowVersion64").val();
+                invoice.VoidReason = $("#Invoice_VoidReason").val();
+                $.ajax({
+                    url: ROOTPath + "/Invoice/Void",
+                    dataType: 'json',
+                    type: 'POST',
+                    data : { 'model': invoice },
+                    success: function (result) {
+                        if (result.status) {
+                            window.location.href = ROOTPath + "/Collections/Invoice/View?ID=" + result.ID;
+                        }
+                        else {
+                            showAlert("error", result.message);
+                        }
+                    }
+                });
+            }
+            else
+                return false;
+        }
+        function PrintInvoice(invoiceId) {
+                    $.ajax({
+                        type: "POST",
+                        url: ROOTPath + "/Invoice/Print",
+                        data: { 'ID': invoiceId },
+                        success: function (data) {
+                            if (data.status == true) {
+                                hideLoading();
+                                var printwindow = window.open();
+                                printwindow.document.write(data.htmldata);
+                                printwindow.document.close();
+                                printwindow.focus();
+                                printwindow.print();
+                                printwindow.close();
+                                return true;
+                            }
+                            else {
+                                showAlert("error", data.message);
+                            }
+                        }, error: function () { }
+                    }).always(function () {
+                    });
+        }
+    </script>
+}

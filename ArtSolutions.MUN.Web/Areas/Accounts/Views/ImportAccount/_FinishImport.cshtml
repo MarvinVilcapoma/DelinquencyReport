@@ -1,0 +1,111 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.FinishViewAccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row">
+    @Html.HiddenFor(m => m.AccountType)
+    <div class="col-lg-12">
+        <div class="project-list table-responsive" id="divfinishtable">
+
+            @if (Model.HeaderColumnList != null && Model.HeaderColumnList.Count > 0)
+            {
+                <table class="table table-hover" id="tblFinish">
+                    <thead>
+                        <tr>
+                            @for (int i = 0; i < Model.HeaderColumnList.Count; i++)
+                            {
+                                if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52)
+                                {
+                                    if (i != 15 && i != 16 && i != 18 && i != 19 && i != 20 && i != 21)
+                                    {
+                                        <th>@Model.HeaderColumnList[i]</th>
+                                    }
+                                }
+                                else
+                                {
+                                    <th>@Model.HeaderColumnList[i]</th>
+                                }
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="white-bg">
+                        @foreach (var row in Model.ImportaccountViewModel)
+                        {
+                        <tr>
+                            <td>@row.GroupCode</td>
+                            <td>@row.AccountType</td>
+                            <td>@row.Salutation</td>
+                            <td>@row.FirstName</td>
+                            <td>@row.LastName</td>
+                            <td>@row.Name</td>
+                            <td>@row.DisplayName</td>
+                            <td>@row.BusinessDescription</td>
+                            <td>@row.Email</td>
+                            <td>@row.Website</td>
+                            <td>@row.WorkPhone</td>
+                            <td>@row.MobilePhone</td>
+                            <td>@row.Currency</td>
+                            <td>@row.IDType</td>
+                            <td>@row.TaxNumber</td>
+
+                            @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+                            {
+                                <td>@row.StateNumber</td>
+                                <td>@row.TreasuryNumber</td>
+                            }
+
+                            <td>@Convert.ToDateTime(row.InitialDate).ToString("d")</td>
+
+                            @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+                            {
+                                <td>@row.NAICSCode</td>
+                                <td>@row.BusinessType</td>
+                                <td>@row.Zone</td>
+                                <td>@row.ARPEDescription</td>
+                            }
+
+                            <td>@row.PostalAddressLine1</td>
+                            <td>@row.PostalAddressLine2</td>
+                            <td>@row.PostalCity</td>
+
+                            <td>@row.PostalTown</td>
+
+                            <td>@row.PostalState</td>
+                            <td>@row.PostalCountry</td>
+                            <td>@row.PostalZipCode</td>
+                            <td>@row.OfficeAddressLine1</td>
+                            <td>@row.OfficeAddressLine2</td>
+                            <td>@row.OfficeCity</td>
+                            <td>@row.OfficeTown</td>
+                            <td>@row.OfficeState</td>
+                            <td>@row.OfficeCountry</td>
+                            <td>@row.OfficeZipCode</td>
+                            <td>@row.ContactName</td>
+                            <td>@row.ContactLastName</td>
+                            <td>@row.ContactEmail</td>
+                            <td>@row.ContactPhone</td>
+                            <td>@row.ContactPosition</td>
+
+                            <td>@row.ReferenceID</td>
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="@Model.HeaderColumnList.Count">
+                                <ul class="pagination list-inline pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>
+<style>
+    #divfinishtable {
+        height: 700px;
+    }
+</style>
+

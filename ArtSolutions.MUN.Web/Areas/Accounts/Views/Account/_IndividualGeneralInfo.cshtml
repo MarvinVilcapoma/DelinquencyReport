@@ -1,0 +1,49 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-5 padding-bottom-5 padding-top-23">
+                    @Html.DropDownListFor(x => x.GeneralIndividualModel.SalutationID, Model.SalutionList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlSalutation", tabindex = 1 })
+                    @*@Html.ValidationMessageFor(x => x.GeneralIndividualModel.SalutationID)*@
+                </div>
+                <div class="col-lg-7 p-l-none">
+                    <label class="control-label">@GlobalResource.Name <span class="text-danger">*</span></label>
+                    @Html.TextBoxFor(x => x.GeneralIndividualModel.FirstName, new { @class = "form-control required", @onchange = "IndividualDisplayName();", id = "txtFirstName", maxlength = 50, autofocus = "autofocus", tabindex = 2 })
+                    @Html.ValidationMessageFor(x => x.GeneralIndividualModel.FirstName)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.MiddleName</label>
+            @Html.TextBoxFor(x => x.GeneralIndividualModel.MiddleName, new { @class = "form-control", @onchange = "IndividualDisplayName();", id = "txtMiddleName", maxlength = 50, tabindex = 3 })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.LastName <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(x => x.GeneralIndividualModel.LastName, new { @class = "form-control required", @onchange = "IndividualDisplayName();", id = "txtLastName", maxlength = 50, tabindex = 4 })
+            @Html.ValidationMessageFor(x => x.GeneralIndividualModel.LastName)
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label class="control-label">@LocalResource.SecondLastName</label>
+            <div class="row">
+                <div class="col-lg-12 padding-bottom-5">
+                    @Html.TextBoxFor(x => x.GeneralIndividualModel.SecondLastName, new { @class = "form-control", @onchange = "IndividualDisplayName();", id = "txtSecondLastName", maxlength = 50, tabindex = 5 })
+                </div>
+                <div class="col-lg-5 hide">
+                    @Html.DropDownListFor(x => x.GeneralIndividualModel.SuffixID, Model.SuffixList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlSuffix", tabindex = 6 })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

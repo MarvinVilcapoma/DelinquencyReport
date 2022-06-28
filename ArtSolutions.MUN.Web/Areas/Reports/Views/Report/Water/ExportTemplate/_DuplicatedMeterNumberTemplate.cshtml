@@ -1,0 +1,78 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.DuplicatedMeterNumberModel
+@using System.Globalization
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.DuplicatedMeterNumberTitle;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="17%" class="table-border-center-th">@LocalResource.Meter</th>
+                    <th width="17%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.AccountService</th>
+                    <th width="16%" class="table-border-center-th" colspan="2">@GlobalResource.Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.DuplicatedMeterNumberList != null && Model.DuplicatedMeterNumberList.Count() > 0)
+                {
+                    foreach (var item in Model.DuplicatedMeterNumberList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.Meter
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.TaxNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.DisplayName
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td" colspan="2">
+                                @item.Status
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="table-border-td center">
+                            <center>
+                                <label>@GlobalResource.NoDataMessage</label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

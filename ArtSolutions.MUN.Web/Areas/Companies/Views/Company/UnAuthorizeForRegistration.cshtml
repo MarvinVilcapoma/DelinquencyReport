@@ -1,0 +1,24 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.Company;
+
+@{
+    ViewBag.Title = "UnAuthorizeForRegistration";
+}
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="jumbotron text-center m-t-lg">
+                <h1>@LocalResource.CompanyNotConfiguredTitle</h1>
+                <p></p>
+                @Html.Raw(@LocalResource.CompanyNotConfiguredMessage)
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Hide on First Setup
+            HideLeftMenu();
+        });
+    </script>
+}

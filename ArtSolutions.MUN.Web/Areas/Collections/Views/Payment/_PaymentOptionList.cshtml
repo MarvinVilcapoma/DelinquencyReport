@@ -1,0 +1,38 @@
+﻿
+@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentOptionModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using HtmlHelpers.BeginCollectionItem;
+<tr>
+    @using (Html.BeginCollectionItem("PaymentOptionList"))
+    {
+        <td class="col-lg-3 border-left">
+            @Html.DropDownListFor(x => x.PaymentOptionTableValue, Model.PaymentOptions, @GlobalResource.DropDownSelectMessage, new
+       {
+           @class = "form-control select2dropdown required",
+           tabindex = 8,
+       })
+        </td>
+        <td class="col-lg-6">
+            @Html.TextBoxFor(x => x.Notes, new
+       {
+           @class = "form-control",
+           tabindex = 8
+       })
+        </td>
+        <td class="col-lg-2">
+            @Html.TextBoxFor(x => x.Amount, new
+       {
+           @class = "form-control Currencyinputdecimal text-right required amountinput"
+           //onchange = "setDefaultValue(this)",           
+       })
+        </td>
+        
+        
+        <td class="col-lg-1 text-center border-right">
+            <a id="btnRemoveOption" class='btn btn-danger btn-xs btn-circle'   title="@GlobalResource.Remove" onclick="removePaymentOption(this);">
+                <i class='fa fa-times'></i>
+            </a>
+        </td>
+        @Html.HiddenFor(x => x.ID)
+    }
+</tr>

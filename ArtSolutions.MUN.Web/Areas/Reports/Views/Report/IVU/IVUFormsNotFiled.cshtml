@@ -1,0 +1,90 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUFormsNotFiledModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.IVUFormsNotFiledTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportIVUFormsNotFiled", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From</label>
+                                        @Html.TextBoxFor(x => x.Since, new { @class = "form-control periodDate textblur", tabindex = 1, @data_required_msg = LocalResource.FromDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To</label>
+                                        @Html.TextBoxFor(x => x.Till, new { @class = "form-control periodDate textblur", tabindex = 2, @data_required_msg = LocalResource.ToDateRequiredMsg, @data_compare_val_msg = LocalResource.CompareDatesValidationMsg })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Account</label>
+                                    </div>
+                                    <div class="form-group w-200">
+                                        @Html.DropDownListFor(x => x.AccountIDs, new SelectList(Model.AccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "3" })
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="4">@GlobalResource.Go</button>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="5" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="6" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" tabindex="7" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive p-sm m-t" id="dvUpdate">
+                            <table class="table table-report table-tbody-total" id="tblIVUFormsNotFiled"></table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var accountNumber = '@Html.Raw(GlobalResource.AccountNumber)';
+        var name ='@Html.Raw(GlobalResource.Name)';
+        var registrationNo = '@Html.Raw(LocalResource.RegistrationNo)';
+        var startPeriodWithoutFiling = '@Html.Raw(LocalResource.StartPeriodWithoutFiling)';
+        var monthsWithoutFiling = '@Html.Raw(LocalResource.MonthsWithoutFiling)';
+        var accountNumberRequiredMsg = '@Html.Raw(LocalResource.AccountNumberRequiredMsg)';
+        var tillDateRequiredMsg = '@Html.Raw(LocalResource.ToDateRequiredMsg)';
+        var sinceDateRequiredMsg = '@Html.Raw(LocalResource.FromDateRequiredMsg)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="~/Scripts/app/repivuformsnotfiled.js"></script>
+}

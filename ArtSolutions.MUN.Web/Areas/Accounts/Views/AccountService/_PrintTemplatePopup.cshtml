@@ -1,0 +1,48 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServicePrintModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="modal-body no-padding">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title text-right ">
+            <h5> @LocalResource.PrintAccountService  </h5>
+            <a class="btn btn-primary btn-xs"
+               onclick="PrintSuccessCallback()"
+               href="@Url.Action("RePrint", "AccountService",
+                    new { area = "Accounts",
+                        rowVersion64 = Model.AccountService.RowVersion64,
+                        isPrinted = Model.AccountService.IsPrint,
+                        id = Model.AccountService.ID,
+                        serviceTypeID = Model.AccountService.ServiceTypeID
+                    })"
+               target="_blank">@GlobalResource.Print</a>
+        </div>
+        <div class="ibox-content">
+            @Html.Raw(Model.PrintTemplate.TemplateContent)
+        </div>
+    </div>
+</div>
+@Html.HiddenFor(x => x.AccountService.ID)
+@Html.HiddenFor(x => x.AccountService.RowVersion)
+@Html.HiddenFor(x => x.AccountService.RowVersion64)
+<style>
+    .fontweight600 {
+        font-weight: 600;
+    }
+
+    .padding5 {
+        padding: 5px;
+    }
+
+    .ibox-title-custom {
+        padding: 2px;
+        min-height: 30px;
+        background-color: grey;
+        border-radius: 15px 15px 0px 0px;
+        color: #fff;
+    }
+
+    .ibox-content-custom {
+        height: 80%;
+    }
+</style>

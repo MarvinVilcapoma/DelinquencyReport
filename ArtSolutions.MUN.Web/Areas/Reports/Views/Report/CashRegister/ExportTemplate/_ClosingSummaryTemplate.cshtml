@@ -1,0 +1,95 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionClosingSummaryModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLClosing
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ClosingSummaryTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.Number</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.ClosingType</th>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.Cashier</th>
+                    <th width="22%" class="table-border-center-th">@GlobalResource.Description</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.ReceiptCount</th>
+                    <th width="20%" class="table-border-center-th">@ReportResource.NetClosing</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ClosingEntryList != null && Model.ClosingEntryList.Count() > 0)
+                {
+                    foreach (var item in Model.ClosingEntryList)
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.Number
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.ClosingTypeName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.CashierName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Description
+                            </td>
+                            <td class="table-border-right-td">
+                                @item.PaymentReceiptCount
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'> 
+                                @item.NetClosing.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="table-border-left-td">
+                                @Html.Partial("~/Areas/Reports/Views/Report/CashRegister/ExportTemplate/_PaymentReceiptListTemplate.cshtml", item.PostedPaymentReceiptList)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6" class="table-bg-bold-right-td">
+                        @ReportResource.NetClosingTotal.ToUpper() :
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @Model.ClosingEntryList.Sum(x => x.NetClosing).ToString(Common.NumberPoints)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

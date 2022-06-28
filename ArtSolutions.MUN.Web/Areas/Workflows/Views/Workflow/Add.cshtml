@@ -1,0 +1,101 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GLobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.NewTitle;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GLobalResource.Workflow</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home",new { area=""})">@GLobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Workflow", new {area = "Workflows" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title ibox-title-with-button">
+                    <h5>
+                        @ViewBag.Title
+                    </h5>
+                    <div class="ibox-tools">
+                        <a href="@Url.Action("List","Workflow",new { area="Workflows" })" tabindex="4" class="btn btn-default">
+                            @GLobalResource.Cancel
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form id="form1" class="wizard-big form-horizontal">
+                        <h1>@LocalResource.CreateWorkflow</h1>
+                        <fieldset>
+                            @Html.Partial("_Add", Model)
+                        </fieldset>
+                        <h1>@LocalResource.CreateStatus</h1>
+                        <fieldset>
+                            @Html.Partial("_WorkflowStatus")
+                        </fieldset>
+                        <h1>@LocalResource.Confirm</h1>
+                        <fieldset>
+                            @Html.Partial("_Confirmation")
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_Modal")
+@section Styles {
+    @Styles.Render("~/plugins/wizardStepsStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    <style type="text/css">
+        .wizard-big.wizard > .content {
+            min-height: 550px !important;
+        }
+
+        .wizard > .content > .body > .checkbox label {
+            font-size: 15px;
+        }
+
+        .wizard > .content > .body ul > li {
+            display: flow-root;
+        }
+
+        .select2-selection--multiple .select2-search--inline:first-child {
+            width: 100%;
+        }
+
+        .select2-search__field {
+            width: 100% !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/wizardSteps")
+    @Scripts.Render("~/plugins/iCheck")
+    <script>
+        var next = "@GLobalResource.Next",
+            previous = "@GLobalResource.Previous",
+            cancel = "@GLobalResource.Cancel",
+            finish = "@GLobalResource.Finish",
+            edit = "@GLobalResource.Edit",
+            deletes = "@GLobalResource.Delete",
+            statusValidataion = "@LocalResource.StatusValidataion",
+            reasons = '@Html.Raw(Json.Encode(Model.WorkflowReasonList))';;
+    </script>
+    <script src="~/Scripts/app/workflowadd.js"></script>
+}

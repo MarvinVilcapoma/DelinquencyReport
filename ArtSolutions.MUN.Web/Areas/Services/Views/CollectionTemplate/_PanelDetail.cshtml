@@ -1,0 +1,55 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionTemplateModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.Service
+
+@{
+    string panelYear = ViewBag.TemplateYear;
+    int panelYearId = int.Parse(ViewBag.TemplateYearId);
+    string renderdivId = "detailRows-" + panelYear;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading panel-heading-with-button">
+        <strong>
+            @LocalResource.YearAllocation @panelYear
+        </strong>
+    </div>
+    <div class="panel-body">
+        <div id="dvDetailList" class="table-responsive">
+            <div class="table-responsive m-t">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-2"> @GlobalResource.CollectionType </th>
+                            <th class="col-lg-2"> @GlobalResource.Grant </th>
+                            <th class="col-lg-2"> @LocalResource.Checkbook </th>
+                            <th class="col-lg-2"> @LocalResource.ReceivableAccount </th>
+                            <th class="col-lg-2"> @LocalResource.RevenueAccount  </th>
+                            <th class="col-lg-2"> @LocalResource.CreditAccount  </th>
+                            <th class="text-center col-lg-1"> @ServiceResource.PercentValue </th>
+                            <th class="text-center col-lg-1">
+                                @if (!Model.EnableViewMode)
+                                {
+                                    <a class="btn btn-primary btn-xs addDetail actioninput" id="addDetail" onclick="addDetailRow(@panelYearId,'@renderdivId')" title="@GlobalResource.Add" tabindex="3">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                }
+                            </th>
+                        </tr>
+                    </thead>
+                    @{
+                        ViewBag.TemplateYear = panelYear;
+                        ViewBag.TemplateYearId = panelYearId.ToString();
+                    }
+                    <tbody id="@renderdivId">
+                        @Html.Partial("~/Areas/Services/Views/CollectionTemplate/_DetailList.cshtml", Model)
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

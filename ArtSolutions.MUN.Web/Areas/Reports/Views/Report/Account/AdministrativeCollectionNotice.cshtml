@@ -1,0 +1,136 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AdministrativeCollectionNoticeModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+
+
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    ViewBag.Title = Html.Raw("I " + ReportResource.AdministrativeCollectionFirstNoticeTitle);
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportAdministrativeCollectionNotice", "Report", FormMethod.Post,
+                new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        <h2>@Model.ReportCompanyModel.Name</h2>
+                        <h3>@Html.Raw("I " + ReportResource.AdministrativeCollectionFirstNoticeTitle)</h3>
+                        <p>@ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span></p>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Account <span class="text-danger">*</span> </label>
+                                        <div class="form-group w-300">
+                                            @Html.DropDownListFor(x => x.AccountId, new SelectList(Model.AccountList, "id", "text", Model.AccountId), GlobalResource.DropDownSelectMessage, new
+                                       {
+                                           @class = "form-control select2dropdown",
+                                           tabindex = 1,
+                                           @data_required_msg = ReportResource.AccountRequiredMsg
+                                       })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @ReportResource.DetailInformation
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="5" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="6" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();" tabindex="7">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divAdministrativeCollectionNoticeReport">
+                        </div>
+                    </div>
+                </div>
+
+                @Html.HiddenFor(x => x.NotificationExpirationDate)
+                @Html.HiddenFor(x => x.RepresentativesName)
+                @Html.HiddenFor(x => x.AccountId, new { @id = "hdAccountID" })
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @ReportResource.DetailInformation  </h5>
+                        <button type="button" class="close closePopUp" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">@ReportResource.NotificationExpirationDate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-6">
+                                @*@Html.TextBoxFor(x => x.NotificationExpirationDate, new { @id = "txtNotificationExpirationDate", @class = "form-control notificationExpirationDate textblur", tabindex = 2, onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;" })*@
+                                @Html.TextBoxFor(x => x.NotificationExpirationDate, new { @id = "txtNotificationExpirationDate", @class = "form-control notificationExpirationDate required textblur", tabindex = 2, @data_required_msg = ReportResource.DetailInformationRequiredMsg,onKeyPress = "javascript: return false;", onKeyDown = "javascript: return false;", onPaste = "javascript: return false;" })
+                                @Html.ValidationMessageFor(x => x.NotificationExpirationDate, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-6 control-label">@ReportResource.RepresentativesName <span class="text-danger">*</span> </label>
+                            <div class="col-lg-6">
+                                @Html.TextBoxFor(x => x.RepresentativesName, new { @id = "txtRepresentativesName", @class = "form-control required", tabindex = 3, @data_required_msg = ReportResource.DetailInformationRequiredMsg })
+                                @Html.ValidationMessageFor(x => x.RepresentativesName, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " onclick="return validateAdvanceSearch();" tabindex=9>@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal closePopUp" data-dismiss="modal" tabindex=10>@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        //Local resource variable
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var service =  '@Html.Raw(@GlobalResource.Service)';
+        var period = '@Html.Raw(  @GlobalResource.Period)';
+        var principal = '@Html.Raw(  @GlobalResource.Principal)';
+        var surcharges = '@Html.Raw( @ReportResource.Surcharges)';
+        var pendingAmount = '@Html.Raw( @ReportResource.PendingAmount)';
+        var selectedNotificationExpirationDate = '@Html.Raw(@ReportResource.SelectedNotificationExpirationDate)';
+        var selectedRepresentativesName = '@Html.Raw( @ReportResource.SelectedRepresentativesName)';
+    </script>
+
+    <script src="~/Scripts/app/repadministrativecollectionnotice.js"></script>
+}

@@ -1,0 +1,191 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.RightsByOwnersIDModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-lg m-b-md">
+            <div class="col-lg-6 box-border">
+                <div class="col-lg-3 no-padding">
+                    <strong>@GlobalResource.TaxNumber  :  </strong>
+                    @Model.AccountModel.TaxNumber
+                </div>
+                <div class="col-lg-9 no-padding text-right">
+                    <strong>@GlobalResource.Name  :  </strong>
+                    @Model.AccountModel.DisplayName
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive m-t">
+        <table id="rightsByOwnersIDDataTable" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th style="min-width:100px;">
+                        @ReportResource.DescriptionOfFinca
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Area
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Value
+                    </th>
+                    <th style="min-width:50px;">
+                    </th>
+                    <th style="min-width:100px;">
+                        @ReportResource.CurrentDocument
+                    </th>
+                    <th style="min-width:50px;">
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Value
+                    </th>
+                    <th style="min-width:50px;">
+                    </th>
+                    <th style="min-width:100px;">
+                        @ReportResource.HistoricalDocument
+                    </th>
+                    <th style="min-width:50px;">
+                    </th>
+                </tr>
+                <tr>
+                    <th style="min-width:100px;">
+                        PR-NUMERO-DUP-HOR-DERE.
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Total
+                    </th>
+                    <th style="min-width:150px;">
+                        @ReportResource.Current
+                    </th>
+                    <th style="min-width:50px;">
+                        COD.
+                    </th>
+                    <th style="min-width:100px;">
+                        @GlobalResource.Date
+                    </th>
+                    <th style="min-width:50px;">
+                        @GlobalResource.Number
+                    </th>
+                    <th style="min-width:150px;">
+                        @ReportResource.Historical
+                    </th>
+                    <th style="min-width:50px;">
+                        COD.
+                    </th>
+                    <th style="min-width:100px;">
+                        @GlobalResource.Date
+                    </th>
+                    <th style="min-width:50px;">
+                        @GlobalResource.Number
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tblDetailRow">
+                @if (Model.RightsByOwnersIDList != null && Model.RightsByOwnersIDList.Count() > 0)
+                {
+                    foreach (var item in Model.RightsByOwnersIDList)
+                    {
+
+                        <tr>
+                            <td class="text-center">
+                                <table width="100%">
+                                    <tr>
+                                        <td class="col-lg-4 text-left">@item.PropertyCode</td>
+                                        <td class="col-lg-4 text-center">@item.PropertyNumber</td>
+                                        <td class="col-lg-4 text-right">@item.RightNumber</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="text-center">
+                                @if (item.TotalArea != null)
+                                {
+                                    @item.TotalArea.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.TotalArea
+                                }
+                            </td>
+                            <td class="text-center">
+                                @if (item.CurrentValue != null)
+                                {
+                                    @item.CurrentValue.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.CurrentValue
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.CurrentCode
+                            </td>
+                            <td class="text-center">
+                                @if (item.CurrentFecha != null)
+                                {
+                                    @item.CurrentFecha.Value.ToString("d")
+                                }
+                                else
+                                {
+                                    @item.CurrentFecha
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.CurrentNumber
+                            </td>
+                            <td class="text-center">
+                                @if (item.PreviousValue != null)
+                                {
+                                    @item.PreviousValue.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.PreviousValue
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.PreviousCode
+                            </td>
+                            <td class="text-center">
+                                @if (item.PreviousFecha != null)
+                                {
+                                    @item.PreviousFecha.Value.ToString("d")
+                                }
+                                else
+                                {
+                                    @item.PreviousFecha
+                                }
+                            </td>
+                            <td class="text-center">
+                                @item.PreviousNumber
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row m-t-md m-l-xs">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-3 no-padding">
+                    <strong>
+                        @ReportResource.TotalNumberOfOwners :
+                    </strong>
+                    @Html.Raw(Model.RightsByOwnersIDDetailModel.TotalOwner)
+                </div>
+                <div class="col-lg-3 no-padding">
+                    <strong>
+                        @ReportResource.TotalFarms :
+                    </strong>
+                    @Html.Raw(Model.RightsByOwnersIDDetailModel.TotalFincas)
+                </div>
+            </div>
+        </div>
+    </div>
+}

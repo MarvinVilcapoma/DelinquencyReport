@@ -1,0 +1,44 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountByServiceTypeModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<div class="table-responsive m-t">
+    <table id="tblTaxPayer" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th colspan="8" class="text-uppercase text-center">
+                    @Model.ServiceTypeLabel
+                </th>
+            </tr>
+            <tr>
+                <th class="text-center">
+                    @ReportResource.lblUsers
+                </th>
+                <th class="text-center">
+                    @ReportResource.RightNumber
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.AccountByServiceTypeList != null && Model.AccountByServiceTypeList.Count() > 0)
+            {
+                foreach (var item in Model.AccountByServiceTypeList)
+                {
+                    <tr>
+                        <td class="text-center">@item.IDNumber</td>
+                        <td class="text-center">@item.RightNumber</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="2">@GlobalResource.NoDataMessage</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

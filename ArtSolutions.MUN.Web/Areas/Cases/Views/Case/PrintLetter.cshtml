@@ -1,0 +1,47 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.PrintLetterModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@{
+    ViewBag.Title = LocalResource.NewPrintLetter;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>@LocalResource.PrintLetter</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Case", new { area = "Cases", id = Request.QueryString["workflowid"].ToString() })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeInRight">
+    @Html.Partial(partialViewName: "_PrintLetter", model: Model)
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    <style>
+        .initialDate{
+            background-color:white !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/dataPicker")
+    <script>
+        requiredValidationMsg = '@Html.Raw(GlobalResource.RequiredValidationMsg)'; 
+    </script>
+    <script src="~/Scripts/app/printletter.js"></script>
+}

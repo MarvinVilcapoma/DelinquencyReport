@@ -1,0 +1,132 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.DepositEntryModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLDeposit
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+@{
+    ViewBag.Title = LocalResource.NewDepositEntry;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+<div class="wrapper wrapper-content">
+    <table>
+        <tr><td class="center"><h2 class="no-margin">@ViewBag.CompanyName</h2></td></tr>
+        <tr><td class="center"><h4 class="no-margin">@LocalResource.ViewDepositEntry</h4></td></tr>
+        <tr><td class="center">@ReportResource.AsOf <span>@Common.CurrentDateTime.ToString("d")</span></td></tr>
+    </table>
+    <hr />
+    <table cellspacing="0" class="report-Table" id="mytable" data-sorting="false">
+        <tbody>
+            <tr>
+                <td class="table-bold-right-td valign-top">
+                    @GlobalResource.BankAccount :
+                </td>
+                <td class="valign-top">@string.Format("{0} - {1}", Model.BankAccountCode, Model.BankAccountName)</td>
+                <td width="17%" class="table-bold-right-td">
+                    @GlobalResource.Date :
+                </td>
+                <td width="28%">
+                    @Model.Date.ToString("d")
+                </td>
+            </tr>
+            <tr>
+                <td width="15%" class="table-bold-right-td">
+                    @GlobalResource.DepositType :
+                </td>
+                <td width="40%">
+                    @if (Model.DepositTypeID != null)
+                    {
+                        @Model.DepositTypeList.FirstOrDefault(d => d.Value == Model.DepositTypeID.ToString()).Text
+                    }
+                </td>
+                <td class="table-bold-right-td valign-top">
+                    @GlobalResource.Description :
+                </td>
+                <td class="valign-top">@Model.Description</td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <table cellspacing="0" class="report-Table">
+        <thead>
+            <tr>
+                <th width="15%" class="table-border-center-th">
+                    @GlobalResource.Date
+                </th>
+                <th width="15%" class="table-border-center-th">
+                    @GlobalResource.Number
+                </th>
+                <th width="20%" class="table-border-center-th">
+                    @GlobalResource.Cashier
+                </th>
+                <th width="20%" class="table-border-center-th">
+                    @LocalResource.ClosingDescription
+                </th>
+                <th width="15%" class="table-border-center-th">
+                    @PaymentResource.PaymentOption
+                </th>
+                <th width="15%" class="table-border-center-th">
+                    @LocalResource.ClosingAmount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ClosedEntryList.Count() > 0)
+            {
+                foreach (var item in Model.ClosedEntryList)
+                {
+                    <tr>
+                        <td class="table-border-left-td">
+                            @item.Date.ToString("d")
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.Number
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.CashierName
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.Description
+                        </td>
+                        <td class="table-border-left-td">
+                            @item.PaymentOption
+                        </td>
+                        <td class="table-border-right-td">
+                            @item.NetClosing.ToString("C")
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="table-bg-bold-center-td">@GlobalResource.NoDataMessage</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="3" class="table-bg-bold-right-td">@LocalResource.TotalClosingEntry :</td>
+                <td class="table-bg-bold-left-td"><span id="spnPaymentReceiptCount" class="spnFooterAmount">@Model.ClosedEntryList.Count()</span></td>
+                <td class="table-bg-bold-right-td">@GlobalResource.Total :</td>
+                <td class="table-bg-bold-right-td"><span id="spnNetClosing" class="spnFooterAmount">@Model.ClosedEntryList.Sum(d => d.NetClosing).ToString("c")</span></td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <br />
+    @if (Model.IsVoid)
+    {
+        <table cellspacing="0" class="table-border" id="voidreasontable">
+            <thead>
+                <tr>
+                    <td class="bg-gray bold">@GlobalResource.VoidReason</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.VoidReason</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>       

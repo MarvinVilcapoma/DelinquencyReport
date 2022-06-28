@@ -1,0 +1,28 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.GeneralMovementsModel
+
+@if (Model.GeneralMovementsList != null && Model.GeneralMovementsList.Count() > 0)
+{
+    foreach (var item in Model.GeneralMovementsList)
+    {
+        <tr>
+            <td width="20%" class="text-left text-description-field">
+                @item.ServiceName
+            </td>
+            <td width="10%" class="text-center text-description-field">
+                @item.CreatedBy
+            </td>
+            <td width="10%" class="text-center text-description-field">
+                @item.AccountName
+            </td>
+            <td width="10%" class="text-center">
+                @item.FormattedCreatedDate
+            </td>
+            <td width="10%" class="text-center">
+                @item.FormattedCreatedTime
+            </td>
+            <td width="40%" class="text-left text-description-field">
+                @item.FormatedNote
+            </td>
+        </tr>
+    }
+}

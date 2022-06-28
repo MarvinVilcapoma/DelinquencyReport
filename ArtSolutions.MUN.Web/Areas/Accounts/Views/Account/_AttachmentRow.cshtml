@@ -1,0 +1,17 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AttachmentModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<tr id="@Model.FileID">
+    <td class="col-lg-4">
+        @Html.DropDownListFor(x => x.FileTypeID, Model.TypeList, new { @class = "form-control select2dropdown", @id = "ddlFileType" })
+    </td>
+    <td class="col-lg-4">
+        @Html.TextBox("txtFileName", System.IO.Path.GetFileNameWithoutExtension(Model.Name), new { @class = "form-control required txtFileName", maxlength = 50, @id = "txtFileName" })
+        @Html.ValidationMessage("txtFileName","test",new { @id = "valFileName" })
+    </td>
+    <td class="col-lg-4">
+        <label class="form-control no-borders p-l-none" id="lblFileNameWithExtension">@Model.Name</label>
+        @Html.HiddenFor(m => m.FileID, new { @id = "hdnFileID" })
+    </td>
+</tr>

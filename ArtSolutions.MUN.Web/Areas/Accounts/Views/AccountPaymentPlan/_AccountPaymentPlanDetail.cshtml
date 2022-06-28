@@ -1,0 +1,394 @@
+﻿@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@model AccountPaymentPlanModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using HtmlHelpers.BeginCollectionItem;
+
+@{
+    var actionTypeID = ViewBag.ActionType;
+    var CountryID = ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID;
+    decimal totalInterest = Model.AccountPaymentPlanDetailList.Where(x => x.IsDownPayment == false).Sum(x => x.Interest);
+    decimal totalPayment = Model.TotalDebt + totalInterest;
+}
+
+
+<div class="row border-bottom m-l-md m-r-md">
+    <div class="col-lg-12">
+        <label class="control-label"> @LocalResource.PaymentPlanSummary</label>
+    </div>
+</div>
+<div class="form-horizontal m-t-md">
+    <div class="row form-group m-b-n-md">
+        <label class="col-lg-3 control-label">@LocalResource.TotalDebt</label>
+        <div class="col-lg-2">
+            @Html.LabelFor(x => x.TotalDebt, Model.TotalDebt.ToString("C"), new { @id = "SelectedItemsTotalDebt", @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+        </div>
+        <label class="col-lg-3 control-label">@LocalResource.MonthsOfPlan</label>
+        <div class="col-lg-2">
+            @Html.LabelFor(x => x.Months, Model.Months.ToString(), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-lg-3 control-label">@LocalResource.TotalInterest (+)</label>
+        <div class="col-lg-2">
+
+            @*@Html.LabelFor(x => x.TotalInterest, Model.TotalInterest.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })*@
+
+            @Html.LabelFor(x => x.TotalInterest, totalInterest.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+
+
+            <hr style="margin-top: 0px !important;margin-bottom: 0px !important;">
+        </div>
+        <label class="col-lg-3 control-label">@LocalResource.MonthlyAmountToPay</label>
+        <div class="col-lg-2">
+            @{
+                //decimal monthlyAmount = Model.AccountPaymentPlanDetailList.Where(x => x.IsDownPayment == false && x.SequenceID == 1).Sum(x => x.Principal + x.Interest);
+                decimal monthlyAmount = Model.MonthlyAmount;
+            }
+            @Html.LabelFor(x => x.MonthlyAmount, monthlyAmount.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+
+            @*@Html.LabelFor(x => x.MonthlyAmount, Model.MonthlyAmount.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })*@
+        </div>
+    </div>
+    <div class="row form-group">
+        <label class="col-lg-3 control-label">@LocalResource.TotalAmountOfPaymentPlan</label>
+        <div class="col-lg-2 ">
+            @*@Html.LabelFor(x => x.TotalPayment, Model.TotalPayment.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })*@
+
+            @Html.LabelFor(x => x.TotalPayment, totalPayment.ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+
+        </div>
+    </div>
+
+    @if (actionTypeID != null && actionTypeID != 1)
+    {
+        <div class="row form-group">
+            <label class="col-lg-3 control-label  m-t-n-md">@LocalResource.InitialPayment</label>
+            <div class="col-lg-2  m-t-n-md">
+                @Html.Label("TotalPaidAmount", Model.AccountPaymentPlanDetailList.Where(x => x.IsPaid == true && x.IsDownPayment == true).Sum(x => x.Balance).ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-lg-3 control-label  m-t-n-md">@LocalResource.MonthlyPayments</label>
+            <div class="col-lg-2  m-t-n-md">
+                @Html.Label("TotalPaidAmount", Model.AccountPaymentPlanDetailList.Where(x => x.IsPaid == true && x.IsDownPayment == false).Sum(x => x.Balance).ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+            </div>
+        </div>
+        <div class="row form-group">
+            <label class="col-lg-3 control-label  m-t-n-md">@LocalResource.TotalPaidAmount</label>
+            <div class="col-lg-2  m-t-n-md">
+                @Html.Label("TotalPaidAmount", Model.AccountPaymentPlanDetailList.Where(x => x.IsPaid == true).Sum(x => x.Balance).ToString("C"), new { @class = "form-control font-normal text-right", @style = "border: 0 !important;" })
+            </div>
+        </div>
+    }
+</div>
+
+<div class="col-lg-12 m-b-n-sm  m-t-n-lg">
+    <div class="table-responsive m-t">
+        <table class="table table-multi-row">
+            <thead>
+                <tr>
+                    <th class="col-lg-2">@GlobalResource.DownPaymentDate</th>
+                    <th class="col-lg-7">@GlobalResource.ServiceName</th>
+                    <th class="col-lg-3 text-right">@GlobalResource.DownPaymentAmount</th>
+                </tr>
+            </thead>
+            <tbody id="tbDownPayment">
+                @{
+                    decimal totalInstallmentAmount = 0;
+                }
+                @foreach (var item in Model.AccountPaymentPlanDetailList.Where(x => x.IsDownPayment == true).ToList().GroupBy(d => new { d.ServiceName, d.ServiceID }).Select(d => new { ServiceName = d.Key.ServiceName, ServiceID = d.Key.ServiceID, PreviousMeasure = d.Min(k => k.PreviousMeasure), ActualMeasure = d.Max(k => k.ActualMeasure), WaterConsumption = (d.Max(k => k.ActualMeasure) - d.Min(k => k.PreviousMeasure)), Balance = d.Sum(k => k.Balance) }))
+                {
+
+                    totalInstallmentAmount += @item.Balance;
+
+                    <tr>
+                        <td class="col-lg-2">
+                            @Model.StartDate.ToString("d")
+                        </td>
+                        <td class="col-lg-7">
+                            @item.ServiceName
+                        </td>
+                        <td class="col-lg-3 text-right">
+                            @item.Balance.ToString("C")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="col-lg-9 text-right" colspan="2">
+                        <b>@GlobalResource.Total</b>
+                    </td>
+                    <td class="col-lg-3 text-right">
+                        @*@Model.InstalmentAmount.ToString("C")*@
+                        @totalInstallmentAmount.ToString("C")
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="table-responsive m-t project-list">
+        <table class="table table-multi-row">
+            <thead>
+                <tr>
+                    <th class="col-lg-1">@LocalResource.TermNumber</th>
+                    <th class="col-lg-1">@LocalResource.MonthlyDueDate</th>
+                    <th class="col-lg-4">@GlobalResource.ServiceName</th>
+                    <th class="col-lg-1 text-right">@GlobalResource.Principal</th>
+                    <th class="col-lg-1 text-right">@GlobalResource.Interest</th>
+
+                    @*@if (actionTypeID != null && actionTypeID != 1)
+                        {*@
+                    @if (CountryID == 52)
+                    {
+                        <th class="col-lg-1 text-right">@LocalResource.LatePaymentsInterest</th>
+                    }
+                    @*}*@
+
+                    <th class="col-lg-1 text-right">@LocalResource.MonthlyAmount</th>
+
+                    @if (actionTypeID != null && actionTypeID != 1)
+                    {
+                        <th class="col-lg-1 text-right">@GlobalResource.PaidAmount</th>
+                        <th class="col-lg-1 text-right">@AccountServiceResource.PaymentDate</th>
+                    }
+                </tr>
+            </thead>
+            <tbody id="tbAccountPaymentPlanDetail">
+                @{
+                    List<AccountPaymentPlanDetailModel> list = Model.AccountPaymentPlanDetailList.Where(x => x.SequenceID > 0).GroupBy(d => new { d.ServiceName, d.ServiceID, d.SequenceID, d.DueDate, d.IsPaid, d.PaymentDate }).Select(d =>
+                    new AccountPaymentPlanDetailModel
+                    {
+                        ServiceName = d.Key.ServiceName,
+                        ServiceID = d.Key.ServiceID,
+                        PreviousMeasure = d.Min(k => k.PreviousMeasure),
+                        ActualMeasure = d.Max(k => k.ActualMeasure),
+                        WaterConsumption = (d.Max(k => k.ActualMeasure) - d.Min(k => k.PreviousMeasure)),
+                        Balance = d.Sum(k => k.Balance),
+                        SequenceID = d.Key.SequenceID,
+                        DueDate = d.Key.DueDate,
+                        Principal = d.Sum(k => k.Principal),
+                        Interest = d.Sum(k => k.Interest),
+                        LateInterest = d.Sum(k => k.LateInterest),
+                        IsPaid = d.Key.IsPaid,
+                        PaymentDate = d.Key.PaymentDate
+                    }).ToList();
+                }
+
+                @if (list.Count() > 0)
+                {
+                    var i = 0; int CurrModuleName = 0; var LastIndex = list.Count(); var Flag = true;
+                    //foreach (var item in list.OrderBy(D => D.AccountPaymentPlanServiceDetailID))
+                    foreach (var item in list.OrderBy(D => D.SequenceID))
+                    {
+                        <tr>
+
+                            @if (Flag)
+                            {
+                                <td class="col-lg-1 border-left">
+                                    @item.SequenceID
+                                </td>
+                                <td class="col-lg-1">
+                                    @item.DueDate.ToString("d")
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                            <td class="col-lg-4">
+                                @*@item.ServiceName*@
+
+                                @Html.Raw(
+              item.ServiceName
+          //+
+          //(
+          //item.ServiceID >= 9 && item.ServiceID <= 13
+          //? "<br />" + AccountServiceResource.PreviousMeasure + ": " +
+          //(item.PreviousMeasure.HasValue ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : null)
+          //+ " - " + AccountServiceResource.ActualMeasure + ": " +
+          //(item.ActualMeasure.HasValue ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : null)
+          //+ " - " + AccountServiceResource.WaterConsumption + ": " +
+          //(item.WaterConsumption.HasValue ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : null)
+          //: ""
+          //)
+          )
+
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @item.Principal.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @item.Interest.ToString("C")
+                            </td>
+
+                            @*@if (actionTypeID != null && actionTypeID != 1)
+                                {*@
+                            @if (CountryID == 52)
+                            {
+                                <td class="col-lg-1 text-right">
+                                    @item.LateInterest.ToString("C")
+                                </td>
+                            }
+                            @*}*@
+
+                            <td class="col-lg-1 text-right">
+                                @*@item.Balance.ToString("C")*@
+                                @{
+                                    decimal balance = item.Principal + item.Interest + item.LateInterest;
+                                }
+                                @balance.ToString("C")
+                            </td>
+
+                            @if (actionTypeID != null && actionTypeID != 1)
+                            {
+
+                                <td class="col-lg-1 text-right">
+                                    @if (item.IsPaid == true)
+                                    {
+                                        @item.Balance.ToString("C")
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                </td>
+                                <td class="col-lg-1 text-right">
+                                    @if (@item.PaymentDate != null)
+                                    {
+                                        @item.PaymentDate.Value.ToString("d")
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                </td>
+                            }
+
+
+                        </tr>
+
+                        if (i == 0) { CurrModuleName = item.SequenceID; }
+                        if (i != LastIndex - 1)
+                        {
+                            if (CurrModuleName != list[i + 1].SequenceID)
+                            {
+                                Flag = true;
+                                <tr class="font-bold">
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right">@GlobalResource.Total</td>
+                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal).ToString("C")</td>
+                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest).ToString("C")</td>
+
+                                    @*@if (actionTypeID != null && actionTypeID != 1)
+                                        {*@
+                                    @if (CountryID == 52)
+                                    {
+                                        <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest).ToString("C")</td>
+                                    }
+                                    @*}*@
+
+                                    <td class="text-right top-border table-total-amount">
+
+                                        @{
+                                            decimal totalBalance =
+                                             (
+                                                list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal)
+                                                    +
+                                                list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest)
+                                                    +
+                                                list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest)
+                                            );
+                                        }
+                                        @totalBalance.ToString("C")
+
+                                        @*@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Balance).ToString("C")*@
+
+                                    </td>
+                                    @if (actionTypeID != null && actionTypeID != 1)
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                </tr>
+                            }
+                            else
+                            {
+                                Flag = false;
+                            }
+                            CurrModuleName = list[i + 1].SequenceID;
+                        }
+                        else if (i == LastIndex - 1)
+                        {
+                            <tr class="font-bold">
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">@GlobalResource.Total</td>
+                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal).ToString("C")</td>
+                                <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest).ToString("C")</td>
+
+                                @*@if (actionTypeID != null && actionTypeID != 1)
+                                    {*@
+                                @if (CountryID == 52)
+                                {
+                                    <td class="text-right top-border table-total-amount">@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest).ToString("C")</td>
+                                }
+                                @*}*@
+
+                                <td class="text-right top-border table-total-amount">
+
+                                    @*@list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Balance).ToString("C")*@
+
+                                    @{
+                                        decimal totalBalanceLastSequence =
+                                         (
+                                            list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Principal)
+                                                +
+                                            list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.Interest)
+                                                +
+                                            list.Where(d => d.SequenceID == item.SequenceID).Sum(d => d.LateInterest)
+                                        );
+                                    }
+                                    @totalBalanceLastSequence.ToString("C")
+
+                                </td>
+
+                                @if (actionTypeID != null && actionTypeID != 1)
+                                {
+                                    <td></td>
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center">@GlobalResource.NoDataMessage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@Html.HiddenFor(x => x.EndDate)
+@*@Html.HiddenFor(x => x.InstalmentPercentage)
+    @Html.HiddenFor(x => x.InterestPercentage)
+    @Html.HiddenFor(x => x.LateInterestPercentage)*@
+@Html.HiddenFor(x => x.Months)
+@Html.HiddenFor(x => x.InstalmentAmount)
+@Html.HiddenFor(x => x.MonthlyAmount)
+@Html.HiddenFor(x => x.MonthlyInterest)
+@Html.HiddenFor(x => x.TotalInterest)
+@Html.HiddenFor(x => x.TotalPayment)
+<input type="hidden" id="TotalDebt" name="TotalDebt" value="@Model.TotalDebt" />
+@*@Html.HiddenFor(x=>x.TotalDebt)*@
+@Html.HiddenFor(x => x.AccountPaymentPlanDetailJson)

@@ -1,0 +1,128 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.ReportCompanyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = Model.Title;
+    Layout = null;
+    var NumberOfReportColumns = Model.NumberOfReportColumns - 3;
+}
+<table cellspacing="0">
+    <tbody>
+        <tr>
+            <td rowspan="4" width="15%">
+                <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                     src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+            </td>
+            <td width="55%" colspan="@NumberOfReportColumns">
+                <h2 class="center">
+                    @Model.Name
+                </h2>
+            </td>
+            <td width="15%" class="table-bold-right-td">
+                <label>@GlobalResource.Date:</label>
+            </td>
+            <td width="15%" class="right">
+                @DateTime.Now.ToString("dd-MMM-yyyy")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="@NumberOfReportColumns">
+                <h4 class="center">
+                    @GlobalResource.TaxManagement
+                </h4>
+            </td>
+            <td class="table-bold-right-td">
+                <label>@GlobalResource.Hour:</label>
+            </td>
+            <td class="right">
+                @DateTime.Now.ToString("h: mm tt")
+            </td>
+        </tr>
+        <tr>
+            <td colspan="@NumberOfReportColumns">
+                <h3 class="center">
+                    @Model.Title
+                </h3>
+            </td>
+            <td class="table-bold-right-td">
+                <label>@LocalResource.User:</label>
+            </td>
+            <td class="right">
+                @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+            </td>
+        </tr>
+        <tr>
+            <td colspan="@NumberOfReportColumns" class="center">
+                @if (Model.ShowUntil != false)
+                {
+                    @LocalResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                }
+            </td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="@Model.NumberOfReportColumns">&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+@if (Model.FromRange >= 0)
+{
+    <table cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">
+                    <strong>@GlobalResource.From: </strong>@Model.FromRange (<em>m</em> <sup>3</sup>)                   
+                    <strong>@GlobalResource.To: </strong>@Model.ToRange (<em>m</em> <sup>3</sup>)
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@if (!string.IsNullOrEmpty(Model.FromDate))
+{
+    <table cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">
+                    <strong>@GlobalResource.From: </strong>@Model.FromDate
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>@GlobalResource.To: </strong>@Model.ToDate
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@if (!string.IsNullOrEmpty(Model.Period))
+{
+    <table cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">
+                    <strong>@GlobalResource.Period: </strong>@Model.Period
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="@Model.NumberOfReportColumns">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+}

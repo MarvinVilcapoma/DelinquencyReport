@@ -1,0 +1,83 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.CompanyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Company;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@{
+    ViewBag.Title = LocalResource.Title;
+}
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>
+                        @LocalResource.Title
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    @using (Ajax.BeginForm("Registration", "Company", FormMethod.Post,
+                new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" },
+                new { id = "form", @class = "wizard-big" }))
+                    {
+                        @Html.HiddenFor(model => model.CompanyID)
+                        @Html.HiddenFor(model => model.CompanySize)
+                        <h1>@LocalResource.CompanyDetailsTitle</h1>
+                        Html.RenderPartial("~/Areas/Companies/Views/Company/_CompanyDetails.cshtml", Model);
+                        <h1>@LocalResource.CompanyModulesTitle</h1>
+                        Html.RenderPartial("~/Areas/Companies/Views/Company/_CompanyModules.cshtml", Model.ModuleList);
+                        <h1>@LocalResource.CompanyConfigurationTitle</h1>
+                        Html.RenderPartial("~/Areas/Companies/Views/Company/_CompanyConfiguration.cshtml");
+                        <h1>@LocalResource.CompanyConfirmationTitle</h1>
+                        Html.RenderPartial("~/Areas/Companies/Views/Company/_CompanyConfirmation.cshtml", Model);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/wizardStepsStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+
+    <style type="text/css">
+        .wizard-big.wizard > .content {
+            min-height: 575px !important;
+        }
+        .wizard > .content > .body label{
+            margin-bottom: 0.1em;
+        }
+        .wizard > .content > .body > .checkbox label {
+            font-size: 15px;
+        }
+         .wizard-big  .dropzone{
+                min-height: 400px !important;
+        }
+        .checkbox label {
+            font-size: 16px;
+            padding-left: 0px;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/wizardSteps")
+
+    <script type="text/javascript">
+        Dropzone.autoDiscover = false;
+        var homeURL = '@Url.Content("~/Home/Index")';
+        var previousStepButton = '@Html.Raw(GlobalResource.Previous)';
+        var nextStepButton = '@Html.Raw(GlobalResource.Next)';
+        var finishStepButton = '@Html.Raw(GlobalResource.Finish)';
+        var removefile = '@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage = '@Html.Raw(GlobalResource.UploadfileInitialMessage)';
+        var Uploadedfilelimitmessage = '@Html.Raw(GlobalResource.Uploadedfilelimitmessage)';
+        var Uploadedfiletypemessage = '@Html.Raw(GlobalResource.Uploadedfiletypemessage)';
+        var Uploadedfilemaxsizemessage = '@Html.Raw(GlobalResource.Uploadedfilemaxsizemessage)';
+        var YesMessage = '@Html.Raw(GlobalResource.Yes)';
+        var NoMessage = '@Html.Raw(GlobalResource.No)';
+        var allowedFileTypes = '@Common.AllowedLogoFileTypesToUpload';
+        var maxFileLength = '@Common.MaxFileLengthToUpload';
+    </script>
+    <script type="text/javascript" src='@Url.Content("~/Scripts/app/Company.js")'></script>
+}

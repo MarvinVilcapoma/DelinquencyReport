@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - Municipality and Business Cloud Platform</title>
+
+    <!-- Add local styles, mostly for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {@RenderSection("Styles", required: false)}
+
+    <!-- Primary Inspinia style -->
+    @Styles.Render("~/plugins/7strokeStyles")
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css")
+    @Styles.Render("~/plugins/toastrStyles")
+    @*@Styles.Render("~/plugins/flagiconStyle")*@
+    <link href="~/Content/plugins/flag-icon/flag-icon.css" rel="stylesheet">
+    <link rel='shortcut icon' type='image/x-icon' href='~/favicon.ico' />
+</head>
+<body class="md-skin full-height-layout mini-navbar">
+
+    <!-- Wrapper-->
+    <!-- PageClass give you ability to specify custom style for specific view based on action -->
+    <div id="wrapper" class="@Html.PageClass()">
+
+        <!-- Navigation -->
+        @Html.Partial("_Navigation")
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
+
+            <!-- Top Navbar -->
+            @Html.Partial("_TopNavbar")
+
+            <!-- Main view  -->
+            @RenderBody()
+
+            <!-- Footer -->
+            @Html.Partial("_Footer")
+        </div>
+    </div>
+    <!-- End wrapper-->
+    <!-- Section for main scripts render -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/plugins/metsiMenu")
+    @Scripts.Render("~/plugins/slimScroll")
+    @Scripts.Render("~/bundles/inspinia")
+    @Scripts.Render("~/plugins/toastr")
+    @Html.Partial("_MessageToastr")
+
+    <script type="text/javascript">
+        var ROOTPath = (location.hostname === "localhost" || location.hostname === "127.0.0.1")? '':'@Url.Content("~/")';
+        var __dateFormat = '@System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern'.toLowerCase();
+        var __culture = '@System.Threading.Thread.CurrentThread.CurrentCulture';
+        var __decimalPoints = '@ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints';
+        var pageSize = parseInt('@Common.PageSize');
+
+        $.ajaxSetup({
+            statusCode: {
+                401: function () {
+                    window.location.href = '@Url.Action("Login", "Account", new { area = "" })';
+                }
+            },
+            complete: function () {
+                hideLoading();
+            }
+        });
+        $(document).ajaxStop(function () {
+            hideLoading();
+        });
+        $(document).ajaxStart(function () {
+            showLoading();
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,590 @@
+﻿@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@model AccountPropertyModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty;
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account;
+
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = LocalResource.ViewAccountProperty;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountProperty</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountProperty", new { area = "Accounts" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content project-manager">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <a id="lnkRightViewHistory" href='javascript:void(0);' onclick="ViewHistory(@Model.ID)"
+                                   class="btn btn-info btn-xs pull-right m-r-xs">
+                                    @LocalResource.RightNumberHistory
+                                </a>
+                                <a id="lnkViewHistory" href='javascript:void(0);'
+                                   class="btn btn-info btn-xs pull-right m-r-xs">
+                                    @LocalResource.PropertyFilingHistory
+                                </a>
+                                <a id="lnkViewEdit"
+                                   onclick="EditRight(@Model.ID);"
+                                   class="@(Model.IsActive? "btn btn-warning btn-xs pull-right m-r-xs": "btn btn-warning btn-xs pull-right m-r-xs disabled")">
+                                    @GlobalResource.Edit
+                                </a>
+                                <a id="lnkCopy"
+                                   onclick="EditRight(@Model.ID,true);"
+                                   class="@(Model.IsActive? "btn btn-warning btn-xs pull-right m-r-xs": "btn btn-warning btn-xs pull-right m-r-xs disabled")">
+                                    @GlobalResource.Copy
+                                </a>
+                                <h2 class="text-description-field">@LocalResource.ViewAccountProperty</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>@LocalResource.PropertyNumber:</dt>
+                                <dd class="text-description-field">@Model.PropertyNumber</dd>
+                                <dt class="m-t-sm">@LocalResource.CondoType:</dt>
+                                <dd class="m-t-sm text-description-field">@Model.CondoType </dd>
+                                <dt class="m-t-sm">@LocalResource.RightCode:</dt>
+                                <dd class="m-t-sm text-description-field">@Model.RigthNumber </dd>
+                                <dt class="m-t-sm">@LocalResource.Owner:</dt>
+                                <dd class="m-t-sm text-description-field">
+                                    <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Model.Owner">
+                                        @Model.Owner
+                                    </span>
+                                </dd>
+                                <dt class="m-t-sm">@Html.Raw(@LocalResource.TerrainArea):</dt>
+                                <dd class="m-t-sm text-description-field">@Html.Raw(@Model.Area > 0 ? @Model.Area.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</dd>
+                                <dt class="m-t-sm">@LocalResource.TotalTerrainValue:</dt>
+                                <dd class="m-t-sm text-description-field">@Html.Raw(Model.TotalTerrainValue > 0 ? Model.TotalTerrainValue.Value.ToString("C") : 0.ToString("C"))</dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6" id="cluster_info">
+                            <dl class="dl-horizontal">
+                                <dt>@GlobalResource.Status:</dt>
+                                <dd>
+                                    @if (Model.IsActive == true)
+                                    {
+                                        <a href="javascript:;" id="active_@Model.ID" onclick="ConfirmActivedeactive('Active', @Model.ID,true,false)"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                        <a href="javascript:;" id="deactive_@Model.ID" style="display:none;" onclick="ConfirmActivedeactive('Deactive', @Model.ID,true,false)"><span class="label label-warning">@GlobalResource.InActivebtn</span></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:;" id="active_@Model.ID" style="display:none;" onclick="ConfirmActivedeactive('Active', @Model.ID,true,false)"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                        <a href="javascript:;" id="deactive_@Model.ID"><span class="label label-warning" onclick="ConfirmActivedeactive('Deactive', @Model.ID,true,false)">@GlobalResource.InActivebtn</span></a>
+                                    }
+                                </dd>
+                                <dt class="m-t-sm">@LocalResource.Condo:</dt>
+                                <dd class="m-t-sm text-description-field">@Model.Condo</dd>
+                                <dt class="m-t-sm">@LocalResource.CadastralPlanNumber:</dt>
+                                <dd class="m-t-sm text-description-field">@Model.CadastralPlanNumber</dd>
+                                <dt class="m-t-sm">@LocalResource.Percentage:</dt>
+                                <dd class="m-t-sm text-description-field">@Html.Raw(@Model.Percentage > 0 ? (@Model.Percentage.Value / 100).ToString("P") : 0.ToString("P"))</dd>
+                                <dt class="m-t-sm">@Html.Raw(@LocalResource.TerrainValue):</dt>
+                                <dd class="m-t-sm text-description-field">@Html.Raw(@Model.TerrainValue > 0 ? @Model.TerrainValue.Value.ToString("C") : 0.ToString("C"))</dd>
+                                <dt class="m-t-sm">@LocalResource.TotalValue:</dt>
+                                <dd class="m-t-sm">@Html.Raw(Model.TotalValue > 0 ? Model.TotalValue.Value.ToString("C") : 0.ToString("C"))</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="row m-t-sm">
+                        <div class="col-lg-12">
+                            <div class="panel blank-panel">
+                                <div class="panel-heading">
+                                    <div class="panel-options">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a id="tbRight" href="#tabRight" data-toggle="tab">@LocalResource.Constructions </a></li>
+                                            <li class=""><a id="tbService" href="#tabServices" data-toggle="tab">@GlobalResource.Services </a></li>
+                                            <li class=""><a id="tbPaymentPlan" href="#tabPaymentPlan" data-toggle="tab">@GlobalResource.PaymentPlan</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane project-list active" id="tabRight">
+                                            @Html.Partial("~/Areas/Accounts/Views/AccountProperty/_AccountPropertyConstructionList.cshtml", Model.AccountPropertyConstructionDetail)
+                                        </div>
+                                        <div class="tab-pane project-list" id="tabServices">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('accountservice', 'txtAccountServiceSearch');" id="btnAccountServiceRefresh" class="btn btn-white btn-sm" tabindex="6"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtAccountServiceSearch" onkeydown="SearchItemsOnKeyPress('accountservice',event);" tabindex="4">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('accountservice');" class="btn btn-sm btn-primary" id="btnAccountServiceSearch" tabindex="5"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped table-responsive" id="tblAccountService"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane project-list" id="tabPaymentPlan">
+                                            <div class="row panel-body m-b-lg m-t-sm  table-responsive">
+                                                <div class="row">
+                                                    <div class="col-sm-2 col-md-2 col-lg-2">
+                                                        <button type="button" onclick="RefreshItems('paymentplan', 'txtPaymentPlanSearch');" id="btnPaymentPlanRefresh" class="btn btn-white btn-sm" tabindex="12"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                                    </div>
+                                                    <div class="col-sm-10 col-md-10 col-lg-10">
+                                                        <div class="input-group">
+                                                            <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtPaymentPlanSearch" onkeydown="SearchItemsOnKeyPress('paymentplan',event);" tabindex="10">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" onclick="SearchItems('paymentplan');" class="btn btn-sm btn-primary" id="btnPaymentPlanSearch" tabindex="11"> @GlobalResource.Go</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <fieldset class="form-horizontal" id="divtab">
+                                                    <table class="table table-stripped table-responsive" id="tblAccountPaymentPlan"></table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @AccountResource.Addresses
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">@AccountResource.Address</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @Html.Raw(ArtSolutions.MUN.Web.Areas.Accounts.Models.AddressModel.GetFullAddress(Model.Address))
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @LocalResource.TerrainInformation
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="control-label">@LocalResource.MainAccess</label>
+                            <p class="form-control-static-sm m-l-md">@Model.MainAccess</p>
+
+                            <label class="control-label">@LocalResource.PropertyFront</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @if (@Model.PropertyFront > 0)
+                                {
+                                    @Model.PropertyFront.Value.ToString(Common.DecimalPoints)
+                                }
+                            </p>
+
+                            <label class="control-label">@LocalResource.PropertyLength</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @if (@Model.PropertyLength > 0)
+                                {
+                                    @Model.PropertyLength.Value.ToString(Common.DecimalPoints)
+                                }
+                            </p>
+
+                            <label class="control-label">@LocalResource.Slope</label>
+                            <p class="form-control-static-sm m-l-md">@Model.Slope</p>
+
+                            <label class="control-label">@LocalResource.SlopePercentage</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @Html.Raw(@Model.SlopePercentage > 0 ? (@Model.SlopePercentage.Value / 100).ToString("P") : 0.ToString("P"))
+                            </p>
+
+                            <label class="control-label">@LocalResource.Level</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @if (@Model.Level > 0)
+                                {
+                                    @Model.Level.Value.ToString(Common.DecimalPoints)
+                                }
+                            </p>
+
+                            <label class="control-label">@LocalResource.LevelType</label>
+                            <p class="form-control-static-sm m-l-md">@Model.LevelType</p>
+
+                            <label class="control-label">@LocalResource.BlockLocation</label>
+                            <p class="form-control-static-sm m-l-md">@Model.BlockLocation</p>
+
+                            <label class="control-label">@LocalResource.Regular</label>
+                            <p class="form-control-static-sm m-l-md">@Model.Regular</p>
+
+                            <label class="control-label">@LocalResource.FactorRegular</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @Html.Raw(@Model.RegularFactor > 0 ? (@Model.RegularFactor.Value / 100).ToString("P") : 0.ToString("P"))
+                            </p>
+
+                            <label class="control-label">@LocalResource.Hydrology</label>
+                            <p class="form-control-static-sm m-l-md">@Model.Hydrology</p>
+
+                            <label class="control-label">@LocalResource.UseofLand</label>
+                            <p class="form-control-static-sm m-l-md">@Model.UseOfLand</p>
+
+                            <label class="control-label">@LocalResource.HomogeneousZone</label>
+                            <p class="form-control-static-sm m-l-md text-description-field">
+                                <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Model.HomogeneousZone">
+                                    @Model.HomogeneousZone
+                                </span>
+                            </p>
+
+                            <label class="control-label">@LocalResource.Movement</label>
+                            <p class="form-control-static-sm m-l-md">@Model.Movement</p>
+
+                            <label class="control-label">@LocalResource.Number</label>
+                            <p class="form-control-static-sm m-l-md">@Model.Number</p>
+
+                            <label class="control-label">@LocalResource.DateOfMovement</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @if (@Model.DateOfMovement.HasValue)
+                                {
+                                    @Model.DateOfMovement.Value.ToString("d")
+                                }
+                            </p>
+
+                            <label class="control-label hide">@LocalResource.CadastralLocation</label>
+                            <p class="form-control-static-sm m-l-md hide">@Model.CadastralLocationPath</p>
+
+                            <label class="control-label">@LocalResource.Services1</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @{
+                                    string[] Services1Array = new string[] { };
+                                    if (!string.IsNullOrEmpty(Model.ServicesList1))
+                                    { Services1Array = Model.ServicesList1.Split(',').ToArray(); }
+                                }
+
+                                @Html.Raw(!string.IsNullOrEmpty(Model.ServicesList1) ? string.Join(", ", Model.PropertyServicesList1.Where(d => Services1Array != null && Services1Array.Contains(d.Value)).Select(d => d.Text).ToList()) : "-")
+                            </p>
+
+                            <label class="control-label">@LocalResource.Services2</label>
+                            <p class="form-control-static-sm m-l-md">
+                                @{
+                                    string[] Services2Array = new string[] { };
+                                    if (!string.IsNullOrEmpty(Model.ServicesList2))
+                                    { Services2Array = Model.ServicesList2.Split(',').ToArray(); }
+                                }
+
+                                @Html.Raw(!string.IsNullOrEmpty(Model.ServicesList2) ? string.Join(", ", Model.PropertyServicesList2.Where(d => Services2Array != null && Services2Array.Contains(d.Value)).Select(d => d.Text).ToList()) : "-")
+                            </p>
+
+                            <label class="control-label">@LocalResource.North</label>
+                            <p class="form-control-static-sm m-l-md">@Model.North</p>
+                            <label class="control-label">@LocalResource.South</label>
+                            <p class="form-control-static-sm m-l-md">@Model.South</p>
+                            <label class="control-label">@LocalResource.East</label>
+                            <p class="form-control-static-sm m-l-md">@Model.East</p>
+                            <label class="control-label">@LocalResource.West</label>
+                            <p class="form-control-static-sm m-l-md">@Model.West</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm hide">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @LocalResource.MapLocation
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-10 col-xs-12">
+                                    <div class="pac-card" id="pac-card">
+                                        <div id="pac-container">
+                                            <input id="pac-input" class="form-control" type="text" style="display:none;"
+                                                   placeholder="@LocalResource.SearchLocation">
+                                        </div>
+                                    </div>
+                                    <div id="map" style="height:250px;"></div>
+                                    <div id="infowindow-content">
+                                        <img src="" width="16" height="16" id="place-icon">
+                                        <span id="place-name" class="title"></span><br>
+                                        <span id="place-address"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default m-b-sm">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        @GlobalResource.Notes
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if ((!string.IsNullOrEmpty(Model.Notes)) && Model.Notes.Length > 120)
+                            {
+                                var accountNotes = Model.Notes;
+                                var lessNotes = accountNotes.Substring(0, 120);
+                                var moreNotes = accountNotes.Substring(120);
+
+                                <span style="word-break: break-word;">@lessNotes</span>
+                                <span id="MoreNotes">@moreNotes</span>
+                                <a href="#MoreNotes" id="lnkMoreNotes">@GlobalResource.ShowMoreText</a>
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.Notes)
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.HiddenFor(x => x.Latitude)
+@Html.HiddenFor(x => x.Longitude)
+@Html.HiddenFor(x => x.ID)
+@Html.HiddenFor(x => x.PropertyNumber)
+@Html.HiddenFor(x => x.RigthNumber)
+
+<div class="modal inmodal" id="FillingPropertyTaxHistory" role="dialog" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divFillingPropertyTaxHistory">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="DeleteConfirmModal" data-accountserviceid="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteService" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal inmodal" id="AccountPropertyRightHistory" role="dialog" data-id="" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-body no-padding">
+                <div class="ibox-title">
+                    <h5 id="addresstitle">@LocalResource.RightNumberHistory</h5>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                </div>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div id="divAccountPropertyRightHistory">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnCancel" type="button" tabindex="11" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+
+    <style>
+        .row1 > table, .row1 > table tr, .row1 > table tr td {
+            border: none !important;
+            padding: 5px;
+        }
+
+        #map {
+            height: 300px;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+            .pac-controls label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 0px;
+            text-overflow: ellipsis;
+            width: 450px;
+            border: 0;
+        }
+
+            #pac-input:focus {
+                border-color: #4d90fe;
+            }
+
+        #title {
+            color: #fff;
+            background-color: #4d90fe;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        #MoreNotes {
+            display: none;
+        }
+
+        .tooltip-inner {
+            max-width: 500px !important;
+            text-align: left;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var activemsg = '@Html.Raw(GlobalResource.ActiveMessage)';
+        var deactivemsg = '@Html.Raw(GlobalResource.DeActiveMessage)';
+        var inactiveconfirm = '@Html.Raw(GlobalResource.InActiveConfirm)';
+        var activeconfirm = '@Html.Raw(GlobalResource.ActiveConfirm)';
+        var suremsg = '@Html.Raw(GlobalResource.SureMessage)';
+        var showMoreText = '@Html.Raw(GlobalResource.ShowMoreText)';
+        var showLessText = '@Html.Raw(GlobalResource.ShowLessText)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var editInactiveRightValidationMsg = '@Html.Raw(LocalResource.EditInactiveRightValidationMsg)';
+        var view = '@Html.Raw(GlobalResource.View)';
+        var Delete = '@Html.Raw(GlobalResource.Delete)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var active = '@Html.Raw(GlobalResource.Active)';
+        var inActivebtn ='@Html.Raw(GlobalResource.InActivebtn)';
+
+        var isViewMode = false;
+        var noDetailsAvailableGeoLocationMsg = "@Html.Raw(LocalResource.NoDetailsAvailableGeoLocationMsg)";
+        var browserSupportGeoLocationMsg = "@Html.Raw(LocalResource.BrowserSupportGeoLocationMsg)";
+
+        var _id = '@Model.ID';
+        var _accountType = '@Model.AccountDetail.AccountType';
+        var _accountTypeID = '@Model.AccountDetail.AccountTypeID';
+        var _accountID = '@Model.AccountDetail.AccountID';
+        var _isActive = '@Model.AccountDetail.IsActive';
+        var _ownerID  = '@Model.OwnerID';
+
+        //Service
+        var newService = '@Html.Raw(AccountServiceResource.NewService)';
+        var serviceType = '@Html.Raw(GlobalResource.ServiceType)';
+        var service = '@Html.Raw(GlobalResource.Service)';
+        var serviceID = '@Html.Raw(AccountServiceResource.ServiceID)';
+        var year = '@Html.Raw(GlobalResource.Year)';
+        var property = '@Html.Raw(GlobalResource.Property)';
+        var balance = '@Html.Raw(AccountServiceResource.Balance)';
+        var audit = '@Html.Raw(GlobalResource.Audit)';
+        var createdDate = '@Html.Raw(GlobalResource.CreatedDate)';
+        var modifiedDate = '@Html.Raw(GlobalResource.ModifiedDate)';
+        var createdUser = '@Html.Raw(GlobalResource.CreatedUser)';
+        //
+
+        //Account Payment Plan
+        var planID ='@Html.Raw(AccountPaymentPlanResource.PlanID)';
+        var paymentPlan ='@Html.Raw(GlobalResource.PaymentPlan)';
+        var startDate ='@Html.Raw(GlobalResource.StartDate)';
+        var endDate ='@Html.Raw(GlobalResource.EndDate)';
+        var months = '@Html.Raw(GlobalResource.Months)';
+        var totalAmountOfPaymentPlan ='@Html.Raw(AccountPaymentPlanResource.TotalAmountOfPaymentPlan)';
+        //
+
+        var validRightHasDebt = '@Html.Raw(LocalResource.ValidRightCannotInactive)';
+        var okResource = '@Html.Raw(GlobalResource.Ok)';
+    </script>
+
+    <script src="@Url.Content("~/Scripts/app/GeoLocation.js")"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyAT8kncTWuCZ-pkLPGlOVE3NWyy_-uGta8&libraries=places&callback=fnInitializeGeoLocation"></script>
+    <script src="~/Scripts/app/accountpropertyview.js"></script>
+}

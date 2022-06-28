@@ -1,0 +1,59 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionDailyIncomeStateModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblMigrationValidationFactu" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-left">
+                    @GlobalResource.Code
+                </th>
+                <th style="min-width:150px;" class="text-left">
+                    @GlobalResource.Description
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.DailyCharges
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.DailyInterest
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.PrincipalAmount
+                </th>
+                <th style="min-width:50px;" class="text-right">
+                    @ReportResource.DailyIncome
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/CashRegister/_DailyIncomeStateDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+            <tr id="tbodyDailyIncomeState">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right">
+                    <a id="dailyIncomeStateShowMore"
+                       href="javascript:void(0);"
+                       data-totalrecord="@Model.DailyIncomeStateList.Count"
+                       data-currentpage="1"
+                       onclick="loadMoreDailyIncomeState(this);">
+                        @ReportResource.LoadMore ...
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

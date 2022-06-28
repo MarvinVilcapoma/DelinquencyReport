@@ -1,0 +1,30 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountServicesMissingFilingModel
+@using ArtSolutions.MUN.Web.Helpers
+
+@if (Model.AccountServicesMissingFilingList != null && Model.AccountServicesMissingFilingList.Count() > 0)
+{
+    foreach (var item in Model.AccountServicesMissingFilingList)
+    {
+        <tr>
+            <td class="text-center">@item.AccountName</td>
+            <td class="text-center">
+                <a id="viewAccountService"
+                   target="_blank"
+                   href='@Url.Content("~/AccountService/View?accountServiceID="+ item.AccountServiceID)'
+                   class="text-underline">
+                    @item.ServiceName
+                </a>
+            </td>
+            <td class="text-center">
+                @if (item.IsMonthly == 0)
+                {
+                    @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate))
+                }
+                else
+                {
+                    @item.PeriodName
+                }
+            </td>
+        </tr>
+    }
+}

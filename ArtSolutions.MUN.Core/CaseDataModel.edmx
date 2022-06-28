@@ -1,0 +1,1111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CaseDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNDOCDocumentWorkflowFormGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FormID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsActie" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="DocumentTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowHistoryLogGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseIDs" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowReasonGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusActivityGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="WorkFlowID" Type="int" Mode="In" />
+          <Parameter Name="Version" Type="nvarchar" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="Type" Type="tinyint" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Version" Type="varchar" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+          <Parameter Name="IsPublic" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNDOCDocumentWorkflowStatusReasonGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="Version" Type="varchar" Mode="In" />
+          <Parameter Name="language" Type="nvarchar" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="ReasonID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXAccountViewGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCaseImagesGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecords" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCaseMeetingNotesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCaseMeetingNotesGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecords" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="nvarchar" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCaseMeetingNotesInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="MeetingTypeID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Note" Type="varchar" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCaseMeetingNotesUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="MeetingTypeID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="Note" Type="varchar" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCasePriorityGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCasesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCasesInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="AccountID" Type="bigint" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Refrence" Type="nvarchar" Mode="In" />
+          <Parameter Name="Note" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="PriorityID" Type="int" Mode="In" />
+          <Parameter Name="Weight" Type="int" Mode="In" />
+          <Parameter Name="OwnerID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="AssignToID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="DocumentType" Type="int" Mode="In" />
+          <Parameter Name="AccountSerives" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCasesKeyCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXCasesUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Refrence" Type="nvarchar" Mode="In" />
+          <Parameter Name="Note" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="PriorityID" Type="int" Mode="In" />
+          <Parameter Name="Weight" Type="int" Mode="In" />
+          <Parameter Name="OwnerID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="AssignToID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXDataSourceGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXMasterCasesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReasonID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CaseIDs" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXMasterCasesGetBalanceByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Local" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXMasterCasesGetCountByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Local" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXMasterCasesGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="nvarchar" Mode="In" />
+          <Parameter Name="CaseID" Type="int" Mode="In" />
+          <Parameter Name="KeyCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="BussinessName" Type="nvarchar" Mode="In" />
+          <Parameter Name="PriorityID" Type="int" Mode="In" />
+          <Parameter Name="Weight" Type="int" Mode="In" />
+          <Parameter Name="AsignedTo" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="ReasonID" Type="int" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecords" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="Sort" Type="nvarchar" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXMeetingTypeGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNITAXTeamGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintCenterFileIDUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FileID" Type="int" Mode="In" />
+          <Parameter Name="ModifidUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintCenterGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FilterText" Type="varchar(max)" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecords" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="nvarchar" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintCenterInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="KeyCode" Type="varchar" Mode="In" />
+          <Parameter Name="PrintTemplateID" Type="int" Mode="In" />
+          <Parameter Name="OutputFormat" Type="int" Mode="In" />
+          <Parameter Name="Comments" Type="varchar" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="DestinataryName" Type="varchar" Mode="In" />
+          <Parameter Name="DestinataryPosition" Type="varchar" Mode="In" />
+          <Parameter Name="DestinataryDepartment" Type="varchar" Mode="In" />
+          <Parameter Name="DataSourceID" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CaseIDs" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CaseCount" Type="int" Mode="In" />
+          <Parameter Name="Balance" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintCenterLogInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="GenerateDate" Type="datetime" Mode="In" />
+          <Parameter Name="FileID" Type="int" Mode="In" />
+          <Parameter Name="Action" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintTemplateGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="TemplateID" Type="int" Mode="In" />
+          <Parameter Name="WorkflowID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintTemplateGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="FilterText" Type="nvarchar" Mode="In" />
+          <Parameter Name="CurrentIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecords" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="nvarchar" Mode="In" />
+          <Parameter Name="SortDirection" Type="nvarchar" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintTemplateInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="WorkFlowID" Type="int" Mode="In" />
+          <Parameter Name="Code" Type="nvarchar" Mode="In" />
+          <Parameter Name="FileID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="DataSourceID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintTemplateRelatedStepsGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="StatusIDs" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="MUNPRNPrintTemplateUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PrintTemplateID" Type="int" Mode="In" />
+          <Parameter Name="Code" Type="nvarchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="WorkFlowID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="DataSourceID" Type="int" Mode="In" />
+          <Parameter Name="Local" Type="varchar" Mode="In" />
+          <Parameter Name="ModifiesUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CaseDataModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CaseDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CaseDataModelContainer" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="MUNITAXCasePriorityGet" ReturnType="Collection(CaseDataModel.MUNITAXCasePriorityGet_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXTeamGet" ReturnType="Collection(CaseDataModel.MUNITAXTeamGet_Result)">
+          <Parameter Name="ID" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCasesInsert" ReturnType="Collection(Decimal)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="AccountID" Mode="In" Type="Int64" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Refrence" Mode="In" Type="String" />
+            <Parameter Name="Note" Mode="In" Type="String" />
+            <Parameter Name="PriorityID" Mode="In" Type="Int32" />
+            <Parameter Name="Weight" Mode="In" Type="Int32" />
+            <Parameter Name="OwnerID" Mode="In" Type="Guid" />
+            <Parameter Name="AssignToID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DocumentType" Mode="In" Type="Int32" />
+            <Parameter Name="AccountSerives" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXMasterCasesGetWithPaging" ReturnType="Collection(CaseDataModel.MUNITAXMasterCasesGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="KeyCode" Mode="In" Type="String" />
+            <Parameter Name="BussinessName" Mode="In" Type="String" />
+            <Parameter Name="PriorityID" Mode="In" Type="Int32" />
+            <Parameter Name="Weight" Mode="In" Type="Int32" />
+            <Parameter Name="AsignedTo" Mode="In" Type="Guid" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ReasonID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecords" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="Sort" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowFormGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowFormGet_Result)">
+            <Parameter Name="FormID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowHistoryLogGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowHistoryLogGet_Result)">
+            <Parameter Name="CaseIDs" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCasesGet" ReturnType="Collection(CaseDataModel.MUNITAXCasesGet_Result)">
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCaseMeetingNotesGetWithPaging" ReturnType="Collection(CaseDataModel.MUNITAXCaseMeetingNotesGetWithPaging_Result)">
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecords" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXMeetingTypeGet" ReturnType="Collection(CaseDataModel.MUNITAXMeetingTypeGet_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCaseMeetingNotesInsert">
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="MeetingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Note" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintTemplateGetWithPaging" ReturnType="Collection(CaseDataModel.MUNPRNPrintTemplateGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecords" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXMasterCasesGet" ReturnType="Collection(CaseDataModel.MUNITAXMasterCasesGet_Result)">
+            <Parameter Name="ReasonID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CaseIDs" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXDataSourceGet" ReturnType="Collection(CaseDataModel.MUNITAXDataSourceGet_Result)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintCenterInsert" ReturnType="Collection(Decimal)">
+            <Parameter Name="KeyCode" Mode="In" Type="String" />
+            <Parameter Name="PrintTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="OutputFormat" Mode="In" Type="Int32" />
+            <Parameter Name="Comments" Mode="In" Type="String" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="DestinataryName" Mode="In" Type="String" />
+            <Parameter Name="DestinataryPosition" Mode="In" Type="String" />
+            <Parameter Name="DestinataryDepartment" Mode="In" Type="String" />
+            <Parameter Name="DataSourceID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CaseIDs" Mode="In" Type="String" />
+            <Parameter Name="CaseCount" Mode="In" Type="Int32" />
+            <Parameter Name="Balance" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXAccountViewGet" ReturnType="Collection(CaseDataModel.MUNITAXAccountViewGet_Result)">
+          <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintCenterFileIDUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FileID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifidUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCasesKeyCode" ReturnType="Collection(CaseDataModel.MUNITAXCasesKeyCode_Result)">
+          <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintCenterLogInsert">
+            <Parameter Name="UserID" Mode="In" Type="Guid" />
+            <Parameter Name="GenerateDate" Mode="In" Type="DateTime" />
+            <Parameter Name="FileID" Mode="In" Type="Int32" />
+            <Parameter Name="Action" Mode="In" Type="String" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCaseImagesGetWithPaging" ReturnType="Collection(CaseDataModel.MUNITAXCaseImagesGetWithPaging_Result)">
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecords" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintCenterGetWithPaging" ReturnType="Collection(CaseDataModel.MUNPRNPrintCenterGetWithPaging_Result)">
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="CurrentIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecords" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintTemplateRelatedStepsGet" ReturnType="Collection(CaseDataModel.MUNPRNPrintTemplateRelatedStepsGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="StatusIDs" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintTemplateInsert" ReturnType="Collection(Int32)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkFlowID" Mode="In" Type="Int32" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+            <Parameter Name="FileID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="DataSourceID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowReasonGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowReasonGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXMasterCasesGetBalanceByStatus" ReturnType="Collection(CaseDataModel.MUNITAXMasterCasesGetBalanceByStatus_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Local" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXMasterCasesGetCountByStatus" ReturnType="Collection(CaseDataModel.MUNITAXMasterCasesGetCountByStatus_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Local" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintTemplateUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="PrintTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="WorkFlowID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="DataSourceID" Mode="In" Type="Int32" />
+            <Parameter Name="Local" Mode="In" Type="String" />
+            <Parameter Name="ModifiesUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNPRNPrintTemplateGet" ReturnType="Collection(CaseDataModel.MUNPRNPrintTemplateGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="TemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCasesUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Refrence" Mode="In" Type="String" />
+            <Parameter Name="Note" Mode="In" Type="String" />
+            <Parameter Name="PriorityID" Mode="In" Type="Int32" />
+            <Parameter Name="Weight" Mode="In" Type="Int32" />
+            <Parameter Name="OwnerID" Mode="In" Type="Guid" />
+            <Parameter Name="AssignToID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCaseMeetingNotesGet" ReturnType="Collection(CaseDataModel.MUNITAXCaseMeetingNotesGet_Result)">
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNITAXCaseMeetingNotesUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CaseID" Mode="In" Type="Int32" />
+            <Parameter Name="MeetingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="Note" Mode="In" Type="String" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusReasonGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowStatusReasonGet_Result)">
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="Version" Mode="In" Type="String" />
+            <Parameter Name="language" Mode="In" Type="String" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="ReasonID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="language" Mode="In" Type="String" />
+            <Parameter Name="IsActie" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="DocumentTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowStatusGet_Result)">
+            <Parameter Name="WorkflowID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Version" Mode="In" Type="String" />
+            <Parameter Name="language" Mode="In" Type="String" />
+            <Parameter Name="IsPublic" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNDOCDocumentWorkflowStatusActivityGet" ReturnType="Collection(CaseDataModel.MUNDOCDocumentWorkflowStatusActivityGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="WorkFlowID" Mode="In" Type="Int32" />
+            <Parameter Name="Version" Mode="In" Type="String" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="Type" Mode="In" Type="Byte" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNITAXCasePriorityGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXTeamGet_Result">
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="IsDefault" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="256" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXMasterCasesGetWithPaging_Result">
+          <Property Type="Int64" Name="SrNO" Nullable="true" />
+          <Property Type="Int32" Name="CaseID" Nullable="false" />
+          <Property Type="String" Name="KeyCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="MuicipalityName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="BusinessName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="ServiceType" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="PriorityName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="Weight" Nullable="false" />
+          <Property Type="String" Name="AssignedTo" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowFormGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="UsePopup" Nullable="false" />
+          <Property Type="String" Name="URLNew" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLEdit" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLView" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="URLPrint" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowHistoryLogGet_Result">
+          <Property Type="Guid" Name="AssigntoID" Nullable="false" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="AssignedTo" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="CaseID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXCasesGet_Result">
+          <Property Type="Int32" Name="CaseID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="AccountID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="Note" Nullable="true" />
+          <Property Type="String" Name="KeyCode" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="String" Name="Refrence" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="PriorityID" Nullable="false" />
+          <Property Type="Int32" Name="Weight" Nullable="false" />
+          <Property Type="Guid" Name="AssignToID" Nullable="false" />
+          <Property Type="Guid" Name="OwnerID" Nullable="false" />
+          <Property Type="DateTime" Name="DueDate" Nullable="true" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="SortID" Nullable="true" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="String" Name="AccountName" Nullable="false" MaxLength="503" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="WorkFlowName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="PriorityName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="AssignedTo" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Owner" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="AccountServices" Nullable="true" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="WorkflowID" Nullable="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXCaseMeetingNotesGetWithPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="MeetingTypeID" Nullable="false" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="MeetingType" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXMeetingTypeGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNPRNPrintTemplateGetWithPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TemplateName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TemplateDiscription" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="WorkflowName" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXMasterCasesGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="BusinessName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="ServiceType" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXDataSourceGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="NAME" Nullable="false" MaxLength="128" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXAccountViewGet_Result">
+          <Property Type="String" Name="MunicipalityName" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="MunicipalityID" Nullable="false" />
+          <Property Type="String" Name="DestinataryName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="MunicipalityCity" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXCasesKeyCode_Result">
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXCaseImagesGetWithPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="CaseID" Nullable="false" />
+          <Property Type="Int32" Name="ImageID" Nullable="false" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNPRNPrintCenterGetWithPaging_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="KeyCode" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="OutputFormat" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CaseCount" Nullable="false" />
+          <Property Type="Decimal" Name="Balance" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="FileID" Nullable="true" />
+          <Property Type="String" Name="TemplateName" Nullable="false" MaxLength="50" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNPRNPrintTemplateRelatedStepsGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowReasonGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="FormID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXMasterCasesGetBalanceByStatus_Result">
+          <Property Type="Decimal" Name="Balance" Nullable="true" Precision="19" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXMasterCasesGetCountByStatus_Result">
+          <Property Type="Int32" Name="Balance" Nullable="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNPRNPrintTemplateGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="TemplateName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="FileID" Nullable="false" />
+          <Property Type="Int32" Name="DataSourceID" Nullable="true" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="WorkflowID" Nullable="false" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="WorkflowName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="DataSource" Nullable="false" MaxLength="128" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNITAXCaseMeetingNotesGet_Result">
+          <Property Type="Int64" Name="SrNo" Nullable="true" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="MeetingTypeID" Nullable="false" />
+          <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="MeetingType" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusReasonGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="FormID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="false" />
+          <Property Type="String" Name="Version" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="Boolean" Name="InitialStatus" Nullable="false" />
+          <Property Type="Boolean" Name="AllowEdit" Nullable="false" />
+          <Property Type="Boolean" Name="AllowDelete" Nullable="false" />
+          <Property Type="Boolean" Name="Post" Nullable="false" />
+          <Property Type="Boolean" Name="Void" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNDOCDocumentWorkflowStatusActivityGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Activity" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="Boolean" Name="InitialStatus" Nullable="false" />
+          <Property Type="Boolean" Name="AllowEdit" Nullable="false" />
+          <Property Type="Boolean" Name="AllowDelete" Nullable="false" />
+          <Property Type="Boolean" Name="Post" Nullable="false" />
+          <Property Type="Boolean" Name="Void" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Int32" Name="FormID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CaseDataModelStoreContainer" CdmEntityContainer="CaseDataModelContainer" >
+          <FunctionImportMapping FunctionImportName="MUNITAXCasePriorityGet" FunctionName="CaseDataModel.Store.MUNITAXCasePriorityGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCasePriorityGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXTeamGet" FunctionName="CaseDataModel.Store.MUNITAXTeamGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXTeamGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCasesInsert" FunctionName="CaseDataModel.Store.MUNITAXCasesInsert" />
+          <FunctionImportMapping FunctionImportName="MUNITAXMasterCasesGetWithPaging" FunctionName="CaseDataModel.Store.MUNITAXMasterCasesGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXMasterCasesGetWithPaging_Result">
+                <ScalarProperty Name="SrNO" ColumnName="SrNO" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
+                <ScalarProperty Name="MuicipalityName" ColumnName="MuicipalityName" />
+                <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowFormGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowFormGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowFormGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UsePopup" ColumnName="UsePopup" />
+                <ScalarProperty Name="URLNew" ColumnName="URLNew" />
+                <ScalarProperty Name="URLEdit" ColumnName="URLEdit" />
+                <ScalarProperty Name="URLView" ColumnName="URLView" />
+                <ScalarProperty Name="URLPrint" ColumnName="URLPrint" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowHistoryLogGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowHistoryLogGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowHistoryLogGet_Result">
+                <ScalarProperty Name="AssigntoID" ColumnName="AssigntoID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCasesGet" FunctionName="CaseDataModel.Store.MUNITAXCasesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCasesGet_Result">
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="AccountID" ColumnName="AccountID" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="Refrence" ColumnName="Refrence" />
+                <ScalarProperty Name="PriorityID" ColumnName="PriorityID" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="AssignToID" ColumnName="AssignToID" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+                <ScalarProperty Name="DueDate" ColumnName="DueDate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SortID" ColumnName="SortID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="WorkFlowName" ColumnName="WorkFlowName" />
+                <ScalarProperty Name="PriorityName" ColumnName="PriorityName" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="AccountServices" ColumnName="AccountServices" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="WorkflowID" ColumnName="WorkflowID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCaseMeetingNotesGetWithPaging" FunctionName="CaseDataModel.Store.MUNITAXCaseMeetingNotesGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCaseMeetingNotesGetWithPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MeetingTypeID" ColumnName="MeetingTypeID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MeetingType" ColumnName="MeetingType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXMeetingTypeGet" FunctionName="CaseDataModel.Store.MUNITAXMeetingTypeGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXMeetingTypeGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCaseMeetingNotesInsert" FunctionName="CaseDataModel.Store.MUNITAXCaseMeetingNotesInsert" />
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintTemplateGetWithPaging" FunctionName="CaseDataModel.Store.MUNPRNPrintTemplateGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNPRNPrintTemplateGetWithPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="TemplateDiscription" ColumnName="TemplateDiscription" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="WorkflowName" ColumnName="WorkflowName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXMasterCasesGet" FunctionName="CaseDataModel.Store.MUNITAXMasterCasesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXMasterCasesGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXDataSourceGet" FunctionName="CaseDataModel.Store.MUNITAXDataSourceGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXDataSourceGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintCenterInsert" FunctionName="CaseDataModel.Store.MUNPRNPrintCenterInsert" />
+          <FunctionImportMapping FunctionImportName="MUNITAXAccountViewGet" FunctionName="CaseDataModel.Store.MUNITAXAccountViewGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXAccountViewGet_Result">
+                <ScalarProperty Name="MunicipalityName" ColumnName="MunicipalityName" />
+                <ScalarProperty Name="MunicipalityID" ColumnName="MunicipalityID" />
+                <ScalarProperty Name="DestinataryName" ColumnName="DestinataryName" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MunicipalityCity" ColumnName="MunicipalityCity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintCenterFileIDUpdate" FunctionName="CaseDataModel.Store.MUNPRNPrintCenterFileIDUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNITAXCasesKeyCode" FunctionName="CaseDataModel.Store.MUNITAXCasesKeyCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCasesKeyCode_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintCenterLogInsert" FunctionName="CaseDataModel.Store.MUNPRNPrintCenterLogInsert" />
+          <FunctionImportMapping FunctionImportName="MUNITAXCaseImagesGetWithPaging" FunctionName="CaseDataModel.Store.MUNITAXCaseImagesGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCaseImagesGetWithPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="CaseID" ColumnName="CaseID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintCenterGetWithPaging" FunctionName="CaseDataModel.Store.MUNPRNPrintCenterGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNPRNPrintCenterGetWithPaging_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
+                <ScalarProperty Name="OutputFormat" ColumnName="OutputFormat" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CaseCount" ColumnName="CaseCount" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintTemplateRelatedStepsGet" FunctionName="CaseDataModel.Store.MUNPRNPrintTemplateRelatedStepsGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNPRNPrintTemplateRelatedStepsGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintTemplateInsert" FunctionName="CaseDataModel.Store.MUNPRNPrintTemplateInsert" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowReasonGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowReasonGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowReasonGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXMasterCasesGetBalanceByStatus" FunctionName="CaseDataModel.Store.MUNITAXMasterCasesGetBalanceByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXMasterCasesGetBalanceByStatus_Result">
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXMasterCasesGetCountByStatus" FunctionName="CaseDataModel.Store.MUNITAXMasterCasesGetCountByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXMasterCasesGetCountByStatus_Result">
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintTemplateUpdate" FunctionName="CaseDataModel.Store.MUNPRNPrintTemplateUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNPRNPrintTemplateGet" FunctionName="CaseDataModel.Store.MUNPRNPrintTemplateGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNPRNPrintTemplateGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="FileID" ColumnName="FileID" />
+                <ScalarProperty Name="DataSourceID" ColumnName="DataSourceID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="WorkflowID" ColumnName="WorkflowID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="WorkflowName" ColumnName="WorkflowName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DataSource" ColumnName="DataSource" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCasesUpdate" FunctionName="CaseDataModel.Store.MUNITAXCasesUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNITAXCaseMeetingNotesGet" FunctionName="CaseDataModel.Store.MUNITAXCaseMeetingNotesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNITAXCaseMeetingNotesGet_Result">
+                <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MeetingTypeID" ColumnName="MeetingTypeID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MeetingType" ColumnName="MeetingType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNITAXCaseMeetingNotesUpdate" FunctionName="CaseDataModel.Store.MUNITAXCaseMeetingNotesUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusReasonGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowStatusReasonGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowStatusReasonGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowStatusGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowStatusGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="InitialStatus" ColumnName="InitialStatus" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Void" ColumnName="Void" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNDOCDocumentWorkflowStatusActivityGet" FunctionName="CaseDataModel.Store.MUNDOCDocumentWorkflowStatusActivityGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CaseDataModel.MUNDOCDocumentWorkflowStatusActivityGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Activity" ColumnName="Activity" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="InitialStatus" ColumnName="InitialStatus" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Void" ColumnName="Void" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

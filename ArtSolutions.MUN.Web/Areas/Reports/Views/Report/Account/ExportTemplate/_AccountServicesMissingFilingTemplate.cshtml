@@ -1,0 +1,76 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountServicesMissingFilingModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.AccountServicesMissingFiling;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="40%" class="table-border-center-th" colspan="3"> @GlobalResource.Account</th>
+                    <th width="40%" class="table-border-center-th" colspan="3">@GlobalResource.ServiceName</th>
+                    <th width="20%" class="table-border-center-th" colspan="2">@GlobalResource.Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.AccountServicesMissingFilingList != null && Model.AccountServicesMissingFilingList.Count() > 0)
+                {
+                    foreach (var item in Model.AccountServicesMissingFilingList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td" colspan="3" style="@msoTextFormat">
+                                @item.AccountName
+                            </td>
+                            <td class="table-border-center-td" colspan="3" style="@msoTextFormat">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td" colspan="2">
+                                @if (item.IsMonthly == 0)
+                                {
+                                    @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate))
+                                }
+                                else
+                                {
+                                    @item.PeriodName
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+﻿@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@model AccountPaymentPlanModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan;
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.PaymentPlan;
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment;
+
+@{
+    if (Model.ID > 0)
+    {
+        ViewBag.Title = LocalResource.EditAccountPaymentPlan;
+    }
+    else
+    {
+        ViewBag.Title = LocalResource.NewAccountPaymentPlan;
+    }
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountPaymentPlan</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountPaymentPlan", new { area = "Accounts" })">@LocalResource.ListAccountPaymentPlan</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "AccountPaymentPlan", new AjaxOptions { HttpMethod = "POST", OnSuccess = "UserSuccessCallback(data)" }, new { role = "form", id = "frmAccountPaymentPlan", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <button id="btnSave" class="btn btn-primary" type="submit" tabindex="6">
+                                @if (Model.ID > 0)
+                                {
+                                    @GlobalResource.Update
+                                }
+                                else
+                                {
+                                    @GlobalResource.Save
+                                }
+                            </button>
+                            <button class="btn btn-white" type="button" onclick="location.href='@Url.Content("~/AccountPaymentPlan/List")'" tabindex=7>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.Account <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.DropDownListFor(x => x.AccountID, Model.AccountList, GlobalResource.DropDownSelectMessage, new { @id = "ddlAccount", @class = "form-control select2dropdown required", @onchange = "loadAccountServiceCollectionDetail();", tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.AccountID, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.PlanStartDate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.TextBoxFor(x => x.StartDate, new { Value = Model.StartDate.ToString("d"), @class = "form-control accountPaymentPlanDate required", tabindex = 2, onchange = "ClearAccountPaymentPlanSummary(false)" })
+                                @Html.ValidationMessageFor(x => x.StartDate, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"> @GlobalResource.ServicePaymentPlan <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.DropDownListFor(x => x.ServicePaymentPlanID, Model.ServicePaymentPlanList, GlobalResource.DropDownSelectMessage, new { @id = "ddlServicePaymentPlan", @class = "form-control select2dropdown required", tabindex = 4 })
+                                @Html.ValidationMessageFor(x => x.ServicePaymentPlanID, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-sm-2 control-label">@PaymentResource.ApplybyAmnesty </label>
+                            <div class="col-sm-1 m-t-xs"> @Html.CheckBoxFor(x => x.ApplybyAmnesty, new { tabindex = "4", @onchange = "loadAccountServiceCollectionDetail();" }) </div>
+                        </div>
+                        <div class="row" id="collectiondetailRows">
+                            @{
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountPaymentPlan/_AccountServiceCollectionDetailList.cshtml", Model.AccountServiceCollectionDetailList);
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"> @GlobalResource.DownPayment @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(x => x.InstalmentPercentage, new { Value = Model.InstalmentPercentage.ToString(Common.DecimalPoints), @class = "form-control text-right inputpercentage paymentPlan required", maxlength = 12, tabindex = 5, id = "txtInstalmentPercentage" })
+                                @Html.ValidationMessageFor(x => x.InstalmentPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-lg-3 control-label"> @ServiceResource.InterestPerMonth @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(x => x.InterestPercentage, new { Value = Model.InterestPercentage.ToString("F5"), @class = "form-control text-right inputpercentageFixedDecimal paymentPlan required", maxlength = 12, tabindex = 5, id = "txtInterestPercentage" })
+                                @Html.ValidationMessageFor(x => x.InterestPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label"> @ServiceResource.InterestsForLatePayments @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(x => x.LateInterestPercentage, new { Value = Model.LateInterestPercentage.ToString("F5"), @class = "form-control text-right inputpercentageFixedDecimal paymentPlan required", maxlength = 12, tabindex = 5, id = "txtLateInterestPercentage" })
+                                @Html.ValidationMessageFor(x => x.LateInterestPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                            <label class="col-lg-3 control-label"> @ServiceResource.NoOfMonths <span class="text-danger">*</span> </label>
+                            <div class="col-lg-2">
+                                @Html.TextBoxFor(x => x.Months, new { @class = "form-control text-right inputnumber paymentPlan required", maxlength = 3, tabindex = 5 })
+                                @Html.ValidationMessageFor(x => x.Months)
+                            </div>
+                        </div>
+
+                        <div class="form-group text-right">
+                            <div class="col-lg-12 m-b-n-md">
+                                <button id="btnCalculatePaymentPlan" class="btn btn-primary" type="button" name="actionType" value="1" tabindex="5">@LocalResource.CalculatePaymentPlan</button>
+                            </div>
+                        </div>
+                        <div id="divAccountPaymentDetail" class="row" style="display:none;">
+                            @{
+                                Html.RenderPartial("~/Areas/Accounts/Views/AccountPaymentPlan/_AccountPaymentPlanDetail.cshtml", Model);
+                            }
+                        </div>
+                    </div>
+                    @Html.HiddenFor(x => x.AccountServiceCollectionDetailIDs)
+
+                    @Html.HiddenFor(x => x.ID)
+                    @Html.HiddenFor(x => x.AccountID)                   
+                    @Html.HiddenFor(x => x.AccountPaymentPlanServiceIDs)
+                    @Html.HiddenFor(x => x.AccountPaymentPlanServiceCollectionDetailIDs)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+
+    <script type="text/javascript">
+        var ActionTypeID = '@ViewBag.ActionType';
+        var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var selectAtLeastOneItemRequiredMsg = '@Html.Raw(GlobalResource.SelectAtLeastOneItemRequiredMsg)';
+        var pleaseCalculatePaymentPlanBeforeSaveMsg = '@Html.Raw(LocalResource.PleaseCalculatePaymentPlanBeforeSaveMsg)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var MustBeEqualOrGreaterThan3Msg = '@Html.Raw(ServiceResource.NoOfMonths + " " +ServiceResource.MustBeEqualOrGreaterThan3Msg)';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/accountpaymentplan.js")"></script>
+}

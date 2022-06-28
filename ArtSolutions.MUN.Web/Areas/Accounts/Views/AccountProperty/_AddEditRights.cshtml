@@ -1,0 +1,166 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    Model.TerrainValue = 0;
+    Model.TotalTerrainValue = 0;
+}
+
+<form id="frmRights">
+    <div class="modal-body no-padding">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="addresstitle">@LocalResource.NewRightPopupTitle</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.RightCode <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(d => d.RigthNumber, new { @class = "form-control required", maxlength = 10, tabindex = 27 })
+                            @Html.ValidationMessageFor(d => d.RigthNumber)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Owner <span class="text-danger">*</span></label>
+
+                            @*@Html.DropDownListFor(d => d.OwnerID, (List<SelectListItem>)ViewBag.AccountList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", tabindex = 21 })*@
+                            @Html.DropDownListFor(d => d.OwnerID, new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", tabindex = 28 })
+                            @Html.ValidationMessageFor(d => d.OwnerID)
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Percentage <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(d => d.Percentage, new { @class = "form-control inputpercentage text-right", maxlength = 12, tabindex = 29 })
+                            @Html.ValidationMessageFor(d => d.Percentage)
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.TerrainValue)</label>
+                            @Html.TextBoxFor(d => d.TerrainValue, new { @class = "form-control text-right", @readonly = true })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.OldTerrainArea) <span class="text-danger">*</span></label>
+                            @Html.TextBox("HdnArea", Model.Area, new { @class = "form-control required text-right", @readonly = true })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.NewTerrainArea) <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(d => d.Area, new { @class = "form-control required text-right", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.OldTotalTerrainValue)</label>
+                            @Html.TextBox("HdnTotalTerrainValue", Model.TotalTerrainValue.Value, new { @class = "form-control text-right", @readonly = true })
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.NewTotalTerrainValue)</label>
+                            @Html.TextBoxFor(d => d.TotalTerrainValue, new { @class = "form-control text-right", @readonly = true })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.CurrentValueFromRight)</label>
+                            @Html.TextBoxFor(d => d.TotalValue, new { @class = "form-control text-right", @readonly = true })
+                            @Html.Hidden("BtnAddtype")
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@Html.Raw(@LocalResource.NewCurrentValue)</label>
+                            @Html.TextBoxFor(d => d.NewCurrentValue, new { @class = "form-control text-right", @readonly = true })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="control-label">@Html.Raw(@LocalResource.CurrentValueFromPropertyTax)</label>
+                        @Html.TextBoxFor(d => d.CurrentValueFromPropertyTax, new { @class = "form-control text-right", @readonly = true })
+                    </div>
+                </div>
+
+                <div class="table-responsive m-t">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.ConstructionArea)</th>
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.Percentage)</th>                                
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.ConstructionArea)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="divConstructionArea">
+                            @*<tr data-id="">
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("ConstructionArea","", new { @class = "form-control text-right Currencyinputdecimal ConstructionArea", @readonly = true })
+                                </td>
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("ContructionValue","", new { @class = "form-control required text-right Currencyinputdecimal FillingPropertyTax ContructionValue clearPropertyTax" })
+
+                                </td>
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("NewContructionValue","", new { @class = "form-control required text-right Currencyinputdecimal FillingPropertyTax ContructionValue clearPropertyTax" })
+
+                                </td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.ComplementaryArea)</th>
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.Percentage)</th>                                
+                                <th class="col-lg-4 text-right">@Html.Raw(@LocalResource.ComplementaryArea)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="divComplementaryArea">
+                            @*<tr>
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("ComplementaryArea","", new { @class = "form-control text-right Currencyinputdecimal ConstructionArea", @readonly = true })
+                                </td>
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("ComplementaryValue", "", new { @class = "form-control required text-right Currencyinputdecimal FillingPropertyTax ContructionValue clearPropertyTax" })
+
+                                </td>
+                                <td class='col-lg-4 text-right'>
+                                    @Html.TextBox("NewComplementaryValue", "", new { @class = "form-control required text-right Currencyinputdecimal FillingPropertyTax ContructionValue clearPropertyTax" })
+
+                                </td>
+                            </tr>*@
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddRights" type="button" tabindex="30" class="btn btn-primary" data-form-type="1">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" tabindex="31" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,374 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountExclusionFormModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-lg m-b-md">
+            <div class="col-lg-5 box-border">
+                <div class="col-lg-12 no-padding">
+
+                    <strong> @GlobalResource.Account  :  </strong>
+                    @Model.AccountModel.DisplayName
+
+                </div>
+                <div class="col-lg-12 no-padding m-t-sm">
+
+                    <strong> @AccountResource.Address  :  </strong>
+                    @Model.AccountModel.Address
+
+                </div>
+                <div class="col-lg-12 no-padding m-t-sm">
+
+                    <strong> @GlobalResource.Phone  :  </strong>
+                    @Model.AccountModel.PhoneNumber
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive m-t">
+        <table id="tblPropertyTax" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th colspan="8" class="text-uppercase text-center">
+                        @ReportResource.AccountExclusionFormPropertyTaxListTitle
+                    </th>
+                </tr>
+                <tr>
+                    <th style="min-width:20px;" class="text-center">
+                        @GlobalResource.Year
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        @ReportResource.RightNumber
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @GlobalResource.TotalValue
+                    </th>
+                    <th style="min-width:150px;" class="text-center">
+                        @ReportResource.Impuesto
+                    </th>
+                    @*<th style="min-width:300px;" class="text-center">
+                            @GlobalResource.Service
+                        </th>*@
+                    <th style="min-width:100px;" class="text-center">
+                        @GlobalResource.Penalties
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @GlobalResource.PaidAmount
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @GlobalResource.BalanceAmountByService
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PropertyTaxList != null && Model.PropertyTaxList.Count() > 0)
+                {
+                    foreach (var objRight in Model.PropertyTaxList.GroupBy(d => d.RightNumber).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="7" class="border-right">
+                                <b>@objRight</b>
+                            </td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            @*<td style="display: none;"></td>*@
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                        </tr>
+
+                        foreach (var item in Model.PropertyTaxList.Where(d => d.RightNumber == objRight))
+                        {
+
+                            <tr>
+                                <td class="text-center">@item.Year</td>
+                                <td class="text-center">@item.RightNumber</td>
+                                <td class="text-center">@item.FormattedTotalValue</td>
+                                <td class="text-center">@item.FormattedPrincipal</td>
+                                @*<td class="text-center table-description-field" data-original-title="@item.Service">
+                                        @item.Service
+                                    </td>*@
+                                <td class="text-center">@item.FormattedPenalties</td>
+                                <td class="text-center">@item.FormattedPaidAmount</td>
+                                <td class="text-center">@item.FormattedBalanceAmountByService</td>
+                            </tr>
+                        }
+                        <tr class="sub-header font-bold">
+                            <td></td>
+                            <td class="text-center">@PaymentResource.TotalAmount</td>
+                            <td class="text-center top-border table-total-amount">@Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.TotalValue == null ? 0 : x.TotalValue).Value.ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.Principal).ToString("C")</td>
+                            @*<td></td>*@
+                            <td class="text-center top-border table-total-amount">@Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.Penalties).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.PaidAmount).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.BalanceAmountByService).ToString("C")</td>
+                        </tr>
+                    }
+                    <tr class="font-bold" style="background-color:lightgray;">
+                        <td></td>
+                        <td class="text-center">
+                            <h4>@ReportResource.PropertyTaxTotalAmount</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.PropertyTaxList.Sum(x => x.TotalValue == null ? 0 : x.TotalValue).Value.ToString("C")</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.PropertyTaxList.Sum(x => x.Principal).ToString("C")</h4>
+                        </td>
+                        @*<td></td>*@
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.PropertyTaxList.Sum(x => x.Penalties).ToString("C")</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.PropertyTaxList.Sum(x => x.PaidAmount).ToString("C")</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.PropertyTaxList.Sum(x => x.BalanceAmountByService).ToString("C")</h4>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table id="tblWaterMeasure" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th colspan="8" class="text-uppercase text-center">
+                        @ReportResource.AccountExclusionFormWaterMeasureListTitle
+                    </th>
+                </tr>
+                <tr>
+                    <th style="min-width:300px;" class="text-center">
+                        @GlobalResource.Service
+                    </th>
+                    <th style="min-width:120px;" class="text-center">
+                        @ReportResource.Meter
+                    </th>
+                    <th style="min-width:120px;" class="text-center">
+                        @ReportResource.LastReading
+                    </th>
+                    <th style="min-width:120px;" class="text-center">
+                        @ReportResource.CurrentReading
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @ReportResource.Route
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        @GlobalResource.Month
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        @GlobalResource.Year
+                    </th>
+                    <th style="min-width:150px;" class="text-center">
+                        @ReportResource.PendingAmount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.WaterMeasureList != null && Model.WaterMeasureList.Count() > 0)
+                {
+                    foreach (var objService in Model.WaterMeasureList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="8" class="border-right">
+                                <b>@objService</b>
+                            </td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                        </tr>
+
+                        foreach (var item in Model.WaterMeasureList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                @*<td class="text-center table-description-field" data-original-title="@item.Service">
+                                        @item.Service
+                                    </td>*@
+                                <td></td>
+                                <td class="text-center">@item.CustomField1</td>
+                                <td class="text-center">@item.PreviousMeasure.ToString(Common.NumberPoints, System.Globalization.CultureInfo.CreateSpecificCulture("en"))</td>
+                                <td class="text-center">@item.ActualMeasure.ToString(Common.NumberPoints, System.Globalization.CultureInfo.CreateSpecificCulture("en"))</td>
+                                <td class="text-center">@item.CustomField2</td>
+                                <td class="text-center">@item.Month</td>
+                                <td class="text-center">@item.Year</td>
+                                <td class="text-center">@item.FormattedBalance</td>
+                            </tr>
+                        }
+                        <tr class="sub-header font-bold">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center">@PaymentResource.TotalAmount</td>
+                            <td class="text-center top-border table-total-amount">@Model.WaterMeasureList.Where(d => d.Service == objService).Sum(x => x.Balance).ToString("C")</td>
+                        </tr>
+                    }
+                    <tr class="font-bold" style="background-color:lightgray;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">
+                            <h4>@ReportResource.WaterMeasureTotalAmount</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.WaterMeasureList.Sum(x => x.Balance).ToString("C")</h4>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table id="tblOtherServices" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th colspan="6" class="text-uppercase text-center">
+                        @ReportResource.AccountExclusionFormOtherServicesListTitle
+                    </th>
+                </tr>
+                <tr>
+                    <th class="col-lg-5 text-center">
+                        @GlobalResource.Service
+                    </th>
+                    <th class="col-lg-3 text-center">
+                        @ReportResource.PrincipalAmountPerPeriod
+                    </th>
+                    <th class="col-lg-1 text-center">
+                        @AccountServiceResource.Segrega
+                    </th>
+                    <th class="col-lg-2 text-center">
+                        @ReportResource.PendingPeriods
+                    </th>
+                    <th class="col-lg-1 text-center">
+                        @GlobalResource.Year
+                    </th>
+                    <th class="col-lg-1 text-center">
+                        @GlobalResource.Balance
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.OtherServicesList != null && Model.OtherServicesList.Count() > 0)
+                {
+                    foreach (var objService in Model.OtherServicesList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="6" class="border-right">
+                                <b>@objService</b>
+                            </td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                            <td style="display: none;"></td>
+                        </tr>
+
+                        foreach (var item in Model.OtherServicesList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                @*<td class="text-center table-description-field" data-original-title="@item.Service">
+                                        @item.Service
+                                    </td>*@
+                                <td class="text-center">@item.RightNumber</td>
+                                <td class="text-center">@item.FormattedPrincipal</td>
+                                <td class="text-center">@item.Segrega</td>
+                                <td class="text-center">@item.PendingPeriod</td>
+                                <td class="text-center">@item.FiscalYearID</td>
+                                <td class="text-center">@item.FormattedBalance</td>
+                            </tr>
+                        }
+                        <tr class="sub-header font-bold">
+                            <td class="text-center">@PaymentResource.TotalAmount</td>
+                            <td class="text-center top-border table-total-amount">@Model.OtherServicesList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString("C")</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-center top-border table-total-amount">@Model.OtherServicesList.Where(d => d.Service == objService).Sum(x => x.Balance).ToString("C")</td>
+                        </tr>
+                    }
+                    <tr class="font-bold" style="background-color:lightgray;">
+                        <td class="text-center">
+                            <h4>@ReportResource.OtherServicesTotalAmount</h4>
+                        </td>
+                        <td class="text-center top-border table-total-amount">
+                            <h4>@Model.OtherServicesList.Sum(x => x.Principal).ToString("C")</h4>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table id="tblHistorical" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th colspan="5" class="text-uppercase text-center">
+                        @ReportResource.PendingPropertyTax
+                    </th>
+                </tr>
+                <tr>
+                    <th class="text-center" width="12%">
+                        @GlobalResource.Year
+                    </th>
+                    <th class="text-center" width="22%">
+                        @GlobalResource.Principal
+                    </th>
+                    <th class="text-center" width="22%">
+                        @GlobalResource.Interest
+                    </th>
+                    <th class="text-center" width="22%">
+                        @GlobalResource.PaidAmount
+                    </th>
+                    <th class="text-center" width="22%">
+                        @GlobalResource.Balance
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.HistoricalList != null && Model.HistoricalList.Count() > 0)
+                {
+                    foreach (var objItem in Model.HistoricalList)
+                    {
+                        <tr>
+                            <td class="text-center">@objItem.FiscalYearID</td>
+                            <td class="text-center">@objItem.FormattedPrincipal</td>
+                            <td class="text-center">@objItem.FormattedInterest</td>
+                            <td class="text-center">@objItem.FormattedPaidAmount</td>
+                            <td class="text-center">@objItem.FormattedRemainingAmount</td>
+                        </tr>
+                    }
+                    <tr class="font-bold" style="background-color:lightgray;">
+                        <td class="text-center">@PaymentResource.TotalAmount</td>
+                        <td class="text-center top-border table-total-amount">@Model.HistoricalList.Sum(x => x.Principal).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.HistoricalList.Sum(x => x.Interest).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.HistoricalList.Sum(x => x.PaidAmount).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.HistoricalList.Sum(x => x.RemainingAmount).ToString("C")</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

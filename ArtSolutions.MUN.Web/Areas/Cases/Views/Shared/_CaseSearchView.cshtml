@@ -1,0 +1,33 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+<div class="row">
+    <div class="col-md-2 no-padding-right">
+        <button type="button" id="aRefresh" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+    </div>
+    <div class="col-md-5 no-padding-right no-padding-left">
+        <div class="input-group">
+            <input type="text" placeholder="@GlobalResource.Search" class="input-sm form-control readdata"  id="FilterText"> <span class="input-group-btn">
+                <button type="button" class="btn btn-sm btn-primary" id="btnSearch"> @GlobalResource.Go</button>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-2 text-center padding-top-7 no-padding-right">
+        <a class="text-navy" id="aAdvanceSearch">
+            @GlobalResource.AdvanceSearch
+        </a>
+    </div>
+    <div class="col-md-3 no-padding-left">
+        <div class="button-group pull-right">
+            <button type="button" id="btnNew" class="btn btn-primary as-btn-text">@GlobalResource.New</button>
+            <button class="btn btn-primary dropdown-toggle" name="btnAction" data-toggle="dropdown">
+                @GlobalResource.Action
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="ddlStatusAction">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

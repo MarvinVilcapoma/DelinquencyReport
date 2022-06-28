@@ -1,0 +1,164 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Collections.Models.JournalListForPosting>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+
+<div class="full-height-scroll">
+    <div class="table-responsive m-t">
+        <table class="table table-report" id="tblJournalDetail">
+            <thead>
+                <tr class="sub-header">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        <th>
+                            <input type="checkbox" id="chkAll" tabindex="7" class="chkAll" />
+                        </th>
+                    }
+                    <th style="width:3%">
+                        @GlobalResource.ID
+                    </th>
+                    <th style="width:10%">
+                        @GlobalResource.Type
+                    </th>
+                    <th style="width:10%">
+                        @GlobalResource.Date
+                    </th>
+                    <th style="width:5%">
+                        @GlobalResource.Number
+                    </th>
+                    <th style="width:15%">
+                        @GlobalResource.Name
+                    </th>
+                    <th style="width:10%">
+                        @GlobalResource.FinanceJournalID
+                    </th>
+
+                    <th style="width:10%">
+                        @GlobalResource.CollectionType
+                    </th>
+                    <th style="width:10%">
+                        @GlobalResource.Grant
+                    </th>
+                    <th style="width:4%">
+                        @GlobalResource.Percentage
+                    </th>
+                    <th style="width:15%">
+                        @GlobalResource.FinanceAccount
+                    </th>
+
+                    <th style="width:4%" class="text-right">
+                        @GlobalResource.Debit
+                    </th>
+                    <th style="width:4%" class="text-right">
+                        @GlobalResource.Credit
+                    </th>
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        <th style="width:4%" class="text-right">
+                            @GlobalResource.ID
+                        </th>
+                    }
+                    </tr>
+                   
+            </thead>
+            <tbody id="accountRows">
+                @if (Model != null && Model.Count() > 0)
+                {
+                    var i = 0; int CurrModuleName = 0; var LastIndex = Model.Count(); var Flag = true;
+                    foreach (var item in Model)
+                    {
+                <tr>
+
+                    @if (Flag)
+                    {
+                        <td data-journalid="@item.ID">
+                            <input type="checkbox" class="chkJournal" tabindex="8" />
+                        </td>
+                        <td class="" width="3%" title="@item.ID">@item.ID</td> /*form-control-auto-width*/
+                        <td class="" width="10%" title="@item.Name">@item.Name</td>
+                        <td class="" width="10%">@item.Date.ToString("d")</td>
+                        <td class="" width="10%" title="@string.Format("{0} ({1})",item.ReceiptNumber,item.Status)">@string.Format("{0} ({1})", item.ReceiptNumber, item.Status)</td>
+                        <td class="" width="15%" title="@item.ReferenceAccountName">@item.ReferenceAccountName</td>
+                        <td class="" width="10%" title="@item.FINJournalID">@item.FINJournalID</td>
+                    }
+                    else
+                    {
+                        <td colspan="7" width="28%"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                    }
+
+                    <td class="" width="10%" title="@item.CollectionTypeName">@item.CollectionTypeName</td>
+                    <td class="" width="10%" title="@item.Grant">@item.Grant</td>
+                    <td class="" width="4%" title="@item.Percentage">@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString(Common.DecimalPoints) + "%" : "")</td>
+                    <td class="" width="15%" title="@item.NameFriendly">@item.NameFriendly</td>
+                    <td class="text-right" width="4%">@item.Debit.ToString("C")</td>
+                    <td class="text-right" width="4%">@item.Credit.ToString("C")</td>
+                    <td class="" width="3%" title="@item.ID">@item.ID</td>
+                </tr>
+                        if (i == 0) { CurrModuleName = item.ID; }
+                        if (i != LastIndex - 1)
+                        {
+                            if (CurrModuleName != Model[i + 1].ID)
+                            {
+                                Flag = true;
+                <tr class="sub-header font-bold">
+                    <td colspan="10" width="62%"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td class="text-right" width="30%">@GlobalResource.Total</td>
+                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                    <td class="" width="3%" title="@item.ID">@item.ID</td>
+                </tr>
+                            }
+                            else
+                            {
+                                Flag = false;
+                            }
+                            CurrModuleName = Model[i + 1].ID;
+                        }
+                        else if (i == LastIndex - 1)
+                        {
+                <tr class="sub-header font-bold">
+                    <td colspan="10" width="62%"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td style="display:none"></td>
+                    <td class="text-right" width="30%">@GlobalResource.Total</td>
+                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                    <td class="" width="3%" title="@item.ID">@item.ID</td>
+                </tr>
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr class="sub-header">
+                        <td colspan="12" class="text-center" width="100%">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>            
+        </table>
+    </div>
+</div>

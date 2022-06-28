@@ -1,0 +1,252 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFillingModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    Layout = null;
+    var isViewMode = ViewBag.IsViewMode;
+}
+
+@using (Ajax.BeginForm("SaveFillingUnit", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "FillingSuccessCallback(data)" }, new { role = "form", id = "frmFillingUnit", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                @if (isViewMode == null)
+                {
+                    if (ViewBag.IsSummary == null)
+                    {
+                        <h5> @LocalResource.PopupFillingTitle @Model.ServicePeriod </h5>
+                    }
+                    else
+                    {
+                        <h5> @LocalResource.PopupFillingTitle @Model.ServiceName</h5>
+                    }
+                }
+                else
+                {
+                    if (ViewBag.IsSummary == null)
+                    {
+                        <h5> @LocalResource.ViewFilingForTitle @Model.ServicePeriod </h5>
+                    }
+                    else
+                    {
+                        <h5> @LocalResource.ViewFilingForTitle @Model.ServiceName</h5>
+                    }
+                }
+
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                @if (Model.CollectionFillingUnitModel != null && Model.CollectionFillingUnitModel.ID > 0 && Model.CollectionFillingUnitModel.IsEditPermission == 1)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-12 right">
+                            <button id="btnDeleteUnit" style="float:right;" type="button" class="btn btn-danger DeleteFillingUnit m-l">@GlobalResource.Delete</button>
+                            <button id="btnEditUnit" style="float:right;" type="button" class="btn btn-primary editFillingUnit">@GlobalResource.Edit</button>
+                            @Html.HiddenFor(d => d.ServiceID)
+                            @Html.HiddenFor(d => d.ServiceName)
+                            @Html.HiddenFor(d => d.ServicePeriod)
+                            @Html.HiddenFor(d => d.ServiceTypeID)
+                            @Html.Hidden("IsSummary", (bool?)ViewBag.IsSummary)
+                        </div>
+                    </div>
+                }
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">
+                        @GlobalResource.FilingDate
+                        @if (isViewMode != true)
+                        {
+                            <span class="text-danger">*</span>
+                        }
+                    </label>
+                    <div class="col-lg-3">
+                        @Html.TextBox("FillingDate", (Model.FillingDate == null ? null : Model.FillingDate.Value.ToString("d")), new { @class = "form-control fillingDate required textblur", tabindex = 1 })
+                        @Html.ValidationMessageFor(x => x.FillingDate)
+                        @Html.Hidden("ApplyToAllYear", true)
+                    </div>
+                </div>
+                @if (isViewMode == true)
+                {
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label">@GlobalResource.ReFillingDate</label>
+                        <div class="col-lg-3">
+                            @Html.TextBox("ReFillingDate", (Model.ReFillingDate == null ? null : Model.ReFillingDate.Value.ToString("d")), new { @class = "form-control ReFillingDate required textblur", disabled = true })
+                        </div>
+                    </div>
+                }
+                @*<div class="row form-group">
+                        <label class="col-lg-3 control-label">
+                            @LocalResource.Length
+                            @if (isViewMode != true)
+                            {
+                                <span class="text-danger">*</span>
+                            }
+                        </label>
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(x => x.CollectionFillingUnitModel.Length, new { @class = "form-control text-right Currencyinputdecimal", @id = "txtLength", @onchange = "calculateUnitTotal()", @Value = (Model.CollectionFillingUnitModel.Length == 0 ? "0" : Model.CollectionFillingUnitModel.Length.ToString(Common.DecimalPoints)) })
+                            @Html.ValidationMessageFor(x => x.CollectionFillingUnitModel.Length)
+                        </div>
+                    </div>*@
+                @*<div class="row form-group">
+                        <label class="col-lg-3 control-label">
+                            @LocalResource.Width
+                            @if (isViewMode != true)
+                            {
+                                <span class="text-danger">*</span>
+                            }
+                        </label>
+                        <div class="col-lg-9">
+                            @Html.TextBoxFor(x => x.CollectionFillingUnitModel.Width, new { @class = "form-control text-right Currencyinputdecimal", @id = "txtWidth", @onchange = "calculateUnitTotal()", @Value = (Model.CollectionFillingUnitModel.Length == 0 ? "0" : Model.CollectionFillingUnitModel.Width.ToString(Common.DecimalPoints)), @datatitle = LocalResource.Width })
+                            @Html.ValidationMessageFor(x => x.CollectionFillingUnitModel.Width)
+                        </div>
+                    </div>*@
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">
+                        @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52 && (Model.ServiceID == 1 || Model.ServiceID == 2))
+                        {
+                            @Html.Raw(@LocalResource.SideWalksArea)
+                        }
+                        else if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID == 52 && (Model.ServiceID >= 25 && Model.ServiceID <= 33))
+                        {
+                            if (Model.ServiceTypeID == 27)//PARKS MAINTENANCE
+                            {
+                                @Html.Raw(GlobalResource.Amount)
+                            }
+                            else
+                            {
+                                @Html.Raw(@LocalResource.RoadsCleaningLinealMeters)
+                            }
+                        }
+                        else if (Model.ServiceID == 116)
+                        {
+                            @Html.Raw(@GlobalResource.Value)
+                        }
+                        else
+                        {
+                            @Html.Raw(@LocalResource.Area)
+                        }
+
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(x => x.CollectionFillingUnitModel.Value, new { @class = "form-control text-right Currencyinputdecimal clearUnit", @id = "txtArea", @Value = (Model.CollectionFillingUnitModel.Value == 0 ? "0" : Model.CollectionFillingUnitModel.Value.ToString(Common.DecimalPoints)) })
+                        @Html.ValidationMessageFor(x => x.CollectionFillingUnitModel.Value)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">
+                        @if (Model.ServiceTypeID == 16) //SIDEWALKS
+                        {
+                            @Html.Raw(@LocalResource.UnitCostPerSquareMeter)
+                        }
+                        else if (Model.ServiceTypeID == 27) //PARKS MAINTENANCE
+                        {
+                            @Html.Raw(@LocalResource.CostPerEveryColonesMillionDeclaratedInProperty)
+                        }
+                        else if (Model.ServiceID == 116)
+                        {
+                            @Html.Raw(@LocalResource.UnitCostMulta)
+                        }
+                        else
+                        {
+                            @Html.Raw(@LocalResource.UnitCost)
+                        }
+                    </label>
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(x => x.CollectionFillingUnitModel.UnitCost, new { @class = "form-control text-right", @id = "txtUnitCost", ReadOnly = "true", @Value = (Model.CollectionFillingUnitModel.UnitCost == 0 ? "0" : Model.CollectionFillingUnitModel.UnitCost.ToString(Common.DecimalPoints)) })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.TotalCost</label>
+                    <div class="col-lg-9">
+                        @Html.TextBoxFor(x => x.CollectionFillingUnitModel.Total, new { @class = "form-control text-right", @id = "txtTotal", @Value = (Model.CollectionFillingUnitModel.Total == 0 ? "0" : Model.CollectionFillingUnitModel.Total.ToString(Common.DecimalPoints)), ReadOnly = "true" })
+                    </div>
+                </div>
+
+                @if (isViewMode == null)
+                {
+                    @*Upload File Control*@
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <label class="control-label"> @GlobalResource.Documents </label>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-12">
+                            <div id="attachmentDropzone" class="dropzone">
+                                <div id="attachmentPreview" class="dropzone-previews">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (isViewMode != null)
+                {
+                    <div class="row form-group">
+                        <label class="col-lg-3 control-label">@GlobalResource.AttachmentsFiles</label>
+                        <div class="col-lg-9">
+                            <ul class="list-unstyled project-files m-t-sm">
+                                @if (Model.CollectionFillingUnitModel.CollectionFillingImagesList.Count > 0)
+                                {
+                                    foreach (var item in Model.CollectionFillingUnitModel.CollectionFillingImagesList)
+                                    {
+                                        string ext = System.IO.Path.GetExtension(item.FileName);
+                                        string cssclass = "fa-file";
+                                        <li class="text-description-field">
+                                            <a href='@Url.Content("~/File/DownloadFile?id=" + item.ImageID)'>
+                                                @if ((".xlsx .xls").Contains(ext))
+                                                {
+                                                    cssclass = "fa-file-excel-o";
+                                                }
+                                                else if (ext.Contains(".pdf"))
+                                                {
+                                                    cssclass = "fa-file-pdf-o";
+                                                }
+                                                else if ((".docx,.doc").Contains(ext))
+                                                {
+                                                    cssclass = "fa-file-word-o";
+                                                }
+                                                else if ((".jpg,.jpeg,.gif,.png,.bmp").Contains(ext))
+                                                {
+                                                    cssclass = "fa-file-image-o";
+                                                }
+                                                else if ((".flv,.wmv,.mp4,.mp3,.mpeg").Contains(ext))
+                                                {
+                                                    cssclass = "fa-file-Video-o";
+                                                }
+                                                <i class="fa @cssclass m-r-xxs">
+                                                </i>
+                                                &nbsp;@item.FileName
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        @GlobalResource.NoDataMessage
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddUnit" type="submit" class="btn btn-primary" onclick="return SaveUnit();">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+
+    @*Hidden Fields*@
+    <input type="hidden" id="AccountServiceCollectionDetailId" name="AccountServiceCollectionDetailId" value="@Model.AccountServiceCollectionDetailId" />
+    <input type="hidden" id="GroupID" name="GroupID" value="@Model.GroupID" />
+    <input type="hidden" id="RowVersion" name="RowVersion" />
+    <input type="hidden" id="ImageIds" name="CollectionFillingUnitModel.CommaSeperatedImageIDs" />
+    @Html.HiddenFor(m => m.RowVersion64)
+}

@@ -1,0 +1,107 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.FinishViewMeasuredWaterFilingModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row">
+    <div class="col-lg-12">
+
+        @Html.HiddenFor(m => m.PeriodYear)
+        @Html.HiddenFor(m => m.PeriodMonth)
+
+        <div class="project-list table-responsive">
+            @if (Model.HeaderColumnList != null && Model.HeaderColumnList.Count > 0)
+            {
+                <table class="table table-hover footable" id="tblFinish" data-paging-size="50">
+                    <thead>
+                        <tr>
+                            @for (int i = 0; i < Model.HeaderColumnList.Count; i++)
+                            {
+                                if (i >= 0 && i <= 9)
+                                {
+                                    <th>
+                                        @if (i == 0)
+                                        {
+                                            @GlobalResource.Year
+                                        }
+                                        else if (i == 1)
+                                        {
+                                            @GlobalResource.Month
+                                        }
+                                        else if (i == 2)
+                                        {
+                                            @GlobalResource.Category
+                                        }
+                                        else if (i == 3)
+                                        {
+                                            @GlobalResource.TaxNumber
+                                        }
+                                        else if (i == 4)
+                                        {
+                                            @AccountServiceResource.Location
+                                        }
+                                        else if (i == 5)
+                                        {
+                                            @AccountServiceResource.Codigom
+                                        }
+                                        else if (i == 6)
+                                        {
+                                            @LocalResource.CurrentReading
+                                        }
+                                        else if (i == 7)
+                                        {
+                                            @AccountServiceResource.LastReading
+                                        }
+                                        else if (i == 8)
+                                        {
+                                            @LocalResource.Difference
+                                        }
+                                        else if (i == 9)
+                                        {
+                                            @GlobalResource.Date
+                                        }
+                                    </th>
+                                }
+                            }
+                        </tr>
+                    </thead>
+                    <tbody class="white-bg" data-paging-size="50">
+                        @foreach (var row in Model.ImportMeasuredWaterFilingViewModel)
+                        {
+                            <tr>
+                                <td>@Model.PeriodYear</td>
+                                <td>@Model.PeriodMonth</td>
+                                <td>@row.CATEGORIA</td>
+                                <td>@row.TaxNumber</td>
+                                <td>@row.UBICACION</td>
+                                <td>@row.CODIGOM</td>
+                                <td>@row.LECTURAACT</td>
+                                <td>@row.LastReading</td>
+                                <td>@row.Difference</td>
+                                <td>
+                                    @if (row.FECHA.Length == 8)
+                                    {
+                                        @Html.Raw(new DateTime(Convert.ToInt32(row.FECHA.Substring(4, 4)), Convert.ToInt32(row.FECHA.Substring(2, 2)), Convert.ToInt32(row.FECHA.Substring(0, 2))).ToString("d"));
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="10">
+                                <ul class="pagination list-inline pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<style>
+    #divfinishtable {
+        height: 700px;
+    }
+</style>

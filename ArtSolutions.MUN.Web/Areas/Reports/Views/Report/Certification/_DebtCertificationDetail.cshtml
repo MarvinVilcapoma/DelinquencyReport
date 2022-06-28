@@ -1,0 +1,228 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.DebtCertificationModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+
+@{
+
+}
+
+@*<div class="row m-t-sm">
+        <div class="col-lg-12 text-center font-bold">
+            @ReportResource.LegalHeader
+        </div>
+    </div>*@
+
+<div class="row m-t-sm">
+    <div class="col-lg-12 m-t-md m-b-md">
+        <h5 class="text-center">
+            @ReportResource.LegalHeader
+        </h5>
+    </div>
+</div>
+
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-sm m-b-md">
+            <div class="col-lg-6 box-border">
+                <div class="col-lg-12 no-padding">
+                    <strong> @ReportResource.DebtCertificationAccountNameLabel  :  </strong>
+                    @Model.AccountModel.DisplayName
+                </div>
+                @*<div class="col-lg-4 no-padding m-t-sm">
+                    <strong> @GlobalResource.TaxNumber  :  </strong>
+                    @Model.AccountModel.TaxNumber
+                </div>*@
+                <div class="col-lg-12 no-padding m-t-sm">
+                    <strong> @GlobalResource.TaxNumber  :  </strong>
+                    @Model.AccountModel.TaxNumber
+                </div>
+                <div class="col-lg-12 no-padding m-t-sm">
+                    <strong class="text-uppercase"> @AccountResource.Address  :  </strong>
+                    @Model.AccountModel.Address
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-t-sm">
+        <div class="col-lg-12">
+            @ReportResource.DebtCertificationHelpedByLabel :
+        </div>
+    </div>
+
+    <div class="table-responsive vertical-scroll">
+        <table id="debtCertificationDataTable" class="table table-report table-tbody-total no-padding">
+            <tbody>
+                @if (Model.DebtCertificationList != null && Model.DebtCertificationList.Count() > 0)
+                {
+                    foreach (var objService in Model.DebtCertificationList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="8"><b>@objService</b></td>
+                        </tr>
+                        <tr class="border-left">
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @GlobalResource.Period
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @ReportResource.PrincipalAmount
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                % @ReportResource.Penalty
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @ReportResource.PenaltyAmount
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                % @ReportResource.Interest
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @ReportResource.InterestAmount
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @ReportResource.SubTotal
+                            </td>
+                            <td style="min-width:150px;" class="text-center font-bold">
+                                @GlobalResource.Total
+                            </td>
+                        </tr>
+                        foreach (var item in Model.DebtCertificationList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                <td class="text-center">@item.FormattedPeriod</td>
+                                @*<td class="text-center">
+                                    @if (string.IsNullOrEmpty(@item.CustomField))
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                    else
+                                    {
+                                        @item.CustomField
+                                    }
+                                </td>*@
+                                <td class="text-center">@item.FormattedPrincipal</td>
+                                <td class="text-center">@item.FormattedPenaltyPercentage</td>
+                                <td class="text-center">@item.FormattedPenalties</td>
+                                <td class="text-center">@item.FormattedInterestPercentage</td>
+                                <td class="text-center">@item.FormattedInterest</td>
+                                <td class="text-center">@item.FormattedPrincipal</td>
+                                <td class="text-center">@item.FormattedTotal</td>
+                            </tr>
+                        }
+                        <tr class="sub-header font-bold">
+                            <td class="text-center table-bg-bold-right-td">@ReportResource.SubTotal</td>
+                            <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString("C")</td>
+                            <td></td>
+                            <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Penalties).ToString("C")</td>
+                            <td></td>
+                            <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Interest).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString("C")</td>
+                            <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Where(d => d.Service == objService).Sum(x => x.Total).ToString("C")</td>
+                        </tr>
+                    }
+                    <tr class="sub-header font-bold">
+                        <td class="text-center table-bg-bold-right-td">@ReportResource.Totales</td>
+                        <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Sum(x => x.Principal).ToString("C")</td>
+                        <td></td>
+                        <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Sum(x => x.Penalties).ToString("C")</td>
+                        <td></td>
+                        <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Sum(x => x.Interest).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Sum(x => x.Principal).ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.DebtCertificationList.Sum(x => x.Total).ToString("C")</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="no-data">
+                        <td colspan="8" class="text-center">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row m-t-md">
+        <div class="col-lg-12">
+            @ReportResource.DebtCertificationBottomLine1Desc
+            *** @Model.DebtCertificationList.Sum(x => x.Total).ToString(Common.NumberPoints)
+
+            @if (UserSession.Current.CountryID == 52)
+            {
+                @Html.Raw("COLONES")
+            }
+            else
+            {
+                @UserSession.Current.CurrencyName.ToUpper()
+            }
+        </div>
+        <div class="col-lg-12 m-t-sm">
+            @ReportResource.DebtCertificationBottomLine2Desc
+
+            <br /><br />
+
+            @if (Model.AccountPropertyList != null && Model.AccountPropertyList.Count > 0)
+            {
+                for (var i = 0; i < Model.AccountPropertyList.Count; i++)
+                {
+                    <div class="col-lg-2 font-bold">
+                        @Model.AccountPropertyList[i].FincaID
+                    </div>
+                    if ((i + 1) % 3 == 0)
+                    {
+                        <br />
+                    }
+                }
+            }
+            else
+            {
+                <div class="col-lg-2">-</div>
+            }
+        </div>
+        <div class="col-lg-12 m-t-sm">
+            @Html.Raw(
+                    @ReportResource.DebtCertificationBottomLine3Desc + " " +
+                    @DateTime.Now.Day + " " +
+                    @ReportResource.DaysOfTheMonth + " " +
+                    @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month) + " " +
+                    ReportResource.From + " " +
+                    @DateTime.Now.Year
+            )
+            <br />
+            @Html.Raw(@ReportResource.DebtCertificationBottomLine3_1Desc)
+        </div>
+        <br />
+        <div class="col-lg-12 m-t-sm">
+            <div class="col-lg-6 m-t-md">
+                &nbsp;
+            </div>
+            <div class="col-lg-4 m-t-md">
+                <center>
+                    <hr />
+                    @*@if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                    {
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    }
+                    <br />*@
+                    @ReportResource.DebtCertificationBottomLine4Desc
+                </center>
+            </div>
+            <div class="col-lg-2 m-t-md">
+                &nbsp;
+            </div>
+        </div>
+        <div class="col-lg-12 m-t-sm">
+            @ReportResource.DebtCertificationBottomLine5Desc
+            <br />
+            @ReportResource.DebtCertificationBottomLine5_1Desc
+            <br />
+            @ReportResource.DebtCertificationBottomLine5_2Desc
+        </div>
+    </div>
+}

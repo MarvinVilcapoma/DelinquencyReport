@@ -1,0 +1,70 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ExceptionReportModel
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ExceptionTitle;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" colspan="2" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="85%" colspan="3" class="table-border-center-th">@ReportResource.Error</th>
+                    <th width="85%" colspan="4" class="table-border-center-th">@ReportResource.ExceptionSource</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ExceptionList != null && Model.ExceptionList.Count() > 0)
+                {
+                    foreach (var item in Model.ExceptionList)
+                    {
+
+                        <tr>
+                            <td class="table-border-center-td" colspan="2" style="@msoTextFormat">
+                                @Html.Raw(item.ExceptionDateTime.ToString("d"))
+                            </td>
+                            <td class="table-border-center-td" colspan="3">
+                                @Html.Raw(item.Message)
+                            </td>
+                            <td class="table-border-center-td" colspan="4">
+                                @Html.Raw(item.Source)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

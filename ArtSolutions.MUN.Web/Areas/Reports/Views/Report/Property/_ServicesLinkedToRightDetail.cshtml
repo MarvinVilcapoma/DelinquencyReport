@@ -1,0 +1,50 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ServicesLinkedToRightModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblServicesLinkedToRight" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                @*<th style="min-width:100px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>*@
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.TaxNumberName
+                </th>
+                <th style="min-width:150px;" class="text-center">
+                    @GlobalResource.ServiceName
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @ReportResource.RightNumber
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Property/_ServicesLinkedToRightDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyServicesLinkedToRight">                  
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <a id="servicesLinkedToRightShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.ServicesLinkedToRightList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreServicesLinkedToRight(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

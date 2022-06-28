@@ -1,0 +1,330 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceCollectionDetailModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using HtmlHelpers.BeginCollectionItem;
+@{ var LastServiceType = Model.Select(d => d.ServiceType).Distinct().LastOrDefault();
+    bool IsReadOnly = false;
+    int Year = 0;
+    int AccountServiceId = 0;
+    int ServiceID = 0;
+    bool AllowIvaHeader = false;
+    string ServiceName = "";
+}
+<div class="col-lg-12">
+    @Html.Hidden("CollectionDetailListJson", (string)ViewBag.AccountServiceCollectionDetailListJson)
+    @if (Model.Count() > 0)
+    {
+
+        foreach (var objServiceType in Model.Select(d => d.ServiceType).Distinct().ToList())
+        {
+            {
+                Year = 0;
+                AccountServiceId = 0;
+                ServiceName = "";
+                AllowIvaHeader = Model.Where(d => d.ServiceType == objServiceType && ((d.ServiceID >= 9 && d.ServiceID <= 13) || (d.ServiceID >= 19287 && d.ServiceID <= 19291))).Count() > 0;
+            }
+            <div class="ibox-title no-top-border" style="min-height:30px !important">
+                <h5>
+                    @objServiceType
+                </h5>
+            </div>
+            <div class="ibox-content no-padding-top no-padding-bottom">
+                <div class="row">
+                    <div class="table-responsive m-t">
+                        <table class="table table-multi-row" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th class="col-lg-1 text-center text-left">
+                                        <input type="checkbox" @Html.Raw(Model.Count() > 0 && Model.Where(d => d.ServiceType == objServiceType && d.SelectedItem == false).Count() > 0 ? "" : "checked ='checked'") tabindex="6" class="chkAll" />
+                                    </th>
+                                    <th class="col-lg-4">@LocalResource.ServicePeriodList</th>
+                                    <th class="col-lg-1 text-right">
+                                        @GlobalResource.Principal
+                                    </th>
+                                    <th class="text-right col-lg-1">
+                                        @GlobalResource.Interest
+                                    </th>
+                                    <th class="text-right col-lg-1">
+                                        @Html.Raw(AllowIvaHeader ? GlobalResource.IVA : "")
+                                    </th>
+                                    <th class="text-right col-lg-1">
+                                        @LocalResource.Debt
+                                    </th>
+                                    <th class="text-right col-md-1">
+                                        @LocalResource.Exemption/@GlobalResource.Discount
+                                    </th>
+                                    <th class="text-right col-lg-1">
+                                        @GlobalResource.PaidAmount
+                                    </th>
+                                    <th class="text-right col-md-2">
+                                        @GlobalResource.Balance
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-bottom">
+
+                                @if (Model.Count() > 0)
+                                {
+                                    foreach (var objitem in Model.Where(d => d.ServiceType == objServiceType).OrderBy(d => d.ServiceName).Select(d => d.ServiceNameWithSegrega).Distinct().ToList())
+                                    {
+                                        {
+                                            Year = 0;
+                                            AccountServiceId = 0;
+                                            ServiceName = "";
+                                        }
+
+                                        foreach (var item in Model.Where(d => d.ServiceType == objServiceType && d.ServiceNameWithSegrega == objitem).OrderBy(d => d.FiscalYearID).ThenBy(d => d.AccountServiceID).ThenBy(d => d.ID).ToList())
+                                        {
+                                            <tr id="@item.ID">
+                                                @using (Html.BeginCollectionItem("AccountServiceCollectionDetailList"))
+                                                {
+                                                    {
+                                                        if (item.SelectedItem == false)
+                                                        {
+                                                            //if (item.FiscalYearID == Year && item.AccountServiceID == AccountServiceId)
+                                                            if (item.ServiceID == ServiceID && item.ServiceNameWithSegrega == ServiceName)
+                                                            {
+                                                                IsReadOnly = true;
+                                                            }
+                                                            else
+                                                            {
+                                                                //Year = item.FiscalYearID;
+                                                                //AccountServiceId = item.AccountServiceID;
+                                                                ServiceID = item.ServiceID;
+                                                                ServiceName = item.ServiceNameWithSegrega;
+                                                                IsReadOnly = false;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            if (item.ServiceID == ServiceID && item.ServiceNameWithSegrega == ServiceName)
+                                                            {
+                                                                item.SelectedItem = false;
+                                                                IsReadOnly = true;
+                                                            }
+                                                            else
+                                                            {
+                                                                IsReadOnly = false;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    <td class="text-center border-left">
+                                                        @if (IsReadOnly)
+                                                        {
+                                                            @Html.CheckBox("SelectedItem", item.SelectedItem, new { @class = "collectionItem", @onclick = "loadAccountServiceCollectionDetail();", @data_itemid = @item.ID, @tabindex = "6", @disabled = "disabled" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.CheckBox("SelectedItem", item.SelectedItem, new { @class = "collectionItem", @onclick = "loadAccountServiceCollectionDetail();", @data_itemid = @item.ID, @tabindex = "6" })
+                                                        }
+
+                                                    </td>
+                                                    <td class="text-left ">
+                                                        @if (string.IsNullOrEmpty(item.ServiceNameWithYear))
+                                                        {
+                                                            @Html.Raw(
+                                                                     @item.RightNumber
+                                                                            +
+                                                                     @item.ServiceName
+                                                                            +
+                                                                          " - "
+                                                                            +
+                                                                     String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate)
+                                                                            +
+                                                                    (
+                                                                        ((item.ServiceID >= 9 && item.ServiceID <= 13) || (item.ServiceID >= 19287 && item.ServiceID <= 19291))
+                                                                        ? "<br />" + LocalResource.PreviousMeasure + ": " +
+                                                                            (item.PreviousMeasure.HasValue ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                                            + " - " + LocalResource.ActualMeasure + ": " +
+                                                                            (item.ActualMeasure.HasValue ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : null)
+                                                                            + " - " + LocalResource.WaterConsumption + ": " +
+                                                                            (item.WaterConsumption.HasValue ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : null)
+                                                                         : ""
+                                                                    )
+                                                                )
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.ServiceNameWithYear
+                                                        }
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.Principal.ToString("c")
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.Penalties.ToString("c")
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @if ((item.ServiceID >= 9 && item.ServiceID <= 13) || (item.ServiceID >= 19287 && item.ServiceID <= 19291))
+                                                        {
+                                                            @item.Charges.ToString("c")
+                                                        }
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.Debt.ToString("c")
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.Discount.Value.ToString("c")
+                                                    </td>
+                                                    <td class="text-right">
+                                                        @item.PaidAmount.Value.ToString("c")
+                                                    </td>
+                                                    <td class="text-right border-right">
+                                                        @item.Total.Value.ToString("c")
+                                                    </td>
+                                                    @Html.Hidden("ID", item.ID)
+                                                    @Html.Hidden("Discount", item.Discount)
+                                                    @Html.Hidden("AmnestyAmount", item.AmnestyAmount)
+                                                    @Html.Hidden("Payment", item.Payment)
+                                                    @Html.Hidden("Total", item.Total, new { @class = "hdnTotalAmount" })
+                                                    @Html.Hidden("AccountServiceID", item.AccountServiceID)
+                                                    @Html.Hidden("Debt", item.Debt)
+                                                    @Html.Hidden("ServiceTypeID", item.ServiceTypeID)
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                    @*<tr>
+                                            <td colspan="6"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(d => d.ServiceType == objServiceType).ToList().Sum(x => x.Total).Value.ToString("c") </span>
+                                            </td>
+                                        </tr>*@
+                                    @*if (Model.Where(d => d.ServiceType == objServiceType && d.SelectedItem == true).Count() > 0)
+                                        {
+                                            <tr>
+                                                <td colspan="4"></td>
+                                                <td class="text-right"> @PaymentResource.Quantity:</td>
+                                                <td class="text-right"> @Model.Where(d => d.ServiceType == objServiceType && d.SelectedItem == true).Count() </td>
+                                                <td class="text-right"><strong>@LocalResource.PaymentTotal :</strong></td>
+                                                <td class="text-right">
+                                                    <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(d => d.ServiceType == objServiceType && d.SelectedItem == true).Sum(x => x.Total).Value.ToString("c") </span>
+                                                </td>
+                                            </tr>
+                                        }*@
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="9" class="text-center">@GlobalResource.NoDataMessage</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            @if (objServiceType == LastServiceType)
+                            {
+                                <tfoot>
+                                    @if (Model.Where(x => x.SelectedItem == true).Count() > 0)
+                                    {
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.SubTotal :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Principal).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Interest :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Penalties).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Amnesty :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.AmnestyAmount).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="8" class="text-right"><strong>@LocalResource.Exemption/@GlobalResource.Discount :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Discount).Value.ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.IVA :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Charges).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Penalties :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Interest).ToString("c") </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="no-borders">
+                                            <td colspan="7"></td>
+                                            <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                            <td class="text-right">
+                                                <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Total).Value.ToString("c") </span>
+                                                <input type="hidden" id="hdnTotal" value="@Model.Where(x => x.SelectedItem == true).Sum(x => x.Total).Value.ToString(Common.DecimalPoints)" />
+                                            </td>
+                                        </tr>
+                                        @*<tr>
+                                                <td colspan="4"></td>
+                                                <td class="text-right"> @PaymentResource.Quantity:</td>
+                                                <td class="text-right"> @Model.Where(x => x.SelectedItem == true).Count() </td>
+                                                <td class="text-right"><strong>@LocalResource.PaymentTotal :</strong></td>
+                                                <td class="text-right">
+                                                    <span id="spnNetPayment" class="spnFooterAmount"> @Model.Where(x => x.SelectedItem == true).Sum(x => x.Total).Value.ToString("c") </span>
+                                                </td>
+                                            </tr>*@
+                                    }
+                                </tfoot>
+                            }
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <table class="table table-multi-row" id="mytable">
+            <thead>
+                <tr>
+                    <th class="col-lg-1 text-center text-left">
+                        <input type="checkbox" class="chkAll" />
+                    </th>
+                    <th class="col-lg-4">@LocalResource.ServicePeriodList</th>
+                    <th class="col-lg-1 text-right">
+                        @GlobalResource.Principal
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @GlobalResource.Interest
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @Html.Raw(AllowIvaHeader ? GlobalResource.IVA : "")
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @LocalResource.Debt
+                    </th>
+                    <th class="text-right col-md-1">
+                        @LocalResource.Exemption/@GlobalResource.Discount
+                    </th>
+                    <th class="text-right col-lg-1">
+                        @GlobalResource.PaidAmount
+                    </th>
+                    <th class="text-right col-md-2">
+                        @GlobalResource.Balance
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="border-bottom">
+                <tr>
+                    <td colspan="9" class="text-center">@GlobalResource.NoDataMessage</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

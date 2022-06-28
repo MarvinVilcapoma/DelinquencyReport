@@ -1,0 +1,104 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.StatisticsofReceiptsCollectedModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.StatisticsOfReceiptsCollected;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportStatisticsofReceiptsCollected", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        <h2>@Model.ReportCompanyModel.Name</h2>
+                        <h3 id="spTitle">
+                            @ViewBag.Title                            
+                        </h3>
+                        <h3>
+                            <span id="spSubTitle"></span>
+                        </h3>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label>@GlobalResource.Date <span class="text-danger">*</span></label>
+                                            @Html.TextBoxFor(x => x.Date,
+                                            new
+                                            {
+                                                @class = "form-control periodDate textblur required",
+                                                tabindex = 1
+                                            })
+                                        </div>
+                                        <div class="form-group m-l-sm">
+                                            <label>@GlobalResource.Bank <span class="text-danger">*</span></label>
+                                            <div class="form-group w-300">
+                                                @Html.DropDownListFor(x => x.BankID, Model.BankList, GlobalResource.DropDownSelectMessage, new
+                                                  {
+                                                      @class = "form-control select2dropdown required",
+                                                      tabindex = 2
+                                                })
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-l-sm">
+                                            <label>@GlobalResource.Agreement <span class="text-danger">*</span></label>
+                                            <div class="form-group w-300">
+                                                @Html.DropDownListFor(x => x.Contract, Model.ContractList, GlobalResource.DropDownSelectMessage, new
+                                                {
+                                                    @class = "form-control select2dropdown required",
+                                                    tabindex = 3
+                                                })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="4">@GlobalResource.Go</button>
+                                        </div>
+                                        <div class="form-group pull-right">
+                                            <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="5" onclick="return GetSubTitle();">@GlobalResource.Excel</button>
+                                            <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="6">@GlobalResource.PDF</button>
+                                            <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" tabindex="7" onclick="return Print();">@GlobalResource.Print</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divStatisticsofReceiptsCollected">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var In = '@Html.Raw(LocalResource.IN)';
+        var the = '@Html.Raw(LocalResource.The)';
+        var agreement = '@Html.Raw(GlobalResource.Agreement)';
+        var title = '@ViewBag.Title';
+    </script>
+    <script src="~/Scripts/app/repstatisticsofreceiptscollected.js"></script>
+}

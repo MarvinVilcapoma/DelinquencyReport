@@ -1,0 +1,87 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPaymentPlanModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover accountPaymentPlanList" data-page="false" data-sorting="false">
+        <thead>
+            <tr>
+                <th class="col-lg-1"></th>
+                <th class="col-lg-2">@LocalResource.PlanID</th>
+                <th class="col-lg-2">@GlobalResource.PaymentPlan</th>
+                <th class="col-lg-2">@GlobalResource.StartDate</th>
+                <th class="col-lg-2">@GlobalResource.EndDate</th>
+                <th class="col-lg-1">@GlobalResource.Months</th>
+                <th class="col-lg-1 text-right" data-type="numeric">@LocalResource.MonthlyAmount</th>
+                <th class="col-lg-1"></th>
+            </tr>
+        </thead>
+        <tbody id="tbAccountPaymentPlanRow">
+            @if (Model == null || Model.Count == 0)
+            {
+                <tr>
+                    <td colspan="8" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    string cssInActiveClass = item.IsActive == true ? "" : "text-danger";
+                    <tr id="tr_@item.ID">
+                        <td class="col-lg-1 @cssInActiveClass">
+                            @if (item.IsActive == true)
+                            {
+                                <a href="javascript:;" id="active_@item.ID">
+                                    <span class="label label-primary">@GlobalResource.Active</span>
+                                </a>
+                                <a href="javascript:;" id="deactive_@item.ID" style="display:none;">
+                                    <span class="label label-warning">@GlobalResource.InActivebtn</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:;" id="active_@item.ID" style="display:none;" onclick="ConfirmActivedeactive('Active', @item.ID,false)">
+                                    <span class="label label-primary">@GlobalResource.Active</span>
+                                </a>
+                                <a href="javascript:;" id="deactive_@item.ID">
+                                    <span class="label label-warning" onclick="ConfirmActivedeactive('Deactive', @item.ID,false)">@GlobalResource.InActivebtn</span>
+                                </a>
+                            }
+                        </td>
+                        <td class="col-lg-2 table-description-field @cssInActiveClass">
+                            @item.Number
+                        </td>
+                        <td class="col-lg-2 table-description-field @cssInActiveClass" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.PaymentPlanName">
+                            @item.PaymentPlanName
+                        </td>
+                        <td class="col-lg-2 @cssInActiveClass">
+                            @item.StartDate.ToString("d")
+                        </td>
+                        <td class="col-lg-2 @cssInActiveClass">
+                            @item.EndDate.ToString("d")
+                        </td>
+                        <td class="col-lg-1 @cssInActiveClass">
+                            @item.Months
+                        </td>
+                        <td class="col-lg-1 text-right @cssInActiveClass" data-sort-value="@item.MonthlyAmount">
+                            @item.MonthlyAmount.ToString("C")
+                        </td>
+                        <td class="col-lg-1 text-right">
+                            <a target="_blank" href='@Url.Content("~/AccountPaymentPlan/View?accountPaymentPlanID="+ item.ID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="8">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

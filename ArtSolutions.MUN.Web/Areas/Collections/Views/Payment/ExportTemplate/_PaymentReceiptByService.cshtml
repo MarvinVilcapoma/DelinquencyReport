@@ -1,0 +1,34 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentPrintModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@{
+    ViewBag.Title = LocalResource.PrintReceipt;
+    Layout = "~/Views/Shared/_PrintLayout.cshtml";
+}
+@*First Copy for Customer*@
+<br />
+<div class="wrapper wrapper-content p-xl">
+    <div class="ibox-content p-xl">
+        @Html.Raw(Model.PrintTemplate.TemplateContent)
+    </div>
+</div>
+
+@if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+{
+    @*Second copy for municipality record*@
+    <br />
+    <div class="wrapper wrapper-content p-xl break">
+        <div class="ibox-content p-xl">
+            @Html.Raw(Model.PrintTemplate.TemplateContent)
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    //window.print();
+    window.onload = function () { window.print(); setTimeout(window.close, 500); }; 
+</script>
+<style>
+    .break {
+        page-break-before: always;
+    }
+</style>

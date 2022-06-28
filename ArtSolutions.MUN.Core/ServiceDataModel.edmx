@@ -1,0 +1,1613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ServiceDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNGrantListGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSchedulerEmaileDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Reason" Type="varchar(max)" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="MUNSchedulerEmailGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSchedulerEmailGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="pageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+        </Function>
+        <Function Name="MUNSchedulerEmailInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="SchedulerEmailID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNSchedulerEmailUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="MUNSERCollectionFieldGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERCollectionRuleGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERCollectionTypeGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERFrequencyGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="IsServiceFrequency" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERPaymentPlanGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERPaymentPlanGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="pageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+        </Function>
+        <Function Name="MUNSERPaymentPlanInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="EffectiveFrom" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveTo" Type="datetime" Mode="In" />
+          <Parameter Name="InstalmentPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="InterestPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="LateInterestPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="Months" Type="int" Mode="In" />
+          <Parameter Name="IsEditable" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="PaymentPlanID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNSERPaymentPlanUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="EffectiveFrom" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveTo" Type="datetime" Mode="In" />
+          <Parameter Name="InstalmentPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="InterestPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="LateInterestPercentage" Type="decimal" Mode="In" />
+          <Parameter Name="Months" Type="int" Mode="In" />
+          <Parameter Name="IsEditable" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="MUNSERPaymentPlanUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCalculationDateGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="FiscalYearID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionRuleDetailGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ServiceID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="ServiceCollectionRuleID" Type="int" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionRuleExist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CollectionRuleName" Type="varchar" Mode="In" />
+          <Parameter Name="LanguageID" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionRuleGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ServiceID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateDetailGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="CollectionTemplateID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="PageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="IsDeleteD" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="IsDeleteD" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceCollectionTemplateUpdateStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceExceptionGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="ServiceID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceExist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ServiceName" Type="varchar" Mode="In" />
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
+          <Parameter Name="LanguageID" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceTypeID" Type="int" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="IsGetByEffectiveDate" Type="bit" Mode="In" />
+          <Parameter Name="FilingTypeID" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AccountTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceGetByCollectionField" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="CollectionFieldID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceGetForCobros" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceGetForFACTU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceGetWithPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+          <Parameter Name="FilterText" Type="varchar" Mode="In" />
+          <Parameter Name="pageIndex" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="TotalRecord" Type="int" Mode="InOut" />
+          <Parameter Name="SortColumn" Type="varchar" Mode="In" />
+          <Parameter Name="SortOrder" Type="char" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+          <Parameter Name="ServiceTypeID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ServiceTypeID" Type="int" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+          <Parameter Name="ServiceName" Type="varchar" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="Code" Type="varchar" Mode="In" />
+          <Parameter Name="FilingTypeTableID" Type="int" Mode="In" />
+          <Parameter Name="FilingTypeID" Type="int" Mode="In" />
+          <Parameter Name="UseFixedFillingDueDate" Type="bit" Mode="In" />
+          <Parameter Name="FillingDueDays" Type="int" Mode="In" />
+          <Parameter Name="UseFixedPaymentDueDate" Type="bit" Mode="In" />
+          <Parameter Name="PaymentDueDays" Type="int" Mode="In" />
+          <Parameter Name="UseFixedPaymentGracePeriod" Type="bit" Mode="In" />
+          <Parameter Name="PaymentGracePeriod" Type="int" Mode="In" />
+          <Parameter Name="UseFixedDiscountDate" Type="bit" Mode="In" />
+          <Parameter Name="DiscountDueDays" Type="int" Mode="In" />
+          <Parameter Name="FrequencyID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveFrom" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveTo" Type="date" Mode="In" />
+          <Parameter Name="Sort" Type="int" Mode="In" />
+          <Parameter Name="IsPublic" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="CollectionTemplateID" Type="int" Mode="In" />
+          <Parameter Name="PrintTemplateID" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="MUNSERServiceExceptionJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CustomField1" Type="varchar" Mode="In" />
+          <Parameter Name="CustomField2" Type="varchar" Mode="In" />
+          <Parameter Name="CustomField3" Type="varchar" Mode="In" />
+          <Parameter Name="CustomDateField" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField1" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField2" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField3" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomDateField" Type="bit" Mode="In" />
+          <Parameter Name="TotalValueLabel" Type="varchar" Mode="In" />
+          <Parameter Name="AutoCreation" Type="bit" Mode="In" />
+          <Parameter Name="MultipleServicesPerYear" Type="bit" Mode="In" />
+          <Parameter Name="AccountTypeIDs" Type="nvarchar" Mode="In" />
+          <Parameter Name="FilingFormID" Type="int" Mode="In" />
+          <Parameter Name="FilingDueType" Type="int" Mode="In" />
+          <Parameter Name="PaymentDueType" Type="int" Mode="In" />
+          <Parameter Name="DiscountDueType" Type="int" Mode="In" />
+          <Parameter Name="PaymentGraceType" Type="int" Mode="In" />
+          <Parameter Name="CustomField4" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField4" Type="bit" Mode="In" />
+          <Parameter Name="CustomField5" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField5" Type="bit" Mode="In" />
+          <Parameter Name="ServiceID" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="MUNSERServiceListGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServicePrintTemplateGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="DocumentTypeID" Type="int" Mode="In" />
+          <Parameter Name="Language" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ServiceTypeID" Type="int" Mode="In" />
+          <Parameter Name="GroupID" Type="int" Mode="In" />
+          <Parameter Name="ServiceName" Type="varchar" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="Code" Type="varchar" Mode="In" />
+          <Parameter Name="FilingTypeTableID" Type="int" Mode="In" />
+          <Parameter Name="FilingTypeID" Type="int" Mode="In" />
+          <Parameter Name="UseFixedFillingDueDate" Type="bit" Mode="In" />
+          <Parameter Name="FillingDueDays" Type="int" Mode="In" />
+          <Parameter Name="UseFixedPaymentDueDate" Type="bit" Mode="In" />
+          <Parameter Name="PaymentDueDays" Type="int" Mode="In" />
+          <Parameter Name="UseFixedPaymentGracePeriod" Type="bit" Mode="In" />
+          <Parameter Name="PaymentGracePeriod" Type="int" Mode="In" />
+          <Parameter Name="UseFixedDiscountDate" Type="bit" Mode="In" />
+          <Parameter Name="DiscountDueDays" Type="int" Mode="In" />
+          <Parameter Name="FrequencyID" Type="int" Mode="In" />
+          <Parameter Name="StartDate" Type="datetime" Mode="In" />
+          <Parameter Name="EndDate" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveFrom" Type="datetime" Mode="In" />
+          <Parameter Name="EffectiveTo" Type="date" Mode="In" />
+          <Parameter Name="Sort" Type="int" Mode="In" />
+          <Parameter Name="IsPublic" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="IsLocked" Type="bit" Mode="In" />
+          <Parameter Name="IsTestMode" Type="bit" Mode="In" />
+          <Parameter Name="CollectionTemplateID" Type="int" Mode="In" />
+          <Parameter Name="PrintTemplateID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="MUNSERServiceExceptionJSON" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="CustomField1" Type="varchar" Mode="In" />
+          <Parameter Name="CustomField2" Type="varchar" Mode="In" />
+          <Parameter Name="CustomField3" Type="varchar" Mode="In" />
+          <Parameter Name="CustomDateField" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField1" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField2" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField3" Type="bit" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomDateField" Type="bit" Mode="In" />
+          <Parameter Name="TotalValueLabel" Type="varchar" Mode="In" />
+          <Parameter Name="AutoCreation" Type="bit" Mode="In" />
+          <Parameter Name="MultipleServicesPerYear" Type="bit" Mode="In" />
+          <Parameter Name="AccountTypeIDs" Type="nvarchar" Mode="In" />
+          <Parameter Name="FilingFormID" Type="int" Mode="In" />
+          <Parameter Name="FilingDueType" Type="int" Mode="In" />
+          <Parameter Name="PaymentDueType" Type="int" Mode="In" />
+          <Parameter Name="DiscountDueType" Type="int" Mode="In" />
+          <Parameter Name="PaymentGraceType" Type="int" Mode="In" />
+          <Parameter Name="CustomField4" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField4" Type="bit" Mode="In" />
+          <Parameter Name="CustomField5" Type="varchar" Mode="In" />
+          <Parameter Name="AllowDuplicateCustomField5" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="MUNSERServiceUpdateFinanceItemId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="FINItemID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+        </Function>
+        <EntityContainer Name="ServiceDataModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ServiceDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ServiceDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="MUNSERCollectionFieldGet" ReturnType="Collection(ServiceDataModel.MUNSERCollectionFieldGet_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERCollectionRuleGet" ReturnType="Collection(ServiceDataModel.MUNSERCollectionRuleGet_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERCollectionTypeGet" ReturnType="Collection(ServiceDataModel.MUNSERCollectionTypeGet_Result)">
+          <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERFrequencyGet" ReturnType="Collection(ServiceDataModel.MUNSERFrequencyGet_Result)">
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="IsServiceFrequency" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionRuleExist" ReturnType="Collection(Int32)">
+            <Parameter Name="CollectionRuleName" Mode="In" Type="String" />
+            <Parameter Name="LanguageID" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceExist" ReturnType="Collection(Int32)">
+            <Parameter Name="ServiceName" Mode="In" Type="String" />
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+            <Parameter Name="LanguageID" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceName" Mode="In" Type="String" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+            <Parameter Name="FilingTypeTableID" Mode="In" Type="Int32" />
+            <Parameter Name="FilingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedFillingDueDate" Mode="In" Type="Boolean" />
+            <Parameter Name="FillingDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedPaymentDueDate" Mode="In" Type="Boolean" />
+            <Parameter Name="PaymentDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedPaymentGracePeriod" Mode="In" Type="Boolean" />
+            <Parameter Name="PaymentGracePeriod" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedDiscountDate" Mode="In" Type="Boolean" />
+            <Parameter Name="DiscountDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="FrequencyID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveTo" Mode="In" Type="DateTime" />
+            <Parameter Name="Sort" Mode="In" Type="Int32" />
+            <Parameter Name="IsPublic" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="CollectionTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="PrintTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="MUNSERServiceExceptionJSON" Mode="In" Type="String" />
+            <Parameter Name="CustomField1" Mode="In" Type="String" />
+            <Parameter Name="CustomField2" Mode="In" Type="String" />
+            <Parameter Name="CustomField3" Mode="In" Type="String" />
+            <Parameter Name="CustomDateField" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField1" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomField2" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomField3" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomDateField" Mode="In" Type="Boolean" />
+            <Parameter Name="TotalValueLabel" Mode="In" Type="String" />
+            <Parameter Name="AutoCreation" Mode="In" Type="Boolean" />
+            <Parameter Name="MultipleServicesPerYear" Mode="In" Type="Boolean" />
+            <Parameter Name="AccountTypeIDs" Mode="In" Type="String" />
+            <Parameter Name="FilingFormID" Mode="In" Type="Int32" />
+            <Parameter Name="FilingDueType" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentDueType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountDueType" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentGraceType" Mode="In" Type="Int32" />
+            <Parameter Name="CustomField4" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField4" Mode="In" Type="Boolean" />
+            <Parameter Name="CustomField5" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField5" Mode="In" Type="Boolean" />
+            <Parameter Name="ServiceID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCalculationDateGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceCalculationDateGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="FiscalYearID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionRuleDetailGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceCollectionRuleDetailGet_Result)">
+            <Parameter Name="ServiceID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceCollectionRuleID" Mode="In" Type="Int32" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceName" Mode="In" Type="String" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+            <Parameter Name="FilingTypeTableID" Mode="In" Type="Int32" />
+            <Parameter Name="FilingTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedFillingDueDate" Mode="In" Type="Boolean" />
+            <Parameter Name="FillingDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedPaymentDueDate" Mode="In" Type="Boolean" />
+            <Parameter Name="PaymentDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedPaymentGracePeriod" Mode="In" Type="Boolean" />
+            <Parameter Name="PaymentGracePeriod" Mode="In" Type="Int32" />
+            <Parameter Name="UseFixedDiscountDate" Mode="In" Type="Boolean" />
+            <Parameter Name="DiscountDueDays" Mode="In" Type="Int32" />
+            <Parameter Name="FrequencyID" Mode="In" Type="Int32" />
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveTo" Mode="In" Type="DateTime" />
+            <Parameter Name="Sort" Mode="In" Type="Int32" />
+            <Parameter Name="IsPublic" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="IsLocked" Mode="In" Type="Boolean" />
+            <Parameter Name="IsTestMode" Mode="In" Type="Boolean" />
+            <Parameter Name="CollectionTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="PrintTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="MUNSERServiceExceptionJSON" Mode="In" Type="String" />
+            <Parameter Name="CustomField1" Mode="In" Type="String" />
+            <Parameter Name="CustomField2" Mode="In" Type="String" />
+            <Parameter Name="CustomField3" Mode="In" Type="String" />
+            <Parameter Name="CustomDateField" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField1" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomField2" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomField3" Mode="In" Type="Boolean" />
+            <Parameter Name="AllowDuplicateCustomDateField" Mode="In" Type="Boolean" />
+            <Parameter Name="TotalValueLabel" Mode="In" Type="String" />
+            <Parameter Name="AutoCreation" Mode="In" Type="Boolean" />
+            <Parameter Name="MultipleServicesPerYear" Mode="In" Type="Boolean" />
+            <Parameter Name="AccountTypeIDs" Mode="In" Type="String" />
+            <Parameter Name="FilingFormID" Mode="In" Type="Int32" />
+            <Parameter Name="FilingDueType" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentDueType" Mode="In" Type="Int32" />
+            <Parameter Name="DiscountDueType" Mode="In" Type="Int32" />
+            <Parameter Name="PaymentGraceType" Mode="In" Type="Int32" />
+            <Parameter Name="CustomField4" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField4" Mode="In" Type="Boolean" />
+            <Parameter Name="CustomField5" Mode="In" Type="String" />
+            <Parameter Name="AllowDuplicateCustomField5" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceUpdateFinanceItemId" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="FINItemID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServicePrintTemplateGet" ReturnType="Collection(ServiceDataModel.MUNSERServicePrintTemplateGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="DocumentTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="IsDeleteD" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="IsDeleteD" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceCollectionTemplateGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateUpdateStatus">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceGetByCollectionField" ReturnType="Collection(ServiceDataModel.MUNSERServiceGetByCollectionField_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="CollectionFieldID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERPaymentPlanUpdateStatus" ReturnType="Collection(Int32)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceExceptionGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceExceptionGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateDetailGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceCollectionTemplateDetailGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="CollectionTemplateID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionTemplateGetWithPaging" ReturnType="Collection(ServiceDataModel.MUNSERServiceCollectionTemplateGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="PageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNGrantListGet" ReturnType="Collection(ServiceDataModel.MUNGrantListGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceCollectionRuleGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceCollectionRuleGet_Result)">
+            <Parameter Name="ServiceID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceGetWithPaging" ReturnType="Collection(ServiceDataModel.MUNSERServiceGetWithPaging_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="pageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+            <Parameter Name="ServiceTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="ServiceTypeID" Mode="In" Type="Int32" />
+            <Parameter Name="GroupID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="IsGetByEffectiveDate" Mode="In" Type="Boolean" />
+            <Parameter Name="FilingTypeID" Mode="In" Type="String" />
+            <Parameter Name="AccountTypeID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERPaymentPlanGetWithPaging" ReturnType="Collection(ServiceDataModel.MUNSERPaymentPlanGetWithPaging_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="pageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERPaymentPlanGet" ReturnType="Collection(ServiceDataModel.MUNSERPaymentPlanGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERPaymentPlanInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="EffectiveFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveTo" Mode="In" Type="DateTime" />
+            <Parameter Name="InstalmentPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="InterestPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="LateInterestPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="Months" Mode="In" Type="Int32" />
+            <Parameter Name="IsEditable" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="PaymentPlanID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERPaymentPlanUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="EffectiveFrom" Mode="In" Type="DateTime" />
+            <Parameter Name="EffectiveTo" Mode="In" Type="DateTime" />
+            <Parameter Name="InstalmentPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="InterestPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="LateInterestPercentage" Mode="In" Type="Decimal" />
+            <Parameter Name="Months" Mode="In" Type="Int32" />
+            <Parameter Name="IsEditable" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceGetForFACTU" ReturnType="Collection(ServiceDataModel.MUNSERServiceGetForFACTU_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceGetForCobros" ReturnType="Collection(ServiceDataModel.MUNSERServiceGetForCobros_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSERServiceListGet" ReturnType="Collection(ServiceDataModel.MUNSERServiceListGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSchedulerEmailGetWithPaging" ReturnType="Collection(ServiceDataModel.MUNSchedulerEmailGetWithPaging_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="FilterText" Mode="In" Type="String" />
+            <Parameter Name="pageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="TotalRecord" Mode="InOut" Type="Int32" />
+            <Parameter Name="SortColumn" Mode="In" Type="String" />
+            <Parameter Name="SortOrder" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSchedulerEmailInsert">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="SchedulerEmailID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSchedulerEmailUpdate">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSchedulerEmailGet" ReturnType="Collection(ServiceDataModel.MUNSchedulerEmailGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNSchedulerEmaileDelete">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Reason" Mode="In" Type="String" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNSERCollectionFieldGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNSERCollectionRuleGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNSERCollectionTypeGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="Sort" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNSERFrequencyGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Days" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="Hours" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Int32" Name="Period" Nullable="true" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCalculationDateGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="FiscalYearID" Nullable="false" />
+          <Property Type="Int32" Name="StartPeriodID" Nullable="false" />
+          <Property Type="Int32" Name="EndPeriodID" Nullable="false" />
+          <Property Type="DateTime" Name="FillingDueDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="PaymentDueDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="PaymentGraceDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DiscountDate" Nullable="true" Precision="23" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="DiscountPercentage" Nullable="true" Precision="18" Scale="5" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCollectionRuleDetailGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceCollectionRuleID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionTypeID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionFieldID" Nullable="false" />
+          <Property Type="Int32" Name="FrequencyID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionRuleID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="OnField" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CalculationFrequency" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Rule" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="FromAmount" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="ToAmount" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="Value" Nullable="false" Precision="18" Scale="6" />
+          <Property Type="Decimal" Name="SecondValue" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Boolean" Name="IsEditable" Nullable="false" />
+          <Property Type="Boolean" Name="AlwaysApply" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyOnPaymentDueDate" Nullable="false" />
+          <Property Type="DateTime" Name="EffectiveFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveTo" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServicePrintTemplateGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="DocumentTypeID" Nullable="false" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TemplateContent" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCollectionTemplateGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceGetByCollectionField_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceExceptionGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceID" Nullable="false" />
+          <Property Type="Decimal" Name="ExceptionValue" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="250" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="AllowDelete" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCollectionTemplateDetailGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceCollectionTemplateID" Nullable="false" />
+          <Property Type="Int32" Name="GrantID" Nullable="false" />
+          <Property Type="String" Name="Year" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="CollectionTypeID" Nullable="false" />
+          <Property Type="Int32" Name="ReceivableAccountID" Nullable="false" />
+          <Property Type="Int32" Name="RevenueAccountID" Nullable="false" />
+          <Property Type="Decimal" Name="Percentage" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="Int32" Name="YearID" Nullable="false" />
+          <Property Type="Int32" Name="YearTableID" Nullable="false" />
+          <Property Type="String" Name="GrantCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="GrantName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ReceivableCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="ReceivableName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="RevenueCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="RevenueName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CheckbookID" Nullable="true" />
+          <Property Type="String" Name="CheckbookCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CheckbookName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CashAccountID" Nullable="true" />
+          <Property Type="String" Name="CashAccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="CashAccountName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="CreditAccountID" Nullable="true" />
+          <Property Type="String" Name="CreditAccountCode" Nullable="true" MaxLength="13" />
+          <Property Type="String" Name="CreditAccountName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCollectionTemplateGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNGrantListGet_Result">
+          <Property Type="Int32" Name="GrantID" Nullable="true" />
+          <Property Type="String" Name="GrantName" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceCollectionRuleGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionTypeID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionFieldID" Nullable="false" />
+          <Property Type="Int32" Name="FrequencyID" Nullable="false" />
+          <Property Type="Int32" Name="CollectionRuleID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CollectionTypeName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CollectionFieldName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CollectionFrequencyName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="CollectionRuleName" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="AlwaysApply" Nullable="false" />
+          <Property Type="Boolean" Name="ApplyOnPaymentDueDate" Nullable="false" />
+          <Property Type="DateTime" Name="EffectiveFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveTo" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="SequenceID" Nullable="false" />
+          <Property Type="Int32" Name="AllowEdit" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceGetWithPaging_Result">
+          <Property Type="String" Name="Group" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Service" Nullable="false" MaxLength="250" />
+          <Property Type="DateTime" Name="EffectiveFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveTo" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="IsPublic" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Int32" Name="ServiceTypeID" Nullable="false" />
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="FilingTypeTableID" Nullable="false" />
+          <Property Type="Int32" Name="FilingTypeID" Nullable="false" />
+          <Property Type="String" Name="FilingType" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="FrequencyID" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveTo" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Locale" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="303" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="1000" />
+          <Property Type="DateTime" Name="InitialDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Type" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Group" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="Frequency" Nullable="false" MaxLength="250" />
+          <Property Type="Boolean" Name="UseFixedDiscountDate" Nullable="true" />
+          <Property Type="Int32" Name="DiscountDueDays" Nullable="true" />
+          <Property Type="Boolean" Name="UseFixedPaymentDueDate" Nullable="true" />
+          <Property Type="Int32" Name="PaymentDueDays" Nullable="true" />
+          <Property Type="Boolean" Name="UseFixedFillingDueDate" Nullable="true" />
+          <Property Type="Int32" Name="FillingDueDays" Nullable="true" />
+          <Property Type="Boolean" Name="UseFixedPaymentGracePeriod" Nullable="true" />
+          <Property Type="Int32" Name="PaymentGracePeriod" Nullable="true" />
+          <Property Type="Boolean" Name="IsLocked" Nullable="false" />
+          <Property Type="Boolean" Name="IsTestMode" Nullable="false" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="FINItemID" Nullable="true" />
+          <Property Type="Int32" Name="CollectionTemplateID" Nullable="true" />
+          <Property Type="Int32" Name="PrintTemplateID" Nullable="true" />
+          <Property Type="String" Name="CustomField1" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CustomField2" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CustomField3" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomField1" Nullable="false" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomField2" Nullable="false" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomField3" Nullable="false" />
+          <Property Type="Boolean" Name="AutoCreation" Nullable="true" />
+          <Property Type="String" Name="AccountTypeIDs" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="FilingFormID" Nullable="true" />
+          <Property Type="Int32" Name="FilingDueType" Nullable="true" />
+          <Property Type="Int32" Name="PaymentDueType" Nullable="true" />
+          <Property Type="Int32" Name="DiscountDueType" Nullable="true" />
+          <Property Type="Int32" Name="PaymentGraceType" Nullable="true" />
+          <Property Type="Int32" Name="Period" Nullable="true" />
+          <Property Type="Boolean" Name="MultipleServicesPerYear" Nullable="true" />
+          <Property Type="String" Name="CustomDateField" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomDateField" Nullable="false" />
+          <Property Type="String" Name="TotalValueLabel" Nullable="false" MaxLength="500" />
+          <Property Type="Boolean" Name="IsDateFieldCustomField1" Nullable="true" />
+          <Property Type="Boolean" Name="MultipleServicesPerYearPerRight" Nullable="true" />
+          <Property Type="String" Name="CustomField4" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomField4" Nullable="false" />
+          <Property Type="String" Name="CustomField5" Nullable="true" MaxLength="500" />
+          <Property Type="Boolean" Name="AllowDuplicateCustomField5" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNSERPaymentPlanGetWithPaging_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="InstalmentPercentage" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="InterestPercentage" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Int32" Name="Months" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Decimal" Name="LateInterestPercentage" Nullable="false" Precision="18" Scale="5" />
+        </ComplexType>
+        <ComplexType Name="MUNSERPaymentPlanGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="DateTime" Name="EffectiveFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EffectiveTo" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="InstalmentPercentage" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="InterestPercentage" Nullable="false" Precision="18" Scale="5" />
+          <Property Type="Int32" Name="Months" Nullable="false" />
+          <Property Type="Boolean" Name="IsEditable" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="Decimal" Name="LateInterestPercentage" Nullable="false" Precision="18" Scale="5" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceGetForFACTU_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="303" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceGetForCobros_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="303" />
+        </ComplexType>
+        <ComplexType Name="MUNSERServiceListGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNSchedulerEmailGetWithPaging_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="MUNSchedulerEmailGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="500" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="ServiceDataModel" />
+        <Alias Key="Target" Value="ServiceDataModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="ServiceDataModelContainer" StorageEntityContainer="ServiceDataModelStoreContainer">
+          <FunctionImportMapping FunctionImportName="MUNSERCollectionFieldGet" FunctionName="ServiceDataModel.Store.MUNSERCollectionFieldGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERCollectionFieldGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERCollectionRuleGet" FunctionName="ServiceDataModel.Store.MUNSERCollectionRuleGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERCollectionRuleGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERCollectionTypeGet" FunctionName="ServiceDataModel.Store.MUNSERCollectionTypeGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERCollectionTypeGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERFrequencyGet" FunctionName="ServiceDataModel.Store.MUNSERFrequencyGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERFrequencyGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Days" ColumnName="Days" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionRuleExist" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionRuleExist" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceExist" FunctionName="ServiceDataModel.Store.MUNSERServiceExist" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceInsert" FunctionName="ServiceDataModel.Store.MUNSERServiceInsert" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCalculationDateGet" FunctionName="ServiceDataModel.Store.MUNSERServiceCalculationDateGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCalculationDateGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FiscalYearID" ColumnName="FiscalYearID" />
+                <ScalarProperty Name="StartPeriodID" ColumnName="StartPeriodID" />
+                <ScalarProperty Name="EndPeriodID" ColumnName="EndPeriodID" />
+                <ScalarProperty Name="FillingDueDate" ColumnName="FillingDueDate" />
+                <ScalarProperty Name="PaymentDueDate" ColumnName="PaymentDueDate" />
+                <ScalarProperty Name="PaymentGraceDate" ColumnName="PaymentGraceDate" />
+                <ScalarProperty Name="DiscountDate" ColumnName="DiscountDate" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="DiscountPercentage" ColumnName="DiscountPercentage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionRuleDetailGet" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionRuleDetailGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCollectionRuleDetailGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ServiceCollectionRuleID" ColumnName="ServiceCollectionRuleID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="CollectionTypeID" ColumnName="CollectionTypeID" />
+                <ScalarProperty Name="CollectionFieldID" ColumnName="CollectionFieldID" />
+                <ScalarProperty Name="FrequencyID" ColumnName="FrequencyID" />
+                <ScalarProperty Name="CollectionRuleID" ColumnName="CollectionRuleID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="OnField" ColumnName="OnField" />
+                <ScalarProperty Name="CalculationFrequency" ColumnName="CalculationFrequency" />
+                <ScalarProperty Name="Rule" ColumnName="Rule" />
+                <ScalarProperty Name="FromAmount" ColumnName="FromAmount" />
+                <ScalarProperty Name="ToAmount" ColumnName="ToAmount" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="SecondValue" ColumnName="SecondValue" />
+                <ScalarProperty Name="IsEditable" ColumnName="IsEditable" />
+                <ScalarProperty Name="AlwaysApply" ColumnName="AlwaysApply" />
+                <ScalarProperty Name="ApplyOnPaymentDueDate" ColumnName="ApplyOnPaymentDueDate" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceUpdate" FunctionName="ServiceDataModel.Store.MUNSERServiceUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceUpdateFinanceItemId" FunctionName="ServiceDataModel.Store.MUNSERServiceUpdateFinanceItemId" />
+          <FunctionImportMapping FunctionImportName="MUNSERServicePrintTemplateGet" FunctionName="ServiceDataModel.Store.MUNSERServicePrintTemplateGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServicePrintTemplateGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TemplateContent" ColumnName="TemplateContent" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateInsert" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateInsert" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateUpdate" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateGet" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCollectionTemplateGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateUpdateStatus" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceGetByCollectionField" FunctionName="ServiceDataModel.Store.MUNSERServiceGetByCollectionField">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceGetByCollectionField_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERPaymentPlanUpdateStatus" FunctionName="ServiceDataModel.Store.MUNSERPaymentPlanUpdateStatus" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceExceptionGet" FunctionName="ServiceDataModel.Store.MUNSERServiceExceptionGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceExceptionGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ExceptionValue" ColumnName="ExceptionValue" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="AllowDelete" ColumnName="AllowDelete" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateDetailGet" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateDetailGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCollectionTemplateDetailGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ServiceCollectionTemplateID" ColumnName="ServiceCollectionTemplateID" />
+                <ScalarProperty Name="GrantID" ColumnName="GrantID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="CollectionTypeID" ColumnName="CollectionTypeID" />
+                <ScalarProperty Name="ReceivableAccountID" ColumnName="ReceivableAccountID" />
+                <ScalarProperty Name="RevenueAccountID" ColumnName="RevenueAccountID" />
+                <ScalarProperty Name="Percentage" ColumnName="Percentage" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="YearID" ColumnName="YearID" />
+                <ScalarProperty Name="YearTableID" ColumnName="YearTableID" />
+                <ScalarProperty Name="GrantCode" ColumnName="GrantCode" />
+                <ScalarProperty Name="GrantName" ColumnName="GrantName" />
+                <ScalarProperty Name="ReceivableCode" ColumnName="ReceivableCode" />
+                <ScalarProperty Name="ReceivableName" ColumnName="ReceivableName" />
+                <ScalarProperty Name="RevenueCode" ColumnName="RevenueCode" />
+                <ScalarProperty Name="RevenueName" ColumnName="RevenueName" />
+                <ScalarProperty Name="CheckbookID" ColumnName="CheckbookID" />
+                <ScalarProperty Name="CheckbookCode" ColumnName="CheckbookCode" />
+                <ScalarProperty Name="CheckbookName" ColumnName="CheckbookName" />
+                <ScalarProperty Name="CashAccountID" ColumnName="CashAccountID" />
+                <ScalarProperty Name="CashAccountCode" ColumnName="CashAccountCode" />
+                <ScalarProperty Name="CashAccountName" ColumnName="CashAccountName" />
+                <ScalarProperty Name="CreditAccountID" ColumnName="CreditAccountID" />
+                <ScalarProperty Name="CreditAccountCode" ColumnName="CreditAccountCode" />
+                <ScalarProperty Name="CreditAccountName" ColumnName="CreditAccountName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionTemplateGetWithPaging" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionTemplateGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCollectionTemplateGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNGrantListGet" FunctionName="ServiceDataModel.Store.MUNGrantListGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNGrantListGet_Result">
+                <ScalarProperty Name="GrantID" ColumnName="GrantID" />
+                <ScalarProperty Name="GrantName" ColumnName="GrantName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceCollectionRuleGet" FunctionName="ServiceDataModel.Store.MUNSERServiceCollectionRuleGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceCollectionRuleGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="CollectionTypeID" ColumnName="CollectionTypeID" />
+                <ScalarProperty Name="CollectionFieldID" ColumnName="CollectionFieldID" />
+                <ScalarProperty Name="FrequencyID" ColumnName="FrequencyID" />
+                <ScalarProperty Name="CollectionRuleID" ColumnName="CollectionRuleID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CollectionTypeName" ColumnName="CollectionTypeName" />
+                <ScalarProperty Name="CollectionFieldName" ColumnName="CollectionFieldName" />
+                <ScalarProperty Name="CollectionFrequencyName" ColumnName="CollectionFrequencyName" />
+                <ScalarProperty Name="CollectionRuleName" ColumnName="CollectionRuleName" />
+                <ScalarProperty Name="AlwaysApply" ColumnName="AlwaysApply" />
+                <ScalarProperty Name="ApplyOnPaymentDueDate" ColumnName="ApplyOnPaymentDueDate" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="SequenceID" ColumnName="SequenceID" />
+                <ScalarProperty Name="AllowEdit" ColumnName="AllowEdit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceGetWithPaging" FunctionName="ServiceDataModel.Store.MUNSERServiceGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceGetWithPaging_Result">
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Service" ColumnName="Service" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceGet" FunctionName="ServiceDataModel.Store.MUNSERServiceGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="FilingTypeTableID" ColumnName="FilingTypeTableID" />
+                <ScalarProperty Name="FilingTypeID" ColumnName="FilingTypeID" />
+                <ScalarProperty Name="FilingType" ColumnName="FilingType" />
+                <ScalarProperty Name="FrequencyID" ColumnName="FrequencyID" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="Locale" ColumnName="Locale" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InitialDate" ColumnName="InitialDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="UseFixedDiscountDate" ColumnName="UseFixedDiscountDate" />
+                <ScalarProperty Name="DiscountDueDays" ColumnName="DiscountDueDays" />
+                <ScalarProperty Name="UseFixedPaymentDueDate" ColumnName="UseFixedPaymentDueDate" />
+                <ScalarProperty Name="PaymentDueDays" ColumnName="PaymentDueDays" />
+                <ScalarProperty Name="UseFixedFillingDueDate" ColumnName="UseFixedFillingDueDate" />
+                <ScalarProperty Name="FillingDueDays" ColumnName="FillingDueDays" />
+                <ScalarProperty Name="UseFixedPaymentGracePeriod" ColumnName="UseFixedPaymentGracePeriod" />
+                <ScalarProperty Name="PaymentGracePeriod" ColumnName="PaymentGracePeriod" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="IsTestMode" ColumnName="IsTestMode" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="FINItemID" ColumnName="FINItemID" />
+                <ScalarProperty Name="CollectionTemplateID" ColumnName="CollectionTemplateID" />
+                <ScalarProperty Name="PrintTemplateID" ColumnName="PrintTemplateID" />
+                <ScalarProperty Name="CustomField1" ColumnName="CustomField1" />
+                <ScalarProperty Name="CustomField2" ColumnName="CustomField2" />
+                <ScalarProperty Name="CustomField3" ColumnName="CustomField3" />
+                <ScalarProperty Name="AllowDuplicateCustomField1" ColumnName="AllowDuplicateCustomField1" />
+                <ScalarProperty Name="AllowDuplicateCustomField2" ColumnName="AllowDuplicateCustomField2" />
+                <ScalarProperty Name="AllowDuplicateCustomField3" ColumnName="AllowDuplicateCustomField3" />
+                <ScalarProperty Name="AutoCreation" ColumnName="AutoCreation" />
+                <ScalarProperty Name="AccountTypeIDs" ColumnName="AccountTypeIDs" />
+                <ScalarProperty Name="FilingFormID" ColumnName="FilingFormID" />
+                <ScalarProperty Name="FilingDueType" ColumnName="FilingDueType" />
+                <ScalarProperty Name="PaymentDueType" ColumnName="PaymentDueType" />
+                <ScalarProperty Name="DiscountDueType" ColumnName="DiscountDueType" />
+                <ScalarProperty Name="PaymentGraceType" ColumnName="PaymentGraceType" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="MultipleServicesPerYear" ColumnName="MultipleServicesPerYear" />
+                <ScalarProperty Name="CustomDateField" ColumnName="CustomDateField" />
+                <ScalarProperty Name="AllowDuplicateCustomDateField" ColumnName="AllowDuplicateCustomDateField" />
+                <ScalarProperty Name="TotalValueLabel" ColumnName="TotalValueLabel" />
+                <ScalarProperty Name="IsDateFieldCustomField1" ColumnName="IsDateFieldCustomField1" />
+                <ScalarProperty Name="MultipleServicesPerYearPerRight" ColumnName="MultipleServicesPerYearPerRight" />
+                <ScalarProperty Name="CustomField4" ColumnName="CustomField4" />
+                <ScalarProperty Name="AllowDuplicateCustomField4" ColumnName="AllowDuplicateCustomField4" />
+                <ScalarProperty Name="CustomField5" ColumnName="CustomField5" />
+                <ScalarProperty Name="AllowDuplicateCustomField5" ColumnName="AllowDuplicateCustomField5" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERPaymentPlanGetWithPaging" FunctionName="ServiceDataModel.Store.MUNSERPaymentPlanGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERPaymentPlanGetWithPaging_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="InstalmentPercentage" ColumnName="InstalmentPercentage" />
+                <ScalarProperty Name="InterestPercentage" ColumnName="InterestPercentage" />
+                <ScalarProperty Name="Months" ColumnName="Months" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LateInterestPercentage" ColumnName="LateInterestPercentage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERPaymentPlanGet" FunctionName="ServiceDataModel.Store.MUNSERPaymentPlanGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERPaymentPlanGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EffectiveFrom" ColumnName="EffectiveFrom" />
+                <ScalarProperty Name="EffectiveTo" ColumnName="EffectiveTo" />
+                <ScalarProperty Name="InstalmentPercentage" ColumnName="InstalmentPercentage" />
+                <ScalarProperty Name="InterestPercentage" ColumnName="InterestPercentage" />
+                <ScalarProperty Name="Months" ColumnName="Months" />
+                <ScalarProperty Name="IsEditable" ColumnName="IsEditable" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="LateInterestPercentage" ColumnName="LateInterestPercentage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERPaymentPlanInsert" FunctionName="ServiceDataModel.Store.MUNSERPaymentPlanInsert" />
+          <FunctionImportMapping FunctionImportName="MUNSERPaymentPlanUpdate" FunctionName="ServiceDataModel.Store.MUNSERPaymentPlanUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNSERServiceGetForFACTU" FunctionName="ServiceDataModel.Store.MUNSERServiceGetForFACTU">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceGetForFACTU_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceGetForCobros" FunctionName="ServiceDataModel.Store.MUNSERServiceGetForCobros">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceGetForCobros_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSERServiceListGet" FunctionName="ServiceDataModel.Store.MUNSERServiceListGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSERServiceListGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSchedulerEmailGetWithPaging" FunctionName="ServiceDataModel.Store.MUNSchedulerEmailGetWithPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSchedulerEmailGetWithPaging_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSchedulerEmailInsert" FunctionName="ServiceDataModel.Store.MUNSchedulerEmailInsert" />
+          <FunctionImportMapping FunctionImportName="MUNSchedulerEmailUpdate" FunctionName="ServiceDataModel.Store.MUNSchedulerEmailUpdate" />
+          <FunctionImportMapping FunctionImportName="MUNSchedulerEmailGet" FunctionName="ServiceDataModel.Store.MUNSchedulerEmailGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ServiceDataModel.MUNSchedulerEmailGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNSchedulerEmaileDelete" FunctionName="ServiceDataModel.Store.MUNSchedulerEmaileDelete" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

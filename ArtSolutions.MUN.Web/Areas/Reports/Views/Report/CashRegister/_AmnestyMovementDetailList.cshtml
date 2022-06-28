@@ -1,0 +1,50 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AmnestyMovementReportModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="amnestyMovementTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;">
+                    @GlobalResource.Date
+                </th>
+                <th style="min-width:150px;">
+                    @GlobalResource.Account
+                </th>
+                <th style="min-width:50px;">
+                    @GlobalResource.Number
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.AmnestyAmount
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.PaymentAmount
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.AmnestyMovementReportList != null && Model.AmnestyMovementReportList.Count() > 0)
+            {
+                foreach (var item in Model.AmnestyMovementReportList)
+                {
+                    <tr>
+                        <td class="text-center">@item.DateOfMovement.ToString("d")</td>
+                        <td class="text-center">@item.TaxpayerName</td>
+                        <td class="text-center">@item.Number</td>
+                        <td class="text-center">@item.AmnestyAmount.ToString("C")</td>
+                        <td class="text-center">@item.TotalPayment.ToString("C")</td>
+                    </tr>
+                }
+                <tr class="sub-header font-bold">
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount">@GlobalResource.Total : </td>
+                    <td class="text-center top-border table-total-amount">@Model.AmnestyMovementReportList.Sum(x => x.AmnestyAmount).ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.AmnestyMovementReportList.Sum(x => x.TotalPayment).ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

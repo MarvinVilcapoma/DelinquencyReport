@@ -1,0 +1,369 @@
+﻿
+@using ArtSolutions.MUN.Web.Areas.Cases.Models
+@using ArtSolutions.MUN.Web.Areas.Workflows.ViewModel;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@model ArtSolutions.MUN.Web.Areas.Collections.Models.NewPostingProcessModel
+@{
+    if (Model.ID.HasValue)
+    {
+        ViewBag.Title = GlobalResource.ViewAccountingRecord;
+    }
+    else
+    {
+        ViewBag.Title = GlobalResource.NewAccountingRecord;
+    }
+    int workflowID = Convert.ToInt32(Model.WorkFlowList[0].ID);
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>
+            @*@GlobalResource.NewPost*@
+            @ViewBag.Title
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "PostingProcess", new {area = "Collections" })">@GlobalResource.AccountingRecord </a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+@using (Ajax.BeginForm("NewPost", "PostingProcess", new AjaxOptions { HttpMethod = "POST", OnSuccess = "NewPostCallback(data)" }, new { role = "form", id = "form", data_ajax_mode = "replace-with" }))
+{
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @Html.Hidden("hdnWorkflowID", workflowID)
+                            @if (Model.ID.HasValue)
+                            {
+                                @Html.HiddenFor(x => x.ID, new { @id = "PostingProcessID" })
+                                Html.RenderPartial("~/Views/Shared/_WorkFlowStatus.cshtml", Model.WorkflowStatusList);
+                            }
+                            else
+                            {
+                                Html.RenderPartial("~/Views/Shared/_WorkFlowStatus.cshtml", Model.WorkflowStatusList);
+                                @*<button id="btnSave" type="button" name="actionType" value="1" tabindex="3" class="btn btn-primary">@GlobalResource.Save</button>*@
+                            }
+                            <button class="btn btn-white" type="button" tabindex="4" onclick="window.location.href = '@Url.Action("List", "PostingProcess")';">@GlobalResource.Cancel</button>
+                        </div>
+                        @*<div class="ibox-tools">
+                                <button id="btnPost" type="button" name="actionType" value="1" tabindex="3" class="btn btn-primary">@GlobalResource.Post</button>
+                            </div>*@
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    @*<div class="form-group m-r-md padding-bottom-5">
+                                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="5"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                                        </div>*@
+
+                                    <label class="m-r-md">@GlobalResource.Type</label>
+                                    <div class="form-group w-300 m-r-md padding-bottom-5">
+                                        <select id="PaymentReceiptType" name="PaymentReceiptType" class="form-control select2dropdown required" data_required_msg="@GlobalResource.FieldRequiredMessage">
+                                            @*@if (Model.ID.HasValue)
+        {
+            if (Model.PaymentReceiptType == 1)
+            {
+                <option value="1">@LocalResource.ByInvoice</option>
+            }
+            else if (Model.PaymentReceiptType == 2)
+            {
+                <option value="2">@LocalResource.ByService</option>
+            }
+            else if (Model.PaymentReceiptType == 3)
+            {
+                <option value="3">@LocalResource.ByPaymentPlan</option>
+            }
+        }
+        else
+        {*@
+                                            <option value="1">@LocalResource.ByInvoice</option>
+                                            <option value="2">@LocalResource.ByService</option>
+                                            <option value="3">@LocalResource.ByPaymentPlan</option>
+                                            @*<option value="23">@GlobalResource.ByFilling</option>*@
+                                            <option value="50">@GlobalResource.ByCreditNote</option>
+                                            @*}*@
+                                        </select>
+                                        @Html.ValidationMessageFor(c => c.PaymentReceiptType)
+                                        @*@Html.DropDownListFor(c => c.PaymentReceiptType, Model.PaymentReceiptTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @data_required_msg = GlobalResource.FieldRequiredMessage })*@
+                                    </div>
+                                    @if (!Model.ID.HasValue)
+                                    {
+                                        <label class="m-r-md">@LocalResource.LastAsOfDate</label>
+                                        <div class="form-group m-r-md padding-bottom-3">
+                                            <label class="m-r-md" id="lblLastAsOfDate">@Html.Raw(Model.LastAsOfDate.HasValue ? Model.LastAsOfDate.Value.ToString("d") : "-")</label>
+                                        </div>
+                                    }
+                                    <label class="m-r-md">@GlobalResource.AsofDate</label>
+                                    <div class="form-group m-r-md padding-bottom-3">
+                                        @Html.TextBox("AsOfDate", Model.AsOfDate.ToString("d"), new { @class = "form-control periodDate  textblur required", tabindex = "1", @data_required_msg = GlobalResource.FieldRequiredMessage })
+                                        @*@Html.TextBox(c => c.AsOfDate, ,new { @class = "form-control periodDate  textblur required", tabindex = "1", @data_required_msg = GlobalResource.FieldRequiredMessage,@value=Model.LastAsOfDate })*@
+                                    </div>
+
+                                    @if (!Model.ID.HasValue)
+                                    {
+                                        <div class="form-group m-r-md padding-bottom-5">
+                                            <button type="submit" class="btn btn-primary" id="btnGo" tabindex="2">@GlobalResource.Go</button>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="JournalListForPosting">
+                            @{ Html.RenderPartial("~/Areas/Collections/Views/PostingProcess/_NewPostList.cshtml"); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    <script>
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        var RequiredSelectionMsg = '@GlobalResource.RequiredSelectionValidationMsg';
+        var pagelen = 60;
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+
+        function NewPostCallback(responce) {
+            if (responce.result == true) {
+                $("#JournalListForPosting").html(responce.data);
+            }
+            else {
+                showAlert('error', responce.message);
+            }
+        }
+
+        function ValidateWorkFlowStatus($this) {
+            var retval = true;
+            if (retval) {
+                swal({
+                    title: swalTitleText,
+                    type: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: cancelBtnText,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: $($this).text(),
+                    closeOnConfirm: true
+                }, function (confirmed) {
+                    if (confirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: ROOTPath + '/PostingProcess/AddNewPost',
+                            data: {
+                                'PaymentReceiptType': $("#PaymentReceiptType").val()
+                                , 'JournalIds': $("#JournalIds").val()
+                                , 'AsOfDate': $("#AsOfDate").val()
+                                , 'workflowID': $("#hdnWorkflowID").val()
+                                , 'workflowStatusID': $($this).val()
+                            },
+                            success: function (response) {
+                                if (response.status) {
+                                    hideLoading();
+                                    window.location.href = ROOTPath + '/Collections/PostingProcess/View?ID=' + response.postingProcessID;
+                                }
+                                else {
+                                    showAlert('error', response.message);
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            }
+        }
+
+
+        function initializeDatePicker() {
+            $('.periodDate').datepicker({
+                todayHighlight: true,
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: __dateFormat,
+                language: __culture
+            });
+        }
+
+
+        $(document).on('click', '#btnSearch', function () {
+            InitializeData();
+        });
+
+        $("#btnrefresh").click(function () {
+            $('#AsOfDate').val('');
+            $("#DocumentTypeID").val("").trigger("change.select2");
+            $("#btnSearch").click();
+        });
+
+        var indexGroup;
+        function InitializeData() {
+            if (validateForm()) {
+                $.ajax({
+                    type: "GET",
+                    url: ROOTPath + '/PostingProcess/GetJournalListForPosting',
+                    data: {
+                        'AsOfDate': $("#AsOfDate").val() != '' ? new Date($("#AsOfDate").datepicker('getDate')).toDateString() : null
+                        , 'DocumentTypeID': getDocumentTypeIDs()
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            hideLoading();
+                            $("#JournalListForPosting").html("").html(response.data);
+                            indexGroup = null;
+                            var groupColumn = 13;
+                            table = $('#tblJournalDetail').dataTable({
+                                "oLanguage": {
+                                    "sEmptyTable": nodatamsg,
+                                    oPaginate: {
+                                        sPrevious: previous,
+                                        sNext: next
+                                    }
+                                },
+                                "bFilter": false,
+                                "bInfo": false,
+                                "bLengthChange": false,
+                                "autoWidth": false,
+                                "ordering": false,
+                                "columnDefs": [
+                                    { "visible": false, "targets": groupColumn }
+                                ],
+                                "pageLength": pagelen,
+                                "drawCallback": function (settings) {
+                                    var api = this.api();
+                                    var pageInfo = api.page.info();
+                                    var rows = api.rows({
+                                        page: 'current'
+                                    }).nodes();
+                                    var last = null;
+                                    api.column(groupColumn, { page: 'current' }).data().each(function (group, i) {
+                                        var isAvailableColspan = true;
+                                        if (i == 0) {
+                                            isAvailableColspan = $(api.rows({ page: 'current' }).nodes()[0]).find('td[colspan="7"]').length > 0;
+                                        }
+                                        if (last !== group && indexGroup != null && i == 0 && pageInfo.page != 0 && isAvailableColspan) {
+                                            var $TRColumn = api.rows().nodes().to$().find('td[data-journalid="' + group + '"]').closest("tr");
+                                            var html = '<tr class="group">' +
+                                                '<td>' + $TRColumn.find('td:eq(0)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(1)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(2)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(3)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(4)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(5)').html() + '</td>' +
+                                                '<td>' + $TRColumn.find('td:eq(6)').html() + '</td>' +
+                                                '<td colspan="6"></td>' +
+                                                '</tr>';
+                                            $(rows).eq(i).before(
+                                                html
+                                            );
+
+                                            last = group;
+                                        }
+                                        indexGroup = group;
+                                    });
+                                }
+                            }).api();
+                        }
+                        else {
+                            showAlert('error', response.message);
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            $("#btnSearch").focus();
+            if ($(".select2dropdown").length)
+                $(".select2dropdown").select2();
+            initializeDatePicker();
+            @if (!Model.ID.HasValue)
+            {
+                    <text>
+                        $('.periodDate').datepicker('update', new Date());
+                    </text>
+            }
+            else
+            {
+                <text>
+                     //$("input,button:not('.btn-white'),select").prop("disabled", true);
+                     $("input,select").prop("disabled", true);
+                </text>
+            }
+        });
+
+        $("#btnSave").on("click", function () {
+            var retval = true;
+            if ($(".chkJournal:checked").length <= 0) {
+                retval = false;
+                showAlert('error', RequiredSelectionMsg);
+            }
+            if (retval) {
+                $.ajax({
+                    type: "POST",
+                    url: ROOTPath + '/PostingProcess/AddNewPost',
+                    data: {
+                        'DocumentTypeDetail': $("#PaymentReceiptType").val()
+                        , 'JournalIds': $("#JournalIds").val()
+                        , 'AsOfDate': $("#AsOfDate").val()
+                    },
+                    success: function (response) {
+                        if (response.status) {
+                            hideLoading();
+                            window.location.href = ROOTPath + '/Collections/PostingProcess/NewPost?ID=' + response.postingProcessID;
+                        }
+                        else {
+                            showAlert('error', response.message);
+                        }
+                    }
+                });
+            }
+        });
+
+
+        $("#PaymentReceiptType").change(function () {
+            $.ajax({
+                type: "GET",
+                url: ROOTPath + '/PostingProcess/GetLastAsOfDate',
+                data: {
+                    'PaymentRecieptType': $(this).val()
+                },
+                success: function (response) {
+                    $('#lblLastAsOfDate').text(response.data);
+                }
+            });
+        });
+    </script>
+}

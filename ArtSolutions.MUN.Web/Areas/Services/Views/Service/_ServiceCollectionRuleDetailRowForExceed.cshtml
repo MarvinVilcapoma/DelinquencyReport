@@ -1,0 +1,21 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionRuleDetailModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<tr id="@Model.ID">
+    <td class="col-lg-3 text-right">
+        @Html.TextBoxFor(x => x.FromAmount, new { @class = "form-control text-right inputdecimal rangeamount disable", @id = "txtFromAmount", maxlength = 13 })
+    </td>
+    <td class="col-lg-3 text-right">
+        @Html.TextBoxFor(x => x.ToAmount, new { @class = "form-control text-right inputdecimal rangeamount disable", @id = "txtToAmount", maxlength = 13 })
+    </td>
+    <td class="col-lg-3 text-right">
+        @Html.TextBoxFor(x => x.Value, new { @class = "form-control text-right inputdecimal disable", @id = "txtValue", maxlength = 13 })
+    </td>
+    <td class="col-lg-3 text-right">
+        @Html.TextBoxFor(x => x.SecondValue, new { @class = "form-control text-right inputdecimal disable", @id = "txtFactorValue", maxlength = 13 })
+    </td>
+    <td class="col-lg-1"> <center> <a id="btnRemoveDetail" class='btn btn-danger btn-xs btn-circle btnRemoveDetail disable' title="@GlobalResource.Remove"><i class='fa fa-times'></i></a> </center> </td>
+    @Html.HiddenFor(x => x.ID, new { @Id = "hdnRuleDetailId" })
+    @Html.HiddenFor(x => x.SequenceID, new { @Id = "hdnRuleDetailSeqId" })
+</tr>

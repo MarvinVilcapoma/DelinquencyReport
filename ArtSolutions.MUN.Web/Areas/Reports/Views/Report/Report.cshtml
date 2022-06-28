@@ -1,0 +1,2385 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    /**/
+
+    /**/
+    var countryID = ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID;
+    /**/
+
+    ViewBag.Title = GlobalResource.Reports;
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@GlobalResource.Reports</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@LocalResource.BreadcrumbReportTitle</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="fh-breadcrumb m-t-xxs">
+    <div class="fh-column border-left">
+        <div class="full-height-scroll">
+            <ul class="list-group elements-list reportMenu">
+                <li class="list-group-item active">
+                    <a data-toggle="tab" href="#tab-0">
+                        <strong>@GlobalResource.Account</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Account
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-1">
+                        <strong>@GlobalResource.Certification</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Certification
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                @if (countryID != 52)
+                {
+                    <li class="list-group-item">
+                        <a data-toggle="tab" href="#tab-2">
+                            <strong>@GlobalResource.IVU</strong>
+                            <div class="small m-t-xs">
+                                <p>
+                                    @GlobalResource.IVU
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                }
+
+                @if (countryID == 52)
+                {
+                    <li class="list-group-item">
+                        <a data-toggle="tab" href="#tab-8">
+                            <strong>@GlobalResource.Water</strong>
+                            <div class="small m-t-xs">
+                                <p>
+                                    @GlobalResource.Water
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                }
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-7">
+                        <strong>@GlobalResource.Patente</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Patente
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-3">
+                        <strong>@GlobalResource.PaymentReceipt</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Collection
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-4">
+                        <strong>@GlobalResource.CloseEntryDay</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Collection
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-5">
+                        <strong>@GlobalResource.DepositEntry</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Collection
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-6">
+                        <strong>@GlobalResource.Accounting</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Accounting
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-9">
+                        <strong>@GlobalResource.Property</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Property
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-10">
+                        <strong>@GlobalResource.Bank</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Bank
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-11">
+                        <strong>@GlobalResource.Migration</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @GlobalResource.Migration
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-12">
+                        <strong>@LocalResource.ExceptionTitle</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @LocalResource.ExceptionTitle
+                            </p>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a data-toggle="tab" href="#tab-13">
+                        <strong>@LocalResource.SchedulerTitle</strong>
+                        <div class="small m-t-xs">
+                            <p class="m-b-xs">
+                                @LocalResource.SchedulerTitle
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="full-height">
+        <div class="full-height-scroll white-bg border-left">
+            <div class="element-detail-box">
+                <div class="tab-content">
+                    <div id="tab-0" class="tab-pane active">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountStatement")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AccountStatementTitle">
+                                                            @LocalResource.AccountStatementTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button href='@Url.Content("~/Report/AccountStatement")' class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/HistoricalAccountServiceRemoved")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReportOfHistoricalAccountServiceRemoved">
+                                                            @LocalResource.ReportOfHistoricalAccountServiceRemoved
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/SummaryAccountStatement")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.SummaryAccountStatementTitle">
+                                                            @LocalResource.SummaryAccountStatementTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AdministrativeCollectionNotice")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Html.Raw("I "+LocalResource.AdministrativeCollectionFirstNoticeTitle)">
+                                                            @Html.Raw("I " + LocalResource.AdministrativeCollectionFirstNoticeTitle)
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AdministrativeCollectionSecondNotice")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@Html.Raw("II "+LocalResource.AdministrativeCollectionFirstNoticeTitle)">
+                                                            @Html.Raw("II " + LocalResource.AdministrativeCollectionFirstNoticeTitle)
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/PaymentPlanByTaxpayer")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.PaymentPlanByTaxpayer">
+                                                            @LocalResource.PaymentPlanByTaxpayer
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountServicesMissingFiling")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AccountServicesMissingFiling">
+                                                            @LocalResource.AccountServicesMissingFiling
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/GeneralMovements")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.GeneralMovementsReport">
+                                                            @LocalResource.GeneralMovementsReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountByServiceType")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AccountByServiceTypeTitle">
+                                                            @LocalResource.AccountByServiceTypeTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/DelinquencyReport")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Account</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DelinquencyReport">
+                                                            @LocalResource.DelinquencyReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-1" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                @if (countryID != 52)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/SalesTaxDebitStatement")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.SalexTaxDebitCertificateTitle">
+                                                                @LocalResource.SalexTaxDebitCertificateTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/SalesTaxFillingCertificate")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.SalexTaxFillingCertificateTitle">
+                                                                @LocalResource.SalexTaxFillingCertificateTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/BusinessLicenseDebitStatement")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.PatentDebitCertificateTitle">
+                                                                @LocalResource.PatentDebitCertificateTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/DebtCertification")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DebtCertificationTitle">
+                                                                @LocalResource.DebtCertificationTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/NoDebtCertification")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.NoDebtCertification">
+                                                                @LocalResource.NoDebtCertification
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/ProjectedAccountStatement")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ProjectedAccountStatement">
+                                                                @LocalResource.ProjectedAccountStatement
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/Constancy")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-certificate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Certification</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.CONSTANCY">
+                                                                @LocalResource.CONSTANCY
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (countryID != 52)
+                    {
+                        <div id="tab-2" class="tab-pane">
+                            <div class="animated fadeInRight">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/IVUBalanceSheet")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.IVU</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.IVUBalanceSheetTitle">
+                                                                @LocalResource.IVUBalanceSheetTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/IVUCollectionDetail")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.IVU</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.IVUCollectionDetailTitle">
+                                                                @LocalResource.IVUCollectionDetailTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/IVUStatement")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.IVU</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.IVUStatementTitle">
+                                                                @LocalResource.IVUStatementTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/IVUFormsNotFiled")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.IVU</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.IVUFormsNotFiledTitle">
+                                                                @LocalResource.IVUFormsNotFiledTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div id="tab-3" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptRegister")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptRegister">
+                                                            @LocalResource.ReceiptRegister
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (countryID != 52)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/ReceiptByIVU")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-money">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptsByIVU">
+                                                                @LocalResource.ReceiptsByIVU
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByBusinessLicense")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptsByPatente">
+                                                            @LocalResource.ReceiptsByPatente
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByPaymentPlan")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptsByPaymentPlanTitle">
+                                                            @LocalResource.ReceiptsByPaymentPlanTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByOtherConcept")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptsByOtherConceptTitle">
+                                                            @LocalResource.ReceiptsByOtherConceptTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/VoidReceipts")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.VoidReceipt">
+                                                            @LocalResource.VoidReceipt
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.VoidReceipt <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptCommercialFacilitiesRental")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptCommercialFacilitiesRental">
+                                                            @LocalResource.ReceiptCommercialFacilitiesRental
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByPermissionFees")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptPermissionFessTitle">
+                                                            @LocalResource.ReceiptPermissionFessTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByPermissionExpenses")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptPermissionExpensesTitle">
+                                                            @LocalResource.ReceiptPermissionExpensesTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByStreetVendors")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptStreetVendorTitle">
+                                                            @LocalResource.ReceiptStreetVendorTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptBySecurityBankAccount")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.SecurityDetailBankAccountTitle">
+                                                            @LocalResource.SecurityDetailBankAccountTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptByBank")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptByBankTitle">
+                                                            @LocalResource.ReceiptByBankTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptDetail")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptDetail">
+                                                            @LocalResource.ReceiptDetail
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/PaymentsMadeByTheTaxpayer")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.PaymentReceipt</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ListOfPaymentsMadeByTheTaxpayer">
+                                                            @LocalResource.ListOfPaymentsMadeByTheTaxpayer
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/RevenueByDailyCollection")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.RevenueDailyCollectionTitle">
+                                                            @LocalResource.RevenueDailyCollectionTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-4" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionClosingSummary")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ClosingSummaryTitle">
+                                                            @LocalResource.ClosingSummaryTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ClosingSummaryByPaymentType")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@GlobalResource.ClosingSummaryByPaymentType">
+                                                            @GlobalResource.ClosingSummaryByPaymentType
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ClosingSummaryServiceType")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@GlobalResource.ClosingSummaryServiceTypeTitle">
+                                                            @GlobalResource.ClosingSummaryServiceTypeTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ClosingSummaryByInvoice")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@GlobalResource.CashRegisterSummaryByInvoice">
+                                                            @GlobalResource.CashRegisterSummaryByInvoice
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ClosingSummaryByPaymentPlan")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@GlobalResource.CashRegisterSummaryByPaymentPlan">
+                                                            @GlobalResource.CashRegisterSummaryByPaymentPlan
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CashReceiptControl")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.CashReceiptControl">
+                                                            @LocalResource.CashReceiptControl
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDailyIncomeState")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DailyIncomeStateTitle">
+                                                            @LocalResource.DailyIncomeStateTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/MonthlyIncomeStatementByServices")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.MonthlyIncomeStatementByServices">
+                                                            @LocalResource.MonthlyIncomeStatementByServices
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/QuarterlyIncomeStatementByServices")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.QuarterlyIncomeStatementByServices">
+                                                            @LocalResource.QuarterlyIncomeStatementByServices
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/YearlyIncomeStatementByServices")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.YearlyIncomeStatementByServices">
+                                                            @LocalResource.YearlyIncomeStatementByServices
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/HistoricalPaymentReport")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.HistoricalPaymentReport">
+                                                            @LocalResource.HistoricalPaymentReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AmnestyMovementReport")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-book">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.CloseEntryDay</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AmnestyMovementReport">
+                                                            @LocalResource.AmnestyMovementReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-5" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDepositSummary")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.DepositEntry</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DepositSummaryTitle">
+                                                            @LocalResource.DepositSummaryTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDepositSummaryByPaymentType")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.DepositEntry</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DepositSummaryPaymentTypeTitle">
+                                                            @LocalResource.DepositSummaryPaymentTypeTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDepositSummaryByServiceType")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.DepositEntry</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DepositSummaryServiceTypeTitle">
+                                                            @LocalResource.DepositSummaryServiceTypeTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDepositSummaryByInvoice")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.DepositEntry</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DepositSummaryReportByInvoice">
+                                                            @LocalResource.DepositSummaryReportByInvoice
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDepositSummaryByPaymentPlan")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.DepositEntry</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DepositSummaryReportByPaymentPlan">
+                                                            @LocalResource.DepositSummaryReportByPaymentPlan
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-6" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/Journal")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Accounting</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.JournalTitle">
+                                                            @LocalResource.JournalTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/JournalDetail")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Accounting</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.JournalDetailTitle">
+                                                            @LocalResource.JournalDetailTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-7" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                @if (countryID != 52)
+                                {
+
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/BusinessLicenseFilingByFilingType")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text-o">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Patente</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.BusinessLicenseFilingByFilingTypeTitle">
+                                                                @LocalResource.BusinessLicenseFilingByFilingTypeTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/BalanceByBusinessLicense")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text-o">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Patente</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.BalanceBusinessLicenseTitle">
+                                                                @LocalResource.BalanceBusinessLicenseTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/CreditBalanceByBusinessLicense")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text-o">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Patente</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.CreditBalanceBusinessLicenseTitle">
+                                                                @LocalResource.CreditBalanceBusinessLicenseTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="ibox">
+                                            <div class="ibox-content product-box">
+                                                <a href='@Url.Content("~/Report/ClosingBalanceByBusinessLicense")'>
+                                                    <div class="product-imitation report-image-padding">
+                                                        <div class="report-image fa fa-file-text-o">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc">
+                                                        <small class="text-muted">@GlobalResource.Patente</small>
+                                                        <div class="product-name report-text-description">
+                                                            <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ClosingBalanceBusinessLicenseTitle">
+                                                                @LocalResource.ClosingBalanceBusinessLicenseTitle
+                                                            </span>
+                                                        </div>
+                                                        <div class="m-t text-righ">
+                                                            <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/TransactionByBusinessLicense")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Patente</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.TransactionBusinessLicenseTitle">
+                                                            @LocalResource.TransactionBusinessLicenseTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/BusinessLicenceSanitaryPermitDueDate")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Patente</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.SanitaryPermitDueDateBusinessLicenseTitle">
+                                                            @LocalResource.SanitaryPermitDueDateBusinessLicenseTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/GeneralBusinessLicense")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Patente</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.GeneralBusinessLicenseTitle">
+                                                            @LocalResource.GeneralBusinessLicenseTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-8" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/HistoricalReadingsByMeter")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReportOfHistoricalReadingsByMeter">
+                                                            @LocalResource.ReportOfHistoricalReadingsByMeter
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ConsumptionByRange")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ConsumptionByRangeReport">
+                                                            @LocalResource.ConsumptionByRangeReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/InconsistenceReading")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.InconsistenceReadingReport">
+                                                            @LocalResource.InconsistenceReadingReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountsConsumptionAndCollection")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AccountsConsumptionAndCollectionTitle">
+                                                            @LocalResource.AccountsConsumptionAndCollectionTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/DuplicatedMeterNumber")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DuplicatedMeterNumberTitle">
+                                                            @LocalResource.DuplicatedMeterNumberTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/RoutaMissingServices")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.RoutaMissingServices">
+                                                            @LocalResource.RoutaMissingServices
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/SuspensionOrderForWaterService")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-file-text-o">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Water</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@ArtSolutions.MUN.Web.Resources.AccountService.SuspensionOrder">
+                                                            @ArtSolutions.MUN.Web.Resources.AccountService.SuspensionOrder
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-9" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/Property")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.PropertyTitle">
+                                                            @LocalResource.PropertyReportTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/TransfersReport")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.TransfersReportTitle">
+                                                            @LocalResource.TransfersReportTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountExclusionForm")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.AccountExclusionFormReportTitle">
+                                                            @LocalResource.AccountExclusionFormReportTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ParkMaintenanceMissingServices")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ParkMaintenanceMissingServicesTitle">
+                                                            @LocalResource.ParkMaintenanceMissingServicesTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ServicesLinkedToRight")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ServicesLinkedToRightTitle">
+                                                            @LocalResource.ServicesLinkedToRightTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/RightsByOwnersID")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ListOfRightsByOwnersIDReport">
+                                                            @LocalResource.ListOfRightsByOwnersIDReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/AccountPropertyRemoved")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Property</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReportOfAccountPropertyRemoved">
+                                                            @LocalResource.ReportOfAccountPropertyRemoved
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-10" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ExportBankPayments")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ExportBankPayments">
+                                                            @LocalResource.ExportBankPayments
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/RevenuefromBankCollection")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.RevenueBankCollectionTitle">
+                                                            @LocalResource.RevenueBankCollectionTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/CollectionDailyIncomeProduceBank")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.DailyIncomeProduceBankTitle">
+                                                            @LocalResource.DailyIncomeProduceBankTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/StatisticsofReceiptsCollected")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.StatisticsOfReceiptsCollected">
+                                                            @LocalResource.StatisticsOfReceiptsCollected
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ReceiptCollectedByBank")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ReceiptCollectedByBankTitle">
+                                                            @LocalResource.ReceiptCollectedByBankTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ControlOfPaymentsMadeInTheBank")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ControlofPaymentsmadeintheBank">
+                                                            @LocalResource.ControlofPaymentsmadeintheBank
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/InconsistenciesInTheBankReceipts")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-bank">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Bank</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ListofInconsistenciesintheApplicationofBankReceiptsReport">
+                                                            @LocalResource.ListofInconsistenciesintheApplicationofBankReceiptsReport
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-11" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/MigrationValidationFactu")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Migration</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.MigrationValidationFactuTitle">
+                                                            @LocalResource.MigrationValidationFactuTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/MigrationValidationCobros")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Migration</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.MigrationValidationCobrosTitle">
+                                                            @LocalResource.MigrationValidationCobrosTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/MigrationValidationBienes")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@GlobalResource.Migration</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.MigrationValidationBienesTitle">
+                                                            @LocalResource.MigrationValidationBienesTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-12" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/ExceptionReport")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@LocalResource.ExceptionTitle</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.ExceptionTitle">
+                                                            @LocalResource.ExceptionTitle
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-13" class="tab-pane">
+                        <div class="animated fadeInRight">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="ibox">
+                                        <div class="ibox-content product-box">
+                                            <a href='@Url.Content("~/Report/JobSchedulerHistory")'>
+                                                <div class="product-imitation report-image-padding">
+                                                    <div class="report-image fa fa-money">
+                                                    </div>
+                                                </div>
+                                                <div class="product-desc">
+                                                    <small class="text-muted">@LocalResource.SchedulerTitle</small>
+                                                    <div class="product-name report-text-description">
+                                                        <span title="" data-placement="bottom" data-toggle="tooltip" tooltip-placement="left" data-original-title="@LocalResource.JobSchedulerHistory">
+                                                            @LocalResource.JobSchedulerHistory
+                                                        </span>
+                                                    </div>
+                                                    <div class="m-t text-righ">
+                                                        <button class="btn btn-xs btn-outline btn-primary"> @LocalResource.ViewReport <i class="fa fa-long-arrow-right"></i> </button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .tooltip-inner {
+            max-width: 500px !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+    </script>
+}

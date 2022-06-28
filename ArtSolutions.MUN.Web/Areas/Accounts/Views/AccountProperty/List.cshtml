@@ -1,0 +1,102 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyList
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ListTitle;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountProperty</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" tabindex="3">@GlobalResource.Action <span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href='@Url.Action("Add")'>@LocalResource.AddTitle</a></li>
+                                <li><a href='@Url.Action("ImportAccountProperty")'>@ArtSolutions.MUN.Web.Resources.ImportAccount.ImportAccountPropertyTitle</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="4"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtSearch" tabindex="1">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="2"> @GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-stripped dataTables-example" id="tblAccountProperty"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var active = '@Html.Raw(GlobalResource.Active)';
+        var inactivebtn = '@Html.Raw(GlobalResource.InActivebtn)';
+        var view = '@Html.Raw(GlobalResource.View)';
+        var edit = '@Html.Raw(GlobalResource.Edit)';
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var activemsg = '@Html.Raw(GlobalResource.ActiveMessage)';
+        var deactivemsg ='@Html.Raw(GlobalResource.DeActiveMessage)';
+        var inactiveconfirm = '@Html.Raw(GlobalResource.InActiveConfirm)';
+        var activeconfirm = '@Html.Raw(GlobalResource.ActiveConfirm)';
+        var suremsg ='@Html.Raw(GlobalResource.SureMessage)';
+        var first ='@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous ='@Html.Raw(GlobalResource.Previous)';
+        var propertyNumber ='@Html.Raw(LocalResource.PropertyNumber)';
+        var condo ='@Html.Raw(LocalResource.Condo)';
+        var condoType ='@Html.Raw(LocalResource.CondoType)';
+        var cadastralPlanNumber ='@Html.Raw(LocalResource.CadastralPlanNumber)';
+        var totalArea = '@Html.Raw(LocalResource.TotalArea)';
+        var toTalValue ='@Html.Raw(LocalResource.TotalValue)';
+        var actions = '@Html.Raw(GlobalResource.Actions)';
+        var owner = '@Html.Raw(GlobalResource.Owner)';
+        var editInactiveRightValidationMsg = '@Html.Raw(LocalResource.EditInactiveRightValidationMsg)';
+        var validRightHasDebt = '@Html.Raw(LocalResource.ValidRightCannotInactive)';
+        var okResource = '@Html.Raw(GlobalResource.Ok)';
+        var updateRight ='@Html.Raw(LocalResource.UpdateRight)';
+    </script>
+    <script src="~/Scripts/app/accountpropertylist.js"></script>
+}

@@ -1,0 +1,147 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionDepositSummaryByInvoiceModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.DepositSummaryReportByInvoice;
+}
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportDepositSummaryByInvoice", "Report", FormMethod.Post,
+                            new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">                                   
+                                    <div class="form-group">
+                                        <label>@GlobalResource.From <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.StartPeriodDate, new { @class = "form-control periodDate textblur", tabindex = 1, @data_required_msg = LocalResource.StartPeriodRequiredMsg, @data_compare_val_msg = LocalResource.ComparePeriodDatesValidationMsg })
+                                    </div>                                   
+                                    <div class="form-group">
+                                        <label>@GlobalResource.To <span class="text-danger">*</span></label>
+                                        @Html.TextBoxFor(x => x.EndPeriodDate, new { @class = "form-control periodDate textblur", tabindex = 2, @data_required_msg = LocalResource.EndPeriodRequiredMsg, @data_compare_val_msg = LocalResource.ComparePeriodDatesValidationMsg })
+                                    </div>                                   
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                        <label>
+                                            <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                @GlobalResource.AdvanceSearch
+                                            </a>
+                                        </label>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" tabindex="5" class="btn-success btn-sm m-r-xs" name="exportType" value="0" itag="btnExcel" onclick="return validateDates();">@GlobalResource.Excel</button>
+                                        <button type="submit" tabindex="6" class="btn-success btn-sm m-r-xs" name="exportType" value="1" itag="btnPDF" onclick="return validateDates();">@GlobalResource.PDF</button>
+                                        <button type="button" tabindex="7" class="btn-info btn-sm" name="exportType" value="2" itag="btnPrint" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>                               
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline">
+                                    <span class="label label-warning pull-left hide" id="spnSelectedBankAccount" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="BankAccountIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('bankaccount')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnSelectedServiceType" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="ServiceTypeIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('servicetype')" style="cursor:pointer;"></i></span>
+                                    <span class="label label-warning pull-left hide" id="spnBalanceRange" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="SearchText"></span>  <i class="fa fa-close" onclick="clearSearch('balance')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive p-sm m-t" id="dvUpdate">
+                            @{
+                                Html.RenderPartial("~/Areas/Reports/Views/Report/DepositeEntry/_DepositSummaryByInvoiceList.cshtml", Model);
+                            }
+                        </div>
+                        @*hidden values*@
+                        @Html.HiddenFor(x => x.NetDepositFrom)
+                        @Html.HiddenFor(x => x.NetDepositTo)
+                        @Html.HiddenFor(x => x.FilterServiceTypeID)
+                        @Html.HiddenFor(x => x.FilterBankAccountID)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.BankAccount</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("BankAccountIDs", new SelectList(Model.BankAccountList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "8" })
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.ServiceType</label>
+                            <div class="col-lg-4">
+                                @Html.DropDownList("ServiceTypeIDs", new SelectList(Model.ServicetypeList, "ID", "Name"), new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "9" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.NetDepositFrom</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("NetDepositFrom", Model.NetDepositFrom, new { @class = "form-control inputdecimal text-right", @id = "txtNetDepositFrom", @data_title = LocalResource.NetDepositFrom, @data_val_msg = LocalResource.NetDepositFromRequiredMsg, @tabindex = 10 })
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.NetDepositTo</label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("NetDepositTo", Model.NetDepositTo, new { @class = "form-control inputdecimal text-right", @id = "txtNetDepositTo", @data_title = LocalResource.NetDepositTo, @data_val_msg = LocalResource.NetDepositToRequiredMsg, @tabindex = 11 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " tabindex="12" onclick="return validateForm();">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" tabindex="13" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var number = '@Html.Raw(GlobalResource.Number)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var closingcount = '@Html.Raw(LocalResource.ClosingCount)';
+        var depositType = '@Html.Raw(GlobalResource.DepositType)';
+        var description = '@Html.Raw(GlobalResource.Description)';
+        var bank = '@Html.Raw(GlobalResource.Bank)';
+        var bankaccount = '@Html.Raw(GlobalResource.BankAccount)';
+        var netdeposit = '@Html.Raw(LocalResource.NetDeposit)';
+        var compareDepositValidationMsg = '@Html.Raw(LocalResource.CompareNetDepositValidationMsg)';
+        var BalanceRange = '@Html.Raw(LocalResource.NetDepositRange)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var balanceFromRequiredMsg = '@Html.Raw(LocalResource.BalanceFromRequiredMsg)';
+        var balanceToRequiredMsg = '@Html.Raw(LocalResource.BalanceToRequiredMsg)';
+        var SelectedBankAccount = '@Html.Raw(LocalResource.SelectedBankAccount)';
+        var SelectedServiceType = '@Html.Raw(LocalResource.SelectedServiceType)';
+    </script>
+    <script src="~/Scripts/app/repdepositsummarybyinvoice.js"></script>
+}

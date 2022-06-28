@@ -1,0 +1,71 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover businessList" data-page="false">
+        <thead>
+            <tr>
+                <th class="col-lg-3">@LocalResource.PropertyNumber</th>
+                <th class="col-lg-2">@LocalResource.CadastralPlanNumber </th>
+                <th class="col-lg-2 text-right" data-type="numeric">@Html.Raw(@LocalResource.TotalArea)</th>
+                <th class="col-lg-2 text-right" data-type="numeric"> @LocalResource.TotalValue</th>
+                <th class="col-lg-3 text-right" data-sort-ignore="true">
+                    <a id="lnkNewProperty" href='@Url.Content("~/AccountProperty/Add")' class="@(Model.IsActive? "btn btn-primary btn-xs": "btn btn-primary btn-xs disabled")"><i class="fa fa-plus"></i> @LocalResource.NewProperty </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PropertyList == null || (Model.PropertyList.AccountPropertyModelList != null && Model.PropertyList.AccountPropertyModelList.Count() == 0))
+            {
+                <tr>
+                    <td colspan="4" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.PropertyList.AccountPropertyModelList)
+                {
+                    <tr>
+                        <td class="col-lg-3 table-description-field">
+                            @item.FincaID
+                        </td>
+                        <td class="col-lg-2 table-description-field">
+                            @item.CadastralPlanNumber
+                        </td>
+                        <td class="col-lg-2 text-right" data-sort-value="@item.TotalArea">
+                            @if (@item.TotalArea != null)
+                            {
+                                @item.TotalArea.Value.ToString(Common.DecimalPoints)
+                            }
+                        </td>
+                        <td class="col-lg-2 text-right" data-sort-value="@item.TotalValue">
+                            @if (@item.TotalValue != null)
+                            {
+                                @item.TotalValue.Value.ToString("C")
+                            }
+                        </td>
+                        <td class="col-lg-3 text-right">
+                            <a href='@Url.Content("~/AccountProperty/View?ID="+ item.ID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View </a>
+
+                            @if (@item.IsActive)
+                            {
+                                <a href='@Url.Content("~/AccountProperty/Edit?ID=" + item.ID)' class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> @GlobalResource.Edit </a>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

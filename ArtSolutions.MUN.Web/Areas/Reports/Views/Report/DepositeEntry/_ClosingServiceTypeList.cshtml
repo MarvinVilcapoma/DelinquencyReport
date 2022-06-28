@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.ClosingEntryModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<table class="table discount-table">
+    <thead>
+        <tr>
+            <th class="col-lg-1"> &nbsp;</th>
+            <th class="col-lg-2 text-left">@GlobalResource.ServiceType </th> 
+            <th class="col-lg-2 text-left">@GlobalResource.CollectionType </th>   
+            <th class="col-lg-2 text-left">@LocalResource.ClosingNumber </th>            
+            <th class="col-lg-2 text-left" align="left">@LocalResource.ClosingDate </th>            
+            <th class="col-lg-1 text-right" align="right">@LocalResource.ReceiptCount</th>
+            <th class="col-lg-2 text-right" align="right">@LocalResource.NetClosing</th>                        
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+            {
+            <tr>
+                <td class="col-lg-12" colspan="7">
+                    <center>@GlobalResource.NoDataMessage</center>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-lg-1"> &nbsp;</td>
+                    <td class="col-lg-2 text-left" style="text-align:left;">
+                        @item.ServiceType
+                    </td> 
+                    <td class="col-lg-2 text-left" style="text-align:left;">
+                        @item.CollectionType
+                    </td>  
+                    <td class="col-lg-2 text-left" style="text-align:left;">
+                        @item.Number
+                    </td>                    
+                    <td class="col-lg-2 text-left" style="text-align:left;">
+                        @item.FormatingDate
+                    </td>                    
+                    <td class="col-lg-1 text-right" style="text-align:right;">
+                        @item.PaymentReceiptCount
+                    </td>
+                    <td class="col-lg-2 text-right" style="text-align:right;">
+                        @item.FormattedNetClosing
+                    </td>                    
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        @if (Model.Count() > 0)
+            {
+            <tr>
+                <td colspan="6" class="text-right" align="right">
+                    <strong>@GlobalResource.Total.ToUpper() : </strong>
+                </td>
+                <td class="text-right border-bottom font-bold" align="right">
+                    @Model.Sum(e => e.NetClosing).ToString("C")
+                </td>
+            </tr>
+        }
+    </tfoot>
+</table>

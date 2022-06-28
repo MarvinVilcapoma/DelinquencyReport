@@ -1,0 +1,154 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.TransfersReportModel
+@using System.Globalization
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using TransferResource = ArtSolutions.MUN.Web.Resources.Transfer
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.TransfersReportTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="9%" class="table-border-center-th">@LocalResource.TransferRightNumber</th>
+                    <th width="5%" class="table-border-center-th">@TransferResource.TransferType</th>
+                    <th width="10%" class="table-border-center-th">@TransferResource.PreviousOwner</th>
+                    <th width="9%" class="table-border-center-th">@LocalResource.NewRight</th>
+                    <th width="10%" class="table-border-center-th">@TransferResource.CurrentOwner</th>
+                    <th width="3%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.TotalValue</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Service</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.BalanceAmountByService</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.CreatedBy</th>
+                    <th width="6%" class="table-border-center-th">@TransferResource.TransferDate</th>
+                    <th width="10%" class="table-border-center-th">@TransferResource.Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.TransfersReportList != null && Model.TransfersReportList.Count() > 0)
+                {
+                    foreach (var item in Model.TransfersReportList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.RightNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.TransferType
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.PreviousOwner
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.NewRight
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.CurrentOwner
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.TransferTypeID == 3)
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.Year
+                                }
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @if (item.TransferTypeID != 3 && item.TotalValue >= 0)
+                                {
+                                    @item.TotalValue.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                }
+                                else
+                                {
+                                    @Html.Raw("-")
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Service
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @if (item.TransferTypeID == 3)
+                                {
+                                    @Html.Raw("-")
+                                }
+                                else
+                                {
+                                    @item.BalanceAmountByService.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedCreatedUser
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedTransferDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Observation
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="12" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br /><br />
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="left padding-top-md" colspan="11">
+                        <p>
+                            <span class="bold">@Html.Raw("V.B ADMIN. TRIBUTARIA")</span>
+                            @Html.Raw("__________________________________________________________________")
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td width="30%">
+                        <p>
+                            <span class="bold">@Html.Raw(@GlobalResource.Date)</span>
+                            @Html.Raw(": _______________________________")
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

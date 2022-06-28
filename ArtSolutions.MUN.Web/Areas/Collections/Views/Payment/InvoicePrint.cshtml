@@ -1,0 +1,283 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentPrintModel
+@{
+    Layout = "";
+}
+@{
+    string ServiceName = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MUNICIPALIDAD DE FLORES</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+    <style>
+        body {
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            color: black !important;
+            font-family: sans-serif !important;
+        }
+
+        .Weight700 {
+            font-weight: 700 !important;
+        }
+
+        .break {
+            page-break-before: always;
+        }
+
+        table {
+            empty-cells: show;
+        }
+
+            table td hr {
+                border-color: black !important;
+            }
+
+        td {
+            padding: 3px 2px !important;
+        }
+        /*table {
+            font-size: small !important;
+        }*/
+
+        table thead tr th {
+            text-align: center !important;
+            padding: 8px 0px;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @@page {
+            size: portrait;
+        }
+        tr {
+            page-break-inside: auto !important;
+            page-break-after: auto !important;
+        }
+    </style>
+</head>
+<body style="width:287px !important">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="center Weight700">MUNICIPALIDAD DE FLORES</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">@Html.Raw("Cédula Jurídica 3-014-042091")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">@Html.Raw("Teléfonos: 2265-7109 / 2265-7125 / 2265-7503 / Fax: 2265-5652") </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700" style="font-size:17px !important;">@Html.Raw("Correo electrónico: info@flores.go.cr")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">COMPROBANTE DE INGRESOS</td>
+                </tr>
+                <tr>
+                    <td class="left Weight700">FECHA: @Model.Payment.Date.ToString("d")</td>
+                    <td class="right Weight700">HORA: @Model.Payment.Date.ToString("hh:mm:ss")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">PAGO DE IMPUESTOS Y SERVICIO</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">RECIBO NO. @Model.Payment.Number</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">CONTRIBUYENTE: @Html.Raw(Model.Account.TaxNumber)</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">NOMBRE: </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">@Html.Raw(Model.Account.DisplayName)</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">DIRECCIÓN: </td>
+                </tr>
+                <tr>
+                    @{
+                        string accntAddress = Model.Account.Address1;
+                        if (!string.IsNullOrEmpty(Model.Account.Address2))
+                        {
+                            accntAddress = accntAddress + ", " + Model.Account.Address2;
+                        }
+                        if (!string.IsNullOrEmpty(Model.Account.StateName))
+                        {
+                            accntAddress = accntAddress + ", " + Model.Account.StateName + ", ";
+                        }
+                        if (!string.IsNullOrEmpty(Model.Account.City))
+                        { accntAddress = accntAddress + Model.Account.City + ", "; }
+                        if (!string.IsNullOrEmpty(Model.Account.CountyCode))
+                        { accntAddress = accntAddress + " " + Model.Account.CountyCode; }
+                        if (!string.IsNullOrEmpty(Model.Account.ZipPostalCode) && Model.Account.PhoneNumber != "0")
+                        { accntAddress = accntAddress + " " + Model.Account.ZipPostalCode; }
+                        accntAddress = accntAddress + " ";
+                        accntAddress = accntAddress + (string.IsNullOrWhiteSpace(Model.Account.PhoneNumber) || Model.Account.PhoneNumber == "0" ? "" : "P: " + Model.Account.PhoneNumber);
+                    }
+                    <td colspan="2" class="left">@accntAddress</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">RUBROS PAGADOS: @Html.Raw(Model.InvoiceDetail != null ? Model.InvoiceDetail.Count() : 0) </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        Concepto
+                                    </td>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        HASTA
+                                    </td>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        MONTO
+                                    </td>
+                                </tr>
+                                @{ bool IsAllowServiceName = true;}
+                                @foreach (var objServiceName in Model.InvoiceDetail.Select(d => d.ItemName).Distinct().ToList())
+                                {
+                                    { IsAllowServiceName = true; }
+                                    foreach (var item in Model.InvoiceDetail.Where(d => d.ItemName == objServiceName).ToList())
+                                    {
+                                        if (!(IsAllowServiceName == false))
+                                        {
+                                            { IsAllowServiceName = false; }
+                                            <tr>
+                                                <td colspan="3">@item.ItemName</td>
+                                            </tr>
+                                        }
+                                        if (!string.IsNullOrEmpty(item.Description))
+                                        {
+                                            <tr>
+                                                <td colspan="3">@item.Description</td>
+                                            </tr>
+                                        }
+                                        <tr>                                            
+                                            <td colspan="2"></td>
+                                            <td class="right">@item.Total.Value.ToString("c")</td>
+                                        </tr>
+                                    }
+                                }
+
+                                <tr>
+                                    <td class="center">Total--->:</td>
+                                    <td colspan="2" class="center">@Model.InvoiceDetail.Sum(d => d.Total).Value.ToString("c")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right">Su pago->:</td>
+                                    <td class="right">@Model.InvoiceDetail.Sum(d => d.Total).Value.ToString("c")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right">Su cambio:</td>
+                                    <td class="right">
+                                        @Html.Raw(System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencySymbol + "0.00")
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:2px dashed"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        EL PAGO DE LOS SERVICIOS POR ADELANTADO NO EXIME EL PAGO DE LA DIFERENCIA POR REAJUSTE TARIFARIO.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Si canceló con cheque su pago queda sujeto a hacerlo efectivo.
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:2px dashed"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        @{
+                                            ArtSolutions.MUN.Web.Helpers.UserProfileViewModel UserProfile = new ArtSolutions.MUN.Web.Helpers.UserProfile().GetUserByUserIDs(Model.Payment.CreatedUserID.ToString()).FirstOrDefault();
+                                        }
+                                        @Html.Raw("Le atendió: " + (string.IsNullOrEmpty(UserProfile.FullName) ? UserProfile.Email : UserProfile.FullName))
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="font-size:14px !important;">
+                                        GRACIAS POR AYUDAR AL PROGRESO
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        ***** DE NUESTRO CANTÓN *****
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    window.onload = function () { window.print(); setTimeout(window.close, 500); };
+</script>
+
+

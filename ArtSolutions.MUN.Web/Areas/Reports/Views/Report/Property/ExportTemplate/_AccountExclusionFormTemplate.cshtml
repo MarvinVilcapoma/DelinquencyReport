@@ -1,0 +1,467 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountExclusionFormModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = ReportResource.AccountExclusionFormReportTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="50%" class="table-border-left-td" colspan="3">
+                            <strong> @GlobalResource.Account  :  </strong>
+                            @Model.AccountModel.DisplayName
+                            <br />
+                            <strong> @AccountResource.Address : </strong>
+                            @Model.AccountModel.Address
+                            <br />
+                            <strong> @GlobalResource.Phone : </strong>
+                            @Model.AccountModel.PhoneNumber
+                        </td>
+                        <td width="50%" colspan="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <br />
+
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <th class="table-border-center-th" colspan="8">
+                        <p>@ReportResource.AccountExclusionFormPropertyTaxListTitle</p>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="30%" colspan="2" class="table-border-center-th">@ReportResource.RightNumber</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.TotalValue</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.Impuesto</th>
+                    @*<th width="20%" class="table-border-center-th">@GlobalResource.Service</th>*@
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Penalties</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.PaidAmount</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.BalanceAmountByService</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PropertyTaxList != null && Model.PropertyTaxList.Count() > 0)
+                {
+                    foreach (var objRight in Model.PropertyTaxList.GroupBy(d => d.RightNumber).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="8" class="table-border-left-td"><b>@objRight</b></td>
+                        </tr>
+                        foreach (var item in Model.PropertyTaxList.Where(d => d.RightNumber == objRight))
+                        {
+                            <tr>
+                                <td class="table-border-center-td">@item.Year</td>
+                                <td colspan="2" class="table-border-center-td">@item.RightNumber</td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.TotalValue > 0)
+                                    {
+                                        @item.TotalValue.Value.ToString(Common.NumberPoints)
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("-")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Principal.ToString(Common.NumberPoints)
+                                </td>
+                                @* <td class="table-border-center-td">@item.Service</td>*@
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Penalties.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.PaidAmount.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.BalanceAmountByService.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="3" class="table-border-right-td">@PaymentResource.TotalAmount</td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.TotalValue == null ? 0 : x.TotalValue).Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.Principal).ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.Penalties).ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.PaidAmount).ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.PropertyTaxList.Where(d => d.RightNumber == objRight).Sum(x => x.BalanceAmountByService).ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3" class="table-bg-bold-right-td">
+                            @ReportResource.PropertyTaxTotalAmount
+                        </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+
+                            <label id="lblSumOfTotalValue">
+                                @Model.PropertyTaxList.Sum(x => x.TotalValue == null ? 0 : x.TotalValue).Value.ToString(Common.NumberPoints)
+                            </label>
+
+                        </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalPrincipal">
+                                @Model.PropertyTaxList.Sum(x => x.Principal).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalPenalties">
+                                @Model.PropertyTaxList.Sum(x => x.Penalties).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalPaidAmount">
+                                @Model.PropertyTaxList.Sum(x => x.PaidAmount).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalBalanceAmountByService">
+                                @Model.PropertyTaxList.Sum(x => x.BalanceAmountByService).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <th class="table-border-center-th" colspan="8">
+                        <p>@ReportResource.AccountExclusionFormWaterMeasureListTitle</p>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="20%" class="table-border-center-th"> @GlobalResource.Service</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.Meter</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.LastReading</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.CurrentReading</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.Route</th>
+                    <th width="5%" class="table-border-center-th">@GlobalResource.Month</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.PendingAmount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.WaterMeasureList != null && Model.WaterMeasureList.Count() > 0)
+                {
+                    foreach (var objService in Model.WaterMeasureList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="8" class="table-border-left-td"><b>@objService</b></td>
+                        </tr>
+                        foreach (var item in Model.WaterMeasureList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                <td class="table-border-center-td"></td>
+                                <td class="table-border-center-td">@item.CustomField1</td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.PreviousMeasure.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.ActualMeasure.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td">@item.CustomField2</td>
+                                <td class="table-border-center-td">@item.Month</td>
+                                <td class="table-border-center-td">@item.Year</td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Balance.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="7" class="table-border-right-td">@PaymentResource.TotalAmount</td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.WaterMeasureList.Where(d => d.Service == objService).Sum(x => x.Balance).ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7" class="table-bg-bold-right-td">@ReportResource.WaterMeasureTotalAmount</td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalBalance">@Model.WaterMeasureList.Sum(x => x.Balance).ToString(Common.NumberPoints)</label>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <th class="table-border-center-th" colspan="8">
+                        <p>@ReportResource.AccountExclusionFormOtherServicesListTitle</p>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th colspan="3" width="50%" class="table-border-center-th">@GlobalResource.Service</th>
+                    <th width="25%" class="table-border-center-th">@ReportResource.PrincipalAmountPerPeriod</th>
+                    <th width="25%" class="table-border-center-th">@AccountServiceResource.Segrega</th>
+                    <th width="25%" class="table-border-center-th">@ReportResource.PendingPeriods</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="25%" class="table-border-center-th">@GlobalResource.Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.OtherServicesList != null && Model.OtherServicesList.Count() > 0)
+                {
+                    foreach (var objService in Model.OtherServicesList.GroupBy(d => d.Service).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td colspan="8" class="table-border-left-td"><b>@objService</b></td>
+                        </tr>
+                        foreach (var item in Model.OtherServicesList.Where(d => d.Service == objService))
+                        {
+                            <tr>
+                                <td colspan="3" class="table-border-center-td">@item.RightNumber</td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @item.Principal.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">@item.Segrega</td>
+                                <td class="table-border-center-td">@item.PendingPeriod</td>
+                                <td class="table-border-center-td">@item.FiscalYearID</td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>@item.Balance.ToString(Common.NumberPoints)</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="3" class="table-border-right-td">@PaymentResource.TotalAmount</td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.OtherServicesList.Where(d => d.Service == objService).Sum(x => x.Principal).ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td"></td>
+                            <td class="table-border-center-td"></td>
+                            <td class="table-border-center-td"></td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Model.OtherServicesList.Where(d => d.Service == objService).Sum(x => x.Balance).ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3" class="table-bg-bold-right-td">@ReportResource.OtherServicesTotalAmount</td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            <label id="lblTotalPrincipal">@Model.OtherServicesList.Sum(x => x.Principal).ToString(Common.NumberPoints)</label>
+                        </td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td"></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <th class="table-border-center-th" colspan="8">
+                        <p>@ReportResource.PendingPropertyTax</p>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th colspan="2" width="22%" class="table-border-center-th">@GlobalResource.Principal</th>
+                    <th colspan="2" width="22%" class="table-border-center-th">@GlobalResource.Interest</th>
+                    <th colspan="2" width="22%" class="table-border-center-th">@GlobalResource.PaidAmount</th>
+                    <th width="22%" class="table-border-center-th">@GlobalResource.Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.HistoricalList != null && Model.HistoricalList.Count() > 0)
+                {
+                    foreach (var objItem in Model.HistoricalList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">@objItem.FiscalYearID</td>
+                            <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                                @objItem.Principal.ToString(Common.NumberPoints)
+                            </td>
+                            <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                                @objItem.Interest.ToString(Common.NumberPoints)
+                            </td>
+                            <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                                @objItem.PaidAmount.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @objItem.RemainingAmount.ToString(Common.NumberPoints)
+                            </td>
+
+                        </tr>
+                    }
+                    <tr>
+                        <td class="table-border-right-td">@PaymentResource.TotalAmount</td>
+                        <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                            @Model.HistoricalList.Sum(x => x.Principal).ToString(Common.NumberPoints)
+                        </td>
+                        <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                            @Model.HistoricalList.Sum(x => x.Interest).ToString(Common.NumberPoints)
+                        </td>
+                        <td colspan="2" class="table-border-center-td" style='@msoNumberFormat'>
+                            @Model.HistoricalList.Sum(x => x.PaidAmount).ToString(Common.NumberPoints)
+                        </td>
+                        <td class="table-border-center-td" style='@msoNumberFormat'>
+                            @Model.HistoricalList.Sum(x => x.RemainingAmount).ToString(Common.NumberPoints)
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-bg-bold-center-td">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <br />
+
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td colspan="8">
+                        <strong> @ReportResource.CreatedBy  :  </strong>
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <p>
+                            <strong> @Html.Raw(@GlobalResource.Date)  :  </strong>
+                            @DateTime.Now.ToString("d")
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <p>
+                            <strong> @Html.Raw("V.B ADMIN. TRIBUTARIA")  </strong>
+                            @Html.Raw("__________________________________________________________________")
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <p>
+                            <strong> @Html.Raw(@GlobalResource.Date)  :  </strong>
+                            @Html.Raw("_______________________________")
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="valign-top" width="15%">
+                        <strong> @Html.Raw(@GlobalResource.Observation)  :  </strong>
+                    </td>
+                    <td class="valign-top" width="85%" colspan="7">
+                        @if (!string.IsNullOrEmpty(@Model.Observations))
+                        {
+                            <u>@Html.Raw(@Model.Observations.Replace("\n", "</u><br /><u>"))</u>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <br />
+    </div>
+</body>
+</html>

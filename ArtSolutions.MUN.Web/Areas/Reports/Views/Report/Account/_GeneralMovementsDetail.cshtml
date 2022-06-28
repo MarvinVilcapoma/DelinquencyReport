@@ -1,0 +1,59 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.GeneralMovementsModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblGeneralMovements" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th width="20%" class="text-left text-description-field">
+                    @GlobalResource.ServiceName
+                </th>
+                <th width="10%" class="text-center text-description-field">
+                    @ReportResource.Who
+                </th>
+                <th width="10%" class="text-center text-description-field">
+                    @GlobalResource.AccountName
+                </th>
+                <th width="10%" class="text-center">
+                    @GlobalResource.Date
+                </th>
+                <th width="10%" class="text-center">
+                    @ReportResource.Time
+                </th>
+                <th width="40%" class="text-left text-description-field">
+                    @ReportResource.WhatWasDone
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tblDetailRow">
+
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Account/_GeneralMovementsDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 50)
+            {
+                <tr id="tbodyGeneralMovements">
+                    <td width="20%" class="text-left text-description-field"></td>
+                    <td width="10%" class="text-center text-description-field"></td>
+                    <td width="10%" class="text-center text-description-field"></td>
+                    <td width="10%" class="text-center"></td>
+                    <td width="10%" class="text-center"></td>
+                    <td width="40%" class="text-right text-description-field">
+                        <a id="generalMovementsShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.GeneralMovementsList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreGeneralMovements(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

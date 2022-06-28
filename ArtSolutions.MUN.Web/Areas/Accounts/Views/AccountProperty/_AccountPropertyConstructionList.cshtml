@@ -1,0 +1,286 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyConstructionDetailModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="Right-list">
+    <div class="table-responsive">
+        @{
+            var footableClass = Model.Count() > 0 ? "footable" : "";
+        }
+
+        <table class="RightsTable @footableClass table table-stripped toggle-arrow-tiny" data-page="false" data-sort="false" width="100%" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th data-toggle="true" width="20%">@GlobalResource.Type</th>
+                    <th width="20%">@LocalResource.ConstructionType</th>
+                    <th width="20%" class="text-right">@Html.Raw(@LocalResource.BuildingArea)</th>
+                    <th width="20%" class="text-right">@Html.Raw(@LocalResource.UnitValue)</th>
+                    <th width="20%" class="text-right">@LocalResource.BuildingTotalValue</th>
+                    <th data-hide="all">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="table-description-field">@item.MaterialType</td>
+                            <td class="table-description-field">@Html.Raw(!string.IsNullOrEmpty(item.ConstructionType) ? item.ConstructionType : "-")</td>
+                            <td class="text-right">@item.BuildingArea.Value.ToString(Common.DecimalPoints)</td>
+                            <td class="text-right">@item.UnitValue.Value.ToString("C")</td>
+                            <td class="text-right">@item.TotalValue.Value.ToString("C")</td>
+                            <td class="ConstructionList">
+                                <div class="row1 border-bottom">
+                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                        <tbody>
+                                            <tr>
+                                                <td width="95%">
+                                                    <table class="table no-borders">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @GlobalResource.Type :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @item.MaterialType
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.CurrentAge :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.TotalYears > 0)
+                                                                    {
+                                                                        @item.TotalYears
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.State :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Status != null)
+                                                                    {
+                                                                        @item.Status
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.UsefulLife :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (!string.IsNullOrEmpty(item.UsefulLife))
+                                                                    {
+                                                                        @item.UsefulLife
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.NoFloors :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Floors > 0)
+                                                                    {
+                                                                        @item.Floors
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.NoChambers :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Chambers > 0)
+                                                                    {
+                                                                        @item.Chambers
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.InternalWalls :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.InternalWalls != null)
+                                                                    {
+                                                                        @item.InternalWalls
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.ExternalWalls :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.ExternalWalls != null)
+                                                                    {
+                                                                        @item.ExternalWalls
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.Structure :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Structure != null)
+                                                                    {
+                                                                        @item.Structure
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.Roof :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Roof != null)
+                                                                    {
+                                                                        @item.Roof
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.Ceiling :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Ceiling != null)
+                                                                    {
+                                                                        @item.Ceiling
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.Floors :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Floor != null)
+                                                                    {
+                                                                        @item.Floor
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.Bathroom :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @if (item.Bathroom.HasValue)
+                                                                    {
+                                                                        @item.Bathroom.Value.ToString(Common.DecimalPoints)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @Html.Raw('-')
+                                                                    }
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @Html.Raw(@LocalResource.BuildingArea) :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @item.BuildingArea.Value.ToString(Common.DecimalPoints)
+                                                                </td>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @Html.Raw(@LocalResource.UnitValue) :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @item.UnitValue.Value.ToString("C")
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="text-right font-bold">
+                                                                    <label class="control-label">
+                                                                        @LocalResource.BuildingTotalValue :
+                                                                    </label>
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    @item.TotalValue.Value.ToString("C")
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">@GlobalResource.NoDataMessage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

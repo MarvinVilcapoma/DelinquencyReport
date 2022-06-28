@@ -1,0 +1,63 @@
+﻿
+@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentModel>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    bool? isViewMode = null;
+    if (ViewBag.IsViewMode != null)
+    {
+        isViewMode = true;
+    }
+}
+@using HtmlHelpers.BeginCollectionItem;
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr id="@item.ID">
+            @using (Html.BeginCollectionItem("PostedPaymentReceiptList"))
+            {
+                if (!(isViewMode.HasValue && isViewMode.Value))
+                {
+                    <td class="text-center border-left">
+                        @Html.CheckBox("SelectedReceipt", item.SelectedReceipt, new { onclick = "onReceiptSelect(this)", tabindex = "5", @class = "chkSelectedReceipt" })
+
+                    </td>
+                }
+                <td class="text-left @((isViewMode.HasValue && isViewMode.Value)?"border-left":"")">
+                    @item.Date.ToString("d")
+                </td>
+                <td class="text-left">
+                    @item.AccountDisplayName
+                </td>
+                <td class="text-left">
+                    @item.Number
+                </td>
+                <td class="text-left">
+                    @item.PaymentOption
+                </td>
+                <td class="text-right border-right">
+                    @item.NetPayment.ToString("C")
+                </td>
+                //Hidden Fields
+                @Html.Hidden("ID", item.ID)
+                @Html.Hidden("PaymentOptionTableValue", item.PaymentOptionTableValue)
+                @Html.Hidden("NetPayment", item.NetPayment, new { @class = "netPayment" })
+
+                @Html.Hidden("TotalCash", item.TotalCash, new { @class = "totalCash" })
+                @Html.Hidden("TotalChequedelBancoNacional", item.TotalChequedelBancoNacional, new { @class = "totalChequedelBancoNacional" })
+                @Html.Hidden("TotalCreditCard", item.TotalCreditCard, new { @class = "totalCreditCard" })
+                @Html.Hidden("TotalBankTransfer", item.TotalBankTransfer, new { @class = "totalBankTransfer" })
+                @Html.Hidden("TotalChequedelBancodeCostaRica", item.TotalChequedelBancodeCostaRica, new { @class = "totalChequedelBancodeCostaRica" })
+                @Html.Hidden("TotalAdjustment", item.TotalAdjustment, new { @class = "totalAdjustment" })
+                @Html.Hidden("TotalBank", item.TotalBank, new { @class = "totalBank" })
+                @Html.Hidden("TotalBankTransferByBancoNacionaldeCostaRica", item.TotalBankTransferByBancoNacionaldeCostaRica, new { @class = "totalBankTransferByBancoNacionaldeCostaRica" })
+            }
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="6" class="text-center">@GlobalResource.NoDataMessage</td>
+    </tr>
+}

@@ -1,0 +1,158 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Cases.Models.CaseModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Case;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<div class="row wrapper wrapper-content animated fadeInRight">
+   <form id="form1">
+       <div class="ibox float-e-margins">
+           <div class="ibox-title">
+               <h5>@LocalResource.EditTitle</h5>
+           </div>
+           <div class="ibox-content">
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Account</label>
+                           @Html.TextBoxFor(a=>a.AccountName,new { @class="form-control", @readonly = "readonly" })
+                           @Html.HiddenFor(a => a.AccountID, new { @id= "hdnAccountID" })
+                           @Html.HiddenFor(a => a.CaseID, new { @id = "hdnCaseID" })
+                           @Html.HiddenFor(a => a.Weight, new { @id = "hdnWeight" })
+                           <input type="hidden" name="hdnPreviousUrl" id="hdnPreviousUrl" value="@ViewBag.PreviousUrl" />
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@LocalResource.License_IVU_Services</label>
+                           <table class="table table-stripped" id="tblAccountServices">
+                               <thead>
+                                   <tr>
+                                       <th class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                       </th>
+                                       <th class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+                                           @GlobalResource.ID
+                                       </th>
+                                       <th class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                           @GlobalResource.Service
+                                       </th>
+                                       <th class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                           @GlobalResource.Year
+                                       </th>
+                                       <th class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                           @AccountServiceResource.LicenseType
+                                       </th>
+                                       <th class="col-lg-3 col-md-3 col-sm-3 col-xs-12 text-right">
+                                           @LocalResource.Balance
+                                       </th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   @{ 
+                                       if(Model.AccountServiceViewModels != null && Model.AccountServiceViewModels.Any())
+                                       {
+                                           foreach (var item in Model.AccountServiceViewModels)
+                                           {
+                                               <tr>
+                                                   <td>
+                                                       <input type="checkbox" class="i-checks" checked />
+                                                   </td>
+                                                   <td>
+                                                       @item.ID
+                                                   </td>
+                                                   <td>
+                                                       @item.ServiceName
+                                                   </td>
+                                                   <td>
+                                                       @item.Year
+                                                   </td>
+                                                   <td>
+                                                       @item.LicenseType
+                                                   </td>
+                                                   <td class="text-right">
+                                                       @item.AnnualIncomeWithCurrencyCode
+                                                   </td>
+                                               </tr>
+                                           }
+                                       }
+                                   }
+                               </tbody>
+                           </table>
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Workflow</label>
+                           @Html.TextBoxFor(a => a.WorkFlowName, new { @class = "form-control", @readonly = "readonly" })
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Name <span class="text-danger">*</span></label>
+                           @Html.TextBoxFor(m => m.Name, new { @class = "form-control required", @maxlength = "250"})
+                           @Html.ValidationMessageFor(m => m.Name)
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Reference</label>
+                           @Html.TextBoxFor(m => m.Refrence, new { @class = "form-control", @maxlength = "50"})
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Note</label>
+                           @Html.TextAreaFor(m => m.Note, new { @class = "form-control textarea-vertical-resize", @maxlength = "5000", @row = 25, @col = 10 })
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@LocalResource.Priority <span class="text-danger">*</span></label>
+                           @Html.DropDownListFor(m => Model.PriorityID, (Model.CasePriorityList == null ? Enumerable.Empty<SelectListItem>() : Model.CasePriorityList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown", @data_rule_selectRule = "true" })
+                           @Html.ValidationMessageFor(m => m.PriorityID)
+                       </div>
+                   </div>
+                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@LocalResource.Weight</label>
+                           <input id="Weight" name="Weight" />
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@GlobalResource.Owner <span class="text-danger">*</span></label>
+                           @Html.DropDownListFor(m => Model.OwnerID, (Model.OwnerTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.OwnerTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown" })
+                       </div>
+                   </div>
+                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                       <div class="form-group">
+                           <label class="control-label">@LocalResource.AssignedTo<span class="text-danger">*</span></label>
+                           @Html.DropDownListFor(m => Model.AssignToID, (Model.CaseTeamList == null ? Enumerable.Empty<SelectListItem>() : Model.CaseTeamList.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() })), new { @class = "form-control required select2dropdown" })
+                       </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                       <div class="button-group pull-right">
+                           <button type="button" id="btnEdit" class="btn btn-primary as-btn-text">@GlobalResource.Update</button>
+                           <button type="button" id="btnCancel" class="btn btn-default as-btn-text">@GlobalResource.Cancel</button>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </form>
+</div>

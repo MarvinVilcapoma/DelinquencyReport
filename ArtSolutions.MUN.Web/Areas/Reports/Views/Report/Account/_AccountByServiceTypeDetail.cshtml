@@ -1,0 +1,59 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.AccountByServiceTypeModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<div class="table-responsive m-t">
+    <table id="tblTaxPayer" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th colspan="8" class="text-uppercase text-center">
+                    @Model.ServiceTypeLabel
+                </th>
+            </tr>
+            <tr>
+                <th style="min-width:20px;" class="text-center">
+                    @GlobalResource.Service
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.IDNumber
+                </th>
+                @*<th style="min-width:100px;" class="text-center">
+                        @GlobalResource.DisplayName
+                    </th>*@
+                <th style="min-width:150px;" class="text-center">
+                    @ReportResource.RightNumber
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.Year
+                </th>
+                <th style="min-width:100px;" class="text-center">
+                    @GlobalResource.PaidAmount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.AccountByServiceTypeList != null && Model.AccountByServiceTypeList.Count() > 0)
+            {
+                foreach (var item in Model.AccountByServiceTypeList)
+                {
+                    <tr>
+                        <td class="text-center">@item.ServiceClass</td>
+                        <td class="text-center">@item.IDNumber</td>
+                        <td class="text-center">@item.RightNumber</td>
+                        <td class="text-center">@item.Year</td>
+                        <td class="text-center" style="@msoNumberFormat">@item.TotalValue.Value.ToString("C")</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="5">@GlobalResource.NoDataMessage</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

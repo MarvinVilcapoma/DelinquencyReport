@@ -1,0 +1,18 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Companies.Models.ModuleModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Company;
+
+<fieldset>
+    <h2>@LocalResource.CompanyModulesTitle</h2>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-12">
+            <div class="checkbox">
+                <input id="chk-@item.ID" name="ModuleIDs" type="checkbox" class="modulecheckbox required" value="@item.ID">
+                <label for="chk-@item.ID" class="font-bold">
+                    @item.Name
+                </label>
+                <span class="block m-l-sm">@item.Description</span>
+            </div>
+        </div>
+    }
+</fieldset>

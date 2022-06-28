@@ -1,0 +1,82 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.JobSchedulerHistoryModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = ReportResource.JobSchedulerHistory;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table id="historicalAccountServiceRemovedTable" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th width="30%" class="table-border-center-th">
+                        @GlobalResource.Name
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.StartDate
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.StartTime
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.LastRunningDate
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.LastRunningTime
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.Duration
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.Frequency
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tblDetailRow">
+                @if (Model.JobSchedulerHistoryList != null && Model.JobSchedulerHistoryList.Count() > 0)
+                {
+                    foreach (var item in Model.JobSchedulerHistoryList)
+                    {
+
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.JobName
+
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Start_Date.Value.ToString("d")
+                            </td>
+                            <td class="table-border-center-td">@item.Start_Time.Value.ToString(@"hh\:mm\:ss")</td>
+                            <td class="table-border-center-td">@item.Last_Running_Date.Value.ToString("d")</td>
+                            <td class="table-border-center-td">@item.Last_Running_Time.Value.ToString(@"hh\:mm\:ss")</td>
+                            <td class="table-border-center-td">@item.Duration</td>
+                            <td class="table-border-center-td">@item.Frequency</td>
+                            <td class="table-border-center-td">@item.RunStatus</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FileDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNImagesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNImagesInsert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Data" Type="image" Mode="In" />
+          <Parameter Name="Length" Type="bigint" Mode="In" />
+          <Parameter Name="ContentType" Type="varchar" Mode="In" />
+          <Parameter Name="FileName" Type="varchar" Mode="In" />
+          <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+          <Parameter Name="IsListedInFolders" Type="bit" Mode="In" />
+          <Parameter Name="FolderID" Type="int" Mode="In" />
+          <Parameter Name="IsPublicImage" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="Sort" Type="int" Mode="In" />
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+          <Parameter Name="CreatedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="CreatedDate" Type="datetime" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MUNImagesUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="Data" Type="image" Mode="In" />
+          <Parameter Name="Length" Type="bigint" Mode="In" />
+          <Parameter Name="ContentType" Type="varchar" Mode="In" />
+          <Parameter Name="FileName" Type="varchar" Mode="In" />
+          <Parameter Name="FileExtension" Type="varchar" Mode="In" />
+          <Parameter Name="IsListedInFolders" Type="bit" Mode="In" />
+          <Parameter Name="FolderID" Type="int" Mode="In" />
+          <Parameter Name="IsPublicImage" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="Sort" Type="int" Mode="In" />
+          <Parameter Name="ImageID" Type="int" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+        </Function>
+        <EntityContainer Name="FileDataModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FileDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="FileDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="MUNImagesGet" ReturnType="Collection(FileDataModel.MUNImagesGet_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNImagesInsert" ReturnType="Collection(FileDataModel.MUNImagesInsert_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Data" Mode="In" Type="Binary" />
+            <Parameter Name="Length" Mode="In" Type="Int64" />
+            <Parameter Name="ContentType" Mode="In" Type="String" />
+            <Parameter Name="FileName" Mode="In" Type="String" />
+            <Parameter Name="FileExtension" Mode="In" Type="String" />
+            <Parameter Name="IsListedInFolders" Mode="In" Type="Boolean" />
+            <Parameter Name="FolderID" Mode="In" Type="Int32" />
+            <Parameter Name="IsPublicImage" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="Sort" Mode="In" Type="Int32" />
+            <Parameter Name="ImageID" Mode="In" Type="Int32" />
+            <Parameter Name="CreatedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MUNImagesUpdate" ReturnType="Collection(FileDataModel.MUNImagesUpdate_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="Data" Mode="In" Type="Binary" />
+            <Parameter Name="Length" Mode="In" Type="Int64" />
+            <Parameter Name="ContentType" Mode="In" Type="String" />
+            <Parameter Name="FileName" Mode="In" Type="String" />
+            <Parameter Name="FileExtension" Mode="In" Type="String" />
+            <Parameter Name="IsListedInFolders" Mode="In" Type="Boolean" />
+            <Parameter Name="FolderID" Mode="In" Type="Int32" />
+            <Parameter Name="IsPublicImage" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="Sort" Mode="In" Type="Int32" />
+            <Parameter Name="ImageID" Mode="In" Type="Int32" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNImagesGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Binary" Name="Data" Nullable="false" MaxLength="Max" />
+          <Property Type="Int64" Name="Length" Nullable="false" />
+          <Property Type="String" Name="ContentType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="FileExtension" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsListedInFolders" Nullable="false" />
+          <Property Type="Int32" Name="FolderID" Nullable="true" />
+          <Property Type="Boolean" Name="IsPublicImage" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNImagesInsert_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Binary" Name="Data" Nullable="false" MaxLength="Max" />
+          <Property Type="Int64" Name="Length" Nullable="false" />
+          <Property Type="String" Name="ContentType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="FileExtension" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsListedInFolders" Nullable="false" />
+          <Property Type="Int32" Name="FolderID" Nullable="true" />
+          <Property Type="Boolean" Name="IsPublicImage" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="MUNImagesUpdate_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Binary" Name="Data" Nullable="false" MaxLength="Max" />
+          <Property Type="Int64" Name="Length" Nullable="false" />
+          <Property Type="String" Name="ContentType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="FileName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="FileExtension" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="IsListedInFolders" Nullable="false" />
+          <Property Type="Int32" Name="FolderID" Nullable="true" />
+          <Property Type="Boolean" Name="IsPublicImage" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Int32" Name="ImageID" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="FileDataModel" />
+        <Alias Key="Target" Value="FileDataModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="FileDataModelContainer" StorageEntityContainer="FileDataModelStoreContainer">
+          <FunctionImportMapping FunctionImportName="MUNImagesGet" FunctionName="FileDataModel.Store.MUNImagesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FileDataModel.MUNImagesGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="IsListedInFolders" ColumnName="IsListedInFolders" />
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
+                <ScalarProperty Name="IsPublicImage" ColumnName="IsPublicImage" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNImagesInsert" FunctionName="FileDataModel.Store.MUNImagesInsert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FileDataModel.MUNImagesInsert_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="IsListedInFolders" ColumnName="IsListedInFolders" />
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
+                <ScalarProperty Name="IsPublicImage" ColumnName="IsPublicImage" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNImagesUpdate" FunctionName="FileDataModel.Store.MUNImagesUpdate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="FileDataModel.MUNImagesUpdate_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Length" ColumnName="Length" />
+                <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
+                <ScalarProperty Name="IsListedInFolders" ColumnName="IsListedInFolders" />
+                <ScalarProperty Name="FolderID" ColumnName="FolderID" />
+                <ScalarProperty Name="IsPublicImage" ColumnName="IsPublicImage" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

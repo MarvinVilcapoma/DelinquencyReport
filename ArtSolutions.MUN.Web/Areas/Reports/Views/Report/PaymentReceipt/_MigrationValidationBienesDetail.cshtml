@@ -1,0 +1,80 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MigrationValidationBienesModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblMigrationValidationFactu" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.TaxNumber
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Property
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Year
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    RULE - @GlobalResource.Periods
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    SIM - @GlobalResource.Periods
+                </th>
+                @*<th style="min-width:50px;" class="text-center">
+                        RULE - @GlobalResource.Principal
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        SIM - @GlobalResource.Principal
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        RULE - @AccountServiceResource.Exemption
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        SIM - @AccountServiceResource.Exemption
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        RULE - @GlobalResource.PaidAmount
+                    </th>
+                    <th style="min-width:50px;" class="text-center">
+                        SIM - @GlobalResource.PaidAmount
+                    </th>*@
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/PaymentReceipt/_MigrationValidationBienesDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyMigrationValidationBienes">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    @*<td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>*@
+                    <td class="text-right">
+                        <a id="migrationValidationBienesShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.MigrationValidationBienesList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreMigrationValidationBienes(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

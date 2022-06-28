@@ -1,0 +1,117 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptCommercialFacilitiesRentalModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ReceiptCommercialFacilitiesRental;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="17%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.IdentityMunicipal</th>
+                    <th width="20%" class="table-border-center-th">@LocalResource.CommercialFacility</th>
+                    <th width="20%" class="table-border-center-th">@GlobalResource.Description</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ReceiptCommercialFacilitiesRentalList != null && Model.ReceiptCommercialFacilitiesRentalList.Count() > 0)
+                {
+                    int currentIndex = 0;
+                    foreach (var item in Model.ReceiptCommercialFacilitiesRentalList.OrderBy(g => g.Date))
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Number
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountDisplayName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.RegisterNumber
+                            </td>
+
+                            <td class="table-border-left-td">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Description
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.TotalPayment > 0 ? item.TotalPayment.ToString(Common.NumberPoints) : "")
+                            </td>
+                        </tr>
+                        if (currentIndex != Model.ReceiptCommercialFacilitiesRentalList.Count() - 1)
+                        {
+                            if (item.Date.ToString("MM/dd/yyyy") != Model.ReceiptCommercialFacilitiesRentalList[currentIndex + 1].Date.ToString("MM/dd/yyyy"))
+                            {
+                                <tr>
+                                    <td colspan="6" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.ReceiptCommercialFacilitiesRentalList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.ReceiptCommercialFacilitiesRentalList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.ReceiptCommercialFacilitiesRentalList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.ReceiptCommercialFacilitiesRentalList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        currentIndex++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6" class="table-bg-bold-right-td"> @GlobalResource.Total</td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.ReceiptCommercialFacilitiesRentalList != null && Model.ReceiptCommercialFacilitiesRentalList.Count() > 0)
+                        {
+                            @Model.ReceiptCommercialFacilitiesRentalList.Sum(i => i.TotalPayment).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

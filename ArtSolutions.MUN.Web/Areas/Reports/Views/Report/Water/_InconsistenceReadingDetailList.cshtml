@@ -1,0 +1,30 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.InconsistenceReadingModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@if (Model.InconsistenceReadingList != null && Model.InconsistenceReadingList.Count() > 0)
+{
+    foreach (var item in Model.InconsistenceReadingList)
+    {
+
+        <tr>
+            <td class="text-center">@item.RowNo</td>
+            <td title="@item.MeterNumber">
+                @item.FormattedMeter
+            </td>
+            <td title="@item.RigthNumber">@item.FormattedRightNumber</td>
+            <td title="@item.AccountID">@item.AccountID</td>
+            <td title="@item.DisplayName">
+                @item.FormattedDisplayName
+            </td>
+            <td class="text-right">@item.FormattedLastReading</td>
+            <td class="text-right">@item.FormattedCurrentReading</td>
+            <td class="text-right">@item.FormattedConsumption</td>
+        </tr>
+    }
+}
+else
+{
+    <tr class="no-data">
+        <td colspan="8" class="text-center">@GlobalResource.NoDataMessage</td>
+    </tr>
+}

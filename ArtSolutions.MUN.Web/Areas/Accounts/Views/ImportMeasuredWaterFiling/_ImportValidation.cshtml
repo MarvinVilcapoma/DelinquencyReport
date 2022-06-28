@@ -1,0 +1,306 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ValidMeasuredWaterFilingModel
+@using System.Data;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using HtmlHelpers.BeginCollectionItem;
+
+<h2>@LocalResource.ImportStep3SubTitle</h2>
+
+<div class="row">
+    <div class="col-lg-6">
+
+        @Html.HiddenFor(m => m.FileName)
+        @Html.HiddenFor(m => m.PeriodYear)
+        @Html.HiddenFor(m => m.PeriodMonth)
+
+        @if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+        {
+            <input type="hidden" value="@Model.MeasuredWaterFilingList.Count" id="ValidOk" />
+        }
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-8">
+                    <label class="col-lg-8">@GlobalResource.FileValidation: </label>
+                    @if (Model.Valid)
+                    {
+                        <span class="label label-success">@LocalResource.Passed</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">@LocalResource.Fail</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Valid == false)
+{
+    <div class="col-lg-12">
+        <div class="project-list" id="divtblItems">
+            <div class="table-responsive m-t">
+                <table class="table table-hover footable" id="tblValidationResult" data-page-size="50">
+                    <thead>
+                        <tr>
+                            <th style="min-width:48px;">@GlobalResource.Year</th>
+                            <th style="min-width:48px;">@GlobalResource.Month</th>
+                            <th style="min-width:48px;">@GlobalResource.Category</th>
+                            <th style="min-width:120px;">@GlobalResource.TaxNumber</th>
+                            <th style="min-width:135px;">Ubicacion</th>
+                            <th style="min-width:110px;">@AccountServiceResource.Codigom</th>
+                            <th style="min-width:85px;">@LocalResource.CurrentReading</th>
+                            <th style="min-width:85px;">@AccountServiceResource.LastReading</th>
+                            <th style="min-width:85px;">@LocalResource.Difference</th>
+                            <th style="min-width:95px;">@GlobalResource.Date</th>
+                            <th style="min-width:250px;">@GlobalResource.Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblValidDetailRow" class="white-bg" data-paging-size="50">
+                        @if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+                        {
+                            if (Model.MeasuredWaterFilingList != null && Model.MeasuredWaterFilingList.Count > 0)
+                            {
+                                foreach (var item in Model.MeasuredWaterFilingList)
+                                {
+                                    <tr>
+                                        <td>@Model.PeriodYear</td>
+                                        <td>@Model.PeriodMonth</td>
+                                        <td>@item.CATEGORIA</td>
+                                        <td>@item.TaxNumber</td>
+                                        <td>@item.UBICACION</td>
+                                        <td>@item.CODIGOM</td>
+                                        <td>@item.LECTURAACT</td>
+                                        <td>@item.LastReading</td>
+                                        <td>@item.Difference</td>
+                                        <td>
+
+                                            @if (item.FECHA.Length == 8)
+                                            {
+                                                int _year;
+                                                int _month;
+                                                int _day;
+
+
+                                                bool isYear = Int32.TryParse(item.FECHA.Substring(4, 4), out _year);
+                                                bool isMonth = Int32.TryParse(item.FECHA.Substring(2, 2), out _month);
+                                                bool isDay = Int32.TryParse(item.FECHA.Substring(0, 2), out _day);
+
+                                                if ((isYear && Convert.ToInt32(item.FECHA.Substring(4, 4)) > 0) && isMonth && isDay)
+                                                {
+                                                    @Html.Raw(new DateTime(Convert.ToInt32(item.FECHA.Substring(4, 4)), Convert.ToInt32(item.FECHA.Substring(2, 2)), Convert.ToInt32(item.FECHA.Substring(0, 2))).ToString("d"));
+                                                }
+                                                else
+                                                {
+                                                    @item.FECHA
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @item.FECHA
+                                            }
+
+                                        </td>
+                                        <td>@item.Note</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="11" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="11">
+                                <ul class="pagination pull-right"></ul>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+    @*@model ArtSolutions.MUN.Web.Areas.Accounts.Models.InvalidMeasuredWaterFilingModel
+        @using System.Data;
+        @using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+        @using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+        @using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+
+        <h2>@LocalResource.ImportStep3SubTitle</h2>
+        <div class="row">
+            <div class="col-lg-6">
+                @Html.HiddenFor(m => m.FileName)
+                @Html.HiddenFor(m => m.PeriodYear)
+                @Html.HiddenFor(m => m.PeriodMonth)
+
+                @if (Model.ValidMeasuredWaterFilingStatement != null && Model.ValidMeasuredWaterFilingStatement.Rows.Count > 0)
+                {
+                    <input type="hidden" value="@Model.ValidMeasuredWaterFilingStatement.Rows.Count" id="ValidOk" />
+                }
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <label class="col-lg-8 lbl-m-b-none p-l-none">@LocalResource.ValidImportFile: </label>
+                            @if (Model.Valid == true)
+                            {
+                                <span class="label label-success">@LocalResource.Passed</span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger">@LocalResource.Fail</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model.Valid == false)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="wrapper wrapper-content animated fadeInUp">
+                        <div class="ibox">
+                            <div class="ibox-content">
+                                <div class="project-list" id="divtblItems">
+                                    <div class="table-responsive m-t">
+                                        <table class="table table-hover footable" id="tblValidationResult" data-page-size="50">
+                                            <thead>
+                                                @if (Model.ValidMeasuredWaterFilingStatement != null && Model.ValidMeasuredWaterFilingStatement.Rows.Count > 0)
+                                                {
+                                                    <tr>
+                                                        @foreach (DataColumn col in Model.ValidMeasuredWaterFilingStatement.Columns)
+                                                        {
+                                                            if (col.ColumnName == "Year")
+                                                            {
+                                                                <th>@GlobalResource.Year</th>
+                                                            }
+                                                            else if (col.ColumnName == "Month")
+                                                            {
+                                                                <th>@GlobalResource.Month</th>
+                                                            }
+                                                            else if (col.ColumnName == "CATEGORIA")
+                                                            {
+                                                                <th>@GlobalResource.Category</th>
+                                                            }
+                                                            else if (col.ColumnName == "TaxNumber")
+                                                            {
+                                                                <th> @GlobalResource.TaxNumber</th>
+                                                            }
+                                                            else if (col.ColumnName == "UBICACION")
+                                                            {
+                                                                <th> @AccountServiceResource.Location</th>
+                                                            }
+                                                            else if (col.ColumnName == "CODIGOM")
+                                                            {
+                                                                <th> @AccountServiceResource.Codigom</th>
+                                                            }
+                                                            else if (col.ColumnName == "LECTURAACT")
+                                                            {
+                                                                <th>@LocalResource.CurrentReading</th>
+                                                            }
+                                                            else if (col.ColumnName == "LastReading")
+                                                            {
+                                                                <th> @AccountServiceResource.LastReading </th>
+                                                            }
+                                                            else if (col.ColumnName == "Difference")
+                                                            {
+                                                                <th> @LocalResource.Difference </th>
+                                                            }
+                                                            else if (col.ColumnName == "FECHA")
+                                                            {
+                                                                <th> @GlobalResource.Date </th>
+                                                            }
+                                                            else if (col.ColumnName == "Note")
+                                                            {
+                                                                <th> @GlobalResource.Reason </th>
+                                                            }
+                                                        }
+                                                    </tr>
+                                                }
+                                            </thead>
+                                            <tbody class="white-bg" data-paging-size="50">
+                                                @if (Model.ValidMeasuredWaterFilingStatement != null && Model.ValidMeasuredWaterFilingStatement.Rows.Count > 0)
+                                                {
+                                                    for (int j = 0; j < Model.ValidMeasuredWaterFilingStatement.Rows.Count; j++)
+                                                    {
+                                                        var row = Model.ValidMeasuredWaterFilingStatement.Rows[j];
+
+                                                        <tr>
+                                                            <td>@row["Year"]</td>
+                                                            <td>@row["Month"]</td>
+                                                            <td>@row["CATEGORIA"]</td>
+                                                            <td>@row["TaxNumber"]</td>
+                                                            <td>@row["UBICACION"]</td>
+                                                            <td>@row["CODIGOM"]</td>
+                                                            <td>@row["LECTURAACT"]</td>
+                                                            <td>@row["LastReading"]</td>
+                                                            <td>@row["Difference"]</td>
+                                                            <td>
+
+                                                                @if (@row["FECHA"].ToString().Length == 8)
+                                                                {
+                                                                    int _year;
+                                                                    int _month;
+                                                                    int _day;
+
+
+                                                                    bool isYear = Int32.TryParse(row["FECHA"].ToString().Substring(4, 4), out _year);
+                                                                    bool isMonth = Int32.TryParse(row["FECHA"].ToString().Substring(2, 2), out _month);
+                                                                    bool isDay = Int32.TryParse(row["FECHA"].ToString().Substring(0, 2), out _day);
+
+                                                                    if ((isYear && Convert.ToInt32(row["FECHA"].ToString().Substring(4, 4))>0) && isMonth && isDay)
+                                                                    {
+                                                                        @Html.Raw(new DateTime(Convert.ToInt32(row["FECHA"].ToString().Substring(4, 4)), Convert.ToInt32(row["FECHA"].ToString().Substring(2, 2)), Convert.ToInt32(row["FECHA"].ToString().Substring(0, 2))).ToString("d"));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        @row["FECHA"]
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    @row["FECHA"]
+                                                                }
+
+                                                            </td>
+                                                            <td>@row["Note"]</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="11" class="text-center">
+                                                            @GlobalResource.NoDataMessage
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="11">
+                                                        <ul class="pagination list-inline pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }*@

@@ -1,0 +1,90 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.IVUFilledCertificateModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    AddressModel addressModel = new AddressModel();
+    if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+    {
+        addressModel = Model.AccountModel.AddressList.Where(x => x.IsPrimary == true).SingleOrDefault();
+    }
+}
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-lg">
+            <div class="col-lg-4 box-border">
+                <div class="col-lg-12 no-padding m-t-sm ">
+                    <strong> @Model.AccountModel.DisplayName </strong>
+                </div>
+                @if (addressModel != null)
+                {
+                    <div class="col-lg-12 no-padding ">
+                        @addressModel.AddressLine1
+                    </div>  
+                    <div class="col-lg-12 no-padding ">
+                        @addressModel.AddressLine2
+                    </div>
+                    <div class="col-lg-12 no-padding m-t-sm m-b-sm">
+                        @addressModel.City , @addressModel.State , @addressModel.Country
+                        @if (!string.IsNullOrEmpty(addressModel.ZipPostalCode))
+                        {
+                            <span>, @addressModel.ZipPostalCode </span>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="row m-b-lg m-t-sm">
+                    <div class="col-lg-6 text-right"><strong> @GlobalResource.AccountNumber : </strong></div>
+                    <div class="col-lg-6 text-right border-bottom border-left border-right border-top"> @Model.AccountModel.TaxNumber</div>
+                </div>
+                <div class="row m-t-sm">
+                    <div class="col-lg-6 text-right"> <strong> @ReportResource.RegistrationNumber : </strong></div>
+                    <div class="col-lg-6 text-right border-bottom border-left border-right border-top"> @Model.AccountModel.RegisterNumber </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.AccountModel != null)
+{
+    <div class="row m-t-lg">
+        <div class="col-lg-12">
+            @ReportResource.SalesTaxFilingCertificateHeaderDesc
+        </div>
+    </div>
+}
+
+
+<table class="table table-report table-tbody-total no-padding" id="tblIVUFilledCertificate">
+    <tfoot class="hide" id="tblFooter">
+        <tr>
+            <th colspan="6" style="text-align:right !important"> @ReportResource.TotalBalance : </th>
+            <th></th>
+        </tr>
+    </tfoot>
+</table>
+@if (Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12" id="SalesTaxFilingLine1Desc">
+            @ReportResource.SalesTaxFilingCertificateLine1Desc
+        </div>
+        <div class="col-lg-12 m-t-sm" id="SalesTaxFilingLine2Desc">
+            @ReportResource.SalesTaxFilingCertificateLine2Desc.Replace("#TodaysDate#", Model.FutureDate.ToString("d"))
+        </div>
+        <div class="col-lg-4 m-t-md">
+            <br />
+            <hr />
+            @if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+            {
+                @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+            }
+            <br />
+            @ReportResource.SalesTaxFilingCertificateLine3Desc
+        </div>        
+    </div>
+}

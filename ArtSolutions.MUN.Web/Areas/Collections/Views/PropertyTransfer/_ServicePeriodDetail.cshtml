@@ -1,0 +1,167 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFillingModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    string rateFormat = Model.Count() > 0 ? Model.First().GetRateFormat : "";
+}
+
+<div class="modal-body no-padding">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5 id="addresstitle">@LocalResource.FilingPeriod</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+        </div>
+        <div class="ibox-content" style="border:none">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="full-height-scroll">
+                        <div class="ibox-content">
+                            <div class="table-responsive m-t">
+                                <table class="table" data-page="false">
+                                    <thead>
+                                        <tr>
+                                            <th>@LocalResource.ServicePeriodList</th>
+                                            @*<th>@GlobalResource.FilingDate</th>
+                                                <th>@GlobalResource.ReFillingDate</th>*@
+                                            @*<th class="text-right">@GlobalResource.SalesVolume</th>
+                                                <th class="text-right">@LocalResource.Rate@rateFormat</th>*@
+                                            <th class="text-right">@GlobalResource.Principal</th>
+                                            <th class="text-right">@GlobalResource.Penalties</th>
+                                            <th class="text-right">@LocalResource.Debt</th>
+                                            @if (Model.First().FilingFormID == (int)EnFilingForm.PropertyTax)
+                                            {
+                                                <th class="text-right">@LocalResource.Exemption</th>
+                                            }
+                                            else
+                                            {
+                                                <th class="text-right">@GlobalResource.Discount</th>
+                                            }
+                                            <th class="text-right">@GlobalResource.PaidAmount</th>
+                                            <th class="text-right">@LocalResource.Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Count() == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="7" class="col-lg-12">
+                                                    <center> @GlobalResource.NoDataMessage </center>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="col-lg-2">
+                                                        @if (Model.Count > 4)
+                                                        {
+                                                            @Html.Raw(@item.ServiceName + " - " + String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM yyyy}", item.DueDate))
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.ServiceNameWithYear
+                                                        }
+                                                    </td>
+                                                    @*<td class="col-lg-1">
+                                                            @if (item.FillingDate != null)
+                                                            {
+                                                                @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language),"{0:MMMM d, yyyy}", item.FillingDate))
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw("-")
+                                                            }
+                                                        </td>
+                                                        <td class="col-lg-1">
+                                                            @if (item.ReFillingDate != null)
+                                                            {
+                                                                @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language),"{0:MMMM d, yyyy}", item.ReFillingDate))
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Raw("-")
+                                                            }
+                                                        </td>*@
+                                                    @*<td class="col-lg-1 text-right filingLink">
+                                                            @{
+                                                                if (item.FillingDate != null)
+                                                                {
+                                                                    @item.SalesVolume.ToString("C")
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span> - </span>
+                                                                }
+                                                            }
+                                                        </td>
+                                                        <td class="col-lg-1 text-right"> @item.GetFormattedCollectionRate </td>*@
+                                                    <td class="col-lg-1 text-right">@item.Principal.ToString("C")</td>
+                                                    <td class="col-lg-1 text-right">
+                                                        @item.Penalties.ToString("C")
+                                                    </td>
+                                                    <td class="col-lg-1 text-right">
+                                                        @item.Debt.ToString("C")
+                                                    </td>
+                                                    <td class="col-lg-1 text-right">
+                                                        @item.Discount.ToString("C")
+                                                    </td>
+                                                    <td class="col-lg-1 text-right">
+                                                        @item.PaidAmount.ToString("C")
+                                                    </td>
+                                                    <td class="col-lg-1 text-right">
+                                                        @item.Total.ToString("C")
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+
+                                        @if (Model.Count() > 0)
+                                        {
+                                            <tr>
+                                                <td class="col-lg-4 text-right"><strong>@GlobalResource.Total.ToUpper() : </strong></td>
+
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @Model.Sum(e => e.Principal).ToString("C")
+                                                </td>
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @Model.Sum(e => e.Penalties).ToString("C")
+                                                </td>
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @Model.Sum(e => e.Debt).ToString("C")
+                                                </td>
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @Model.Sum(e => e.Discount).ToString("C")
+                                                </td>
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @Model.Sum(e => e.PaidAmount).ToString("C")
+                                                </td>
+                                                <td class="col-lg-1 text-right border-bottom font-bold">
+                                                    @{
+                                                        decimal total = Model.Sum(e => e.Total);
+                                                    }
+                                                    @total.ToString("C")
+                                                    @Html.Hidden("hdnTotal", total)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button id="btnCancel" type="button" tabindex="44" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+</div>

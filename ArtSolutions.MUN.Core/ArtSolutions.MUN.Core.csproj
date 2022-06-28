@@ -1,0 +1,1402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C51D77F-3582-4B6E-A240-3C0B5CE4C9EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArtSolutions.MUN.Core</RootNamespace>
+    <AssemblyName>ArtSolutions.MUN.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_Dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Rule_Dev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Rule_QA\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_QA_Flores|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Rule_QA_Flores\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Flores_QA|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Flores_QA\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Flores_Prod|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Flores_Prod\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Rule_Prod|AnyCPU'">
+    <OutputPath>bin\Rule_Prod\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Krtya|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Krtya\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="AccountModels\Account.cs" />
+    <Compile Include="AccountModels\AccountModel.cs" />
+    <Compile Include="AccountModels\AccountPaymentPlan.cs" />
+    <Compile Include="AccountModels\AccountPaymentPlanDetailModel.cs" />
+    <Compile Include="AccountModels\AccountPaymentPlanModel.cs" />
+    <Compile Include="AccountModels\AccountProperty.cs" />
+    <Compile Include="AccountModels\AccountPropertyModel.cs" />
+    <Compile Include="AccountModels\AccountService.cs" />
+    <Compile Include="AccountModels\AccountServiceCorrectiontModel.cs" />
+    <Compile Include="AccountModels\AccountServiceExceptionModel.cs" />
+    <Compile Include="AccountModels\AccountServiceAdjustmentModel.cs" />
+    <Compile Include="AccountModels\AccountServiceCollectionDetailModel.cs" />
+    <Compile Include="AccountModels\AccountServiceExtensionModel.cs" />
+    <Compile Include="AccountModels\AccountServiceModel.cs" />
+    <Compile Include="AccountModels\AccountServiceNoteModel.cs" />
+    <Compile Include="AccountModels\CreditHistory.cs" />
+    <Compile Include="AccountModels\CreditHistoryDetailModel.cs" />
+    <Compile Include="AccountModels\CreditHistoryModel.cs" />
+    <Compile Include="AccountModels\DebitHistory.cs" />
+    <Compile Include="AccountModels\DebitHistoryModel.cs" />
+    <Compile Include="AccountUserDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountUserDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountUserDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountUserDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountUserDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccountUserDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="AccountUserModels\AccountUser.cs" />
+    <Compile Include="AccountUserModels\AccountUserModel.cs" />
+    <Compile Include="CaseDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CaseDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CaseDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CaseDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CaseDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CaseModels\Case.cs" />
+    <Compile Include="CaseModels\CaseMeetingNotes.cs" />
+    <Compile Include="CaseModels\CaseModel.cs" />
+    <Compile Include="CaseModels\ContactModel.cs" />
+    <Compile Include="CaseModels\PrintCenter.cs" />
+    <Compile Include="CaseModels\PrintTemplate.cs" />
+    <Compile Include="CollectionDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CollectionDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CollectionDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\DebitNote.cs" />
+    <Compile Include="Collections\FINJournalModel.cs" />
+    <Compile Include="Collections\PropertyTransfer.cs" />
+    <Compile Include="Collections\PropertyTransferModel.cs" />
+    <Compile Include="Collections\PostingProcess.cs" />
+    <Compile Include="Collections\PostingProcessModel.cs" />
+    <Compile Include="Collections\DepositEntry.cs" />
+    <Compile Include="Collections\DepositEntryModel.cs" />
+    <Compile Include="Collections\Invoice.cs" />
+    <Compile Include="Collections\InvoiceModel.cs" />
+    <Compile Include="Collections\CreditNote.cs" />
+    <Compile Include="Collections\Payment.cs" />
+    <Compile Include="Collections\ClosingEntry.cs" />
+    <Compile Include="Collections\ClosingEntryModel.cs" />
+    <Compile Include="Collections\CreditNoteModel.cs" />
+    <Compile Include="Collections\PaymentModel.cs" />
+    <Compile Include="Collections\FinPaymentOptionModel.cs" />
+    <Compile Include="Collections\PaymentOptionModel.cs" />
+    <Compile Include="Collections\PrintTemplateModel.cs" />
+    <Compile Include="Collections\SalesCashierModel.cs" />
+    <Compile Include="CompanyDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompanyDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompanyDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CompanyModels\Company.cs" />
+    <Compile Include="CompanyModels\CompanyModel.cs" />
+    <Compile Include="CompanyModels\CompanyParameterModel.cs" />
+    <Compile Include="CompanyModels\Language.cs" />
+    <Compile Include="DAL\DataTableExtensions.cs" />
+    <Compile Include="DAL\DbContextExtensions.cs" />
+    <Compile Include="DAL\ReflectionExtensions.cs" />
+    <Compile Include="Collections\DebitNoteModel.cs" />
+    <Compile Include="ExceptionHandlerDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionHandlerDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExceptionHandlerDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionHandlerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExceptionHandlerDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionHandlerDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ExceptionModels\Exception.cs" />
+    <Compile Include="ExceptionModels\SecurityException.cs" />
+    <Compile Include="EXCLogInsert_Result.cs">
+      <DependentUpon>ExceptionHandlerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="FileModels\CommonViewModel.cs" />
+    <Compile Include="FileModels\FileEngine.cs" />
+    <Compile Include="FileModels\FileModel.cs" />
+    <Compile Include="MigrationDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MigrationDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MigrationDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MigrationDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCJournalBulkInsertForPayment_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCJournalDetailForPostingProcess_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCJournalDetailGet_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCJournalGet_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountAddressesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountAddressesUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountBusinessGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountContactsGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountContactsUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountCreditHistoryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountDebitHistoryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountEmailsGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountExport_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountFilesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountFilesUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGetAsPeople_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGetByRegistrationInformation_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGetForSearch_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGetForSupportTable_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGetWithPaging_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountIndividualGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPhonesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPhonesUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyConstructionDetailGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyGetForFilling_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyGetForSearch_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyGetWithPaging_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyRightGetByOwner_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyRightGetForSearch_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyRightGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountPropertyRightHistoryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountTypeGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNAccountUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCPostingProcessDetailsGetWithGroupSum_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCPostingProcessGetByLastInserted_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCPostingProcessGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNACCPostingProcessGet_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLClosingGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLClosingGet_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLClosingPrint_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLCreditNoteGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLDebitNoteGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLDebitNoteGet_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLDepositGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLDepositPrint_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLInvoiceDetailGet_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLInvoiceGetAsObject_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLInvoiceGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLInvoiceGet_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLInvoiceManualInsert_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLPaymentGetAsObject_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLPaymentGetForClosingEntry_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLPaymentGetWithPaging_Result.cs">
+      <DependentUpon>CollectionDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCOLPrintTemplateGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyAddressesGet_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyCodeExist_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyCurrenciesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyGet_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyModulesGet_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyParameterGet_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCompanyUpdate_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCountryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCountryStateCityGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCountryStateCityTownGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCountryStateGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNCurrencyGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentTypeGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowFormGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowFormGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowHistoryLogGetForSplit_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowHistoryLogGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowReasonGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowReasonGetByWorkflowID_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowReasonGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityGroupGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityGroupGetByWorkflowID_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityGroupGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityGroupUsersGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityGroupUsersUpdateProfile_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowSecurityStatusInGroupGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusActivityGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusReasonGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusSequenceGetByPaging_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDOCDocumentWorkflowStatusSequenceGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNDocumentWorkflowSecurityGroupUsersGet_Result.cs">
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNGrantListGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNImagesGet_Result.cs">
+      <DependentUpon>FileDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNImagesInsert_Result.cs">
+      <DependentUpon>FileDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNImagesUpdate_Result.cs">
+      <DependentUpon>FileDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXAccountViewGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCaseImagesGetWithPaging_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCaseMeetingNotesGetWithPaging_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCaseMeetingNotesGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCasePriorityGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCasesGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXCasesKeyCode_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXDataSourceGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXMasterCasesGetBalanceByStatus_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXMasterCasesGetCountByStatus_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXMasterCasesGetWithPaging_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXMasterCasesGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXMeetingTypeGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNITAXTeamGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNLanguageGet_Result.cs">
+      <DependentUpon>CompanyDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNPRNPrintCenterGetWithPaging_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNPRNPrintTemplateGetWithPaging_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNPRNPrintTemplateGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNPRNPrintTemplateRelatedStepsGet_Result.cs">
+      <DependentUpon>CaseDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPAccountByServicesType_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPAccountPropertyRemove_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPBusinessLicenceGeneral_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPBusinessLicenceSanitaryPermitDueDate_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPCashReceiptControl_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPConsumptionByRange_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPDuplicatedMeterNumber_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPException_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPHistoricalReadingsByMeter_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPInconsistenceReading_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPJobSchedulerHistory_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPJournalDetailInvoiceItemGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPMigrationValidationBienes_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPMigrationValidationCobros_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPMigrationValidationFactu_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPMonthlyIncomeStatementByServices_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPParkMaintenanceMissingServices_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPProjectedAccountStatement_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPPropertyMovementByAccount_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPQuarterlyIncomeStatementByServices_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPRoutaMissingServices_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPServicesLinkedToRight_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPSummaryAccountStatement_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPTransfersReport_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNREPYearlyIncomeStatementByServices_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSchedulerEmailGetWithPaging_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSchedulerEmailGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountPaymentPlanDetailGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountPaymentPlanGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountPaymentPlanGetWithPaging_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountPaymentPlanGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountPropertyRightGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceAdjustmentsGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionAutoFillingGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDebtGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDetailGetNotFiled_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDetailGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDetailGetSummary_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDetailGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionDetailSummaryGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingLicenseGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingLicenseImagesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingMeasuredWaterGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingMeasuredWaterImagesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingPropertyTaxGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingPropertyTaxHistoryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingPropertyTaxImagesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingTaxGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingTaxImagesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingUnitGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionFillingUnitImagesGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionPaymentGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionPaymentInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceCollectionPropertyTaxDetailGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceDiscountGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceExemptionGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceExemptionHistoryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceExtensionGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceFillingGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetAsObject_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetForInvoice_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetForTimbre_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetForTransfer_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetNotFiled_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGetWithPaging_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceNoteGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceNotFiled_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServicePaymentDetailGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServicePaymentPlanGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServicePaymentPlanSummaryGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceTypeGetNotPaid_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERAccountServiceUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERCollectionFieldGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERCollectionRuleGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERCollectionTypeGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingLicenseInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingLicenseUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingMeasuredWaterInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingMeasuredWaterUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingPropertyTaxInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingPropertyTaxUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingTaxInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingTaxUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingUnitInsert_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFillingUnitUpdate_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFiscalYearGetByAccountNotFiled_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFiscalYearGetByAccount_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFiscalYearGetByServiceNotInAccount_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFiscalYearGetByService_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFiscalYearGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERFrequencyGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERPaymentPlanGetWithPaging_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERPaymentPlanGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPAccountServiceRemove_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPAccountServicesMissingFiling_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBankCollection_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenceBalanceByClosing_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenceBalance_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenceCreditBalance_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenceFilingByFiling_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenceTransaction_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenseStatementForHP_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPBusinessLicenseStatement_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPClosingSummaryByPaymentType_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPControlOfPaymentsMadeInTheBank_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPDailyCollection_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPDailyIncomeProduceBank_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPDailyIncomeState_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPGeneralMovements_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPInconsistenciesInTheBankReceipts_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPIVUBalanceSheet_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPIVUCollectionDetail_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPIVUFormsNotFiled_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPIVUStatementForHP_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPIVUStatement_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPListOfPaymentsMadeByTheTaxpayer_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPListOfReceiptCollectedBank_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPOneTimePayment_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPPaymentPlanExport_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptAmnestyMovement_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptBank_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptBusinessLicense_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptCommercialFacilitiesRental_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptDetail_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptIVU_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptOtherConcept_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptPaymentPlan_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptPermissionExpenses_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptPermissionFees_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptRegisterForCR_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptRegister_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptStreetVendors_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPReceiptVoid_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPSecuritiesByBank_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERREPStatisticsofReceiptsCollected_Result.cs">
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCalculationDateGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCollectionRuleDetailGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCollectionRuleGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCollectionTemplateDetailGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCollectionTemplateGetWithPaging_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceCollectionTemplateGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceExceptionGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceGetByCollectionField_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceGetForCobros_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceGetForFACTU_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceGetWithPaging_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceListGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServicePrintTemplateGet_Result.cs">
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceTypeGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERServiceTypeGroupGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSERTransferServiceGetWithPagging_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNSUPSupportTableValueGet_Result.cs">
+      <DependentUpon>AccountDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MUNUserAccountGet_Result.cs">
+      <DependentUpon>AccountUserDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportModels\Report.cs" />
+    <Compile Include="ReportModels\ReportModel.cs" />
+    <Compile Include="SchedulerEmailModels\SchedulerEmail.cs" />
+    <Compile Include="SchedulerEmailModels\SchedulerEmailModel.cs" />
+    <Compile Include="ServiceDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ServiceDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceModels\FinClassGrantModel.cs" />
+    <Compile Include="ServiceModels\FinAccountModel.cs" />
+    <Compile Include="ServiceModels\FinSalesCashierDetailsModel.cs" />
+    <Compile Include="ServiceModels\PaymentPlan.cs" />
+    <Compile Include="ServiceModels\PaymentPlanModel.cs" />
+    <Compile Include="ServiceModels\Service.cs" />
+    <Compile Include="ServiceModels\ServiceCalculationDate.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionRule.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionRuleDetailModel.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionRuleModel.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionTemplate.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionTemplateModel.cs" />
+    <Compile Include="ServiceModels\ServiceExceptionModel.cs" />
+    <Compile Include="ServiceModels\ServiceModel.cs" />
+    <Compile Include="ServiceModels\ServicePrintTemplate.cs" />
+    <Compile Include="ServiceModels\ServiceCollectionTemplateDetailModel.cs" />
+    <Compile Include="WorkflowDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkflowDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkflowDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WorkflowDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowModels\DocumentTypeModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowFormModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowFormViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowReasonModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowReasonViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityGroupModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityGroupUsersModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityGroupUsersViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityGroupViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityStatusInGroupModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowSecurityStatusInGroupViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowStatusModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowStatusSequenceModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowStatusSequenceViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowStatusViewModel.cs" />
+    <Compile Include="WorkflowModels\WorkflowViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="FileDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FileDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="AccountDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AccountDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="AccountDataModel.edmx.diagram">
+      <DependentUpon>AccountDataModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="AccountUserDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AccountUserDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="AccountUserDataModel.edmx.diagram">
+      <DependentUpon>AccountUserDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="App.Config" />
+    <EntityDeploy Include="ExceptionHandlerDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ExceptionHandlerDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="CompanyDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CompanyDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="CaseDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CaseDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CaseDataModel.edmx.diagram">
+      <DependentUpon>CaseDataModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="CollectionDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CollectionDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CollectionDataModel.edmx.diagram">
+      <DependentUpon>CollectionDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="CompanyDataModel.edmx.diagram">
+      <DependentUpon>CompanyDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="ExceptionHandlerDataModel.edmx.diagram">
+      <DependentUpon>ExceptionHandlerDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="FileDataModel.edmx.diagram">
+      <DependentUpon>FileDataModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="MigrationDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MigrationDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MigrationDataModel.edmx.diagram">
+      <DependentUpon>MigrationDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="ServiceDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ServiceDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="ReportDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ReportDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ReportDataModel.edmx.diagram">
+      <DependentUpon>ReportDataModel.edmx</DependentUpon>
+    </None>
+    <None Include="ServiceDataModel.edmx.diagram">
+      <DependentUpon>ServiceDataModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="WorkflowDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WorkflowDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="WorkflowDataModel.edmx.diagram">
+      <DependentUpon>WorkflowDataModel.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AccountDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>AccountDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="AccountDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountDataModel.cs</LastGenOutput>
+      <DependentUpon>AccountDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="AccountUserDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountUserDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>AccountUserDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="AccountUserDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccountUserDataModel.cs</LastGenOutput>
+      <DependentUpon>AccountUserDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="CaseDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CaseDataModel.edmx</DependentUpon>
+      <LastGenOutput>CaseDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CaseDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CaseDataModel.edmx</DependentUpon>
+      <LastGenOutput>CaseDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="CollectionDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CollectionDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>CollectionDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="CollectionDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CollectionDataModel.cs</LastGenOutput>
+      <DependentUpon>CollectionDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="CompanyDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CompanyDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>CompanyDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="CompanyDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CompanyDataModel.cs</LastGenOutput>
+      <DependentUpon>CompanyDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="ExceptionHandlerDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExceptionHandlerDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>ExceptionHandlerDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="ExceptionHandlerDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ExceptionHandlerDataModel.cs</LastGenOutput>
+      <DependentUpon>ExceptionHandlerDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="FileDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FileDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>FileDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="FileDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FileDataModel.cs</LastGenOutput>
+      <DependentUpon>FileDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="MigrationDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MigrationDataModel.edmx</DependentUpon>
+      <LastGenOutput>MigrationDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="MigrationDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MigrationDataModel.edmx</DependentUpon>
+      <LastGenOutput>MigrationDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="ReportDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReportDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>ReportDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="ReportDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReportDataModel.cs</LastGenOutput>
+      <DependentUpon>ReportDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="ServiceDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServiceDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>ServiceDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="ServiceDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ServiceDataModel.cs</LastGenOutput>
+      <DependentUpon>ServiceDataModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="WorkflowDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WorkflowDataModel.edmx</DependentUpon>
+      <LastGenOutput>WorkflowDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="WorkflowDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WorkflowDataModel.edmx</DependentUpon>
+      <LastGenOutput>WorkflowDataModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArtSolutions.MUN.Web\ArtSolutions.MUN.Web.csproj">
+      <Project>{DB475DE0-538B-42F8-A310-91B0BB88A561}</Project>
+      <Name>ArtSolutions.MUN.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

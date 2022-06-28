@@ -1,0 +1,219 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    var dateType = (EnDateTypes)ViewBag.DateType;
+}
+@using (Ajax.BeginForm("", "", new AjaxOptions { HttpMethod = "POST" }, new { role = "form", id = "frmCalDates", data_ajax_mode = "replace-with" }))
+{
+
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="titleId"></h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    @if (dateType == EnDateTypes.FillingDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedFillingDueDate != null ? Model.UseFixedFillingDueDate.Value : false, new { @id = "rbFixStartDate1", @data_duetype = (int)@EnDueTypes.StartPeriodDate }) &nbsp; <label for="rbFixStartDate1" class="font-normal"> @LocalResource.PeriodStartDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentDueDate != null ? Model.UseFixedPaymentDueDate.Value : false, new { @id = "rbFixStartDate1", @data_duetype = (int)@EnDueTypes.StartPeriodDate }) &nbsp; <label for="rbFixStartDate1" class="font-normal"> @LocalResource.PeriodStartDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.DiscountDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedDiscountDate != null ? Model.UseFixedDiscountDate.Value : false, new { @id = "rbFixStartDate1", @data_duetype = (int)@EnDueTypes.StartPeriodDate }) &nbsp; <label for="rbFixStartDate1" class="font-normal"> @LocalResource.PeriodStartDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentGraceDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentGracePeriod != null ? Model.UseFixedPaymentGracePeriod.Value : false, new { @id = "rbFixStartDate1", @data_duetype = (int)@EnDueTypes.StartPeriodDate }) &nbsp; <label for="rbFixStartDate1" class="font-normal"> @LocalResource.PeriodStartDate </label>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-3">
+                        @if (dateType == EnDateTypes.DiscountDates)
+                        {
+                            @Html.TextBox("txtStartDiscountPercentage", "", new { @class = "form-control text-right inputpercentage", @placeholder = LocalResource.DiscountPercentageHeaderTitle })
+                            @Html.ValidationMessage("txtStartDiscountPercentage", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        }
+                    </div>
+                    <div class="col-lg-1 text-left no-padding m-t-sm">
+                        @if (dateType == EnDateTypes.DiscountDates)
+                        {
+                            @Html.Raw("%")
+                        }
+                    </div>
+                </div>
+                <div class="row form-group">
+                    @if (dateType == EnDateTypes.FillingDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedFillingDueDate != null ? Model.UseFixedFillingDueDate.Value : false, new { @id = "rbFixendEndDate1", @data_duetype = (int)@EnDueTypes.EndPeriodDate }) &nbsp; <label for="rbFixendEndDate1" class="font-normal"> @LocalResource.PeriodEndDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentDueDate != null ? Model.UseFixedPaymentDueDate.Value : false, new { @id = "rbFixendEndDate1", @data_duetype = (int)@EnDueTypes.EndPeriodDate }) &nbsp; <label for="rbFixendEndDate1" class="font-normal"> @LocalResource.PeriodEndDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.DiscountDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedDiscountDate != null ? Model.UseFixedDiscountDate.Value : false, new { @id = "rbFixendEndDate1", @data_duetype = (int)@EnDueTypes.EndPeriodDate }) &nbsp; <label for="rbFixendEndDate1" class="font-normal"> @LocalResource.PeriodEndDate </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentGraceDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentGracePeriod != null ? Model.UseFixedPaymentGracePeriod.Value : false, new { @id = "rbFixendEndDate1", @data_duetype = (int)@EnDueTypes.EndPeriodDate }) &nbsp; <label for="rbFixendEndDate1" class="font-normal"> @LocalResource.PeriodEndDate </label>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-3">
+                        @if (dateType == EnDateTypes.DiscountDates)
+                        {
+                            @Html.TextBox("txtEndDiscountPercentage", "", new { @class = "form-control text-right inputpercentage", @placeholder = LocalResource.DiscountPercentageHeaderTitle })
+                            @Html.ValidationMessage("txtEndDiscountPercentage", GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        }
+                    </div>
+                    <div class="col-lg-1 text-left no-padding m-t-sm">
+                        @if (dateType == EnDateTypes.DiscountDates)
+                        {
+                            @Html.Raw("%")
+                        }
+                    </div>
+                </div>
+
+                @if (dateType == EnDateTypes.FillingDueDates)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-4">
+                            @Html.RadioButton(((int)dateType).ToString(), false, Model.UseFixedFillingDueDate != null ? !Model.UseFixedFillingDueDate.Value : false, new { @id = "rbFixDate", @data_duetype = (int)@EnDueTypes.FixDays }) &nbsp; <label for="rbFixDate" class="font-normal"> @LocalResource.UseFixDays </label>
+                        </div>
+                        <div class="col-lg-3 ">
+                            @Html.TextBoxFor(x => x.FillingDueDays, new { @class = "form-control text-right inputnumber", @id = "txtDays" })
+                            @Html.ValidationMessageFor(x => x.FillingDueDays, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-6"></div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.PaymentDueDates)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-4">
+                            @Html.RadioButton(((int)dateType).ToString(), false, Model.UseFixedPaymentDueDate != null ? !Model.UseFixedPaymentDueDate.Value : false, new { @id = "rbFixDate", @data_duetype = (int)@EnDueTypes.FixDays }) &nbsp; <label for="rbFixDate" class="font-normal"> @LocalResource.UseFixDays </label>
+                        </div>
+                        <div class="col-lg-3">
+                            @Html.TextBoxFor(x => x.PaymentDueDays, new { @class = "form-control text-right inputnumber", @id = "txtDays" })
+                            @Html.ValidationMessageFor(x => x.PaymentDueDays, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-6"></div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.DiscountDates)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-4">
+                            @Html.RadioButton(((int)dateType).ToString(), false, Model.UseFixedDiscountDate != null ? !Model.UseFixedDiscountDate.Value : false, new { @id = "rbFixDate", @data_duetype = (int)@EnDueTypes.FixDays }) &nbsp; <label for="rbFixDate" class="font-normal"> @LocalResource.UseFixDays </label>
+                        </div>
+                        <div class="col-lg-3 m-b-sm">
+                            @Html.TextBoxFor(x => x.DiscountDueDays, new { @class = "form-control text-right inputnumber", @placeholder = LocalResource.DueDays, maxlength = 4, @id = "txtDays" })
+                            @Html.ValidationMessageFor(x => x.DiscountDueDays, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-3">
+                            @Html.TextBoxFor(x => x.DiscountPercentage, new { @class = "form-control text-right inputpercentage", @placeholder = LocalResource.DiscountPercentageHeaderTitle, @id = "txtDiscountPercentage" })
+                            @Html.ValidationMessageFor(x => x.DiscountPercentage, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-1 text-left no-padding m-t-sm">
+                            @Html.Raw("%")
+                        </div>
+                    </div>
+                }
+                else if (dateType == EnDateTypes.PaymentGraceDates)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-4">
+                            @Html.RadioButton(((int)dateType).ToString(), false, Model.UseFixedPaymentGracePeriod != null ? !Model.UseFixedPaymentGracePeriod.Value : false, new { @id = "rbFixDate", @data_duetype = (int)@EnDueTypes.FixDays }) &nbsp; <label for="rbFixDate" class="font-normal"> @LocalResource.UseFixDays </label>
+                        </div>
+                        <div class="col-lg-3">
+                            @Html.TextBoxFor(x => x.PaymentGracePeriod, new { @class = "form-control text-right inputnumber", @id = "txtDays" })
+                            @Html.ValidationMessageFor(x => x.PaymentGracePeriod, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-6"></div>
+                    </div>
+                }
+                <div class="row form-group">
+                    @if (dateType == EnDateTypes.FillingDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedFillingDueDate != null ? Model.UseFixedFillingDueDate.Value : false, new { @id = "rbFixDate1", @data_duetype = (int)@EnDueTypes.FixDate }) &nbsp; <label for="rbFixDate1" class="font-normal"> @LocalResource.UseFixDates </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentDueDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentDueDate != null ? Model.UseFixedPaymentDueDate.Value : false, new { @id = "rbFixDate1", @data_duetype = (int)@EnDueTypes.FixDate }) &nbsp; <label for="rbFixDate1" class="font-normal"> @LocalResource.UseFixDates </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.DiscountDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedDiscountDate != null ? Model.UseFixedDiscountDate.Value : false, new { @id = "rbFixDate1", @data_duetype = (int)@EnDueTypes.FixDate }) &nbsp; <label for="rbFixDate1" class="font-normal"> @LocalResource.UseFixDates </label>
+                            </div>
+                        </div>
+                    }
+                    else if (dateType == EnDateTypes.PaymentGraceDates)
+                    {
+                        <div class="col-lg-4">
+                            <div>
+                                @Html.RadioButton(((int)dateType).ToString(), true, Model.UseFixedPaymentGracePeriod != null ? Model.UseFixedPaymentGracePeriod.Value : false, new { @id = "rbFixDate1", @data_duetype = (int)@EnDueTypes.FixDate }) &nbsp; <label for="rbFixDate1" class="font-normal"> @LocalResource.UseFixDates </label>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-8 CalculationDueDateView">
+                        @Html.Partial("~/Areas/Services/Views/Service/_ServiceCalculationDueDatesAdd.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddDates" type="submit" class="btn btn-primary" onclick="return saveCalculationDates(@ViewBag.DateType);">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+
+    @*Hidden Fields*@
+    <input type="hidden" id="DateType" value="@ViewBag.DateType" />
+}

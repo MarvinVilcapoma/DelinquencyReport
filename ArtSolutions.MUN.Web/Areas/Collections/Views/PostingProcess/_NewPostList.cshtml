@@ -1,0 +1,256 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.NewPostingProcessModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@*@model List<ArtSolutions.MUN.Web.Areas.Collections.Models.JournalListForPosting>*@
+@using ArtSolutions.MUN.Web.Areas.Cases.Models
+
+@{
+    List<CaseWorkflowStatus> WorkflowStatus = (List<CaseWorkflowStatus>)ViewBag.WorkflowStatusList;
+    bool IsNotApprove = (WorkflowStatus != null && WorkflowStatus.Count() > 0);
+}
+
+@if (!Model.ID.HasValue)
+{
+    <div class="full-height-scroll">
+        <input id="JournalIds" name="JournalIds" type="hidden" value="@Model.JournalIds" />
+        <div class="table-responsive m-t">
+            <table class="table table-report" id="tblJournalDetail">
+                <thead>
+                    <tr class="sub-header">
+                        <th>@GlobalResource.DisplayName</th>
+                        <th>@GlobalResource.AccountName</th>
+                        <th>@GlobalResource.CollectionType</th>
+                        <th>@GlobalResource.Debit</th>
+                        <th>@GlobalResource.Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.NewPostedList != null && Model.NewPostedList.Count() > 0)
+                    {
+                        foreach (var data in Model.NewPostedList)
+                        {
+                            <tr>
+                                <td>@data.DisplayName</td>
+                                <td>@Html.Raw(data.AccountCode + "-" + data.AccountName)</td>
+                                <td>@data.CollectionTypeName</td>
+                                <td>@Html.Raw(data.Debit.HasValue ? data.Debit.Value.ToString("c") : Convert.ToDecimal(0).ToString("c"))</td>
+                                <td>@Html.Raw(data.Credit.HasValue ? data.Credit.Value.ToString("c") : Convert.ToDecimal(0).ToString("c"))</td>
+                            </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr class="sub-header">
+                            <td colspan="5" class="text-center" width="100%">
+                                @GlobalResource.NoDataMessage
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                @if (Model.NewPostedList != null && Model.NewPostedList.Count() > 0)
+                {
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">
+                                <label class="paddin-top-5" style="float:right">@GlobalResource.Total</label>
+
+                            </td>
+                            <td>
+                                @Html.Raw(Model.NewPostedList.Sum(c => c.Debit).Value.ToString("c"))
+                            </td>
+                            <td>
+                                @Html.Raw(Model.NewPostedList.Sum(c => c.Credit).Value.ToString("c"))
+                            </td>
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="full-height-scroll">
+        <input id="JournalIds" name="JournalIds" type="hidden" value="@Model.JournalIds" />
+        <div class="table-responsive m-t">
+            <table class="table table-report" id="tblJournalDetail">
+                <thead>
+                    <tr class="sub-header">
+                        <th style="width:3%">
+                            @GlobalResource.ID
+                        </th>
+                        <th style="width:10%">
+                            @GlobalResource.Type
+                        </th>
+                        <th style="width:10%">
+                            @GlobalResource.Date
+                        </th>
+                        <th style="width:5%">
+                            @GlobalResource.Number
+                        </th>
+                        @if (IsNotApprove)
+                        {
+                            <th style="width:5%">
+                                @GlobalResource.Integrated
+                            </th>
+                            <th style="width:5%">
+                                @GlobalResource.ReasonForFailIntegration
+                            </th>
+                        }
+                        <th style="width:15%">
+                            @GlobalResource.Name
+                        </th>
+                        <th style="width:10%">
+                            @if (Model.ID.HasValue)
+                            {
+                                @*@GlobalResource.JournalEntryNo*@
+                                @GlobalResource.FinanceJournalID
+                            }
+                        </th>
+                        <th style="width:10%">
+                            @GlobalResource.CollectionType
+                        </th>
+                        <th style="width:10%">
+                            @GlobalResource.Grant
+                        </th>
+                        <th style="width:4%">
+                            @GlobalResource.Percentage
+                        </th>
+                        <th style="width:15%">
+                            @GlobalResource.FinanceAccount
+                        </th>
+
+                        <th style="width:4%" class="text-right">
+                            @GlobalResource.Debit
+                        </th>
+                        <th style="width:4%" class="text-right">
+                            @GlobalResource.Credit
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="accountRows">
+                    @if (Model.JournalForPostingList != null && Model.JournalForPostingList.Count() > 0)
+                    {
+                        var i = 0; int CurrModuleName = 0; var LastIndex = Model.JournalForPostingList.Count(); var Flag = true;
+                        foreach (var item in Model.JournalForPostingList)
+                        {
+                            <tr>
+
+                                @if (Flag)
+                                {
+                                    <td class="" width="3%" title="@item.ID">@item.ID</td>
+                                    /*form-control-auto-width*/
+                                    <td class="" width="15%" title="@item.Name">@item.Name</td>
+                                    <td class="" width="10%">@item.Date.ToString("d")</td>
+                                    <td class="" width="5%">@string.Format("{0} ({1})", item.ReceiptNumber, item.Status)</td>
+                                    if (IsNotApprove)
+                                    {
+                                        <td class="" width="5%">@Html.Raw(item.FINJournalID > 0 ? GlobalResource.Yes : GlobalResource.No)</td>
+                                        <td class="" width="5%">@Html.Raw(item.FINJournalID > 0 ? "" : item.IntegrationError)</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td colspan="@Html.Raw(IsNotApprove?"6":"4")" width="28%"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    if (IsNotApprove)
+                                    {
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    }
+                                }
+                                <td class="" width="15%" title="@item.ReferenceAccountName">@item.ReferenceAccountName</td>
+
+                                @*<td class="" width="10%" title="@item.FINJournalEntrySequence">
+                                        @if (Model.ID.HasValue)
+                                        {
+                                            @item.FINJournalEntrySequence
+                                        }
+                                    </td>*@
+
+                                <td class="" width="10%" title="@item.FINJournalID">
+                                    @if (Model.ID.HasValue)
+                                    {
+                                        @item.FINJournalID
+                                    }
+                                </td>
+
+                                <td class="" width="10%" title="@item.CollectionTypeName">@item.CollectionTypeName</td>
+                                <td class="" width="10%" title="@item.Grant">@item.Grant</td>
+                                <td class="" width="4%" title="@item.Percentage">@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString(Common.DecimalPoints) + "%" : "")</td>
+                                <td class="" width="15%" title="@item.NameFriendly">@item.NameFriendly</td>
+                                <td class="text-right" width="4%">@item.Debit.ToString("C")</td>
+                                <td class="text-right" width="4%">@item.Credit.ToString("C")</td>
+                            </tr>
+                            if (i == 0) { CurrModuleName = item.ID; }
+                            if (i != LastIndex - 1)
+                            {
+                                if (CurrModuleName != Model.JournalForPostingList[i + 1].ID)
+                                {
+                                    Flag = true;
+                                    <tr class="sub-header font-bold">
+                                        <td colspan="@Html.Raw(IsNotApprove?"11":"9")" width="62%"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                        @if (IsNotApprove)
+                                        {
+                                            <td style="display:none"></td>
+                                            <td style="display:none"></td>
+                                        }
+                                        <td class="text-right" width="30%">@GlobalResource.Total</td>
+                                        <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                        <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    Flag = false;
+                                }
+                                CurrModuleName = Model.JournalForPostingList[i + 1].ID;
+                            }
+                            else if (i == LastIndex - 1)
+                            {
+                                <tr class="sub-header font-bold">
+                                    <td colspan="@Html.Raw(IsNotApprove?"11":"9")" width="62%"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    <td style="display:none"></td>
+                                    @if (IsNotApprove)
+                                    {
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    }
+                                    <td class="text-right" width="30%">@GlobalResource.Total</td>
+                                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                    <td class="text-right top-border table-total-amount" width="4%">@item.Amount.ToString("C")</td>
+                                </tr>
+                            }
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr class="sub-header">
+                            <td colspan="@Html.Raw(IsNotApprove?"14":"12")" class="text-center" width="100%">
+                                @GlobalResource.NoDataMessage
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

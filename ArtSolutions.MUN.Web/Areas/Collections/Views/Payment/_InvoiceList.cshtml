@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Collections.Models.InvoiceModel>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using HtmlHelpers.BeginCollectionItem;
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr id="@item.ID">
+            @using (Html.BeginCollectionItem("PostedInvoiceList"))
+            {
+                <td class="text-center border-left">
+                    @Html.CheckBox("SelectedInvoice", item.SelectedInvoice, new { onclick = "onInvoiceSelect(this)", tabindex = "9" , @class="inv-select" })
+                    @Html.Hidden("ID", item.ID)
+                </td>
+                <td>
+                    @Html.Hidden("AccountID", item.AccountID)                    
+                    @item.Date.ToString("d")
+                </td>
+                <td>
+                    @item.Number
+                </td>
+                <td class="text-right">
+                    @Html.Hidden("Total", item.Total, new { @class = "inv-total" })
+                    @item.Total.ToString("C")
+                </td>                
+                <td class="text-right">
+                    @Html.Hidden("Balance", item.Balance, new { @class = "inv-bal" })
+                    @item.Balance.ToString("C")
+                </td>
+                <td class="text-right">
+                    @*@Html.Hidden("DiscountTotal", item.DiscountTotal, new { @class = "inv-discount" })
+                    <span id="spnInvoiceDiscountTotal"> @item.DiscountTotal.ToString("C") </span>
+                    @Html.Hidden("DiscountJSON" , item.DiscountJSON , new { @class = "inv-discountJSON" })*@
+                </td>
+                <td class="text-right">
+                    @Html.TextBox("Payments", 0,
+                   new
+                   {
+                       @class = "form-control text-right inv-payment inputdecimal",
+                       maxlength = "12",                       
+                       onblur = "setDefaultValue(this)",
+                       onchange = "OnPaymentChange(this)",
+                       tabindex = "9"
+                   })
+                    @Html.Hidden("hdnPaidAmount" , 0 , new { @class = "inv-paidAmount" })
+                </td>               
+            }
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="7" class="text-center">@GlobalResource.NoDataMessage</td>
+    </tr>
+}

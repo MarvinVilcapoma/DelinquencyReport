@@ -1,0 +1,77 @@
+﻿@using LocalResource = ArtSolutions.MUN.Web.Resources.ColDebitNote
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.ListDebitNote;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>
+            @GlobalResource.DebitNote
+        </h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="4"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.TopSearchPlaceholder" class="input-sm form-control readdata" id="txtSearch" tabindex="1"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="2">@GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-stripped" id="DatatableList"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    <script type="text/javascript">
+
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var view = '@Html.Raw(GlobalResource.View)'
+        var edit = '@Html.Raw(GlobalResource.Edit)';
+        var first = '@Html.Raw(GlobalResource.First)';
+        var last = '@Html.Raw(GlobalResource.Last)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var actions = '@Html.Raw(GlobalResource.Actions)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var number = '@Html.Raw(GlobalResource.Number)';
+        var accountName = '@Html.Raw(GlobalResource.AccountName)';
+        var status = '@Html.Raw(GlobalResource.Status)';
+        var amount = '@Html.Raw(GlobalResource.Amount)';
+        var availableAmount = '@Html.Raw(GlobalResource.AvailableAmount)';
+        var isPaidYes = '@Html.Raw(GlobalResource.Yes)';
+        var isPaidNo = '@Html.Raw(GlobalResource.No)';
+        var isPaid = '@Html.Raw(GlobalResource.IsPaid)';
+    </script>
+    <script src="~/Scripts/app/debitnotelist.js"></script>
+}

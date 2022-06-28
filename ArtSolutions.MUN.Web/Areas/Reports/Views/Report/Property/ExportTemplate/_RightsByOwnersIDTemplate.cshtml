@@ -1,0 +1,225 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.RightsByOwnersIDModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    ViewBag.Title = ReportResource.ListOfRightsByOwnersIDReport;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="left padding-top-md"></td>
+                        <td class="left padding-top-md" colspan="12">
+                            <strong>
+                                @GlobalResource.TaxNumber :
+                            </strong>
+                            @Model.AccountModel.TaxNumber
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong>
+                                @GlobalResource.Name :
+                            </strong>
+                            @Model.AccountModel.DisplayName
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <br />
+
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="20%" class="table-border-center-th" colspan="4">
+                        @ReportResource.DescriptionOfFinca
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Area
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Value
+                    </th>
+                    <th width="25%" class="table-border-center-th" colspan="3">
+                        @ReportResource.CurrentDocument
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Value
+                    </th>
+                    <th width="25%" class="table-border-center-th" colspan="3">
+                        @ReportResource.HistoricalDocument
+                    </th>
+                </tr>
+                <tr>
+                    <th width="20%" class="table-border-center-th" colspan="4">
+                        PR-NUMERO-DUP-HOR-DERE.
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Total
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.Current
+                    </th>
+                    <th width="5%" class="table-border-center-th">
+                        COD.
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Date
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Number
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @ReportResource.Historical
+                    </th>
+                    <th width="5%" class="table-border-center-th">
+                        COD.
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Date
+                    </th>
+                    <th width="10%" class="table-border-center-th">
+                        @GlobalResource.Number
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RightsByOwnersIDList != null && Model.RightsByOwnersIDList.Count() > 0)
+                {
+                    foreach (var item in Model.RightsByOwnersIDList)
+                    {
+                        <tr>
+                            <td class="table-border-left-td" style="@msoTextFormat" colspan="4">
+                                <table width="100%">
+                                    <tr>
+                                        <td width="25%" style="@msoTextFormat; border:0;" class="left">@item.PropertyCode</td>
+                                        <td width="50%" style="@msoTextFormat; border:0;" class="center" colspan="2">@item.PropertyNumber</td>
+                                        <td width="25%" style="@msoTextFormat; border:0;" class="right">@item.RightNumber</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.TotalArea != null)
+                                {
+                                    @item.TotalArea.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.TotalArea
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.CurrentValue != null)
+                                {
+                                    @item.CurrentValue.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.CurrentValue
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.CurrentCode
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.CurrentFecha != null)
+                                {
+                                    @item.CurrentFecha.Value.ToString("d")
+                                }
+                                else
+                                {
+                                    @item.CurrentFecha
+                                }
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.CurrentNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.PreviousValue != null)
+                                {
+                                    @item.PreviousValue.Value.ToString("N")
+                                }
+                                else
+                                {
+                                    @item.PreviousValue
+                                }
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.PreviousCode
+                            </td>
+                            <td class="table-border-center-td">
+                                @if (item.PreviousFecha != null)
+                                {
+                                    @item.PreviousFecha.Value.ToString("d")
+                                }
+                                else
+                                {
+                                    @item.PreviousFecha
+                                }
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.PreviousNumber
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="13" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <br />
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="left padding-top-md"></td>
+                    <td class="left padding-top-md" colspan="12">
+                        <strong>
+                            @ReportResource.TotalNumberOfOwners :
+                        </strong>
+                        @Html.Raw(Model.RightsByOwnersIDDetailModel.TotalOwner)
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <strong>
+                            @ReportResource.TotalFarms :
+                        </strong>
+                        @Html.Raw(Model.RightsByOwnersIDDetailModel.TotalFincas)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

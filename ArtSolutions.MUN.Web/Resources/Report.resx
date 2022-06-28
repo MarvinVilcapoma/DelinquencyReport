@@ -1,0 +1,1676 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ViewReport" xml:space="preserve">
+    <value>View Report</value>
+  </data>
+  <data name="IVUBalanceSheetTitle" xml:space="preserve">
+    <value>Sales Tax Receivable Balance Report</value>
+  </data>
+  <data name="DepartmentOfFinance" xml:space="preserve">
+    <value>Department of Finance</value>
+  </data>
+  <data name="AsOf" xml:space="preserve">
+    <value>As of</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="BalanceFrom" xml:space="preserve">
+    <value>Balance From</value>
+  </data>
+  <data name="BalanceFromRequiredMsg" xml:space="preserve">
+    <value>Balance From is required!</value>
+  </data>
+  <data name="BalanceToRequiredMsg" xml:space="preserve">
+    <value>Balance To is required!</value>
+  </data>
+  <data name="Interests" xml:space="preserve">
+    <value>Interests</value>
+  </data>
+  <data name="Surcharges" xml:space="preserve">
+    <value>Surcharges</value>
+  </data>
+  <data name="CollectionDescription" xml:space="preserve">
+    <value>Collection</value>
+  </data>
+  <data name="BreadcrumbReportTitle" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="IVUFormsNotFiledTitle" xml:space="preserve">
+    <value>IVU Returns Not Filed</value>
+  </data>
+  <data name="MonthsWithoutFiling" xml:space="preserve">
+    <value>Months without Filing</value>
+  </data>
+  <data name="RegistrationNo" xml:space="preserve">
+    <value>Registration No.</value>
+  </data>
+  <data name="StartPeriodWithoutFiling" xml:space="preserve">
+    <value>Start Period Without Filing</value>
+  </data>
+  <data name="ComparePeriodDatesValidationMsg" xml:space="preserve">
+    <value>End period date must be greater than start period date</value>
+  </data>
+  <data name="BalanceTo" xml:space="preserve">
+    <value>Balance To</value>
+  </data>
+  <data name="IVUStatementTitle" xml:space="preserve">
+    <value>IVU Statement</value>
+  </data>
+  <data name="IVUCollectionDetailTitle" xml:space="preserve">
+    <value>IVU Collection Detail</value>
+  </data>
+  <data name="EndPeriodRequiredMsg" xml:space="preserve">
+    <value>End Period is required!</value>
+  </data>
+  <data name="StartPeriodRequiredMsg" xml:space="preserve">
+    <value>Start Period is required!</value>
+  </data>
+  <data name="CompareBalanceValidationMsg" xml:space="preserve">
+    <value>Balance To must be greater than Balance From.</value>
+  </data>
+  <data name="SinceDateRequiredMsg" xml:space="preserve">
+    <value>Since Date is required!</value>
+  </data>
+  <data name="BalanceRange" xml:space="preserve">
+    <value>Balance Range</value>
+  </data>
+  <data name="ClosingSummaryTitle" xml:space="preserve">
+    <value>Cash Register Summary</value>
+  </data>
+  <data name="NetClosing" xml:space="preserve">
+    <value>Net Closing</value>
+  </data>
+  <data name="ReceiptCount" xml:space="preserve">
+    <value>Receipt Count</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="Receipt" xml:space="preserve">
+    <value>Receipt</value>
+  </data>
+  <data name="CompareNetClosingValidationMsg" xml:space="preserve">
+    <value>Net Closing To must be greater than Net Closing From.</value>
+  </data>
+  <data name="NetClosingFrom" xml:space="preserve">
+    <value>Net Closing From</value>
+  </data>
+  <data name="NetClosingFromRequiredMsg" xml:space="preserve">
+    <value>Net Closing From is required!</value>
+  </data>
+  <data name="NetClosingRange" xml:space="preserve">
+    <value>Net Closing Range</value>
+  </data>
+  <data name="NetClosingTo" xml:space="preserve">
+    <value>Net Closing To</value>
+  </data>
+  <data name="NetClosingToRequiredMsg" xml:space="preserve">
+    <value>Net Closing To is required!</value>
+  </data>
+  <data name="NetClosingTotal" xml:space="preserve">
+    <value>Net Closing Total</value>
+  </data>
+  <data name="DepositByCashierTitle" xml:space="preserve">
+    <value>Deposit Summary By Cashier</value>
+  </data>
+  <data name="DepositByPaymentTypeTitle" xml:space="preserve">
+    <value>Deposit Summary By Payment Title</value>
+  </data>
+  <data name="DepositSummaryTitle" xml:space="preserve">
+    <value>Deposit Summary</value>
+  </data>
+  <data name="ClosingNumber" xml:space="preserve">
+    <value>Closing Number</value>
+  </data>
+  <data name="CompareNetDepositValidationMsg" xml:space="preserve">
+    <value>Net Deposit To must be greater than Net Deposit From.</value>
+  </data>
+  <data name="DepositReportSubTitle" xml:space="preserve">
+    <value>Deposit Report By Closing</value>
+  </data>
+  <data name="NetDeposit" xml:space="preserve">
+    <value>Net Deposit</value>
+  </data>
+  <data name="NetDepositFrom" xml:space="preserve">
+    <value>Net Deposit From</value>
+  </data>
+  <data name="NetDepositFromRequiredMsg" xml:space="preserve">
+    <value>Net Deposit From is required!</value>
+  </data>
+  <data name="NetDepositRange" xml:space="preserve">
+    <value>Net Deposit Range</value>
+  </data>
+  <data name="NetDepositTo" xml:space="preserve">
+    <value>Net Deposit To</value>
+  </data>
+  <data name="NetDepositToRequiredMsg" xml:space="preserve">
+    <value>Net Deposit To is required!</value>
+  </data>
+  <data name="NetDepositTotal" xml:space="preserve">
+    <value>Net Deposit Total</value>
+  </data>
+  <data name="PreliminaryClosingReport" xml:space="preserve">
+    <value>Preliminary Cash Register Report</value>
+  </data>
+  <data name="SalesTaxDebitStatement" xml:space="preserve">
+    <value>Sales Tax Debit Statement</value>
+  </data>
+  <data name="SalexTaxDebitCertificateTitle" xml:space="preserve">
+    <value>Debt Certification of IVU</value>
+  </data>
+  <data name="HasDebt" xml:space="preserve">
+    <value>Has Debt</value>
+  </data>
+  <data name="NoDebt" xml:space="preserve">
+    <value>No Debt</value>
+  </data>
+  <data name="SalesTaxFillingCertificate" xml:space="preserve">
+    <value>Sales Tax Filling Certificate</value>
+  </data>
+  <data name="SalexTaxFillingCertificateTitle" xml:space="preserve">
+    <value>Filing Certification of IVU</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="MerchantsPortal" xml:space="preserve">
+    <value>Merchant's Portal</value>
+  </data>
+  <data name="ReceiptRegister" xml:space="preserve">
+    <value>Receipt Register</value>
+  </data>
+  <data name="Collector" xml:space="preserve">
+    <value>Collector</value>
+  </data>
+  <data name="CompareDatesValidationMsg" xml:space="preserve">
+    <value>To date must be greater than from date</value>
+  </data>
+  <data name="FromDateRequiredMsg" xml:space="preserve">
+    <value>From date is required!</value>
+  </data>
+  <data name="ToDateRequiredMsg" xml:space="preserve">
+    <value>To date is required!</value>
+  </data>
+  <data name="TotalAmountAuxiliaryReceipt" xml:space="preserve">
+    <value>Total Amount Auxiliary Receipt</value>
+  </data>
+  <data name="TotalAmountOfficialTicket" xml:space="preserve">
+    <value>Total Amount Official Ticket</value>
+  </data>
+  <data name="ReceiptIVUTitle" xml:space="preserve">
+    <value>Receipts By sales Tax (IVU)</value>
+  </data>
+  <data name="ReceiptsByIVU" xml:space="preserve">
+    <value>Receipts By IVU</value>
+  </data>
+  <data name="PaymentAmount" xml:space="preserve">
+    <value>Payment Amount</value>
+  </data>
+  <data name="IVUReceipt" xml:space="preserve">
+    <value>IVU Receipt</value>
+  </data>
+  <data name="SelectedAccount" xml:space="preserve">
+    <value>Selected Account</value>
+  </data>
+  <data name="SelectedCollector" xml:space="preserve">
+    <value>Selected Collector</value>
+  </data>
+  <data name="ReceiptBusinessLicenseTitle" xml:space="preserve">
+    <value>Receipts By Business License</value>
+  </data>
+  <data name="ReceiptsByPatente" xml:space="preserve">
+    <value>Receipts By Patente</value>
+  </data>
+  <data name="FirstSemester" xml:space="preserve">
+    <value>1st semester</value>
+  </data>
+  <data name="SecondSemester" xml:space="preserve">
+    <value>2nd semester</value>
+  </data>
+  <data name="BusinessLicenseReceipt" xml:space="preserve">
+    <value>Business License Receipt</value>
+  </data>
+  <data name="CancellationAmount" xml:space="preserve">
+    <value>Cancellation Amount</value>
+  </data>
+  <data name="CancellationReason" xml:space="preserve">
+    <value>Cancellation Reason</value>
+  </data>
+  <data name="VoidReceipt" xml:space="preserve">
+    <value>Cancelled Receipts</value>
+  </data>
+  <data name="ReceiptDate" xml:space="preserve">
+    <value>Receipt Date</value>
+  </data>
+  <data name="VoidDate" xml:space="preserve">
+    <value>Cancellation Date</value>
+  </data>
+  <data name="PlanNumber" xml:space="preserve">
+    <value>Payment Plan</value>
+  </data>
+  <data name="ReceiptsByPaymentPlanTitle" xml:space="preserve">
+    <value>Receipts By Payment Plan</value>
+  </data>
+  <data name="SelectedPaymentPlan" xml:space="preserve">
+    <value>Selected Payment Plan</value>
+  </data>
+  <data name="PaymentPlanReceipt" xml:space="preserve">
+    <value>Payment Plan Receipt</value>
+  </data>
+  <data name="FirstSemesterbalance" xml:space="preserve">
+    <value>First Semester Balance</value>
+  </data>
+  <data name="PatentDebitCertificateHeaderDesc" xml:space="preserve">
+    <value>I certify that the client described above, appears in our files with the following information:</value>
+  </data>
+  <data name="PatentDebitCertificateTitle" xml:space="preserve">
+    <value>Debt Certification of Patente</value>
+  </data>
+  <data name="PatentPeriod" xml:space="preserve">
+    <value>Business License Period</value>
+  </data>
+  <data name="SecondSemesterBalance" xml:space="preserve">
+    <value>Second Semester Balance</value>
+  </data>
+  <data name="DepositSummaryPaymentTypeTitle" xml:space="preserve">
+    <value>Deposit Summary By Payment Type</value>
+  </data>
+  <data name="DepositPaymentTypeReportSubTitle" xml:space="preserve">
+    <value>Preliminary Deposit Summary By Payment Type Report</value>
+  </data>
+  <data name="DepositServiceTypeReportSubTitle" xml:space="preserve">
+    <value>Preliminary Deposit Summary By Service Type Report</value>
+  </data>
+  <data name="DepositSummaryServiceTypeTitle" xml:space="preserve">
+    <value>Deposit Summary By Service Type</value>
+  </data>
+  <data name="PaymentGroup" xml:space="preserve">
+    <value>Payment Group</value>
+  </data>
+  <data name="ReceiptsByOtherConceptTitle" xml:space="preserve">
+    <value>Receipts By Other Concept</value>
+  </data>
+  <data name="CollectionConcept" xml:space="preserve">
+    <value>Collection Concept</value>
+  </data>
+  <data name="ConceptTotal" xml:space="preserve">
+    <value>Concept Total</value>
+  </data>
+  <data name="ClosingCount" xml:space="preserve">
+    <value>Closing Count</value>
+  </data>
+  <data name="PaymentPlanInterest" xml:space="preserve">
+    <value>Payment Plan Interest</value>
+  </data>
+  <data name="DebtCertificate" xml:space="preserve">
+    <value>Debt Certificate</value>
+  </data>
+  <data name="FilingCertificate" xml:space="preserve">
+    <value>Filing Certificate</value>
+  </data>
+  <data name="IVUMunicipal" xml:space="preserve">
+    <value>IVU Municipal</value>
+  </data>
+  <data name="IVUPeriod" xml:space="preserve">
+    <value>IVU Period</value>
+  </data>
+  <data name="IVUTaxBalance" xml:space="preserve">
+    <value>IVU Tax Balance</value>
+  </data>
+  <data name="SalesTaxDebtSatementBottomLine1Desc" xml:space="preserve">
+    <value>This Certification does not include outstanding debts to be assessed or under investigation by the #CompanyName#, as of the date of this certification, in accordance with the applicable Laws and Ordinances.</value>
+  </data>
+  <data name="SalesTaxDebtSatementBottomLine2Desc" xml:space="preserve">
+    <value>In testimony of anything, and for this to be true, issue this certificate in the city of #CompanyAddress#, today #CurrentDate#.</value>
+  </data>
+  <data name="SalesTaxDebtSatementBottomLine3Desc" xml:space="preserve">
+    <value>Patent Officer / IVU</value>
+  </data>
+  <data name="SalesTaxDebtSatementBottomLine4Desc" xml:space="preserve">
+    <value>*This account is under the Payment Plan #PaymentPlanID#</value>
+  </data>
+  <data name="SalesTaxDebtSatementHeaderDesc" xml:space="preserve">
+    <value>I certify that the client described above, appears in our files with the following information:</value>
+  </data>
+  <data name="SalesTaxFilingCertificateHeaderDesc" xml:space="preserve">
+    <value>I certify that the client described above, appears in our files with the following filings:</value>
+  </data>
+  <data name="SalesTaxFilingCertificateLine1Desc" xml:space="preserve">
+    <value>This Certification does not include outstanding debts to be assessed or under investigation by the #CompanyName#, as of the date of this certification, in accordance with the applicable Laws and Ordinances.</value>
+  </data>
+  <data name="SalesTaxFilingCertificateLine2Desc" xml:space="preserve">
+    <value>In testimony of which, and for the record, I issue this certificate in the city of #CompanyCity#, #CompanyState#, today #TodaysDate#.</value>
+  </data>
+  <data name="SalesTaxFilingCertificateLine3Desc" xml:space="preserve">
+    <value>Patent Officer / IVU</value>
+  </data>
+  <data name="SignatureInfo" xml:space="preserve">
+    <value>Patents Officer / IVU</value>
+  </data>
+  <data name="StatementBottomLine1Desc" xml:space="preserve">
+    <value>Please, send the payment of the total balance of your account on or before the end of the month to avoid accumulation of additional interest and surcharges.</value>
+  </data>
+  <data name="StatementBottomLine2Desc" xml:space="preserve">
+    <value>Thank you for your attention to this matter.</value>
+  </data>
+  <data name="StatementBottomLine3Desc" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="StatementHeaderDesc" xml:space="preserve">
+    <value>As of the date of this Statement, our records reflect the following outstanding balances of municipal IVU:</value>
+  </data>
+  <data name="TotalBalance" xml:space="preserve">
+    <value>Total Balance</value>
+  </data>
+  <data name="TotalIVUTaxToPay" xml:space="preserve">
+    <value>Total IVU Tax to Pay</value>
+  </data>
+  <data name="TotalNoOfFillingOn" xml:space="preserve">
+    <value>Total No. of Filing on</value>
+  </data>
+  <data name="TotalPaid" xml:space="preserve">
+    <value>Total Paid</value>
+  </data>
+  <data name="TotalSubjectToIVU" xml:space="preserve">
+    <value>Total Subject to IVU</value>
+  </data>
+  <data name="TotalUse" xml:space="preserve">
+    <value>Total Use</value>
+  </data>
+  <data name="RegistrationNumber" xml:space="preserve">
+    <value>Registration Number</value>
+  </data>
+  <data name="StatuBatchNumber" xml:space="preserve">
+    <value>Status &lt;br/&gt; Batch Number</value>
+  </data>
+  <data name="CommercialFacility" xml:space="preserve">
+    <value>Commercial Facility</value>
+  </data>
+  <data name="ReceiptCommercialFacilitiesRental" xml:space="preserve">
+    <value>Receipts By Renta de Facilidades Comerciales</value>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>Customer Name</value>
+  </data>
+  <data name="CustomerNumber" xml:space="preserve">
+    <value>Customer Number</value>
+  </data>
+  <data name="TotalIVUMunicipalTax" xml:space="preserve">
+    <value>Total Municipal Tax</value>
+  </data>
+  <data name="TotalTaxableTributable" xml:space="preserve">
+    <value>Total Taxable</value>
+  </data>
+  <data name="JournalDetailTitle" xml:space="preserve">
+    <value>Accounting Distribution Report</value>
+  </data>
+  <data name="JournalTitle" xml:space="preserve">
+    <value>Accounting Report</value>
+  </data>
+  <data name="AccountNumberRequiredMsg" xml:space="preserve">
+    <value>Account Number is required!</value>
+  </data>
+  <data name="BalanceBusinessLicenseTitle" xml:space="preserve">
+    <value>Patente Balances</value>
+  </data>
+  <data name="BusinessLicenseFilingByFilingTypeTitle" xml:space="preserve">
+    <value>Detail of Patente Filing by Filing Type</value>
+  </data>
+  <data name="OficialPatente" xml:space="preserve">
+    <value>Oficial Patente</value>
+  </data>
+  <data name="Amendment" xml:space="preserve">
+    <value>Amendment</value>
+  </data>
+  <data name="Monthly" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="CreditBalanceBusinessLicenseTitle" xml:space="preserve">
+    <value>Patent Credit Balances</value>
+  </data>
+  <data name="ClosingBalanceBusinessLicenseTitle" xml:space="preserve">
+    <value>Patent Balances - Clients with Operations Closure</value>
+  </data>
+  <data name="TransactionBusinessLicenseTitle" xml:space="preserve">
+    <value>Patent Transactions</value>
+  </data>
+  <data name="TransDate" xml:space="preserve">
+    <value>Trans Date</value>
+  </data>
+  <data name="TransactionReason" xml:space="preserve">
+    <value>Reason for Transaction</value>
+  </data>
+  <data name="TransactionType" xml:space="preserve">
+    <value>Transaction Type</value>
+  </data>
+  <data name="ReceiptPermissionFessTitle" xml:space="preserve">
+    <value>Received by Permission Fees</value>
+  </data>
+  <data name="TariffType" xml:space="preserve">
+    <value>Type of Tariff</value>
+  </data>
+  <data name="EstimatedCost" xml:space="preserve">
+    <value>Estimated Cost</value>
+  </data>
+  <data name="LateRenewal" xml:space="preserve">
+    <value>Late Renewal</value>
+  </data>
+  <data name="PermitCost" xml:space="preserve">
+    <value>Permit Cost</value>
+  </data>
+  <data name="ReceiptPermissionExpensesTitle" xml:space="preserve">
+    <value>Remuneration of Permit Rebates</value>
+  </data>
+  <data name="ReceiptRentalInvoiceTitle" xml:space="preserve">
+    <value>Remunerated by Commercial Facilities Rental Invoice</value>
+  </data>
+  <data name="ReceiptStreetVendorTitle" xml:space="preserve">
+    <value>Requests for Permits of Street Vendors</value>
+  </data>
+  <data name="BankTransfer" xml:space="preserve">
+    <value>Bank Transfer</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Check" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="CreditCard" xml:space="preserve">
+    <value>Credit Card</value>
+  </data>
+  <data name="DepositDate" xml:space="preserve">
+    <value>Deposit Date</value>
+  </data>
+  <data name="DepositNumber" xml:space="preserve">
+    <value>Deposit Number</value>
+  </data>
+  <data name="SecurityDetailBankAccountTitle" xml:space="preserve">
+    <value>Detail of Securities by Bank Account - Official Collector</value>
+  </data>
+  <data name="ReceiptByBankTitle" xml:space="preserve">
+    <value>Receipts By Bank</value>
+  </data>
+  <data name="ClosingDate" xml:space="preserve">
+    <value>Closing Date</value>
+  </data>
+  <data name="SelectedBankAccount" xml:space="preserve">
+    <value>Selected Bank Account</value>
+  </data>
+  <data name="SelectedCashier" xml:space="preserve">
+    <value>Selected Cashier</value>
+  </data>
+  <data name="SelectedServiceType" xml:space="preserve">
+    <value>Selected Service Type</value>
+  </data>
+  <data name="SelectedPaymentType" xml:space="preserve">
+    <value>Selected Payment Type</value>
+  </data>
+  <data name="Penalty" xml:space="preserve">
+    <value>Penalty</value>
+  </data>
+  <data name="AdjustBalance" xml:space="preserve">
+    <value>Adjustment to Balance</value>
+  </data>
+  <data name="RegistrationDate" xml:space="preserve">
+    <value>Registered Date  in</value>
+  </data>
+  <data name="TotalRadicaciones" xml:space="preserve">
+    <value>Total Declaraciónes: Provisional Patent</value>
+  </data>
+  <data name="DepositSummaryReportByInvoice" xml:space="preserve">
+    <value>Deposit Summary Report By Invoice</value>
+  </data>
+  <data name="DepositSummaryReportByPaymentPlan" xml:space="preserve">
+    <value>Deposit Summary Report By Payment Plan</value>
+  </data>
+  <data name="FinanceJournalID" xml:space="preserve">
+    <value>Finance Journal Entry Number</value>
+  </data>
+  <data name="ReceiptDetail" xml:space="preserve">
+    <value>Receipt Detail</value>
+  </data>
+  <data name="ReceiptTotalAmount" xml:space="preserve">
+    <value>Receipt Total Amount</value>
+  </data>
+  <data name="TotalAllocated" xml:space="preserve">
+    <value>Total Allocated</value>
+  </data>
+  <data name="AccountStatementTitle" xml:space="preserve">
+    <value>Account Statement</value>
+  </data>
+  <data name="BalanceAmountByService" xml:space="preserve">
+    <value>Balance Amount By Service</value>
+  </data>
+  <data name="PendingAmount" xml:space="preserve">
+    <value>Pending Amount</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="Interest" xml:space="preserve">
+    <value>Interest</value>
+  </data>
+  <data name="RightNumber" xml:space="preserve">
+    <value>Right Number</value>
+  </data>
+  <data name="HasPaymentPlan" xml:space="preserve">
+    <value>Has Payment Plan</value>
+  </data>
+  <data name="DoesNotHavePendingPaymentsMsg" xml:space="preserve">
+    <value>The Account {0} - {1} does not have pending to date {2}.</value>
+  </data>
+  <data name="Meter" xml:space="preserve">
+    <value>Meter</value>
+  </data>
+  <data name="ReportOfHistoricalReadingsByMeter" xml:space="preserve">
+    <value>Report of Historical Readings by Meter or Account</value>
+  </data>
+  <data name="Consumption" xml:space="preserve">
+    <value>Consumption</value>
+  </data>
+  <data name="CurrentReading" xml:space="preserve">
+    <value>Current Reading</value>
+  </data>
+  <data name="LastReading" xml:space="preserve">
+    <value>Last Reading</value>
+  </data>
+  <data name="MeterRequiredMsg" xml:space="preserve">
+    <value>Meter is required!</value>
+  </data>
+  <data name="Until" xml:space="preserve">
+    <value>Until</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ConsumptionByRangeReport" xml:space="preserve">
+    <value>Consumption by Range Report</value>
+  </data>
+  <data name="RangeFromRequiredMsg" xml:space="preserve">
+    <value>Range From is required!</value>
+  </data>
+  <data name="RangeToRequiredMsg" xml:space="preserve">
+    <value>Range To is required!</value>
+  </data>
+  <data name="MeterNo" xml:space="preserve">
+    <value>Meter No.</value>
+  </data>
+  <data name="Consecutive" xml:space="preserve">
+    <value>Consecutive</value>
+  </data>
+  <data name="PropertyNo" xml:space="preserve">
+    <value>Property No.</value>
+  </data>
+  <data name="AccountID" xml:space="preserve">
+    <value>Account ID</value>
+  </data>
+  <data name="CompareRangeValidationMsg" xml:space="preserve">
+    <value>Range To must be greater than Range From.</value>
+  </data>
+  <data name="ConsumptionRange" xml:space="preserve">
+    <value>Consumption Range</value>
+  </data>
+  <data name="RangeFrom" xml:space="preserve">
+    <value>Range From</value>
+  </data>
+  <data name="RangeTo" xml:space="preserve">
+    <value>Range To</value>
+  </data>
+  <data name="TillYear" xml:space="preserve">
+    <value>Till Year</value>
+  </data>
+  <data name="Unassigned" xml:space="preserve">
+    <value>Unassigned</value>
+  </data>
+  <data name="LoadMore" xml:space="preserve">
+    <value>Load More</value>
+  </data>
+  <data name="InconsistenceReadingReport" xml:space="preserve">
+    <value>Report of Inconsistencies in Readings</value>
+  </data>
+  <data name="PropertyReportTitle" xml:space="preserve">
+    <value>Report of Properties and Movements by Account</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Properties and Movements List by Account</value>
+  </data>
+  <data name="DoesNotHavePendingPaymentsForPropertiesMsg" xml:space="preserve">
+    <value>The Account {0} - {1} does not have rights associated to date:{2}.</value>
+  </data>
+  <data name="TotalConsumption" xml:space="preserve">
+    <value>Total Consumption</value>
+  </data>
+  <data name="RemovedDate" xml:space="preserve">
+    <value>Removed Date</value>
+  </data>
+  <data name="ReportOfHistoricalAccountServiceRemoved" xml:space="preserve">
+    <value>History of Account Services Removed</value>
+  </data>
+  <data name="SanitaryPermitDueDateBusinessLicenseTitle" xml:space="preserve">
+    <value>Sanitary Permit Due Date</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="DueDate" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="TransfersReportTitle" xml:space="preserve">
+    <value>Transfers Report</value>
+  </data>
+  <data name="ElapsedDays" xml:space="preserve">
+    <value>Elapsed Days</value>
+  </data>
+  <data name="SelectedTransferType" xml:space="preserve">
+    <value>Selected Transfer Type</value>
+  </data>
+  <data name="TransferRightNumber" xml:space="preserve">
+    <value>Right Number</value>
+  </data>
+  <data name="SummaryAccountStatementTitle" xml:space="preserve">
+    <value>Summary Account Statement</value>
+  </data>
+  <data name="DebtCertificationTitle" xml:space="preserve">
+    <value>Debt Certification</value>
+  </data>
+  <data name="DebtCertificationRegisterNumberLabel" xml:space="preserve">
+    <value>NO. OF TAXPAYER</value>
+  </data>
+  <data name="DebtCertificationAccountNameLabel" xml:space="preserve">
+    <value>MR. (ITA)</value>
+  </data>
+  <data name="DebtCertificationHelpedByLabel" xml:space="preserve">
+    <value>WE OWE THE FOLLOWING ITEMS FOR MUNICIAPL TAXES:</value>
+  </data>
+  <data name="DebtCertificationBottomLine1Desc" xml:space="preserve">
+    <value>WE OWE THE SUM OF</value>
+  </data>
+  <data name="DebtCertificationBottomLine2Desc" xml:space="preserve">
+    <value>THE SAME IS SUPPORTED BY THE FOLLOWING PROPERTY (S)</value>
+  </data>
+  <data name="DebtCertificationBottomLine3Desc" xml:space="preserve">
+    <value>The presents are extended in FLORES at</value>
+  </data>
+  <data name="DebtCertificationBottomLine4Desc" xml:space="preserve">
+    <value>MUNICIPAL COUNTER</value>
+  </data>
+  <data name="InterestAmount" xml:space="preserve">
+    <value>Interest Amount</value>
+  </data>
+  <data name="ItemAmount" xml:space="preserve">
+    <value>Item Amount</value>
+  </data>
+  <data name="PenaltyAmount" xml:space="preserve">
+    <value>Penalty Amount</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="Totales" xml:space="preserve">
+    <value>Totales</value>
+  </data>
+  <data name="DebtCertificationBottomLine3_1Desc" xml:space="preserve">
+    <value>At the request of the Tax Administration Directorate.</value>
+  </data>
+  <data name="DebtCertificationBottomLine5Desc" xml:space="preserve">
+    <value>(1) ARTICLE 82 OF LAW 4574 OF MAY 1970</value>
+  </data>
+  <data name="DebtCertificationBottomLine5_1Desc" xml:space="preserve">
+    <value>(2) ARTICLE 69 OF LAW 7794 APRIL 1998</value>
+  </data>
+  <data name="DebtCertificationBottomLine5_2Desc" xml:space="preserve">
+    <value>(3) AS OF JULY 1998. CHANGES THE PERCENTAGE DUE TO FINES IN E INTEREST, ART. 69, MUNICIPAL CODE.</value>
+  </data>
+  <data name="AccountExclusionFormReportTitle" xml:space="preserve">
+    <value>Account Exclusion Form</value>
+  </data>
+  <data name="Penalties" xml:space="preserve">
+    <value>Penalties</value>
+  </data>
+  <data name="PendingPeriods" xml:space="preserve">
+    <value>Pending Periods</value>
+  </data>
+  <data name="Route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="AccountExclusionFormOtherServicesListTitle" xml:space="preserve">
+    <value>Other Services</value>
+  </data>
+  <data name="AccountExclusionFormPropertyTaxListTitle" xml:space="preserve">
+    <value>Property Tax</value>
+  </data>
+  <data name="AccountExclusionFormWaterMeasureListTitle" xml:space="preserve">
+    <value>Water Measure</value>
+  </data>
+  <data name="PrincipalAmountPerPeriod" xml:space="preserve">
+    <value>Principal Amount per period</value>
+  </data>
+  <data name="Impuesto" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="AccountsConsumptionAndCollectionTitle" xml:space="preserve">
+    <value>Report of Accounts, Consumption and Collection</value>
+  </data>
+  <data name="InUnitsCubicMetersAndColonesTitle" xml:space="preserve">
+    <value>In Units, Cubic Meters and Colones</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="ConsumerBlocks" xml:space="preserve">
+    <value>Consumption Ranges</value>
+  </data>
+  <data name="GovernmentCategory" xml:space="preserve">
+    <value>Government</value>
+  </data>
+  <data name="OrdinaryCategory" xml:space="preserve">
+    <value>Ordinary</value>
+  </data>
+  <data name="PreferenceCategory" xml:space="preserve">
+    <value>Preference</value>
+  </data>
+  <data name="ReproductiveCategory" xml:space="preserve">
+    <value>Reproductive</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="WaterCategory" xml:space="preserve">
+    <value>Water</value>
+  </data>
+  <data name="MoreThan120" xml:space="preserve">
+    <value>More than 120</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
+  <data name="AverageCollection" xml:space="preserve">
+    <value>Average Collection</value>
+  </data>
+  <data name="AverageConsumption" xml:space="preserve">
+    <value>Average Consumption</value>
+  </data>
+  <data name="PercentageAccount" xml:space="preserve">
+    <value>% Accounts</value>
+  </data>
+  <data name="NewRight" xml:space="preserve">
+    <value>New Right</value>
+  </data>
+  <data name="OtherServicesTotalAmount" xml:space="preserve">
+    <value>Other Services Total Amount</value>
+  </data>
+  <data name="PropertyTaxTotalAmount" xml:space="preserve">
+    <value>Property Tax Total Amount</value>
+  </data>
+  <data name="WaterMeasureTotalAmount" xml:space="preserve">
+    <value>Water Measure Total Amount</value>
+  </data>
+  <data name="ExportBankPayments" xml:space="preserve">
+    <value>Export Bank File</value>
+  </data>
+  <data name="DueDateRequiredMsg" xml:space="preserve">
+    <value>Due date is required!</value>
+  </data>
+  <data name="CashReceiptControl" xml:space="preserve">
+    <value>Cash Receipt Control</value>
+  </data>
+  <data name="VoidedReceipts" xml:space="preserve">
+    <value>Voided Receipts</value>
+  </data>
+  <data name="TotalAmountOfReceipt" xml:space="preserve">
+    <value>Total Amount Of Receipt</value>
+  </data>
+  <data name="CashRegisterCreator" xml:space="preserve">
+    <value>Cash Register Creator</value>
+  </data>
+  <data name="CashRegisterDate" xml:space="preserve">
+    <value>Cash Register Date</value>
+  </data>
+  <data name="DepositCreator" xml:space="preserve">
+    <value>Deposit Creator</value>
+  </data>
+  <data name="DepositEntryDate" xml:space="preserve">
+    <value>Deposit Entry Date</value>
+  </data>
+  <data name="IVA" xml:space="preserve">
+    <value>IVA</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="ReceiptCreator" xml:space="preserve">
+    <value>Receipt Creator</value>
+  </data>
+  <data name="NoDebtCertification" xml:space="preserve">
+    <value>Update Certification</value>
+  </data>
+  <data name="NoProperty" xml:space="preserve">
+    <value>No. Property</value>
+  </data>
+  <data name="QuarterOfTheYear" xml:space="preserve">
+    <value>quarter of the year</value>
+  </data>
+  <data name="TotalValue" xml:space="preserve">
+    <value>Total Value</value>
+  </data>
+  <data name="CONSTANCY" xml:space="preserve">
+    <value>Constancy</value>
+  </data>
+  <data name="ESTaxpayerAccordingToLawNo" xml:space="preserve">
+    <value>ES taxpayer according to Law No. 7729</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="HoursOfTheDay" xml:space="preserve">
+    <value>hours of the day</value>
+  </data>
+  <data name="IDNo" xml:space="preserve">
+    <value>ID No.</value>
+  </data>
+  <data name="NoDebtCertificationDesc1" xml:space="preserve">
+    <value>That the lord (ita)</value>
+  </data>
+  <data name="NoDebtCertificationDesc2" xml:space="preserve">
+    <value>1- According to the Real Estate tax records</value>
+  </data>
+  <data name="NoDebtCertificationDesc3" xml:space="preserve">
+    <value>2- Regarding the records of the other municipal taxes</value>
+  </data>
+  <data name="NoDebtCertificationDesc4" xml:space="preserve">
+    <value>This certificate is extended at the request of the Interested Party to the</value>
+  </data>
+  <data name="ResponsibleForTheStudy" xml:space="preserve">
+    <value>RESPONSIBLE FOR THE STUDY</value>
+  </data>
+  <data name="UpToDateAt" xml:space="preserve">
+    <value>It is up to date at</value>
+  </data>
+  <data name="NoESTaxpayerAccordingToLawNo" xml:space="preserve">
+    <value>It is not contributors according to Law No. 7729</value>
+  </data>
+  <data name="NotUpToDateAt" xml:space="preserve">
+    <value>Not up to date at</value>
+  </data>
+  <data name="NoDebtCertificationDesc5" xml:space="preserve">
+    <value>Taxpayer has pending payments with this Municipality</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>Custom Field</value>
+  </data>
+  <data name="DaysOfTheMonth" xml:space="preserve">
+    <value>days of the month</value>
+  </data>
+  <data name="NoDebtCertificateNotePreLoadText" xml:space="preserve">
+    <value>This certificate lacks legal validity, if the corresponding signatures and law seals are not recorded.</value>
+  </data>
+  <data name="SelectedYear" xml:space="preserve">
+    <value>Selected Year</value>
+  </data>
+  <data name="ParkMaintenanceMissingServicesTitle" xml:space="preserve">
+    <value>Park Maintenance Missing Services</value>
+  </data>
+  <data name="PropertyTaxPrincipalAmount" xml:space="preserve">
+    <value>Property Tax Principal Amount</value>
+  </data>
+  <data name="Blocked" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="NotBlocked" xml:space="preserve">
+    <value>Not Blocked</value>
+  </data>
+  <data name="DuplicatedMeterNumberTitle" xml:space="preserve">
+    <value>Duplicated Meter Number</value>
+  </data>
+  <data name="MigrationValidationFactuTitle" xml:space="preserve">
+    <value>Migration Factu Validation</value>
+  </data>
+  <data name="Different" xml:space="preserve">
+    <value>Different</value>
+  </data>
+  <data name="Identical" xml:space="preserve">
+    <value>Identical</value>
+  </data>
+  <data name="ToDateEqualOrGreaterThanFromDateValidation" xml:space="preserve">
+    <value>To date must be equal or greater than from date</value>
+  </data>
+  <data name="SelectedService" xml:space="preserve">
+    <value>Selected Service</value>
+  </data>
+  <data name="MigrationValidationCobrosTitle" xml:space="preserve">
+    <value>Migration Cobros Validation</value>
+  </data>
+  <data name="MigrationDataInSIMNotInRULE" xml:space="preserve">
+    <value>Data in SIM not in RULE</value>
+  </data>
+  <data name="MigrationValidationBienesTitle" xml:space="preserve">
+    <value>Migration Bienes Validation</value>
+  </data>
+  <data name="SelectedProperty" xml:space="preserve">
+    <value>Selected Right</value>
+  </data>
+  <data name="ServicesLinkedToRightTitle" xml:space="preserve">
+    <value>Report of Services Linked to Right</value>
+  </data>
+  <data name="CedulaWithRights" xml:space="preserve">
+    <value>TaxNumber with Rights</value>
+  </data>
+  <data name="ServiceWithoutRights" xml:space="preserve">
+    <value>Service Without Rights</value>
+  </data>
+  <data name="DailyCharges" xml:space="preserve">
+    <value>For Fine</value>
+  </data>
+  <data name="DailyIncome" xml:space="preserve">
+    <value>Income Of The Day</value>
+  </data>
+  <data name="DailyIncomeStateTitle" xml:space="preserve">
+    <value>Daily Income State</value>
+  </data>
+  <data name="DailyInterest" xml:space="preserve">
+    <value>For Interests</value>
+  </data>
+  <data name="TotalCode" xml:space="preserve">
+    <value>Code Total</value>
+  </data>
+  <data name="MonthlyIncomeStatementByServices" xml:space="preserve">
+    <value>Monthly Income Statement by Services</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="CurrentMonth" xml:space="preserve">
+    <value>Current Month</value>
+  </data>
+  <data name="LastMonth" xml:space="preserve">
+    <value>Last Month</value>
+  </data>
+  <data name="TotalCodeRevenue" xml:space="preserve">
+    <value>Total Code Revenue</value>
+  </data>
+  <data name="TotalIncomePreviousMonth" xml:space="preserve">
+    <value>Total Income Previous Month</value>
+  </data>
+  <data name="TotalRevenueCurrentMonth" xml:space="preserve">
+    <value>Total Revenue Current Month</value>
+  </data>
+  <data name="QuarterlyIncomeStatementByServices" xml:space="preserve">
+    <value>Quarterly Income Statement by Services</value>
+  </data>
+  <data name="CurrentQuarter" xml:space="preserve">
+    <value>Current Quarterly</value>
+  </data>
+  <data name="LastQuarter" xml:space="preserve">
+    <value>Last Quarterly</value>
+  </data>
+  <data name="TotalIncomePreviousQuarter" xml:space="preserve">
+    <value>Total Income Previous Quarter</value>
+  </data>
+  <data name="TotalRevenueCurrentQuarter" xml:space="preserve">
+    <value>Total Revenue Current Quarter</value>
+  </data>
+  <data name="CurrentYear" xml:space="preserve">
+    <value>Current Year</value>
+  </data>
+  <data name="LastYear" xml:space="preserve">
+    <value>Last Year</value>
+  </data>
+  <data name="TotalIncomePreviousYear" xml:space="preserve">
+    <value>Total Income Previous Year</value>
+  </data>
+  <data name="TotalRevenueCurrentYear" xml:space="preserve">
+    <value>Total Revenue Current Year</value>
+  </data>
+  <data name="YearlyIncomeStatementByServices" xml:space="preserve">
+    <value>Anual State Report of Revenue from Services</value>
+  </data>
+  <data name="SelectedDate" xml:space="preserve">
+    <value>Selected Date</value>
+  </data>
+  <data name="PendingPropertyTax" xml:space="preserve">
+    <value>Pending Property Tax</value>
+  </data>
+  <data name="ServiceWithRights" xml:space="preserve">
+    <value>Service With Rights</value>
+  </data>
+  <data name="DescriptionOfFinca" xml:space="preserve">
+    <value>Description Of Finca</value>
+  </data>
+  <data name="ListOfRightsByOwnersIDReport" xml:space="preserve">
+    <value>List of Rights by Owner's ID Report</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="CurrentDocument" xml:space="preserve">
+    <value>Current Document</value>
+  </data>
+  <data name="Exoneration" xml:space="preserve">
+    <value>Exoneration</value>
+  </data>
+  <data name="Historical" xml:space="preserve">
+    <value>Historical</value>
+  </data>
+  <data name="HistoricalDocument" xml:space="preserve">
+    <value>Historical Document</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>Percent.</value>
+  </data>
+  <data name="PropertyIdentification" xml:space="preserve">
+    <value>Property Identification</value>
+  </data>
+  <data name="TotalFarms" xml:space="preserve">
+    <value>Total Farms</value>
+  </data>
+  <data name="TotalNumberOfOwners" xml:space="preserve">
+    <value>Total Number of Owners</value>
+  </data>
+  <data name="RoutaMissingServices" xml:space="preserve">
+    <value>Routa Missing Services</value>
+  </data>
+  <data name="ReportOfAccountPropertyRemoved" xml:space="preserve">
+    <value>History of Account Property Removed</value>
+  </data>
+  <data name="PropertyNumber" xml:space="preserve">
+    <value>Property Number</value>
+  </data>
+  <data name="InterestCalculationDate" xml:space="preserve">
+    <value>Interest Calculation Date</value>
+  </data>
+  <data name="SelectedInterestCalculationDate" xml:space="preserve">
+    <value>Selected Interest Calculation Date</value>
+  </data>
+  <data name="TodaysDate" xml:space="preserve">
+    <value>Today's Date</value>
+  </data>
+  <data name="Finca" xml:space="preserve">
+    <value>Finca</value>
+  </data>
+  <data name="Hydrometer" xml:space="preserve">
+    <value>Hydrometer</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="CollectionManagementUnit" xml:space="preserve">
+    <value>Collection Management Unit</value>
+  </data>
+  <data name="Commentary" xml:space="preserve">
+    <value>Commentary</value>
+  </data>
+  <data name="CutDateandTime" xml:space="preserve">
+    <value>Cut Date and Time</value>
+  </data>
+  <data name="DefeatedAt" xml:space="preserve">
+    <value>defeated at</value>
+  </data>
+  <data name="DoesNotHavePendingWaterServicesMsg" xml:space="preserve">
+    <value>The taxpayer {0} - {1} does not have pending water services.</value>
+  </data>
+  <data name="ExclusiveuseofAqueducts" xml:space="preserve">
+    <value>Exclusive use of Aqueducts</value>
+  </data>
+  <data name="SuspensionOrderDesc1" xml:space="preserve">
+    <value>We hereby inform you that, after checking the municipal accounting records, there are debit charges in your name,</value>
+  </data>
+  <data name="SuspensionOrderDesc2" xml:space="preserve">
+    <value>,which are detailed below :</value>
+  </data>
+  <data name="SuspensionOrderDesc3" xml:space="preserve">
+    <value>With the previous breakdown and in view of not making any payment management, the water service is suspended until canceled
+effectively in the Municipality or make payment arrangement. After your respective payment the home water service (present receipt in the
+Collection Management Unit) will be reconnected within 24</value>
+  </data>
+  <data name="SuspensionOrderDesc4" xml:space="preserve">
+    <value>All of the above according to the Municipal Code. If the default continues, the Judicial Collection will proceed.</value>
+  </data>
+  <data name="SuspensionOrderDesc5" xml:space="preserve">
+    <value>For more information, contact the Collection Management Unit of the Municipality of Flores</value>
+  </data>
+  <data name="TaxAdministrationDirectorate" xml:space="preserve">
+    <value>Tax Administration Directorate</value>
+  </data>
+  <data name="WorkingHours" xml:space="preserve">
+    <value>working hours</value>
+  </data>
+  <data name="AdministrativeCollectionFirstNoticeTitle" xml:space="preserve">
+    <value>NOTIFICATION OF ADMINISTRATIVE COLLECTION</value>
+  </data>
+  <data name="CeduIa" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CollectionManager" xml:space="preserve">
+    <value>Collection Manager</value>
+  </data>
+  <data name="DearTaxPayer" xml:space="preserve">
+    <value>Dear Tax Payer</value>
+  </data>
+  <data name="EduardoBarrantes" xml:space="preserve">
+    <value>Eduardo Barrantes</value>
+  </data>
+  <data name="FaxNumber" xml:space="preserve">
+    <value>Fax Number</value>
+  </data>
+  <data name="FincaNo" xml:space="preserve">
+    <value>No. Finca</value>
+  </data>
+  <data name="Firm" xml:space="preserve">
+    <value>Firm</value>
+  </data>
+  <data name="IgnoreNotice" xml:space="preserve">
+    <value>If You Already Canceled Ignore This Notice.</value>
+  </data>
+  <data name="NoticeDescription1" xml:space="preserve">
+    <value>We do not forget to remind you that interest and fines will increase your debt with this Municipality, for each day of delay after the date indicated above. According to article No. 69 of the Municipal Code. If you do not comply with this notice, the procedure will be continued to remit your account for judicial collection and eventual auction of your property according to articles 70 and 71 of the Municipal Code. In the case of patents at the eventual closing of your business according to article 81 b of the same Code.</value>
+  </data>
+  <data name="NoticeDescription2" xml:space="preserve">
+    <value>Cualquier duda comunicarse con la Unidad de Recaudación o con el Teléfono Dirección de Administración Tributaria: 2265-71-09 (Ext. 110)</value>
+  </data>
+  <data name="ReceivedBy" xml:space="preserve">
+    <value>Received By</value>
+  </data>
+  <data name="SignatureofNotifier" xml:space="preserve">
+    <value>Signature of Notifier</value>
+  </data>
+  <data name="Taxable" xml:space="preserve">
+    <value>Taxable</value>
+  </data>
+  <data name="TaxPayerDescription" xml:space="preserve">
+    <value>We inform you that the records of this office have been reviewed, there are debtors charged for taxes, services and municipal patents in their name. The following is the account statement as of</value>
+  </data>
+  <data name="Telephone" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="ProjectedAccountStatement" xml:space="preserve">
+    <value>Projected Account Statement</value>
+  </data>
+  <data name="AccountStatusProjectedToDate" xml:space="preserve">
+    <value>Account Status Projected to Date</value>
+  </data>
+  <data name="PrincipalAmount" xml:space="preserve">
+    <value>Principal Amount</value>
+  </data>
+  <data name="TotalDue" xml:space="preserve">
+    <value>Total Due</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="Delinquent" xml:space="preserve">
+    <value>Delinquent</value>
+  </data>
+  <data name="IDNumber" xml:space="preserve">
+    <value>Id Number</value>
+  </data>
+  <data name="LastPayment" xml:space="preserve">
+    <value>Last Payment</value>
+  </data>
+  <data name="MonthlyFee" xml:space="preserve">
+    <value>Monthly Fee</value>
+  </data>
+  <data name="NumberOfQuotas" xml:space="preserve">
+    <value>Number of Quotas</value>
+  </data>
+  <data name="PaymentPlanByTaxpayer" xml:space="preserve">
+    <value>Taxpayer Payment Arrangements</value>
+  </data>
+  <data name="TaxpayerHasNoPaymentArrangementsMsg" xml:space="preserve">
+    <value>Taxpayer {0} - {1} has no payment arrangements.</value>
+  </data>
+  <data name="TOPay" xml:space="preserve">
+    <value>TO Pay</value>
+  </data>
+  <data name="ListOfPaymentsMadeByTheTaxpayer" xml:space="preserve">
+    <value>List of Payments Made by the Taxpayer</value>
+  </data>
+  <data name="PaidFines" xml:space="preserve">
+    <value>Paid Fines</value>
+  </data>
+  <data name="PaidInterest" xml:space="preserve">
+    <value>Paid Interest</value>
+  </data>
+  <data name="PaidOutAdvanced" xml:space="preserve">
+    <value>Paid out Advanced</value>
+  </data>
+  <data name="RegularPaid" xml:space="preserve">
+    <value>Regular Paid</value>
+  </data>
+  <data name="AdvancePaid" xml:space="preserve">
+    <value>Advance Paid</value>
+  </data>
+  <data name="InterestCondoned" xml:space="preserve">
+    <value>Interest Condoned</value>
+  </data>
+  <data name="PreviousPaid" xml:space="preserve">
+    <value>Previous Paid</value>
+  </data>
+  <data name="RevenueDailyCollectionTitle" xml:space="preserve">
+    <value>Accumulated Revenue By Concept Of Daily Collection</value>
+  </data>
+  <data name="SelectedType" xml:space="preserve">
+    <value>Selected Type</value>
+  </data>
+  <data name="AccountServicesMissingFiling" xml:space="preserve">
+    <value>Account Services Missing Filing</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ExceptionTitle" xml:space="preserve">
+    <value>Exception</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>AND</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="ExceptionSource" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="DetailInformation" xml:space="preserve">
+    <value>Detail Information</value>
+  </data>
+  <data name="NotificationExpirationDate" xml:space="preserve">
+    <value>Notification Expiration Date</value>
+  </data>
+  <data name="RepresentativesName" xml:space="preserve">
+    <value>Representative's Name</value>
+  </data>
+  <data name="NotificationExpirationDateRequiredMsg" xml:space="preserve">
+    <value>Notification expiration date is required!</value>
+  </data>
+  <data name="SelectedNotificationExpirationDate" xml:space="preserve">
+    <value>Selected Notification Expiration Date</value>
+  </data>
+  <data name="SelectedRepresentativesName" xml:space="preserve">
+    <value>Selected Representatives Name</value>
+  </data>
+  <data name="NotificationDate" xml:space="preserve">
+    <value>Notification Date</value>
+  </data>
+  <data name="RepresentativesNameRequiredMsg" xml:space="preserve">
+    <value>Representative's Name is required!</value>
+  </data>
+  <data name="AccountRequiredMsg" xml:space="preserve">
+    <value>Account is required!</value>
+  </data>
+  <data name="DetailInformationRequiredMsg" xml:space="preserve">
+    <value>Detail Information is required!</value>
+  </data>
+  <data name="LegalHeader" xml:space="preserve">
+    <value>THE MUNICIPAL ACCOUNTING, BASED ON ART. 84 OF LAW No. 4574 OF 04 MAY 1970 AND ART. 71 OF LAW No. 7794 OF APRIL 30, 1998 CERTIFIES THAT:</value>
+  </data>
+  <data name="RequiredPaymentPlanMsg" xml:space="preserve">
+    <value>Payment Plan is required!</value>
+  </data>
+  <data name="QuotasToCalculate" xml:space="preserve">
+    <value>Quotas to Calculate</value>
+  </data>
+  <data name="QuotasToCalculateValidationMsg" xml:space="preserve">
+    <value>Quotas to be calculated must not be higher than To Pay.</value>
+  </data>
+  <data name="QuotasToCalculateMustBeGreaterThanZeroMsg" xml:space="preserve">
+    <value>Quotas to calculate must be greater than zero.</value>
+  </data>
+  <data name="SelectedQuotasToCalculate" xml:space="preserve">
+    <value>Selected Quotas to Calculate</value>
+  </data>
+  <data name="TotalAmountOfSelectedServices" xml:space="preserve">
+    <value>Total Amount of Services that were Selected</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="AccountHasPaymentPlanMsg" xml:space="preserve">
+    <value>The Account {0} has Payment Plan {1}.</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="JobSchedulerHistory" xml:space="preserve">
+    <value>Job Scheduler History</value>
+  </data>
+  <data name="LastRunningDate" xml:space="preserve">
+    <value>Last Running Date</value>
+  </data>
+  <data name="LastRunningTime" xml:space="preserve">
+    <value>Last Running Time</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="SchedulerTitle" xml:space="preserve">
+    <value>Scheduler</value>
+  </data>
+  <data name="PatentNumber" xml:space="preserve">
+    <value>Patent Number</value>
+  </data>
+  <data name="Sanitarypermit" xml:space="preserve">
+    <value>Sanitary permit</value>
+  </data>
+  <data name="BalanceByQuarter" xml:space="preserve">
+    <value>Balance By Quarter</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="Expiration" xml:space="preserve">
+    <value>Expiration</value>
+  </data>
+  <data name="GeneralBusinessLicenseTitle" xml:space="preserve">
+    <value>General Patent Report</value>
+  </data>
+  <data name="LandUseCertificate" xml:space="preserve">
+    <value>Land Use Certificate</value>
+  </data>
+  <data name="ResolutionLocation" xml:space="preserve">
+    <value>Resolution Location</value>
+  </data>
+  <data name="SanitaryOperatingPermit" xml:space="preserve">
+    <value>Sanitary Operating Permit</value>
+  </data>
+  <data name="TotalDailyIncome" xml:space="preserve">
+    <value>Total Income Of The Day</value>
+  </data>
+  <data name="TotalDailyInterest" xml:space="preserve">
+    <value>Total Interests</value>
+  </data>
+  <data name="TotalPrincipal" xml:space="preserve">
+    <value>Total Principal</value>
+  </data>
+  <data name="HistoricalPaymentReport" xml:space="preserve">
+    <value>Historical Payment Report</value>
+  </data>
+  <data name="CompareMonthValidationMsg" xml:space="preserve">
+    <value>To month must be greater than from month</value>
+  </data>
+  <data name="BillerName" xml:space="preserve">
+    <value>Biller Name</value>
+  </data>
+  <data name="DateOfPayment" xml:space="preserve">
+    <value>Date of Payment</value>
+  </data>
+  <data name="Fine" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="NumberOfReceipt" xml:space="preserve">
+    <value>Number of Receipt</value>
+  </data>
+  <data name="PrincipalPaid" xml:space="preserve">
+    <value>Principal Paid</value>
+  </data>
+  <data name="TaxpayerID" xml:space="preserve">
+    <value>Taxpayer ID</value>
+  </data>
+  <data name="TaxpayerName" xml:space="preserve">
+    <value>Taxpayer Name</value>
+  </data>
+  <data name="TotalPayment" xml:space="preserve">
+    <value>Total Payment</value>
+  </data>
+  <data name="TypeOfPayment" xml:space="preserve">
+    <value>Type of Payment</value>
+  </data>
+  <data name="RevenueBankCollectionTitle" xml:space="preserve">
+    <value>Accumulated income from Bank per Collection Concept</value>
+  </data>
+  <data name="DailyIncomeProduceBankTitle" xml:space="preserve">
+    <value>Daily statement of Income Produced in the Bank</value>
+  </data>
+  <data name="AmountCharged" xml:space="preserve">
+    <value>Amount Charged</value>
+  </data>
+  <data name="AmountRaised" xml:space="preserve">
+    <value>Amount Raised</value>
+  </data>
+  <data name="StatisticsOfReceiptsCollected" xml:space="preserve">
+    <value>Statistics of Receipts Collected</value>
+  </data>
+  <data name="StatisticsOfReceiptsCollectedInTheBank" xml:space="preserve">
+    <value>Statistics Of Receipts Collected In The Bank</value>
+  </data>
+  <data name="The" xml:space="preserve">
+    <value>The</value>
+  </data>
+  <data name="TotalPayments" xml:space="preserve">
+    <value>Total Payments</value>
+  </data>
+  <data name="TotalRecords" xml:space="preserve">
+    <value>Total Records</value>
+  </data>
+  <data name="BankRequiredMsg" xml:space="preserve">
+    <value>Bank is required!</value>
+  </data>
+  <data name="ContractRequiredMsg" xml:space="preserve">
+    <value>Contract is required!</value>
+  </data>
+  <data name="IN" xml:space="preserve">
+    <value>In</value>
+  </data>
+  <data name="ReceiptCollectedByBankTitle" xml:space="preserve">
+    <value>List of receipts collected in the Bank</value>
+  </data>
+  <data name="ControlofPaymentsmadeintheBank" xml:space="preserve">
+    <value>Control of Payments made in the Bank</value>
+  </data>
+  <data name="Concept" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="TotalByReceipt" xml:space="preserve">
+    <value>Total By Receipt</value>
+  </data>
+  <data name="ListofInconsistenciesintheApplicationofBankReceiptsReport" xml:space="preserve">
+    <value>List of Inconsistencies in the Application of Bank Receipts Report</value>
+  </data>
+  <data name="GeneralMovementsReport" xml:space="preserve">
+    <value>General  Movements Report</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="WhatWasDone" xml:space="preserve">
+    <value>What was Done</value>
+  </data>
+  <data name="Who" xml:space="preserve">
+    <value>Who</value>
+  </data>
+  <data name="CedulaWithoutRight" xml:space="preserve">
+    <value>Cedula Without Right</value>
+  </data>
+  <data name="AmnestyMovementReport" xml:space="preserve">
+    <value>Amnesty Movement Report</value>
+  </data>
+  <data name="AmnestyAmount" xml:space="preserve">
+    <value>Amount by Amnesty</value>
+  </data>
+  <data name="SecondNoticeFooterText1" xml:space="preserve">
+    <value>Interest and fines will increase your debt with this Municipality, for each day of delay after the date indicated above, according to article No. 69 of the Municipal Code. &lt;br/&gt;&lt;br/&gt;You are granted a non-extendable period of five days to appear before the Collections or Patents Office of this Municipality, in order to cancel these debts.&lt;br/&gt;&lt;br/&gt;After this period, without the amounts owed having been paid, your account will be sent to judicial collection and later, if applicable, your property will be put up for auction according to article No. 70 of the Municipal Code. If the above occurs, you will have to go to the courts to fix your situation, in addition to the surcharge corresponding to the fees of the assigned lawyer, for the foreclosure judgment that is filed against you.</value>
+  </data>
+  <data name="SecondNoticeHeaderText1" xml:space="preserve">
+    <value>On the day </value>
+  </data>
+  <data name="SecondNoticeHeaderText2" xml:space="preserve">
+    <value>, you were notified of the debtor charges that you maintain with this municipality for taxes and municipal services. The following is the account statement at</value>
+  </data>
+  <data name="PatentSeachActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="PatentSearchInActive" xml:space="preserve">
+    <value>InActive</value>
+  </data>
+  <data name="PatentSearchPendingPayment" xml:space="preserve">
+    <value>Inactive with pending payments</value>
+  </data>
+  <data name="SelectedPeriod" xml:space="preserve">
+    <value>Selected Period</value>
+  </data>
+  <data name="SelectedStatus" xml:space="preserve">
+    <value>Selected Status</value>
+  </data>
+  <data name="TaxAdministration" xml:space="preserve">
+    <value>Tax Administration</value>
+  </data>
+  <data name="AccountByServiceTypeTitle" xml:space="preserve">
+    <value>Report by Type of Service</value>
+  </data>
+  <data name="ChequedelBancoNacional" xml:space="preserve">
+    <value>Cheque del Banco Nacional</value>
+  </data>
+  <data name="BankTransferByBancodeCostaRica" xml:space="preserve">
+    <value>Bank Transfer By Banco de Costa Rica</value>
+  </data>
+  <data name="Adjustment" xml:space="preserve">
+    <value>Adjustment</value>
+  </data>
+  <data name="ChequedelBancodeCostaRica" xml:space="preserve">
+    <value>Cheque del Banco de Costa Rica</value>
+  </data>
+  <data name="BankTransferByBancoNacionaldeCostaRica" xml:space="preserve">
+    <value>Bank Transfer By Banco Nacional de Costa Rica</value>
+  </data>
+  <data name="txtDescription1ConstancyReport" xml:space="preserve">
+    <value>It does not appear with assets registered in its name in this canton</value>
+  </data>
+  <data name="txtDescription2ConstancyReport" xml:space="preserve">
+    <value>He is not a contributor to them.</value>
+  </data>
+  <data name="lblCedulaWithoutService" xml:space="preserve">
+    <value>Cedula Without Service</value>
+  </data>
+  <data name="lblUsers" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="DelinquencyReport" xml:space="preserve">
+    <value>Delinquency Report</value>
+  </data>
+</root>

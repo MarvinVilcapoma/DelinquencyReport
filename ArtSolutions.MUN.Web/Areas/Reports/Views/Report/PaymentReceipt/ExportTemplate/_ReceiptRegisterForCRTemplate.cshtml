@@ -1,0 +1,161 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptRegisterModel
+@using System.Globalization
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.Service
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    ViewBag.Title = LocalResource.ReceiptRegister;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"0\";
+
+    //decimal TotalSum = Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count > 0 ? Model.ReceiptRegisterList.Sum(i => i.TotalAmountOfficialReceipt) + Model.ReceiptRegisterList.Sum(i => i.Interest ?? 0) + Model.ReceiptRegisterList.Sum(i => i.Penalties ?? 0) + Model.ReceiptRegisterList.Sum(i => i.Charges ?? 0) : 0;
+    decimal TotalSum = Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count > 0 ? Model.ReceiptRegisterList.Sum(i => i.TotalAmountOfficialReceipt) : 0;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="10%" class="table-border-center-th">@ServiceResource.CustomField</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.ServiceName</th>
+                    <th width="13%" class="table-border-center-th">@Html.Raw(GlobalResource.Status)</th>
+                    <th width="10%" class="table-border-center-th">@LocalResource.Collector</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Interest</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Penalties</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Others</th>
+                    <th width="10%" class="table-border-center-th">@AccountServiceResource.Exemption/@GlobalResource.Discount</th>
+                    <th width="12%" class="table-border-center-th">@LocalResource.PaymentAmount</th>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ReceiptRegisterList != null && Model.ReceiptRegisterList.Count() > 0)
+                {
+                    foreach (var objitem in Model.ReceiptRegisterList.GroupBy(d => d.Number).Select(d => d.Key).ToList())
+                    {
+                        foreach (var item in Model.ReceiptRegisterList.Where(d => d.Number == objitem).ToList())
+                        {
+                            <tr>
+                                <td class="table-border-center-td">
+                                    @item.Number
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedDate
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.TaxNumber
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.AccountDisplayName
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.CustomField
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedPaymentType
+                                </td>
+                                <td class="table-border-center-td">
+                                    @Html.Raw(@item.FormattedStatusBatchNumber)
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.FormattedCashier
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.Interest > 0)
+                                    {
+                                        @item.Interest.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.Penalties > 0)
+                                    {
+                                        @item.Penalties.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.Charges > 0)
+                                    {
+                                        @item.Charges.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.Discount > 0)
+                                    {
+                                        @item.Discount.Value.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @if (item.TotalAmountOfficialReceipt > 0)
+                                    {
+                                        @item.TotalAmountOfficialReceipt.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.PaymentPeriod
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-right-td" colspan="12">
+                                @GlobalResource.Total
+                            </td>
+                            <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                                @{
+                                    decimal total = Model.ReceiptRegisterList.Where(d => d.Number == objitem.ToString()).Sum(d => d.TotalAmountOfficialReceipt);
+                                }
+                                @total.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                            </td>
+                            <td class="table-bg-bold-center-td">  </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="14" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="12" class="table-bg-bold-right-td">@GlobalResource.Total : </td>
+                    <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                        @if (TotalSum > 0)
+                        {
+
+                            @TotalSum.ToString(Common.NumberPoints, CultureInfo.CreateSpecificCulture("en")).Replace(",", "").Replace(".", ",")
+                        }
+                        else
+                        {
+                            @Html.Raw("0,00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-center-td">  </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Schedulers.Models.SchedulerEmailModel
+@using ArtSolutions.MUN.Web.Areas.Schedulers.Models
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ViewTitle;    
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.SchedulerEmail</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "SchedulerEmail", new { area = "Schedulers" })">@GlobalResource.SchedulerEmail</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="row form-group">
+                        <label class="col-lg-2 control-label">@GlobalResource.Email </label>
+                        <div class="col-lg-4 ">
+                            @Model.Email
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

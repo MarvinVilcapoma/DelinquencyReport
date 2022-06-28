@@ -1,0 +1,203 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionDailyIncomeStateModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@if (Model.DailyIncomeStateList != null && Model.DailyIncomeStateList.Count() > 0)
+{
+    foreach (var item in Model.DailyIncomeStateList.GroupBy(d => d.Code1).Select(d => new { Code = d.Key, Charges = d.Sum(k => k.Charges), Interest = d.Sum(k => k.Interest), Payment = d.Sum(k => k.Payment) }).ToList())
+    {
+        foreach (var objItem in Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code))
+        {
+            if (((objItem.Payment ?? 0) - (objItem.Charges ?? 0)) > 0)
+            {
+                <tr>
+                    <td class="text-left">@Html.Raw(objItem.Code1 + " " + objItem.Code2)</td>
+                    <td class="text-left">
+                        @Html.Raw(objItem.Name)
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw(0.ToString("C"))
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw(objItem.Interest.HasValue ? objItem.Interest.Value.ToString("C") : 0.ToString("C"))
+                    </td>
+                    <td class="text-right">
+                        @if (objItem.Code1 + objItem.Code2 == "131105000000007")
+                        {
+                            @Html.Raw(((objItem.Payment ?? 0) + (Model.DailyIncomeStateList.Sum(x => x.Charges) ?? 0) - (objItem.Charges ?? 0) - (objItem.Interest ?? 0)).ToString("C"))
+                        }
+                        else
+                        {
+                            @Html.Raw((((objItem.Payment ?? 0) - (objItem.Charges ?? 0)) - (objItem.Interest ?? 0)).ToString("C"))
+                        }
+
+                    </td>
+                    <td class="text-right">
+                        @if (objItem.Code1 + objItem.Code2 == "131105000000007")
+                        {
+                            @Html.Raw(((objItem.Payment ?? 0) + (Model.DailyIncomeStateList.Sum(x => x.Charges) ?? 0) - (objItem.Charges ?? 0)).ToString("C"))
+                        }
+                        else
+                        {
+                            @Html.Raw(((objItem.Payment ?? 0) - (objItem.Charges ?? 0)).ToString("C"))
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        if (item.Code == "1311050000000" && Model.DailyIncomeStateList.Where(d => d.Code1 + d.Code2 == "131105000000007").Count() == 0)
+        {
+            if ((Model.DailyIncomeStateList.Sum(x => x.Charges) ?? 0) > 0)
+            {
+                <tr>
+                    <td class="text-left">131105000000007</td>
+                    <td class="text-left">
+                        IVA AGUA MEDIDA
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw(0.ToString("C"))
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw(0.ToString("C"))
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw((Model.DailyIncomeStateList.Sum(x => x.Charges) ?? 0).ToString("C"))
+                    </td>
+                    <td class="text-right">
+                        @Html.Raw((Model.DailyIncomeStateList.Sum(x => x.Charges) ?? 0).ToString("C"))
+                    </td>
+                </tr>
+            }
+        }
+        <tr>
+            <td class="text-right font-bold" colspan="2">@Html.Raw(ReportResource.TotalCode + ": " + item.Code)</td>
+            <td class="text-right font-bold">
+                @Html.Raw(0.ToString("C"))
+            </td>
+            <td class="text-right font-bold">
+                @Html.Raw(item.Interest.HasValue ? item.Interest.Value.ToString("C") : 0.ToString("C"))
+            </td>
+            <td class="text-right font-bold">
+                @if (item.Code == "1311050000000")
+                {
+                    @Html.Raw(((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Payment) ?? 0) + (Model.DailyIncomeStateList.Where(d => d.Code1 != item.Code).Sum(x => x.Charges) ?? 0) - ((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Interest) ?? 0))).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw(((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Payment) ?? 0) - ((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Charges) ?? 0) + (Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Interest) ?? 0))).ToString("C"))
+                }
+
+            </td>
+            <td class="text-right font-bold">
+                @if (item.Code == "1311050000000")
+                {
+                    @Html.Raw(((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Payment) ?? 0) + (Model.DailyIncomeStateList.Where(d => d.Code1 != item.Code).Sum(x => x.Charges) ?? 0)).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw(((Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Payment) ?? 0) - (Model.DailyIncomeStateList.Where(d => d.Code1 == item.Code).Sum(x => x.Charges) ?? 0)).ToString("C"))
+                }
+            </td>
+        </tr>
+    }
+    <tr>
+        <td class="text-left">1341000000000 00</td>
+        <td class="text-left">
+            INTERESES POR MORA EN IMPUESTOS
+        </td>
+        <td class="text-right">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right">
+            @Html.Raw((Model.DailyIncomeStateList.Where(d => d.Code1 == "1121010000000" || d.Code1 == "1133010200000").Sum(d => d.Interest) ?? 0).ToString("C"))
+        </td>
+        <td class="text-right">@Html.Raw(0.ToString("C"))</td>
+        <td class="text-right">@Html.Raw(0.ToString("C"))</td>
+    </tr>
+    <tr>
+        <td class="text-right font-bold" colspan="2">@Html.Raw(ReportResource.TotalCode + ": 1341000000000")</td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw((Model.DailyIncomeStateList.Where(d => d.Code1 == "1121010000000" || d.Code1 == "1133010200000").Sum(d => d.Interest) ?? 0).ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+    </tr>
+    <tr>
+        <td class="text-left">1342000000000 00</td>
+        <td class="text-left">
+            INTERESES POR MORA EN SERVICIOS
+        </td>
+        <td class="text-right">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right">
+            @Html.Raw((Model.DailyIncomeStateList.Where(d => d.Code1 != "1121010000000" && d.Code1 != "1133010200000").Sum(d => d.Interest) ?? 0).ToString("C"))
+        </td>
+        <td class="text-right">@Html.Raw(0.ToString("C"))</td>
+        <td class="text-right">@Html.Raw(0.ToString("C"))</td>
+    </tr>
+    <tr>
+        <td class="text-right font-bold" colspan="2">@Html.Raw(ReportResource.TotalCode + ": 1342000000000")</td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw((Model.DailyIncomeStateList.Where(d => d.Code1 != "1121010000000" && d.Code1 != "1133010200000").Sum(d => d.Interest) ?? 0).ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+        <td class="text-right font-bold">
+            @Html.Raw(0.ToString("C"))
+        </td>
+    </tr>
+    <tr>
+        <td class="text-right font-bold" colspan="4">@ReportResource.TotalPrincipal</td>
+        <td class="text-right font-bold">
+            @{
+                decimal principalTotal =
+                                  (
+                                    (Model.DailyIncomeStateList.Where(x => x.Code1 + x.Code2 == "131105000000007").Sum(x => x.Payment) ?? 0)
+                                            +
+                                    (Model.DailyIncomeStateList.Where(x => x.Code1 + x.Code2 != "131105000000007" && x.Code1 == "1311050000000").Sum(x => x.Charges) ?? 0)
+                                  )
+                                    +
+                                  (
+                                    Model.DailyIncomeStateList.Where(x => x.Code1 + x.Code2 != "131105000000007").Sum(x => x.Payment - x.Interest - x.Charges) ?? 0
+                                  )
+                                  -
+                                  (Model.DailyIncomeStateList.Where(x => x.Code1 + x.Code2 == "134200000000000").Sum(x => x.Payment) ?? 0);
+            }
+
+            @Html.Raw(principalTotal.ToString("C"))
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-right font-bold" colspan="4">@ReportResource.TotalDailyInterest</td>
+        <td class="text-right font-bold">
+            @{
+                decimal interestTotal =
+                                  (Model.DailyIncomeStateList.Sum(x => x.Interest) ?? 0)
+                                  +
+                                  (Model.DailyIncomeStateList.Where(x => x.Code1 + x.Code2 == "134200000000000").Sum(x => x.Payment) ?? 0);
+            }
+            @Html.Raw(interestTotal.ToString("C"))
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-right font-bold" colspan="4">@ReportResource.TotalDailyIncome</td>
+        <td class="text-right font-bold">
+            @Html.Raw((Model.DailyIncomeStateList.Sum(x => x.Payment) ?? 0).ToString("C"))
+        </td>
+        <td></td>
+    </tr>
+}

@@ -1,0 +1,84 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Workflows.ViewModel.WorkflowReasonViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Workflow
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    string disable = string.Empty;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" onclick="OnCloseStatusModal();">&times;</button>
+    @{
+        if (ViewBag.ActionType != null)
+        {
+            var actionMode = (Common.ActionMode)ViewBag.ActionType;
+            switch (actionMode)
+            {
+                case Common.ActionMode.Add:
+                    <h4 class="modal-title"> @LocalResource.NewReason</h4>
+                    disable = string.Empty;
+                    break;
+                case Common.ActionMode.Edit:
+                    <h4 class="modal-title"> @LocalResource.EditReason</h4>
+                    disable = string.Empty;
+                    break;
+                case Common.ActionMode.View:
+                    <h4 class="modal-title"> @LocalResource.ViewReason</h4>
+                    disable = "disable";
+                    break;
+            }
+        }
+    }
+</div>
+<div class="modal-body" id="dvModalBodyStatus">
+    <form id="frmReason" class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                        @GlobalResource.Name<span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        @Html.TextBoxFor(a => a.Name, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control required", @maxlength = 50, @id = "txtReasonName" } :
+                                                                                                                      (object)new { @class = "form-control", @disabled = "disabled" }))
+                        @Html.ValidationMessageFor(a => a.Name)
+                        <input type="hidden" name="hdnReasonID" id="hdnReasonID" value="@Model.ID" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right">
+                        @GlobalResource.Description
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                        @Html.TextAreaFor(a => a.Description, 5, 10, (string.IsNullOrWhiteSpace(disable) ? (object)new { @class = "form-control", @maxlength = 500, @id = "txtReasonDescription" } :
+                                                                                                          (object)new { @class = "form-control", @disabled = "disabled" }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    @{
+        if (ViewBag.ActionType != null)
+        {
+            var actionMode = (Common.ActionMode)ViewBag.ActionType;
+            switch (actionMode)
+            {
+                case Common.ActionMode.Add:
+                case Common.ActionMode.Edit:
+                    <button type="button" onclick="OnAddReason();" class="btn btn-primary" name="actionType">@GlobalResource.Add</button>
+                    <button type="button" onclick="OnCloseStatusModal();" class="btn btn-default" data-dismiss="modal">@GlobalResource.Cancel</button>
+                    break;
+                case Common.ActionMode.View:
+                    <button type="button" onclick="OnCloseStatusModal();" class="btn btn-default" data-dismiss="modal">@GlobalResource.Cancel</button>
+                    break;
+            }
+        }
+    }
+
+</div>
+
+
+

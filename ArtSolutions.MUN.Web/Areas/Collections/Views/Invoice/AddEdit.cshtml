@@ -1,0 +1,296 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.InvoiceModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.COLInvoice
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using CollectionTemplateResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+
+@{
+    if (Model.ID > 0)
+    {
+        ViewBag.Title = LocalResource.EditInvoice;
+    }
+    else
+    {
+        ViewBag.Title = LocalResource.NewInvoice;
+    }
+    string Class = Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0 ? "col-lg-2" : "col-lg-6";
+}
+<style>
+    #mytable thead th {
+        vertical-align: middle !important;
+    }
+
+    table.table-multi-row > tbody > tr {
+        border-left: 1px solid #e7e7e7 !important;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.Invoices</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Invoice", new {area = "Collections" })">@LocalResource.ListInvoice </a>
+            </li>
+            <li class="active">
+                <strong> @ViewBag.Title </strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Save", "Invoice", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "onInvoiceBegin",
+                    OnSuccess = "onInvoiceSaveSuccess(data)"
+                }, new
+                {
+                    @class = "form-horizontal",
+                    role = "form",
+                    id = "frmInvoice"
+                }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.ID)
+                    @*@Html.HiddenFor(x => x.InvoiceDetail.ID)*@
+                    @Html.HiddenFor(x => x.RowVersion)
+                    @Html.HiddenFor(x => x.RowVersion64)
+                    @Html.HiddenFor(x => x.IsPost)
+                    @Html.HiddenFor(x => x.IsVoid)
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @if (Model.ID > 0)
+                            {
+                                if (Model.IsPost)
+                                {
+                                    <button id="btnVoid" type="button" name="actionType" value="2" tabindex="10" class="btn btn-primary" onclick="$('#VoidReason').val(''); $('#voidConfirmModal').modal('show');">@LocalResource.VoidInvoice </button>
+                                }
+                                <button id="btnSave" type="button" name="actionType" value="3" tabindex="10" class="btn btn-primary" onclick="return confirmInvoice(3);">@GlobalResource.Update</button>
+                            }
+                            else
+                            {
+                                <div class="btn-group">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=10>@GlobalResource.Save <span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        @if (Model.ID == 0 && Model.AccountID == 0)
+                                        {
+                                            <li><a><button id="btnSave" type="button" name="actionType" value="4" onclick="return confirmInvoice(4);">@GlobalResource.Save</button></a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a><button id="btnSave" type="button" name="actionType" value="1" onclick="return confirmInvoice(1);">@GlobalResource.Save</button></a></li>
+                                        }
+                                        <li><a><button id="btnSaveNew" type="button" name="actionType" value="2" onclick="return confirmInvoice(2);">@GlobalResource.SaveNew</button></a></li>
+                                    </ul>
+                                </div>
+                            }
+                            <button class="btn btn-white" type="button" tabindex="11" onclick="window.location.href = '@Url.Action("Index", "Invoice")';">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.AccountName <span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @if (Model.ID == 0 && Model.AccountID == 0)
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID, new SelectList(Model.AccountList, "id", "text", Model.AccountID), GlobalResource.DropDownSelectMessage, new
+                                    {
+                                        @class = "form-control select2dropdown required",
+                                        tabindex = 1
+                                    })
+                                    @Html.ValidationMessageFor(x => x.AccountID)
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(x => x.AccountID, new SelectList(Model.AccountList, "id", "text", Model.AccountID), GlobalResource.DropDownSelectMessage, new
+                                    {
+                                        @class = "form-control select2dropdown required",
+                                        tabindex = 1,
+                                        @disabled = "disabled"
+                                    })
+                                    @Html.ValidationMessageFor(x => x.AccountID)
+                                    @Html.HiddenFor(x => x.AccountID)
+                                }
+                            </div>
+
+                            <label class="col-sm-2 control-label">@GlobalResource.Date<span class="text-danger">&nbsp;*</span></label>
+                            <div class="col-sm-4">
+                                @if (Model.ID == 0)
+                                {
+                                    @Html.TextBoxFor(x => x.Date, new
+                               {
+                                   @class = "form-control inputdate",
+                                   tabindex = 2,
+                                   Value = Model.Date.ToString("d")
+                               })
+                                    @Html.ValidationMessageFor(x => x.Date)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.Date, new
+                               {
+                                   @class = "form-control inputdate",
+                                   tabindex = 2,
+                                   Value = Model.Date.ToString("d"),
+                                   @disabled = "disabled"
+                               })
+                                    @Html.HiddenFor(x => x.Date)
+                                    @Html.ValidationMessageFor(x => x.Date)
+                                }
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@AccountResource.IsSponsor</label>
+                            <div class="col-sm-4">
+                                @Html.CheckBoxFor(d => d.IsSponsor, new { @disabled = "disabled" })
+                            </div>
+                            <label class="col-sm-2 control-label">@GlobalResource.Reference</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x.Reference, new { @class = "form-control", tabindex = 3 })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label">@GlobalResource.Note </label>
+                            <div class="col-sm-4">
+                                @Html.TextAreaFor(x => x.Notes, new { @class = "form-control", rows = "3", tabindex = 4 })
+                            </div>
+                            <label class="col-sm-2 control-label">@GlobalResource.TermsAndConditions </label>
+                            <div class="col-sm-4">
+                                @Html.TextAreaFor(x => x.TermsAndConditions, new { @class = "form-control", rows = "3", tabindex = 5 })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive m-t">
+                                    <table class="table table-multi-row" id="mytable">
+                                        <thead>
+                                            <tr>
+                                                @*<th class="@Class">
+                                                    @GlobalResource.Type
+                                                </th>*@
+                                                <th class="@Class itemTypeHead">                                                  
+                                                    @GlobalResource.Service
+                                                </th>
+                                                @if (Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0)
+                                                {
+                                                    <th class="col-lg-2 CheckbookHead">
+                                                        @CollectionTemplateResource.Checkbook
+                                                    </th>
+                                                }
+                                                <th class="col-lg-3">
+                                                    @GlobalResource.Description
+                                                </th>
+                                                <th class="text-right @Html.Raw(Model.ID > 0 && (Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0)?" col-lg-2": " col-lg-2")">
+                                                    @GlobalResource.Amount
+                                                </th>
+                                                @*@if (Model.ID == 0 || (Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0))
+                                                {*@
+                                                    <th class="text-center col-lg-1">
+                                                        <a class="btn btn-primary btn-sm " onclick="addServiceTypeOption()" id="addInvoiceRow" title="Add Row">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </th>
+                                                @*}*@
+                                            </tr>
+                                        </thead>
+                                        <tbody id="invoiceRows">
+                                            @foreach (var item in Model.InvoiceDetail)
+                                            {
+                                                @Html.Partial("~/Areas/Collections/Views/Invoice/_ServiceTypetOptionList.cshtml", item);
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="@Html.Raw(Model.ID > 0 && Model.InvoiceDetail.FirstOrDefault()?.FINGrantID > 0?"3":"2")" class="FotterSpan"></td>
+                                                <td class="text-right"><strong>@GlobalResource.Total :</strong></td>
+                                                <td class="text-right">
+                                                    @Html.HiddenFor(x => Model.Total, new { @id = "hdnTotal" })
+                                                    <span id="spnTotal" class="m-r-sm">@Model.Total.ToString("c")</span>
+                                                </td>                                                
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="voidConfirmModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        @using (Ajax.BeginForm("Void", "Invoice", new AjaxOptions { HttpMethod = "POST", OnSuccess = "VoidSuccessCallback(data)" }, new { role = "form", id = "frmVoid", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+        {
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @LocalResource.VoidInvoice </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.VoidReason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextAreaFor(x => x.VoidReason, new { @class = "form-control required", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessageFor(x => x.VoidReason)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnVoid" type="submit" name="actionType" value="2" tabindex="2" class="btn btn-primary">@LocalResource.VoidInvoice </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.ID)
+            @Html.HiddenFor(x => x.RowVersion)
+
+        }
+    </div>
+</div>
+@section Styles{
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        #paymentFooter.table > tbody > tr > td {
+            border: none;
+            text-align: right;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+        var
+        swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        postInvoice = '@Html.Raw(LocalResource.PosInvoice)';
+        updateInvoice = '@Html.Raw(LocalResource.UpdateInvoice)';
+        ValAmount = '@Html.Raw(LocalResource.TotalValidationMsg)';
+        voidinvoice = '@Html.Raw(LocalResource.VoidInvoice)';
+        DropDownSelectMessage = '@Html.Raw(@GlobalResource.DropDownSelectMessage)';
+        CheckBook = '@Html.Raw(@CollectionTemplateResource.Checkbook)';
+        dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+
+    <script src='@Url.Content("~/Scripts/app/invoiceaddedit.js")'></script>
+}

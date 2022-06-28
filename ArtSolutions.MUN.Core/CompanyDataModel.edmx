@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CompanyDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="MUNCompanyAddressesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
+          <Parameter Name="Locale" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCompanyCodeExist" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MUNCompanyGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCompanyModulesGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+          <Parameter Name="ModuleID" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="MUNCompanyParameterGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNCompanyUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="LegalName" Type="varchar" Mode="In" />
+          <Parameter Name="WorkPhone" Type="varchar" Mode="In" />
+          <Parameter Name="URL" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="LogoID" Type="int" Mode="In" />
+          <Parameter Name="CountryID" Type="int" Mode="In" />
+          <Parameter Name="CompanySize" Type="varchar" Mode="In" />
+          <Parameter Name="IsAgreedTerms" Type="bit" Mode="In" />
+          <Parameter Name="AgreeTermsOnDate" Type="smalldatetime" Mode="In" />
+          <Parameter Name="TermsDetails" Type="varchar(max)" Mode="In" />
+          <Parameter Name="IsSystem" Type="bit" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+          <Parameter Name="Sort" Type="int" Mode="In" />
+          <Parameter Name="Code" Type="varchar" Mode="In" />
+          <Parameter Name="ModifiedUserID" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="ModifiedDate" Type="datetime" Mode="In" />
+          <Parameter Name="Original_RowVersion" Type="timestamp" Mode="In" />
+          <Parameter Name="Address1" Type="varchar" Mode="In" />
+          <Parameter Name="Address2" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="CountryStateID" Type="int" Mode="In" />
+          <Parameter Name="CompnayCountryID" Type="int" Mode="In" />
+          <Parameter Name="ZipPostalCode" Type="varchar" Mode="In" />
+          <Parameter Name="MUNAccountAddressesID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MUNLanguageGet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CompanyDataModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CompanyDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CompanyDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="MUNCompanyUpdate" ReturnType="Collection(CompanyDataModel.MUNCompanyUpdate_Result)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="LegalName" Mode="In" Type="String" />
+            <Parameter Name="WorkPhone" Mode="In" Type="String" />
+            <Parameter Name="URL" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="LogoID" Mode="In" Type="Int32" />
+            <Parameter Name="CountryID" Mode="In" Type="Int32" />
+            <Parameter Name="CompanySize" Mode="In" Type="String" />
+            <Parameter Name="IsAgreedTerms" Mode="In" Type="Boolean" />
+            <Parameter Name="AgreeTermsOnDate" Mode="In" Type="DateTime" />
+            <Parameter Name="TermsDetails" Mode="In" Type="String" />
+            <Parameter Name="IsSystem" Mode="In" Type="Boolean" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+            <Parameter Name="Sort" Mode="In" Type="Int32" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+            <Parameter Name="ModifiedUserID" Mode="In" Type="Guid" />
+            <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Original_RowVersion" Mode="In" Type="Binary" />
+            <Parameter Name="Address1" Mode="In" Type="String" />
+            <Parameter Name="Address2" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="CountryStateID" Mode="In" Type="Int32" />
+            <Parameter Name="CompnayCountryID" Mode="In" Type="Int32" />
+            <Parameter Name="ZipPostalCode" Mode="In" Type="String" />
+            <Parameter Name="MUNAccountAddressesID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCompanyCodeExist" ReturnType="Collection(Int32)">
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNLanguageGet" ReturnType="Collection(CompanyDataModel.MUNLanguageGet_Result)" >
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCompanyModulesGet" ReturnType="Collection(CompanyDataModel.MUNCompanyModulesGet_Result)">
+            <Parameter Name="CompanyID" Mode="In" Type="Int32" />
+            <Parameter Name="ModuleID" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCompanyAddressesGet" ReturnType="Collection(CompanyDataModel.MUNCompanyAddressesGet_Result)">
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+            <Parameter Name="Locale" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCompanyGet" ReturnType="Collection(CompanyDataModel.MUNCompanyGet_Result)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MUNCompanyParameterGet" ReturnType="Collection(CompanyDataModel.MUNCompanyParameterGet_Result)">
+          <Parameter Name="ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="MUNCompanyUpdate_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="LegalName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="WorkPhone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="URL" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LogoID" Nullable="true" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
+          <Property Type="String" Name="CompanySize" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsAgreedTerms" Nullable="false" />
+          <Property Type="DateTime" Name="AgreeTermsOnDate" Nullable="false" Precision="16" />
+          <Property Type="String" Name="TermsDetails" Nullable="false" />
+          <Property Type="Boolean" Name="IsSystem" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="5" />
+        </ComplexType>
+        <ComplexType Name="MUNCompanyCodeExist_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="MUNLanguageGet_Result">
+          <Property Type="String" Name="LanguageCode" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Language" Nullable="false" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCompanyModulesGet_Result">
+          <Property Type="Int32" Name="CompanyID" Nullable="false" />
+          <Property Type="Guid" Name="ModuleID" Nullable="false" />
+          <Property Type="Int32" Name="IsActive" Nullable="false" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+        </ComplexType>
+        <ComplexType Name="MUNCompanyAddressesGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="WorkPhone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="City" Nullable="true" />
+          <Property Type="String" Name="Address1" Nullable="true" />
+          <Property Type="String" Name="Address2" Nullable="true" />
+          <Property Type="String" Name="ZipPostalCode" Nullable="true" />
+          <Property Type="String" Name="CountyCode" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="StateName" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="LogoID" Nullable="true" />
+          <Property Type="String" Name="CountyName" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="MUNCompanyGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LegalName" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="WorkPhone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="URL" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="LogoID" Nullable="true" />
+          <Property Type="Int32" Name="CountryID" Nullable="false" />
+          <Property Type="String" Name="CompanySize" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsAgreedTerms" Nullable="false" />
+          <Property Type="DateTime" Name="AgreeTermsOnDate" Nullable="false" Precision="16" />
+          <Property Type="String" Name="TermsDetails" Nullable="false" />
+          <Property Type="Boolean" Name="IsSystem" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="Int32" Name="Sort" Nullable="true" />
+          <Property Type="Guid" Name="CreatedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="Guid" Name="ModifiedUserID" Nullable="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="Binary" Name="RowVersion" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Code" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="City" Nullable="true" />
+          <Property Type="String" Name="Address1" Nullable="true" />
+          <Property Type="String" Name="Address2" Nullable="true" />
+          <Property Type="String" Name="ZipPostalCode" Nullable="true" />
+          <Property Type="Int32" Name="CompnayCountryID" Nullable="true" />
+          <Property Type="Int32" Name="CountryStateID" Nullable="true" />
+          <Property Type="Int32" Name="MUNAccountAddressesID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="MUNCompanyParameterGet_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="Precision" Nullable="false" />
+          <Property Type="Boolean" Name="UseLeapYear" Nullable="false" />
+          <Property Type="Boolean" Name="UseAccountReceivableJournal" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="CompanyDataModel" />
+        <Alias Key="Target" Value="CompanyDataModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="CompanyDataModelContainer" StorageEntityContainer="CompanyDataModelStoreContainer">
+          <FunctionImportMapping FunctionImportName="MUNCompanyUpdate" FunctionName="CompanyDataModel.Store.MUNCompanyUpdate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNCompanyUpdate_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+                <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LogoID" ColumnName="LogoID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CompanySize" ColumnName="CompanySize" />
+                <ScalarProperty Name="IsAgreedTerms" ColumnName="IsAgreedTerms" />
+                <ScalarProperty Name="AgreeTermsOnDate" ColumnName="AgreeTermsOnDate" />
+                <ScalarProperty Name="TermsDetails" ColumnName="TermsDetails" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCompanyCodeExist" FunctionName="CompanyDataModel.Store.MUNCompanyCodeExist">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNLanguageGet" FunctionName="CompanyDataModel.Store.MUNLanguageGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNLanguageGet_Result">
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCompanyModulesGet" FunctionName="CompanyDataModel.Store.MUNCompanyModulesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNCompanyModulesGet_Result">
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="ModuleID" ColumnName="ModuleID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCompanyAddressesGet" FunctionName="CompanyDataModel.Store.MUNCompanyAddressesGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNCompanyAddressesGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="ZipPostalCode" ColumnName="ZipPostalCode" />
+                <ScalarProperty Name="CountyCode" ColumnName="CountyCode" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="LogoID" ColumnName="LogoID" />
+                <ScalarProperty Name="CountyName" ColumnName="CountyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCompanyGet" FunctionName="CompanyDataModel.Store.MUNCompanyGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNCompanyGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+                <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LogoID" ColumnName="LogoID" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="CompanySize" ColumnName="CompanySize" />
+                <ScalarProperty Name="IsAgreedTerms" ColumnName="IsAgreedTerms" />
+                <ScalarProperty Name="AgreeTermsOnDate" ColumnName="AgreeTermsOnDate" />
+                <ScalarProperty Name="TermsDetails" ColumnName="TermsDetails" />
+                <ScalarProperty Name="IsSystem" ColumnName="IsSystem" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="CreatedUserID" ColumnName="CreatedUserID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedUserID" ColumnName="ModifiedUserID" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="RowVersion" ColumnName="RowVersion" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="ZipPostalCode" ColumnName="ZipPostalCode" />
+                <ScalarProperty Name="CompnayCountryID" ColumnName="CompnayCountryID" />
+                <ScalarProperty Name="CountryStateID" ColumnName="CountryStateID" />
+                <ScalarProperty Name="MUNAccountAddressesID" ColumnName="MUNAccountAddressesID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MUNCompanyParameterGet" FunctionName="CompanyDataModel.Store.MUNCompanyParameterGet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CompanyDataModel.MUNCompanyParameterGet_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Precision" ColumnName="Precision" />
+                <ScalarProperty Name="UseLeapYear" ColumnName="UseLeapYear" />
+                <ScalarProperty Name="UseAccountReceivableJournal" ColumnName="UseAccountReceivableJournal" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

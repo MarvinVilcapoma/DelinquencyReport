@@ -1,0 +1,79 @@
+﻿using ArtSolutions.MUN.Web.Areas.Collections.Models;
+using ArtSolutions.MUN.Web.Areas.Companies.Models;
+using ArtSolutions.MUN.Web.Helpers;
+using ArtSolutions.MUN.Web.Models;
+using ArtSolutions.MUN.Web.Resources;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+
+namespace ArtSolutions.MUN.Web.Areas.Reports.Models
+{
+    public class ReceiptPaymentPlan
+    {
+        #region public methods  
+        public ReceiptPaymentPlanModel Get()
+        {
+            ReceiptPaymentPlanModel model = new ReceiptPaymentPlanModel();
+
+            List<SalesCashierModel> cashierList = new SalesCashier().Get().OrderBy(x => x.UserName).ToList();
+            model.CashierList = new List<SelectListItemViewModel>();
+            model.CashierList = cashierList.Select(i => new SelectListItemViewModel
+            {
+                ID = i.UserID,
+                Name = i.UserName
+            }).ToList();
+            model.CashierList.Insert(0, new SelectListItemViewModel { ID = 0, Name = Resources.Global.DropDownSelectAllMessage });
+
+            model.PaymentPlanList = HMTLHelperExtensions.CreateSelectList(new Services.Models.PaymentPlan().Get(null, null, true), "ID", "Name", null, true, true, Global.DropDownSelectAllMessage);
+            model.ReportCompanyModel = GetReportCompany();
+
+            return model;
+        }
+
+        public ReceiptPaymentPlanModel Get(DateTime? startDate, DateTime? endDate, decimal? balanceFrom, decimal? balanceTo, string commaSeperatedAccountIds, string commaSeperatedCashierIds, string commaSeperatedPaymentPlanIds, JQDTParams jqdtParams)
+        {
+            ReceiptPaymentPlanModel model = new ReceiptPaymentPlanModel();
+            if (jqdtParams != null)
+                model = GetByPaging(startDate, endDate, balanceFrom, balanceTo, commaSeperatedAccountIds, commaSeperatedCashierIds, commaSeperatedPaymentPlanIds, jqdtParams);
+            model.PaymentPlanReceiptDetailList = model.PaymentPlanReceiptDetailList ?? new List<Models.ReceiptPaymentPlanModelList>();
+            model.ReportCompanyModel = GetReportCompany(startDate, endDate);
+            return model;
+        }
+
+        public ReceiptPaymentPlanModel GetExportLayout(DateTime? startDate, DateTime? endDate, decimal? balanceFrom, decimal? balanceTo, string commaSeperatedAccountIds, string commaSeperatedCashierIds, string commaSeperatedPaymentPlanIds)
+        {
+            return Get(startDate, endDate, balanceFrom, balanceTo, commaSeperatedAccountIds, commaSeperatedCashierIds, commaSeperatedPaymentPlanIds, new JQDTParams
+            {
+                Start = 0,
+                Length = Int32.MaxValue
+            });
+        }
+        #endregion
+
+        #region private methods  
+        private ReportCompanyModel GetReportCompany(Nullable<DateTime> FromDate = null, Nullable<DateTime> ToDate = null)
+        {
+            return new ReportCompanyModel().Get(ArtSolutions.MUN.Web.Resources.Report.ReceiptsByPaymentPlanTitle, ArtSolutions.MUN.Web.Resources.Report.DepartmentOfFinance, 8, FromDate, ToDate);
+        }
+
+        private ReceiptPaymentPlanModel GetByPaging(DateTime? startDate, DateTime? endDate, decimal? balanceFrom, decimal? balanceTo, string commaSeperatedAccountIds, string commaSeperatedCashierIds, string commaSeperatedPaymentPlanIds, JQDTParams jqdtParams)
+        {
+            List<NameValuePair> lstParameter = new List<NameValuePair>
+            {
+                new NameValuePair { Name = "startDate", Value = startDate == null?null: startDate.Value.ToString("d", CultureInfo.InvariantCulture) },
+                new NameValuePair { Name = "endDate", Value =endDate==null?null:endDate.Value.ToString("d", CultureInfo.InvariantCulture) },
+                new NameValuePair { Name = "balanceFrom", Value = balanceFrom },
+                new NameValuePair { Name = "balanceTo", Value = balanceTo },
+                new NameValuePair { Name = "commaSeperatedAccountIds", Value = commaSeperatedAccountIds },
+                new NameValuePair { Name = "commaSeperatedCashierIds", Value = commaSeperatedCashierIds },
+                new NameValuePair { Name = "commaSeperatedPaymentPlanIds", Value = commaSeperatedPaymentPlanIds },
+                new NameValuePair { Name = "pageIndex", Value = 0  },
+                new NameValuePair { Name = "pageSize", Value = Int32.MaxValue }
+            };
+            return new RestSharpHandler().RestRequest<ReceiptPaymentPlanModel>(APISelector.Municipality, true, "api/Report/ReceiptByPaymentPlanGet", "GET", lstParameter);
+        }
+        #endregion
+    }
+}

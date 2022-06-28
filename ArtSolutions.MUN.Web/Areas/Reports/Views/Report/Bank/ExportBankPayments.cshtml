@@ -1,0 +1,73 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ExportBankPaymentsModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ExportBankPayments;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox" id="dviBox">
+                <div class="ibox-title text-center">
+                    @{
+                        Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                    }
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-t-sm m-b no-print">
+                        <div class="col-lg-12">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label>@LocalResource.DueDate <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(x => x.DueDate, new { @class = "form-control textblur", tabindex = 1, @data_required_msg = LocalResource.DueDateRequiredMsg })
+                                </div>
+                                <div class="form-group m-l-sm">
+                                    <label>Banacio</label>
+                                    <div class="form-group w-300">
+                                        @Html.DropDownList("CommaSeperatedBanacioIDs", Model.BanacioList, new { @multiple = "multiple", @class = "form-control select2dropdown", tabindex = "2" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btnGo" type="submit" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                </div>
+                                <div class="form-group pull-right">
+                                    <button type="button" class="btn-info btn-sm" itag="btnExport" tabindex="4">@GlobalResource.Export</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="divExportBankPayments">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var downloadURL = '@Url.Action("DownloadExportFile", "Report",new { area= "Reports" })';
+    </script>
+    <script src="~/Scripts/app/repexportbankpayments.js"></script>
+}

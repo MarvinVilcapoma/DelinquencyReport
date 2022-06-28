@@ -1,0 +1,84 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using System.Globalization;
+
+<div class="full-height-scroll">
+    <div class="ibox-content">
+        <div class="row text-right">
+            @if (Model.ExemptionList.Count() > 0 && Model.ExemptionList.Where(d=>d.PaidAmount.HasValue && d.PaidAmount == 0).Count() > 0 && Model.Year <= DateTime.Now.Year)
+            {
+                <a href='javascript:void(0)' id="ExemptionDeleteAll" class="btn btn-white btn-sm m-l-xs btnExemptionDeleteAll"><i class="fa fa-trash"></i> @GlobalResource.DeleteAll </a>
+            }
+                <a href='javascript:void(0)' id="ExemptionLog" class="btn btn-white btn-sm m-l-xs btnExemptionLog"><i class="fa fa-history"></i> @GlobalResource.History </a>
+        </div>
+        
+        <div id="collectionadjustmentlist">
+            <div class="table-responsive m-t">
+                <table class="table footable" data-page-size="15" data-sort="false">
+                    <thead>
+                        <tr>
+                            <th class="text-left"> @GlobalResource.Date</th>
+                            <th class="text-left"> @LocalResource.ServicePeriodList</th>
+                            <th class="text-left"> @GlobalResource.Reason</th>
+                            <th class="text-right"> @GlobalResource.Amount</th>
+                            @if (Model.IsExtensionAllowed && Model.Year <= DateTime.Now.Year && Model.IsLock == false)
+                            {
+                                <th class="text-right">@GlobalResource.Action</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ExemptionList.Count() == 0 )
+                        {
+                            <tr>
+                                <td class="col-lg-12" colspan="@Html.Raw(Model.IsExtensionAllowed && Model.Year <= DateTime.Now.Year && Model.IsLock == false?"5":"4")">
+                                    <center>    @GlobalResource.NoDataMessage</center>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var item in Model.ExemptionList)
+                            {
+                                <tr>
+                                    <td class="col-lg-2 text-left"> @item.CreatedDate.ToString("d") </td>
+                                    <td class="col-lg-3 text-left" align="left">
+                                        @item.ServiceName
+                                    </td>
+                                    <td class="col-lg-3 text-left"> @item.AdjustmentReason </td>
+                                    <td class="col-lg-2 text-right"> @item.Debt.ToString("c") </td>
+                                    @if (!(item.PaidAmount.HasValue && item.PaidAmount.Value > 0) && Model.Year <= DateTime.Now.Year && Model.IsLock == false)
+                                    {
+                                        <td class="col-lg-2 text-right">
+
+                                            <a href='javascript:void(0)' id="ExemptionEdit" data-id="@item.ID" data-collectionid="@item.AccountServiceCollectionDetailID" data-debt="@item.Debt" data-reason="@item.AdjustmentReason" class="btn btn-white btn-sm btnExemptionEdit"><i class="fa fa-pencil"></i> @GlobalResource.Edit </a>
+                                            <a href='javascript:void(0)' id="ExemptionDelete" data-id="@item.ID" data-collectionidid="@item.AccountServiceCollectionDetailID" data-debt="@item.Debt" class="btn btn-white btn-sm m-l-xs btnExemptionDelete"><i class="fa fa-trash"></i> @GlobalResource.Delete </a>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="@Html.Raw(Model.IsExtensionAllowed && Model.Year <= DateTime.Now.Year && Model.IsLock == false ?"5":"4")" class="col-lg-12"></td>
+                        </tr>
+                        @if (Model.ExemptionList.Count() > 0)
+                        {
+                            <tr>
+                                <td colspan="@Html.Raw(Model.IsExtensionAllowed && Model.Year <= DateTime.Now.Year && Model.IsLock == false?"4":"3")" class="text-right">
+                                    <strong>@GlobalResource.Total.ToUpper() : </strong>
+                                </td>
+                                <td class="text-right border-bottom font-bold">
+                                    @Model.ExemptionList.Sum(e => e.Debt).ToString("C")
+                                </td>
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

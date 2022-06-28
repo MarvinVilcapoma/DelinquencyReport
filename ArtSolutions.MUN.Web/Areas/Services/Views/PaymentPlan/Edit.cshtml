@@ -1,0 +1,130 @@
+﻿@model PaymentPlanModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.PaymentPlan;
+@using ServiceResource = ArtSolutions.MUN.Web.Resources.Service;
+
+@{
+    int actionTypeID = ViewBag.ActionType;
+    if (actionTypeID == 3)
+    {
+        ViewBag.Title = LocalResource.ViewServicePaymentPlan;
+    }
+    else
+    {
+        ViewBag.Title = LocalResource.EditServicePaymentPlan;
+    }
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.ServicePaymentPlan</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "PaymentPlan", new { area = "Services" })">@LocalResource.ListServicePaymentPlan</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Edit", "PaymentPlan", new AjaxOptions { HttpMethod = "POST", OnSuccess = "UserSuccessCallback(data)" }, new { role = "form", id = "frmPaymentPlan", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            @if (actionTypeID == 2)
+                            {
+                                <button class="btn btn-primary" id="btnSave" type="submit" name="actionType" value="1" tabindex="9">@GlobalResource.Update</button>
+                            }
+                            <button class="btn btn-white" type="button" id="btnCancel" onclick="location.href='@Url.Content("~/PaymentPlan/List")'" tabindex=9>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">@GlobalResource.Name <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control required", maxlength = 100, tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.Name, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+            <label class="col-lg-4 control-label"> @GlobalResource.ServiceType <span class="text-danger">*</span> </label>
+            <div class="col-lg-5">
+                @Html.DropDownListFor(x => x.ServiceTypeID, Model.ServiceTypeList, GlobalResource.DropDownSelectMessage, new { @id = "ddlServiceType", @class = "form-control select2dropdown required", tabindex = 2 })
+                @Html.ValidationMessageFor(x => x.ServiceTypeID, GlobalResource.RequiredValidationMsg)
+            </div>
+        </div>*@
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @ServiceResource.EffectiveFrom <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.EffectiveFrom, new { Value = Model.EffectiveFrom.ToString("d"), @class = "form-control effectiveDate required", tabindex = 3 })
+                                @Html.ValidationMessageFor(x => x.EffectiveFrom, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @ServiceResource.EffectiveTo <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.EffectiveTo, new { Value = Model.EffectiveTo.ToString("d"), @class = "form-control effectiveDate required", tabindex = 4 })
+                                @Html.ValidationMessageFor(x => x.EffectiveTo, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @GlobalResource.DownPayment @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.InstalmentPercentage, new { Value = Model.InstalmentPercentage.ToString(Common.DecimalPoints), @class = "form-control text-right inputdecimal required", maxlength = 12, tabindex = 5 })
+                                @Html.ValidationMessageFor(x => x.InstalmentPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @LocalResource.InterestPerMonth @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.InterestPercentage, new { Value = Model.InterestPercentage.ToString("F5"), @class = "form-control text-right inputdecimalForPercentageFix required", maxlength = 12, tabindex = 6 })
+                                @Html.ValidationMessageFor(x => x.InterestPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @LocalResource.InterestsForLatePayments @Html.Raw(" % ") <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.LateInterestPercentage, new { Value = Model.LateInterestPercentage.ToString("F5"), @class = "form-control text-right inputpercentageFixedDecimal paymentPlan required", maxlength = 12, tabindex = 7 })
+                                @Html.ValidationMessageFor(x => x.LateInterestPercentage, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @LocalResource.NoOfMonths <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.Months, new { @class = "form-control text-right inputnumber required", maxlength = 3, tabindex = 8 })
+                                @Html.ValidationMessageFor(x => x.Months)
+                            </div>
+                        </div>
+                    </div>
+                    @Html.HiddenFor(x => x.ID)
+                    @Html.HiddenFor(x => x.RowVersion)
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+
+    <script type="text/javascript">
+
+        var ActionTypeID = '@Html.Raw(actionTypeID)';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/servicepaymentplan.js")"></script>
+}

@@ -1,0 +1,132 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    var dateType = (EnDateTypes)ViewBag.DateType;
+    int dueType = ViewBag.DueType != null ? (int)ViewBag.DueType : 0;
+    var hideCSS = "";
+    var showAddButton = false;
+    if (Model.ID > 0 && Model.IsTestMode == false)
+    {
+        hideCSS = "hide";
+    }
+    var showDays = false;
+}
+@if (dueType == 4)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center"> @GlobalResource.Year</th>
+                <th class="text-center"> @LocalResource.StartPeriod </th>
+                <th class="text-center"> @LocalResource.EndPeriod </th>
+                <th class="text-center"> @GlobalResource.Date </th>
+                @if (dateType == EnDateTypes.DiscountDates)
+                {
+                    <th class="text-center"> @LocalResource.DiscountPercentageHeaderTitle </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tblRow">
+            @foreach (var item in Model.ServiceCalculationDateList)
+            {
+                <tr>
+                    <td class="text-center col-lg-2">
+                        @item.FiscalYearID
+                        @Html.Hidden("FiscalYearID", @item.FiscalYearID)
+                    </td>
+                    <td class="text-center col-lg-2">
+                        @*@item.StartPeriodID*@
+                        @Convert.ToDateTime(item.CurrentPeriodStartDate).ToString("dd-MMM-yyyy")
+                        @Html.Hidden("StartPeriodID", @item.StartPeriodID)
+                    </td>
+                    <td class="text-center col-lg-2">
+                        @*@item.EndPeriodID*@
+                        @Convert.ToDateTime(item.CurrentPeriodEndDate).ToString("dd-MMM-yyyy")
+                        @Html.Hidden("EndPeriodID", @item.EndPeriodID)
+                    </td>
+
+                    @if (dateType == EnDateTypes.FillingDueDates)
+                    {
+                        <td class="text-center col-lg-3">
+                          
+                            @if ((item.IsEditable && Model.UseFixedFillingDueDate.Value) || Model.IsTestMode == true)
+                            {
+                                @Html.TextBox(@item.SequenceID.ToString(), item.FillingDueDate != null ? DateTime.Parse(item.FillingDueDate).ToString("d") : null, new { @class = "form-control popupinputcaldate", @id = item.SequenceID.ToString(), @data_val_startdate = item.ValStartDate })
+                                showAddButton = true;
+                            }
+                            else
+                            {
+                                <input type="text" id="@item.SequenceID.ToString()" value="@DateTime.Parse(item.FillingDueDate).ToString("d")" class="form-control" disabled />
+                            }
+                            @Html.ValidationMessage(@item.SequenceID.ToString(), GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </td>
+                        <td class="col-lg-6"></td>
+                    }
+                    else if (dateType == EnDateTypes.PaymentDueDates)
+                    {
+                        <td class="text-center col-lg-3">
+                            @if ((item.IsEditable && Model.UseFixedPaymentDueDate.Value) || Model.IsTestMode == true)
+                            {
+                                @Html.TextBox(@item.SequenceID.ToString(), item.PaymentDueDate != null ? DateTime.Parse(item.PaymentDueDate).ToString("d") : null, new { @class = "form-control popupinputcaldate", @id = @item.SequenceID.ToString(), @data_val_startdate = item.ValStartDate })
+                                showAddButton = true;
+                            }
+                            else
+                            {
+                                <input type="text" id="@item.SequenceID.ToString()" value="@DateTime.Parse(item.PaymentDueDate).ToString("d")" class="form-control" disabled />
+                            }
+                            @Html.ValidationMessage(@item.SequenceID.ToString(), GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </td>
+                        <td class="col-lg-6"></td>
+                    }
+                    else if (dateType == EnDateTypes.DiscountDates)
+                    {
+                        if ((item.IsEditable && Model.UseFixedDiscountDate.Value) || Model.IsTestMode == true)
+                        {
+                            <td class="text-center col-lg-3  m-b-sm">
+                                @Html.TextBox(@item.SequenceID.ToString(), item.DiscountDate != null ? DateTime.Parse(item.DiscountDate).ToString("d") : null, new { @class = "form-control popupinputcaldate", @id = @item.SequenceID.ToString(), @data_val_startdate = item.ValStartDate })
+                                @Html.ValidationMessage(@item.SequenceID.ToString(), GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                            </td>
+                            <td class="text-center col-lg-3">
+                                @Html.TextBox("txtpercentage" + @item.SequenceID.ToString(), item.DiscountPercentage != null && Model.UseFixedDiscountDate == true ? item.DiscountPercentage : null, new { @class = "form-control text-right inputpercentage", @id = "txtpercentage" + @item.SequenceID.ToString() })
+                                @Html.ValidationMessage("txtpercentage" + @item.SequenceID.ToString(), GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                            </td>
+                            showAddButton = true;
+                        }
+                        else
+                        {
+                            <td class="text-center col-lg-3">
+                                <input type="text" id="@item.SequenceID.ToString()" value="@DateTime.Parse(item.DiscountDate).ToString("d")" class="form-control" disabled="disabled" />
+                            </td>
+                            <td class="text-center col-lg-3">
+                                <input type="text" id="@("txtpercentage" + @item.SequenceID.ToString())" value="@item.DiscountPercentage" class="form-control text-right inputpercentage" disabled="disabled" />
+                            </td>
+                        }
+                        <td class="col-lg-3"></td>
+                    }
+                    else if (dateType == EnDateTypes.PaymentGraceDates)
+                    {
+                        <td class="text-center col-lg-3">
+                            @if ((item.IsEditable && Model.UseFixedPaymentGracePeriod.Value) || Model.IsTestMode == true)
+                            {
+                                @Html.TextBox(@item.SequenceID.ToString(), item.PaymentGraceDate != null  ? DateTime.Parse(item.PaymentGraceDate).ToString("d") : null, new { @class = "form-control popupinputcaldate", @id = @item.SequenceID.ToString(), @data_val_startdate = item.ValStartDate })
+                                showAddButton = true;
+                            }
+                            else
+                            {
+                                <input type="text" id="@item.SequenceID.ToString()" value="@DateTime.Parse(item.PaymentGraceDate).ToString("d")" class="form-control" disabled>
+                            }
+                            @Html.ValidationMessage(@item.SequenceID.ToString(), GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                        </td>
+                        <td class="col-lg-6"></td>
+                    }
+                    @Html.Hidden("SequenceID", @item.SequenceID)
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}

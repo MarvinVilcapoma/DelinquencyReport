@@ -1,0 +1,197 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceFillingModel>
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    string rateFormat = Model.Count() > 0 ? Model.First().GetRateFormat : "";
+}
+<div class="full-height-scroll">
+    <div class="ibox-content">
+        <div class="table-responsive m-t">
+            <table class="table" data-page="false">
+                <thead>
+                    <tr>
+                        <th class="col-lg-1"> @LocalResource.ServicePeriodList </th>
+                        <th class="col-lg-1"> @GlobalResource.CreatedDate </th>
+                        <th class="col-lg-1"> @GlobalResource.FilingDate</th>
+                        <th class="col-lg-1"> @GlobalResource.ReFillingDate</th>
+                        <th class="col-lg-1 text-right">@GlobalResource.SalesVolume </th>
+                        <th class="col-lg-1 text-right">@LocalResource.Rate@rateFormat  </th>
+                        <th class="col-lg-1 text-right"> @LocalResource.Semester1Principal </th>
+                        <th class="col-lg-1 text-right">@LocalResource.Semester2Principal </th>
+                        <th class="col-lg-1 text-right">@GlobalResource.Penalties</th>
+                        <th class="col-lg-1 text-right">@GlobalResource.Discount</th>
+                        <th class="col-lg-1 text-right">@LocalResource.Debt</th>
+                        <th class="col-lg-1 text-right">@GlobalResource.PaidAmount</th>
+                        <th class="col-lg-1 text-right">@GlobalResource.Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var accountServiceDetail = Model.First();
+                        var penaltiesSum = Model.Sum(x => x.Penalties);
+                        var discountSum = Model.Sum(x => x.Discount);
+                        var debtSum = Model.Sum(x => x.Debt);
+                        var paidAmountSum = Model.Sum(x => x.PaidAmount);
+                        var totalSum = Model.Sum(x => x.Total);
+                    }
+
+                    @if (accountServiceDetail.AccountServiceID == 0)
+                    {
+                        <tr>
+                            <td colspan="13" class="col-lg-12">
+                                <center>@GlobalResource.NoDataMessage</center>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="col-lg-1">
+                                @accountServiceDetail.ServiceName
+                            </td>
+                            <td class="col-lg-1">
+                                @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", accountServiceDetail.CreatedDate))
+                            </td>
+                            <td class="col-lg-1">
+                                @if (accountServiceDetail.FillingDate != null)
+                                {
+                                    @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", accountServiceDetail.FillingDate))
+                                }
+                                else
+                                {
+                                    @Html.Raw("-")
+                                }
+                            </td>
+                            <td class="col-lg-1">
+                                @if (accountServiceDetail.ReFillingDate != null)
+                                {
+                                    @Html.Raw(String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", accountServiceDetail.ReFillingDate))
+                                }
+                                else
+                                {
+                                    @Html.Raw("-")
+                                }
+                            </td>
+                            <td class="col-lg-1 text-right filingLink">
+                                @{
+                                    if (@accountServiceDetail.FillingDate != null)
+                                    {
+                                        if (@accountServiceDetail.GroupID == (int)EnServiceGroup.License)
+                                        {
+                                            @accountServiceDetail.SalesVolume.ToString("C") <i style="cursor:pointer;" id="viewFillingLicense" class="fa fa-search" data-detailid="@accountServiceDetail.AccountServiceCollectionDetailId" data-servicename="@accountServiceDetail.ServiceName" data-serviceperiod="@accountServiceDetail.PopupServiceTitle" data-exceptionValue="@accountServiceDetail.ExceptionValue" data-isSummary="true"></i> <span id="viewFilling"></span>
+                                        }
+                                        else
+                                        {
+                                            @accountServiceDetail.SalesVolume.ToString("C") <i style="cursor:pointer;" id="viewFillingTax" class="fa fa-search" data-detailid="@accountServiceDetail.AccountServiceCollectionDetailId" data-servicename="@accountServiceDetail.ServiceName" data-serviceperiod="@accountServiceDetail.PopupServiceTitle" data-exceptionValue="@accountServiceDetail.ExceptionValue" data-isSummary="true"></i> <span id="viewFilling"></span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (accountServiceDetail.IsLock == null || accountServiceDetail.IsLock == false)
+                                        {
+                                            if (@accountServiceDetail.GroupID == (int)EnServiceGroup.License)
+                                            {
+                                                <a data-target="#licensemodal" data-toggle="modal" id="addLicenseAmount" class="addFillingLicense" data-detailid="@accountServiceDetail.AccountServiceCollectionDetailId" data-servicename="@accountServiceDetail.ServiceName" data-serviceperiod="@accountServiceDetail.PopupServiceTitle" data-exceptionValue="@accountServiceDetail.ExceptionValue" data-rowVersion="@accountServiceDetail.RowVersion" data-rowVersion64="@accountServiceDetail.RowVersion64" data-groupid="@accountServiceDetail.GroupID" data-isSummary="true"><i class="fa fa-plus"></i> @LocalResource.Filling</a>
+                                            }
+                                            else
+                                            {
+                                                <a data-target="#taxmodal" data-toggle="modal" id="addTaxAmount" class="addFillingTax" data-detailid="@accountServiceDetail.AccountServiceCollectionDetailId" data-servicename="@accountServiceDetail.ServiceName" data-serviceperiod="@accountServiceDetail.PopupServiceTitle" data-exceptionValue="@accountServiceDetail.ExceptionValue" data-rowVersion="@accountServiceDetail.RowVersion" data-rowVersion64="@accountServiceDetail.RowVersion64" data-groupid="@accountServiceDetail.GroupID" data-isSummary="true"><i class="fa fa-plus"></i> @LocalResource.Filling </a>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span> - </span>
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td class="col-lg-1 text-right"> @accountServiceDetail.GetFormattedCollectionRate </td>
+                            <td class="col-lg-1 text-right">
+                                @Model[0].Principal.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @Html.Raw(@Model.Count > 1 ? @Model[1].Principal.ToString("C") : "-")
+                                @* @Model[1].Principal.ToString("C")*@
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @if (penaltiesSum > 0)
+                                {
+                                    <a onclick="loadDebtTab('Debt' ,@accountServiceDetail.AccountServiceID,0)">  @penaltiesSum.ToString("C") </a>
+                                }
+                                else
+                                {
+                                    @penaltiesSum.ToString("C")
+                                }
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @if (discountSum > 0)
+                                {
+                                    <a onclick="loadDiscountTab('Discount' ,@accountServiceDetail.AccountServiceID,0)">  @discountSum.ToString("C") </a>
+                                }
+                                else
+                                {
+                                    @discountSum.ToString("C")
+                                }
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @debtSum.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @if (paidAmountSum > 0)
+                                {
+                                    <a onclick="loadPaymentHistoryTab('Payment' ,@accountServiceDetail.AccountServiceID,0)">  @paidAmountSum.ToString("C") </a>
+                                }
+                                else
+                                {
+                                    @paidAmountSum.ToString("C")
+                                }
+                            </td>
+                            <td class="col-lg-1 text-right">
+                                @totalSum.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @if (Model.Count() > 0)
+                    {
+                        <tr>
+                            <td colspan="6" class="col-lg-3 text-right"><strong>@GlobalResource.Total.ToUpper() : </strong></td>
+                            @*<td class="col-lg-1 text-right font-bold border-bottom">
+                                @accountServiceDetail.SalesVolume.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                
+                            </td>*@
+
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @Model[0].Principal.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @Html.Raw(@Model.Count > 1 ? @Model[1].Principal.ToString("C") : "-")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @penaltiesSum.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @discountSum.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @debtSum.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @paidAmountSum.ToString("C")
+                            </td>
+                            <td class="col-lg-1 text-right font-bold border-bottom">
+                                @totalSum.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

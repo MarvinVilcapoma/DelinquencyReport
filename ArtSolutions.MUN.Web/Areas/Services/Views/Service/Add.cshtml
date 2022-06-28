@@ -1,0 +1,479 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.NewTitle;
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.Service</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "Service", new { area = "Services" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                @using (Ajax.BeginForm("Add", "Service", new AjaxOptions { HttpMethod = "POST", OnSuccess = "ServiceSuccessCallback(data)" }, new { role = "form", id = "form", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex="25">@GlobalResource.Save <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a><button id="btnSave" type="submit" name="actionType" value="1" tabindex="26">@GlobalResource.Save</button></a></li>
+                                    <li><a><button id="btnSaveNew" type="submit" name="actionType" value="2" tabindex="27">@GlobalResource.SaveNew</button></a></li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" onclick="resolveRedirectURL(3);" tabindex="28">@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.ServiceGroup <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.DropDownListFor(x => x.GroupID, Model.ServiceTypeGroupList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", @id = "ddlGroup", @onchange = "GetTypesByGroup();", tabindex = 1 })
+                                @Html.ValidationMessageFor(x => x.GroupID)
+                            </div>
+                            <label class="col-lg-2 control-label"> @GlobalResource.ServiceType <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.DropDownListFor(x => x.ServiceTypeID, Model.ServiceTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", @id = "ddlServiceType", tabindex = 2 })
+                                @Html.ValidationMessageFor(x => x.ServiceTypeID)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@GlobalResource.ServiceCode <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBoxFor(x => x.Code, new { @class = "form-control required", @id = "txtCode", maxlength = 250, tabindex = 3 })
+                                @Html.ValidationMessageFor(x => x.Code)
+                            </div>
+                            <label class="col-lg-2 control-label">@GlobalResource.ServiceName <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control required", @id = "txtServiceName", maxlength = 250, tabindex = 4 })
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.Frequency <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.DropDownListFor(x => x.FrequencyID, Model.FrequencyList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", @id = "ddlFrequency", @data_label = LocalResource.Frequency, tabindex = 5, @data_previousvalue = Model.FrequencyID, @data_type = "dropdown" })
+                                @Html.ValidationMessageFor(x => x.FrequencyID)
+                            </div>
+                            <label class="col-lg-2 control-label"> @GlobalResource.CollectionTemplate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.DropDownListFor(x => x.CollectionTemplateID, Model.CollectionTemplateList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown required", @id = "ddltemplate", @onchange = "setCollectionTemplateLink();", @tabindex = "6" })
+                                @{
+                                    string link = "";
+                                    if (Model.CollectionTemplateID > 0)
+                                    {
+                                        link = Url.Action("View", "CollectionTemplate", new
+                                        {
+                                            area = "Services",
+                                            ID = Model.CollectionTemplateID
+                                        });
+                                    }
+                                }
+                                @if (Model.CollectionTemplateID > 0)
+                                {
+                                    <a class="pull-right" id="lnktemplate" target="_blank" href="@link">@GlobalResource.ViewDetails</a>
+                                }
+                                else
+                                {
+                                    <a class="pull-right" id="lnktemplate" target="_blank">@GlobalResource.ViewDetails</a>
+                                }
+                                @Html.ValidationMessageFor(x => x.CollectionTemplateID, GlobalResource.RequiredValidationMsg, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.PeriodStartDate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @Html.TextBox("StartDate", Model.StartDate.ToString("d"), new { @class = "form-control startdate required", @id = "txtStartDate", tabindex = 7, @data_label = LocalResource.PeriodStartDate, @data_previousvalue = Model.StartDate.ToString("MM dd"), @data_type = "datepicker" })
+                                @Html.ValidationMessageFor(x => x.StartDate)
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.PeriodEndDate <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBox("EndDate", Model.EndDate == DateTime.MinValue ? string.Empty : Model.EndDate.ToString("d"), new { @class = "form-control enddate required", @id = "txtEndDate", tabindex = 8, @disabled = "true", @data_previousvalue = Model.StartDate.ToString("MM dd") })
+                                @Html.ValidationMessageFor(x => x.EndDate)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.EffectiveFrom <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBox("EffectiveFrom", Model.EffectiveFrom != DateTime.MinValue ? Model.EffectiveFrom.ToString("d") : string.Empty, new { @class = "form-control required effectivedate", @id = "txtEffectiveFrom", tabindex = 9, @data_label = LocalResource.EffectiveFrom, @data_previousvalue = Model.EffectiveFrom.ToString("d"), @data_type = "datepicker" })
+                                @Html.ValidationMessageFor(x => x.EffectiveFrom)
+                            </div>
+                            <label class="col-lg-2 control-label"> @LocalResource.EffectiveTo <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBox("EffectiveTo", Model.EffectiveTo != DateTime.MinValue ? Model.EffectiveTo.ToString("d") : string.Empty, new { @class = "form-control required effectivedate", @id = "txtEffectiveTo", tabindex = 10, @data_label = LocalResource.EffectiveTo, @data_previousvalue = Model.EffectiveTo.ToString("d"), @data_type = "datepicker" })
+                                @Html.ValidationMessageFor(x => x.EffectiveTo)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.AccountType <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.DropDownList("AccountType", Model.AccountTypeList, new { @multiple = "multiple", @class = "form-control required select2dropdown", tabindex = 11 })
+                                @Html.ValidationMessage("AccountType", GlobalResource.RequiredValidationMsg, new { @id = "ValAccountType" })
+                                @Html.HiddenFor(d => d.AccountTypeIDs)
+                            </div>
+                            <label class="col-lg-2 control-label"> @GlobalResource.PrintTemplate </label>
+                            <div class="col-lg-4 ">
+                                @Html.DropDownListFor(x => x.PrintTemplateID, Model.PrintTemplateList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlprinttemplate", @tabindex = "12" })
+                            </div>
+
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.FilingType<span class="text-danger">*</span> </label>
+                            <div class="col-lg-4">
+                                @foreach (var fitem in Model.FilingTypeList)
+                                {
+                                    <div class="radio  m-l-md">
+                                        @Html.RadioButtonFor(m => m.FilingTypeID, fitem.Value, new { @id = "rdl-" + @fitem.Value, @class = "required", @onchange = "EnableDisableFilingDatesByFilingType(" + @fitem.Value + ");", @tabindex = "13" })
+
+                                        <label for="rdl-@fitem.Value" class="font-bold m-t-xxs">
+                                            @fitem.Text
+                                        </label>
+                                    </div>
+                                }
+                                <div class="m-t-xxs">
+                                    @Html.ValidationMessage("FilingTypeID", GlobalResource.RequiredValidationMsg, new { @id = "FilingTypeID" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row form-group">
+                                    <label class="col-lg-4 control-label"> @LocalResource.FilingForm</label>
+                                    <div class="col-lg-8 ">
+                                        @Html.DropDownListFor(x => x.FilingFormID, Model.FilingFormTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlfilingForm", @tabindex = "14" })
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="col-lg-4 control-label">@GlobalResource.Description</label>
+                                    <div class="col-lg-8">
+                                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "Description", @rows = 2, @tabindex = "15" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group" id="dvFillingDates">
+                            <label class="col-lg-2 control-label">@LocalResource.FillingDueOn <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 m-t-xs">
+                                <a class="btn btn-primary btn-xs" id="fillingdueon" onclick="loadCalculationDatesPopup(@( (int)EnDateTypes.FillingDueDates),'@LocalResource.FillingDueDatesTitle')">
+                                    <span id="spFillingAdd">
+                                        <i class="fa fa-plus"></i>
+                                        @LocalResource.AddFillingDate
+                                    </span>
+                                    <span id="spFillingChange" class="hide">
+                                        <i class="fa fa-pencil">
+                                        </i> @LocalResource.ChangeFillingDate
+                                    </span>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.CustomField 1</label>
+
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="16" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomField1) ? "checked" : "") style="margin-right:5px;" id="ChkCustomField1" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomField1, new { @id = "chkAllowDuplicateCustomField1", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomField1" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomField1, new { @class = "form-control", tabindex = "16", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group" id="dvPaymentDates">
+                            <label class="col-lg-2 control-label">@LocalResource.PaymentDueOn <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 m-t-xs">
+                                <a class="btn btn-primary btn-xs" id="paymentdueon" onclick="loadCalculationDatesPopup(@( (int)EnDateTypes.PaymentDueDates ),'@LocalResource.PaymentDueDatesTitle')">
+                                    <span id="spPaymentAdd">
+                                        <i class="fa fa-plus"></i>
+                                        @LocalResource.AddPaymentDate
+                                    </span>
+                                    <span id="spPaymentChange" class="hide">
+                                        <i class="fa fa-pencil">
+                                        </i> @LocalResource.ChangePaymentDate
+                                    </span>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.CustomField 2</label>
+
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="17" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomField2) ? "checked" : "") style="margin-right:5px;" id="ChkCustomField2" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomField2, new { @id = "chkAllowDuplicateCustomField2", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomField2" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomField2, new { @class = "form-control", tabindex = "17", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group" id="dvPaymentDates">
+                            <label class="col-lg-2 control-label"> @LocalResource.DiscountOn  </label>
+                            <div class="col-lg-4 m-t-xs">
+                                <a class="btn btn-primary btn-xs" id="discounton" onclick="loadCalculationDatesPopup(@( (int)EnDateTypes.DiscountDates ),'@LocalResource.DiscountDatesTitle')">
+                                    <span id="spDiscountAdd">
+                                        <i class="fa fa-plus"></i>
+                                        @LocalResource.AddDiscountDate
+                                    </span>
+                                    <span id="spDiscountChange" class="hide">
+                                        <i class="fa fa-pencil">
+                                        </i> @LocalResource.ChangeDiscountDate
+                                    </span>
+                                </a>
+                            </div>
+
+                            <label class="col-lg-2 control-label">@LocalResource.CustomField 3</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="18" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomField3) ? "checked" : "") style="margin-right:5px;" id="ChkCustomField3" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomField3, new { @id = "chkAllowDuplicateCustomField3", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomField3" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomField3, new { @class = "form-control", tabindex = "18", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group" id="dvPaymentDates">
+                            <label class="col-lg-2 control-label"> @LocalResource.PaymentGracePeriod</label>
+                            <div class="col-lg-4 m-t-xs">
+                                <a class="btn btn-primary btn-xs" id="paymentgraceperiod" onclick="loadCalculationDatesPopup(@( (int)EnDateTypes.PaymentGraceDates),'@LocalResource.PaymentGracePeriodsTitle')">
+                                    <span id="spGraceAdd">
+                                        <i class="fa fa-plus"></i>
+                                        @LocalResource.AddPaymentGracePeriod
+                                    </span>
+                                    <span id="spGraceChange" class="hide">
+                                        <i class="fa fa-pencil">
+                                        </i> @LocalResource.ChangePaymentGracePeriod
+                                    </span>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.CustomField 4</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="19" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomField4) ? "checked" : "") style="margin-right:5px;" id="ChkCustomField4" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomField4, new { @id = "chkAllowDuplicateCustomField4", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomField4" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomField4, new { @class = "form-control", tabindex = "19", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.ServiceException</label>
+                            <div class="col-lg-4  m-t-xs">
+                                <a class="btn btn-primary btn-xs" id="lnkAddException" onclick="openExceptionPopup();">
+                                    <span id="spExceptionAdd">
+                                        <i class="fa fa-plus"></i>
+                                        @LocalResource.AddServiceException
+                                    </span>
+                                    <span id="spExceptionEdit" class="hide">
+                                        <i class="fa fa-pencil">
+                                        </i> @LocalResource.EditServiceException
+                                    </span>
+                                </a>
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.CustomField 5</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="20" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomField5) ? "checked" : "") style="margin-right:5px;" id="ChkCustomField5" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomField5, new { @id = "chkAllowDuplicateCustomField5", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomField5" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomField5, new { @class = "form-control", tabindex = "20", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.TotalValueLabel <span class="text-danger">*</span> </label>
+                            <div class="col-lg-4 ">
+                                @Html.TextBoxFor(x => x.TotalValueLabel, new { @class = "form-control required", @id = "txtTotalValueLabel", maxlength = 250, tabindex = 21 })
+                                @Html.ValidationMessageFor(x => x.TotalValueLabel)
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.CustomDateField</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <label class="paddin-top-5 padding-right-15"><input type="checkbox" tabindex="22" value="1" @Html.Raw(!string.IsNullOrEmpty(Model.CustomDateField) ? "checked" : "") style="margin-right:5px;" id="ChkCustomDateField" />@LocalResource.Enable</label>
+                                        @Html.CheckBoxFor(m => m.AllowDuplicateCustomDateField, new { @id = "chkAllowDuplicateCustomDateField", @disabled = "disabled" })
+                                        <label for="chkAllowDuplicateCustomDateField" class="paddin-top-5">@LocalResource.AllowDuplicates</label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        @Html.TextBoxFor(d => d.CustomDateField, new { @class = "form-control", tabindex = "22", @disabled = "disabled", maxlength = 250 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 control-label">@LocalResource.MultipleServicesPerYear</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @{ Model.MultipleServicesPerYear = Model.MultipleServicesPerYear == null ? false : true;}
+                                        <label class="paddin-top-5"> @Html.CheckBox("MultipleServicesPerYear", Model.MultipleServicesPerYear.Value, new { tabindex = 23, style = "margin-right:5px;" })@LocalResource.Enable</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="col-lg-2 control-label">@LocalResource.AutoCreation</label>
+                            <div class="col-lg-4">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @{ Model.AutoCreation = Model.AutoCreation == null ? false : true;}
+                                        <label class="paddin-top-5"> @Html.CheckBox("AutoCreation", Model.AutoCreation.Value, new { tabindex = 24, style = "margin-right:5px;" })@LocalResource.Enable</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="Id" name="Id" value="@Model.ID" />
+                    @Html.HiddenFor(x => x.ServiceCollectionRuleListJson, new { data_val_msg = LocalResource.CollectionRuleRequired })
+                    @Html.HiddenFor(x => x.ServiceCollectionRuleDetailListJson)
+
+                    //Hidden Values for Calculation Dates
+                    @Html.HiddenFor(x => x.ServiceCalculationDateListJson)
+                    @Html.HiddenFor(x => x.FillingDueDays, new { data_val_msg = LocalResource.FillingDueOnRequired, @class = "duedays" })
+                    @Html.HiddenFor(x => x.UseFixedFillingDueDate, new { @class = "duedays" })
+                    @Html.HiddenFor(x => x.PaymentDueDays, new { data_val_msg = LocalResource.PaymentDueOnRequired, @class = "duedays" })
+                    @Html.HiddenFor(x => x.UseFixedPaymentDueDate, new { @class = "duedays" })
+                    @Html.HiddenFor(x => x.DiscountDueDays, new { data_val_msg = LocalResource.DiscountOnRequired, @class = "duedays" })
+                    @Html.HiddenFor(x => x.DiscountPercentage, new { data_val_msg = LocalResource.DiscountPercentageRequired, @class = "duedays" })
+                    @Html.HiddenFor(x => x.UseFixedDiscountDate, new { @class = "duedays" })
+                    @Html.HiddenFor(x => x.PaymentGracePeriod, new { data_val_msg = LocalResource.PaymentGracePeriodRequired, @class = "duedays" })
+                    @Html.HiddenFor(x => x.UseFixedPaymentGracePeriod, new { @class = "duedays" })
+                    @Html.HiddenFor(x => x.FilingDueType)
+                    @Html.HiddenFor(x => x.PaymentDueType)
+                    @Html.HiddenFor(x => x.DiscountDueType)
+                    @Html.HiddenFor(x => x.PaymentGraceType)
+
+                    // For Using Values through Request Object
+                    @Html.Hidden("hdnFormattedStartDate")
+                    @Html.Hidden("hdnFormattedEndDate")
+                    // Service Exception
+                    @Html.HiddenFor(x => x.ServiceExceptionListJSON)
+                }
+                <div class="ibox-content no-borders no-margins">
+                    <div class="row border-bottom m-l-md m-r-md">
+                        <div class="col-lg-12">
+                            <label class="control-label"> @LocalResource.ServiceRuleTitle </label>
+                        </div>
+                    </div>
+                    <div class="row m-l-sm m-r-sm">
+                        <div class="col-lg-12" id="dvCollectionRuleList">
+                            @Html.Partial("~/Areas/Services/Views/Service/_ServiceCollectionRuleList.cshtml", Model.ServiceCollectionRuleList)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* Date Modal Popup*@
+<div class="modal inmodal" id="datesmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvCalculationDates">
+        </div>
+    </div>
+</div>
+@* Rule Modal Popup*@
+<div class="modal inmodal" id="rulemodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvrule">
+        </div>
+    </div>
+</div>
+@* Exception Modal Popup*@
+<div class="modal inmodal" id="exceptionModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvException">
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        .input-daterange input {
+            text-align: left !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+        var flatamount = '@Html.Raw(LocalResource.FlatAmount)';
+        var rangeflat = '@Html.Raw(LocalResource.RangeFlat)';
+        var percentage = '@Html.Raw(GlobalResource.Percentage)';
+        var rangepercentage = '@Html.Raw(LocalResource.RangePercentage)';
+        var rangevariableflat = '@Html.Raw(LocalResource.RangeVariableFlat)';
+        var rangevariablepercentage = '@Html.Raw(LocalResource.RangeVariablePercentage)';
+        var CompareAmountValidationMsg = '@Html.Raw(LocalResource.CompareAmountValidationMsg)';
+        var CompareRangeValidationMsg = '@Html.Raw(LocalResource.CompareRangeValidationMsg)';
+        var atleastOneRangeValidationMsg = '@Html.Raw(LocalResource.AtleastOneRangeRecordRequiredMsg)';
+        var SelectOptionErrorMsg = '@Html.Raw(LocalResource.SelectOptionErrorMsg)';
+        var CompareEffectiveDatesValidationMsg = '@Html.Raw(LocalResource.CompareEffectiveDatesValidationMsg)';
+        var EffectiveToShouldBeGreaterThanEffectiveFromMsg = '@Html.Raw(GlobalResource.EffectiveToShouldBeGreaterThanEffectiveFromMsg)';
+        var suremsg = '@Html.Raw(GlobalResource.SureMessage)';
+        var ConfirmChangeInputValidationMsg = '@Html.Raw(LocalResource.ConfirmChangeInputValidationMsg)';
+        var continueMessage = '@Html.Raw(GlobalResource.Continue)';
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var DropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var StartDay = '@Html.Raw(LocalResource.StartDay)';
+        var EndDay = '@Html.Raw(LocalResource.EndDay)';
+        var StartAmount = '@Html.Raw(LocalResource.StartAmount)';
+        var EndAmount = '@Html.Raw(LocalResource.FinalAmount)';
+        var MaxCollectionRuleRangeValMsg = '@Html.Raw(LocalResource.MaxCollectionRuleRangeValMsg)';
+        var DeleteFailedErrMsg = '@Html.Raw(LocalResource.DeleteFailedErrMsg)';
+        var ExceptionValueDuplicated = '@Html.Raw(LocalResource.ExceptionValueDuplicated)';
+        var ExceptionValueErrMsg = '@Html.Raw(LocalResource.ExceptionValueErrMsg)';
+        var ExceedBaseAndFee = '@Html.Raw(LocalResource.ExceedBaseAndFee)';
+        var StartingUnit = '@Html.Raw(LocalResource.StartingUnit)';
+        var EndUnit = '@Html.Raw(LocalResource.EndUnit)';
+        var BaseAmount = '@Html.Raw(LocalResource.BaseAmount)';
+        var FactorValue = '@Html.Raw(LocalResource.FactorValue)';
+        var IsEditable = '@Html.Raw(LocalResource.IsEditable)';
+        var PercentageRangeValidationMsg = '@Html.Raw(GlobalResource.PercentageRangeValidationMsg)';
+    </script>
+    <script src="~/Scripts/app/serviceadd.js"></script>
+    <script src="~/Scripts/app/servicecollectionrule.js"></script>
+    <script src="~/Scripts/app/ServiceExceptionAddEdit.js"></script>
+
+}

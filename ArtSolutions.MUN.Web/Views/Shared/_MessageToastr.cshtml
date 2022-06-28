@@ -1,0 +1,60 @@
+﻿@if (TempData["SuccessMsg"] != null)
+{
+    <script type="text/javascript">
+        toastr.clear();
+        toastr.success('@TempData["SuccessMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+    TempData.Remove("SuccessMsg");
+}
+else if (TempData["WarningMsg"] != null)
+{
+    <script type="text/javascript">
+        toastr.clear();
+        toastr.warning('@TempData["WarningMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+    TempData.Remove("WarningMsg");
+}
+else if (TempData["ErrorMsg"] != null)
+{
+    <script type="text/javascript">
+            toastr.clear();
+            toastr.error('@TempData["ErrorMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+    TempData.Remove("ErrorMsg");
+}
+else if (TempData["InfoMsg"] != null)
+{
+    <script type="text/javascript">
+            toastr.clear();
+            toastr.info('@TempData["InfoMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+    TempData.Remove("InfoMsg");
+}
+else if (ViewData["SuccessMsg"] != null)
+{
+    <script type="text/javascript">
+        toastr.clear();
+        toastr.success('@ViewData["SuccessMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+}
+else if (ViewData["WarningMsg"] != null)
+{
+    <script type="text/javascript">
+        toastr.clear();
+        toastr.warning('@ViewData["WarningMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+}
+else if (ViewData["ErrorMsg"] != null)
+{
+    <script type="text/javascript">
+            toastr.clear();
+            toastr.error('@ViewData["ErrorMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+}
+else if (ViewData["InfoMsg"] != null)
+{
+    <script type="text/javascript">
+            toastr.clear();
+            toastr.error('@ViewData["InfoMsg"]', null, { "positionClass": "toast-top-center", "progressBar": true, });
+    </script>
+}

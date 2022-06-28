@@ -1,0 +1,90 @@
+﻿@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@model ArtSolutions.MUN.Web.Areas.Reports.Models.NoDebtCertificationModel
+
+<div class="row m-b-sm">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-8">
+        <strong>@ReportResource.CONSTANCY</strong>
+    </div>
+</div>
+<div class="row m-b-sm">
+    <div class="col-lg-12">
+        @ReportResource.NoDebtCertificationDesc1 :
+    </div>
+</div>
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-1">
+
+    </div>
+    <div class="col-lg-7">
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @width = "100%" })
+        <br />
+        @Html.TextBoxFor(x => x.UserID, new { @class = "form-control", @width = "100%" })
+    </div>
+    <div class="col-lg-4">
+
+    </div>
+</div>
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-12">
+
+    </div>
+</div>
+<div class="row m-b-sm">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-11">
+        @ReportResource.NoDebtCertificationDesc2:
+    </div>
+</div>
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-11">
+        @Html.TextAreaFor(x => x.Description1Detail, new { @class = "form-control", @width = "100%", @rows = "3" })
+    </div>
+</div>
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-11">
+        @ReportResource.NoDebtCertificationDesc3:
+    </div>
+</div>
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-1">
+    </div>
+    <div class="col-lg-11">
+        @Html.TextAreaFor(x => x.Description2Detail, new { @class = "form-control", @width = "100%", @rows = "3" })
+    </div>
+</div>
+
+<br />
+<div class="row m-b-sm">
+    <div class="col-lg-12">
+        @ReportResource.NoDebtCertificationDesc4 @Html.Raw(DateTime.Now.ToString("HH:mm:ss") + " " + ReportResource.HoursOfTheDay + " " + DateTime.Now.ToString("m") + " " + ReportResource.From + " " + DateTime.Now.Year).
+    </div>
+</div>
+<br />
+<div class="row m-t-md m-b-md">
+    <div class="col-lg-12 m-t-sm">
+        <div class="col-lg-4 m-t-md">
+            &nbsp;
+        </div>
+        <div class="col-lg-4 m-t-md">
+            <center>
+                <hr />
+                @ReportResource.ResponsibleForTheStudy
+            </center>
+        </div>
+        <div class="col-lg-4 m-t-md">
+            &nbsp;
+        </div>
+    </div>
+</div>

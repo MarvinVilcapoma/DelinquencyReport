@@ -1,0 +1,96 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CashReceiptControlModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="cashReceiptControlTable" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:50px;">
+                    @GlobalResource.Date
+                </th>
+                <th style="min-width:50px;">
+                    @GlobalResource.ReceiptNumber
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.VoidedReceipts
+                </th>
+                <th style="min-width:150px;">
+                    @ReportResource.TotalAmountOfReceipt
+                </th>
+                <th style="min-width:150px;">
+                    @ReportResource.PaymentMethod
+                </th>
+                <th style="min-width:150px;">
+                    @GlobalResource.Penalty
+                </th>
+                <th style="min-width:150px;">
+                    @GlobalResource.Interest
+                </th>
+                <th style="min-width:150px;">
+                    @ReportResource.IVA
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.ReceiptCreator
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.CashRegisterDate
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.CashRegisterCreator
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.DepositEntryDate
+                </th>
+                <th style="min-width:50px;">
+                    @GlobalResource.Bank
+                </th>
+                <th style="min-width:50px;">
+                    @ReportResource.DepositCreator
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.CashReceiptControlList != null && Model.CashReceiptControlList.Count() > 0)
+            {
+                foreach (var item in Model.CashReceiptControlList)
+                {
+                    <tr>
+                        <td class="text-center">@item.FormattedDate</td>
+                        <td class="text-center">@item.ReceiptNumber</td>
+                        <td class="text-center">@item.VoidedReceipts</td>
+                        <td class="text-center">@item.FormattedTotalReceipt</td>
+                        <td class="text-center">@item.PaymentMethod</td>
+                        <td class="text-center">@item.FormattedPenalties</td>
+                        <td class="text-center">@item.FormattedInterest</td>
+                        <td class="text-center">@item.FormattedIVA</td>
+                        <td class="text-center">@item.FormattedReceiptCreator</td>
+                        <td class="text-center">@item.FormattedCashRegisterDate</td>
+                        <td class="text-center">@item.FormattedCashRegisterCreator</td>
+                        <td class="text-center">@item.FormattedDepositEntryDate</td>
+                        <td class="text-center">@item.Bank</td>
+                        <td class="text-center">@item.FormattedDepositCreator</td>
+                    </tr>
+                }
+                <tr class="sub-header font-bold">
+                    <td class="text-center top-border table-total-amount">@GlobalResource.Total</td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount">@Model.CashReceiptControlList.Sum(x => x.TotalReceipt).ToString("C")</td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount">@Model.CashReceiptControlList.Sum(x => x.Penalties).ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.CashReceiptControlList.Sum(x => x.Interest).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount">@Model.CashReceiptControlList.Sum(x => x.IVA).Value.ToString("C")</td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                    <td class="text-center top-border table-total-amount"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

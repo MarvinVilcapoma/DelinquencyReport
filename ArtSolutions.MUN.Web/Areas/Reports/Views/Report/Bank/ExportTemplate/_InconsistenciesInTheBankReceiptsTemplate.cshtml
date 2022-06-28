@@ -1,0 +1,134 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.InconsistenciesInTheBankReceiptsModel
+@using System.Globalization
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ListofInconsistenciesintheApplicationofBankReceiptsReport;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        @if (!string.IsNullOrEmpty(Model.ServicesNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.ServiceName: </strong>@Model.ServicesNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.BankeNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.Bank: </strong>@Model.BankeNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.ContractNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.Agreement: </strong>@Model.ContractNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.Code</th>
+                    <th width="20%" colspan="2" class="table-border-center-th">@GlobalResource.Description</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="20%" colspan="2" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.MeterNo</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.InconsistenciesInTheBankReceiptsList != null && Model.InconsistenciesInTheBankReceiptsList.Count() > 0)
+                {
+                    foreach (var item in Model.InconsistenciesInTheBankReceiptsList)
+                    {
+
+                        <tr>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.Code
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat" colspan="2">
+                                @item.ServiceName
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.RecieptNumber
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.TaxNumber
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat" colspan="2">
+                                @item.Name
+                            </td>
+                            <td class="table-border-center-td" style="@msoTextFormat">
+                                @item.MeterNumber
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-td center">
+                            <center>
+                                <label>
+                                    @GlobalResource.NoDataMessage
+                                </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

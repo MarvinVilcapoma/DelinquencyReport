@@ -1,0 +1,144 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Companies.Models.CompanyModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Company;
+
+<fieldset>
+    <h2>@LocalResource.CompanyConfirmationTitle</h2>
+    <div class="row m-t-lg wizard-confirm-label">
+        <div class="col-lg-8">
+            <div class="col-md-12">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.BusinessName
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblBusinessName" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.LegalName
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblLegalName" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.CompanyCode
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblCompanyCode" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @GlobalResource.PhoneNumber
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblPhoneNumber" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.WebSite
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblWebSite" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @GlobalResource.Country
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblCountry" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @GlobalResource.Currency
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblCurrency" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.Modules
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblModules" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.NoOfDecimalPointsAllowed
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblPrecision" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-6 col-sm-2">
+                    <label for="acceptTerms">
+                        @LocalResource.UseLeapYear
+                    </label>
+                </div>
+                <div class="col-lg-6 col-sm-10">
+                    <label id="lblUseLeapYear" class="wizard-confirm-content">
+                    </label>
+                </div>
+            </div>     
+            <div class="col-md-12 m-t-xs">
+                <div class="col-lg-12 col-sm-2 checkbox">
+                    @Html.CheckBoxFor(m => m.IsAgreedTerms, new { @class = "required" })
+                    <label for="acceptTerms">
+                        <a data-toggle="modal" data-target="#termsModal">
+                            @LocalResource.TermsAndPolicyMessage
+                        </a>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<div class="modal inmodal" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <span class="glyphicon glyphicon-warning-sign"></span>
+                    @LocalResource.Terms
+                </div>
+                <button type="button" class="btn btn-default " data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

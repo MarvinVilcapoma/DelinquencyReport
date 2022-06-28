@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyRightModel>
+<select class="form-control required select2dropdown" id="AccountPropertyRightID" name="AccountPropertyRightID" tabindex="3">
+    <option value="" selected>@ArtSolutions.MUN.Web.Resources.Global.DropDownSelectMessage</option>
+    @foreach (var item in Model)
+    {
+        <option value="@item.AccountPropertyRigthID" data-accountid="@item.OwnerID" data-ownername="@item.OwnerName">@item.RigthNumber - @item.OwnerName </option>
+    }
+</select>
+@Html.ValidationMessage("AccountPropertyRightID", ArtSolutions.MUN.Web.Resources.Global.RequiredValidationMsg)

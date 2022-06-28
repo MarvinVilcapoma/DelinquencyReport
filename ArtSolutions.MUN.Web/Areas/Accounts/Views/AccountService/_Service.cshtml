@@ -1,0 +1,38 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Services.Models.ServiceModel>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<div class="full-height-scroll-service">
+    @if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-12 m-l-sm">
+                <div class="checkbox radio">
+                    <input id="rdl-@item.ID" name="ServiceIDs" type="radio" class="required" value="@item.ID"
+                           data-InitialDate='@item.InitialDate.ToString("d")'
+                           data-EndDate='@item.EndDate.ToString("d")'
+                           data-FilingType='@item.FilingTypeID' 
+                           data-customfield1="@item.CustomField1"
+                           data-customfield2="@item.CustomField2"
+                           data-customfield3="@item.CustomField3"
+                           data-customfield4="@item.CustomField4"
+                           data-customfield5="@item.CustomField5"
+                           data-customdatefield="@item.CustomDateField"
+                           data-period="@item.Period"
+                           data-isdatefieldcustomfield="@item.IsDateFieldCustomField1"
+                           data-servicetypeid="@item.ServiceTypeID">
+                    <label for="rdl-@item.ID" class="font-bold service">
+                        @item.Name
+                    </label>
+                    <span class="block m-l-sm">@item.Description</span>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="m-t-lg">
+            <h3 class="font-normal">@LocalResource.NoServiceConfiguredMsg</h3>
+        </div>
+    }
+</div>

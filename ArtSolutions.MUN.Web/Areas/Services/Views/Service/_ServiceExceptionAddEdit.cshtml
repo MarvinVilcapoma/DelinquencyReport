@@ -1,0 +1,88 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceExceptionViewModel
+@using ArtSolutions.MUN.Web.Areas.Services.Models
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Service
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    bool isViewMode = false;
+    if (ViewBag.ViewMode != null)
+    {
+        isViewMode = true;
+    }
+}
+<form id="frmException">
+    @*@using (Ajax.BeginForm("", "", null, new { role = "form", id = "frmException", data_ajax_mode = "replace-with" }))
+        {*@
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.ServiceException </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                @if (isViewMode == false)
+                {
+                    <div class="row form-group">
+                        <div class="col-lg-3">
+                            <label class="control-label"> @LocalResource.ExceptionPercentage <span class="text-danger"> * </span> </label>
+                        </div>
+                        <div class="col-lg-9 ">
+                            @Html.TextBoxFor(x => x.ExceptionValue, new { @class = "form-control text-right inputdecimal required", @id = "txtexpectionvalue" })
+                            @Html.ValidationMessageFor(x => x.ExceptionValue)
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-lg-3">
+                            <label class="control-label"> @GlobalResource.Description </label>
+                        </div>
+                        <div class="col-lg-9">
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "txtexceptiondescription" })
+                        </div>
+                    </div>
+                    <div class="row form-group text-right">
+                        <div class="col-lg-12">
+                            <button id="btnAddException" class="btn btn-primary" onclick="addExceptionRow();" type="button">@GlobalResource.Add</button>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-lg-12 text-left">
+                            <h5> @LocalResource.ExistingExceptionRules </h5>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-left"> @GlobalResource.Description </th>
+                                    <th class="text-right"> @LocalResource.ExceptionPercentage </th>                                    
+                                    <th class="text-right" id="thAction"> @GlobalResource.Actions </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyExceptionRow">
+                                @if (Model.ServiceExceptionList.Count() > 0)
+                                {
+                                    foreach (var item in Model.ServiceExceptionList)
+                                    {
+                                        @Html.Partial("~/Areas/Services/Views/Service/_ServiceExceptionDetailRow.cshtml", item)
+                                    }
+                                }
+                                else
+                                {
+                                    <tr id="nodatarow">
+                                        <td colspan="3" class="text-center">@GlobalResource.NoDataMessage</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" onclose="$('#dvException').html('');" onclick="$('#dvException').html('');$('#exceptionModal').modal('hide');">@GlobalResource.Close</button>
+    </div>
+</form>
+
+@*}*@

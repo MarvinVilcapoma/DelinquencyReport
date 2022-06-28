@@ -1,0 +1,99 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AddressModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<form id="frmAddress">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5 id="addresstitle">@LocalResource.NewAddress</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            @Html.HiddenFor(x => x.ID, new { id = "addressId" })
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.AddressType</label>
+                            @Html.DropDownListFor(x => x.AddressTypeID, Model.AddressTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlAddressType" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.AddressLine1</label>
+                            @Html.TextBoxFor(x => x.AddressLine1, new { @class = "form-control", @id = "txtAddressLine1", maxlength = 1000 })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.AddressLine2</label>
+                            @Html.TextBoxFor(x => x.AddressLine2, new { @class = "form-control", @id = "txtAddressLine2", maxlength = 1000 })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@GlobalResource.Country</label>
+                            @Html.DropDownListFor(x => x.CountryID, Model.CountryList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCountry" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.State</label>
+                            @Html.DropDownListFor(x => x.CountryStateID, Model.StateList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlState" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.City</label>
+                            @Html.DropDownListFor(x => x.CityID, Model.CityList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCity" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">@LocalResource.Town</label>
+                            @Html.DropDownListFor(x => x.TownID, Model.TownList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlTown" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @if (ArtSolutions.MUN.Web.Helpers.UserSession.Current.CountryID != 52)
+                    {
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="control-label">@LocalResource.ZipCode</label>
+                                @Html.TextBoxFor(x => x.ZipPostalCode, new { @class = "form-control inputzipcode", @id = "txtZipCode", maxlength = 10 })
+                                @Html.ValidationMessageFor(x => x.ZipPostalCode)
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            @Html.CheckBoxFor(m => m.IsPrimary, new { @id = "chkIsAddressPrimary" })
+                            <label for="chkIsAddressPrimary" class="control-label">@GlobalResource.IsPrimary</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddAddress" type="button" class="btn btn-primary" data-form-type="1">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var viewTitle = '@Html.Raw(LocalResource.ViewAddress)';
+    var editTitle = '@Html.Raw(LocalResource.EditAddress)';
+    var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse('#frmAddress');
+    });
+</script>

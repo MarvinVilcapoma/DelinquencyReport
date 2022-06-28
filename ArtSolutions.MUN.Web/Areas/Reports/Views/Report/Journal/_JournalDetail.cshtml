@@ -1,0 +1,179 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Reports.Models.JournalDetailListModel>
+    @using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+    @using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+    @{
+        ViewBag.Title = LocalResource.JournalDetailTitle;
+    }
+
+    <div class="table-responsive m-t">
+        <table id="journalDetailTable" class="table table-report display nowrap">
+            <thead>
+                <tr>
+                    <th style="min-width:100px;">
+                        @GlobalResource.JournalID
+                    </th>
+                    <th style="min-width:100px;">
+                        @LocalResource.FinanceJournalID
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.Type
+                    </th>
+                    <th style="min-width:100px;">
+                        @GlobalResource.Date
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.Number
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.AccountNumber
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.AccountName
+                    </th>
+                    <th style="min-width:100px;">
+                        @GlobalResource.Memo
+                    </th>
+                    <th style="min-width:150px;">
+                        @GlobalResource.CollectionType
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.ServiceType
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.BankAccount
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.Bank
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.Checkbook
+                    </th>
+                    <th style="min-width:250px;">
+                        @GlobalResource.Grant
+                    </th>
+                    <th style="min-width:100px;">
+                        @GlobalResource.Percentage
+                    </th>
+                    <th style="min-width:300px;">
+                        @GlobalResource.FinanceAccount
+                    </th>
+                    <th style="min-width:150px;" class="text-right">
+                        @GlobalResource.Debit
+                    </th>
+                    <th style="min-width:150px;" class="text-right">
+                        @GlobalResource.Credit
+                    </th>
+                    <th style="width:30px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    var i = 0; int CurrModuleName = 0; var LastIndex = Model.Count(); var Flag = true;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            @if (Flag)
+                            {
+                                <td>@item.ID</td>
+                                <td>@item.FINJournalID</td>
+                                <td>@item.Name</td>
+                                <td>@Convert.ToDateTime(item.Date).ToShortDateString()</td>
+                                <td>@string.Format("{0} ({1})", item.ReceiptNumber, item.Status)</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
+                            <td>@item.RegisterNumber</td>
+                            <td>@item.ReferenceAccountName</td>
+                            <td>@item.Memo</td>
+                            <td>@item.CollectionTypeName</td>
+                            <td>@item.ServiceTypeName</td>
+                            <td>@item.BankAccountName</td>
+                            <td>@item.BankName</td>
+                            <td>@item.ChecbookName</td>
+                            <td>@item.Grant</td>
+                            <td>@Html.Raw(item.Percentage.HasValue ? item.Percentage.Value.ToString("0.#####") + "%" : "")</td>
+                            <td>@item.NameFriendly</td>
+                            <td class="text-right">@item.Debit.ToString("C")</td>
+                            <td class="text-right">@item.Credit.ToString("C")</td>
+                            <td style="width:30px;"></td>
+                        </tr>
+                        if (i == 0) { CurrModuleName = item.ID; }
+                        if (i != LastIndex - 1)
+                        {
+                            if (CurrModuleName != Model[i + 1].ID)
+                            {
+                                Flag = true;
+                                <tr class="sub-header font-bold">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right">@GlobalResource.Total</td>
+                                    <td class="text-right top-border table-total-amount">@item.Amount.ToString("C")</td>
+                                    <td class="text-right top-border table-total-amount">@item.Amount.ToString("C")</td>
+                                    <td style="width:30px;"></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                Flag = false;
+                            }
+                            CurrModuleName = Model[i + 1].ID;
+                        }
+                        else if (i == LastIndex - 1)
+                        {
+                            <tr class="sub-header font-bold">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">@GlobalResource.Total</td>
+                                <td class="text-right top-border table-total-amount">@item.Amount.ToString("C")</td>
+                                <td class="text-right top-border table-total-amount">@item.Amount.ToString("C")</td>
+                                <td style="width:30px;"></td>
+                            </tr>
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="19" class="text-center">
+                            @GlobalResource.NoDataMessage
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

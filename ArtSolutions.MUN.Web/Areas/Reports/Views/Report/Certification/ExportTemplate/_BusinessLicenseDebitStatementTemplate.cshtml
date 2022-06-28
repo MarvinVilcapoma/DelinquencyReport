@@ -1,0 +1,211 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseCertificateModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = ReportResource.PatentDebitCertificateTitle;
+    AddressModel addressModel = new AddressModel();
+    if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+    {
+        addressModel = Model.AccountModel.AddressList.Where(x => x.IsPrimary == true).SingleOrDefault();
+    }
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="center" rowspan="2" width="15%">
+                        <img alt="Company Logo" class="img-responsive"
+                             src="https://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="55%" class="bold"><h1>@Model.ReportCompanyModel.Name</h1></td>
+                    <td width="30%" class="right bold valign-bottom">@ReportResource.DebtCertificate</td>
+                </tr>
+                <tr>
+                    <td class="valign-top">
+                        <span class="bold">@ReportResource.DepartmentOfFinance</span>
+                        <br />
+                        @{
+                            string compAddress = Model.ReportCompanyModel.Address1;
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.Address2))
+                            {
+                                compAddress = compAddress + ", " + Model.ReportCompanyModel.Address2;
+                                compAddress = compAddress + ",<br/>";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.StateName))
+                            {
+                                compAddress = compAddress + Model.ReportCompanyModel.StateName + ", ";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.City))
+                            {
+                                compAddress = compAddress + Model.ReportCompanyModel.City + ", ";
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.CountyCode))
+                            {
+                                compAddress = compAddress + " " + Model.ReportCompanyModel.CountyCode;
+                            }
+                            if (!string.IsNullOrEmpty(Model.ReportCompanyModel.ZipPostalCode))
+                            {
+                                compAddress = compAddress + " " + Model.ReportCompanyModel.ZipPostalCode;
+                            }
+                            compAddress = compAddress + "<br />";
+                            compAddress = compAddress + "P: " + Model.ReportCompanyModel.WorkPhone;
+
+                            @Html.Raw(compAddress)
+                        }
+                    </td>
+                    <td class="right bold valign-top">@ReportResource.IVUMunicipal</td>
+                </tr>
+            </tbody>
+        </table>
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="40%" rowspan="3" class="table-border-left-td">
+                            <strong> @Model.AccountModel.DisplayName </strong>
+                            <br />
+                            @addressModel.AddressLine1
+                            <br />
+                            @addressModel.AddressLine2
+                            <br />
+                            @addressModel.City , @addressModel.State , @addressModel.Country
+                            @if (!string.IsNullOrEmpty(addressModel.ZipPostalCode))
+                            {
+                                <span>, @addressModel.ZipPostalCode </span>
+                            }
+                        </td>
+                        <td width="10%" colspan="3"></td>
+                        <td width="30%" class="table-bold-right-td" colspan="2">
+                            <strong> @GlobalResource.AccountNumber : </strong>
+                        </td>
+                        <td width="20%" class="table-border-right-td">@Model.AccountModel.TaxNumber</td>
+                    </tr>
+                    <tr><td colspan="6">&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="table-bold-right-td" colspan="2">
+                            <strong> @ReportResource.RegistrationNumber : </strong>
+                        </td>
+                        <td class="table-border-right-td">@Model.AccountModel.RegisterNumber</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">
+                            <p>
+                                @ReportResource.PatentDebitCertificateHeaderDesc
+                            </p>
+                        </td>
+                    <tr>
+                </tbody>
+            </table>
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@ReportResource.PatentPeriod</th>
+                    <th width="14%" class="table-border-center-th">@ReportResource.FirstSemesterbalance</th>
+                    <th width="14%" class="table-border-center-th">@ReportResource.SecondSemesterBalance</th>
+                    <th width="14%" class="table-border-center-th">@ReportResource.Penalty</th>
+                    <th width="14%" class="table-border-center-th">@ReportResource.Surcharges</th>
+                    <th width="14%" class="table-border-center-th">@ReportResource.Interests</th>
+                    <th width="15%" class="table-border-center-th">@ReportResource.TotalBalance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BusinessLicenseCertificateModelList != null && Model.BusinessLicenseCertificateModelList.Count() > 0)
+                {
+                    foreach (var item in Model.BusinessLicenseCertificateModelList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.FormattedFiscalYearID
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal1.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal2.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Penalties.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Charges.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Interest.Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Balance.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="table-border-td">
+                            <center>@GlobalResource.NoDataMessage</center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="6" class="table-bg-bold-right-td">
+                        @ReportResource.TotalBalance
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        <label id="lblTotal">@Model.BusinessLicenseCertificateModelList.Sum(x => x.Balance).ToString(Common.NumberPoints)</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td class="left padding-top-md" colspan="7">
+                        @if (Model.AccountModel != null)
+                        {
+                            <p>
+                                @ReportResource.SalesTaxFilingCertificateLine1Desc.Replace("#CompanyName#", Model.ReportCompanyModel.Name)
+                            </p>
+                            <p>
+                                @ReportResource.SalesTaxFilingCertificateLine2Desc.Replace("#CompanyState#", Model.ReportCompanyModel.CountyName).Replace("#CompanyCity#", Model.ReportCompanyModel.Name).Replace("#TodaysDate#", Model.FutureDate.ToString("d"))
+                            </p>
+                            <br />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        @if (Model.AccountModel != null)
+                        {
+                            <hr />
+                            if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                            {
+                                @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                            }
+                            <br />
+                            @ReportResource.SalesTaxFilingCertificateLine3Desc
+                        }
+                    </td>
+                    <td colspan="6" width="70%"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

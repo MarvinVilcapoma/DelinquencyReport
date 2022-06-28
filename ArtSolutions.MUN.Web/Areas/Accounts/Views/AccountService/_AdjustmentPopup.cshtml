@@ -1,0 +1,83 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceAdjustmentModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@using (Ajax.BeginForm("AdjustmentSave", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "AdjustmentSuccessCallback(data)" }, new { role = "form", id = "frmAccountService_Adjustment", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @LocalResource.NewAdjustment </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.Period <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        <select id="ddlCollectionDetail1" class="form-control select2dropdown required" multiple="multiple" name="ddlCollectionDetail1" tabindex="1">
+                            <option value="0">@GlobalResource.All</option>
+                            @foreach (var item in Model.CollectionDetail)
+                            {
+                                <option value="@item.ID" data-Principal="@item.Principal" data-Interest="@item.Interest" data-Charges="@item.Charges" data-Penalty="@item.Penalties" data-Discount="@item.Discount">
+                                    @item.ServiceFrequencyName
+                                </option>
+                            }
+                        </select>
+                        @Html.ValidationMessage("ddlCollectionDetail1", GlobalResource.FieldRequiredMessage)
+                        @Html.HiddenFor(d => d.AccountServiceCollectionDetailId)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.Principal</label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBox("txtPrincipal", "", new { @class = "required form-control text-right", @id = "txtPrincipal", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.Penalty </label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBox("txtPenalty", "", new { @class = "required form-control text-right", @id = "txtPenalty", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.Charges </label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBox("txtCharges", "", new { @class = "required form-control text-right", @id = "txtCharges", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.Interest </label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBox("txtInterest", "", new { @class = "required form-control text-right", @id = "txtInterest", @disabled = "disabled" })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@GlobalResource.CollectionRule <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.DropDownListFor(x => x.ServiceCollectionRuleId, new SelectList(Model.ServiceCollectionRule, "ID", "Name"), GlobalResource.DropDownSelectMessage, new { @class = "form-control required select2dropdown" })
+                        @Html.ValidationMessageFor(x => x.ServiceCollectionRuleId)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.AdjustmentAmount <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextBoxFor(x => x.Amount, new { @class = "required form-control Currencyinputdecimalwithminus text-right", @id = "txtAdjustmentAmount" })
+                        @Html.ValidationMessageFor(x => x.Amount)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-3 control-label">@LocalResource.AdjustmentReason <span class="text-danger">*</span></label>
+                    <div class="col-lg-9 m-t-xs">
+                        @Html.TextAreaFor(x => x.Reason, new { @class = "required form-control", @id = "txtAdjustmentReason" })
+                        @Html.ValidationMessageFor(x => x.Reason)
+                    </div>
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.AccountServiceId)
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAdjustmentSave" type="button" class="btn btn-primary">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+}

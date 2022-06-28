@@ -1,0 +1,70 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive inTab-min-height m-t">
+    <table class="table table-hover businessList" data-page="false">
+        <thead>
+            <tr>
+                <th class="col-lg-1">@GlobalResource.Status</th>
+                <th class="col-lg-3">@GlobalResource.Name</th>
+                <th class="col-lg-3"> @LocalResource.BusinessCode </th>
+                <th class="col-lg-3">@LocalResource.BusinessType </th>
+                <th class="col-lg-2 text-right" data-sort-ignore="true">
+                    <a id="lnkNewBusiness" href='@Url.Content("~/Account/Add?accountType=5&accountId=" + Model.ID +"&parentAccountType=" + Model.AccountTypeID)' class="@(Model.IsActive? "btn btn-primary btn-xs": "btn btn-primary btn-xs disabled")"><i class="fa fa-plus"></i> @LocalResource.NewBusiness </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.BusinessList == null || (Model.BusinessList != null && Model.BusinessList.Count == 0))
+            {
+                <tr>
+                    <td colspan="10" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model.BusinessList)
+                {
+                    <tr>
+                        <td class="col-lg-1">
+                            @if (item.IsActive == true)
+                            {
+                                <a href="javascript:;" id="active_@item.ID" onclick="ConfirmActivedeactive('Active', @item.ID,false,false,false,true)"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                <a href="javascript:;" id="deactive_@item.ID" onclick="ConfirmActivedeactive('Deactive', @item.ID,false,false,false,true)" style="display:none;"><span class="label label-warning">@GlobalResource.InActivebtn</span></a>
+                            }
+                            else
+                            {
+                                <a href="javascript:;" id="active_@item.ID" onclick="ConfirmActivedeactive('Active', @item.ID,false,false,false,true)" style="display:none;"><span class="label label-primary">@GlobalResource.Active</span></a>
+                                <a href="javascript:;" id="deactive_@item.ID" onclick="ConfirmActivedeactive('Deactive', @item.ID,false,false,false,true)"><span class="label label-warning">@GlobalResource.InActivebtn</span></a>
+                            }
+                        </td>
+                        <td class="col-lg-3 table-description-field" data-placement="bottom" data-container="body" data-toggle="tooltip" tooltip-placement="left" data-original-title="@item.DisplayName">
+                            @item.BusinessAccountName
+                        </td>
+                        <td class="col-lg-3 table-description-field">
+                            @item.NAICSCode
+                        </td>
+                        <td class="col-lg-3 table-description-field">
+                            @item.BusinessType
+                        </td>
+                        <td class="col-lg-2 text-right">
+                            <a href='@Url.Content("~/Account/View?accountID="+ item.ID + "&accountType=" + item.AccountTypeID)' class="btn btn-white btn-sm"><i class="fa fa-folder"></i> @GlobalResource.View </a>
+                            <a href='@Url.Content("~/Account/Edit?accountID="+ item.ID + "&accountType=" + item.AccountTypeID + "&parentAccountType=" + Model.AccountTypeID)' class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> @GlobalResource.Edit </a>
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="10">
+                    <ul class="pagination pull-right"></ul>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

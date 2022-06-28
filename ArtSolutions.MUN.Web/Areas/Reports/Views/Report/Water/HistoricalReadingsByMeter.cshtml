@@ -1,0 +1,83 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.HistoricalReadingsMeterModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.ReportOfHistoricalReadingsByMeter;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportHistoricalReadingsByMeter", "Report", FormMethod.Post, new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReport.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@LocalResource.Meter</label>
+                                        @Html.TextBoxFor(x => x.Meter, new { @id = "txtMeter", @class = "form-control", @data_required_msg = LocalResource.MeterRequiredMsg, tabindex = 1, maxlength = 250, autofocus = "autofocus" })
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Account</label>
+                                        <div class="form-group w-300">
+                                            @Html.DropDownListFor(x => x.AccountId, new SelectList(Model.AccountList, "id", "text", Model.AccountId), GlobalResource.DropDownSelectMessage, new
+                                           {
+                                               @class = "form-control select2dropdown",
+                                               tabindex = 2
+                                            })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="submit" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="4" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="5" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" tabindex="6" onclick="return Print();">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="divHistoricalReadingsMeter">
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.AccountId, new { @id = "hdAccountID" })
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="~/Scripts/app/rephistoricalreadingsmeter.js"></script>
+}

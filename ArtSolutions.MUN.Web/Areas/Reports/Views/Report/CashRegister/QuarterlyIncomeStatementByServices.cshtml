@@ -1,0 +1,118 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.QuarterlyIncomeStatementByServicesModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.QuarterlyIncomeStatementByServices;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportQuarterlyIncomeStatementByServices", "Report", FormMethod.Post,
+                            new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        @{
+                            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeaderReportForCR.cshtml", Model.ReportCompanyModel);
+                        }
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Quarter <span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            @Html.DropDownList("Quarter", new List<SelectListItem> { new SelectListItem {Text="1",Value="1" },
+                                                                                                            new SelectListItem {Text="2",Value="2" },
+                                                                                                            new SelectListItem {Text="3",Value="3" },
+                                                                                                            new SelectListItem {Text="4",Value="4" } }, new {@class = "form-control select2dropdown", @tabindex = 1 })
+                                        </div>
+                                     </div>   
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Year <span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            @Html.DropDownList("Year", Model.YearList, new { @class = "form-control select2dropdown", tabindex = "2" })
+                                        </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                            <label>
+                                                <a href="javascript:;" tabindex="4" style="text-decoration:underline;" onclick="loadAdvanceSearch();">
+                                                    @GlobalResource.AdvanceSearch
+                                                </a>
+                                            </label>
+                                        </div>
+                                        <div class="form-group pull-right">
+                                            <button type="submit" tabindex="5" class="btn-success btn-sm m-r-xs" name="exportType" value="0" itag="btnExcel" onclick="return validateForm();">@GlobalResource.Excel</button>
+                                            <button type="submit" tabindex="6" class="btn-success btn-sm m-r-xs" name="exportType" value="1" itag="btnPDF" onclick="return validateForm();">@GlobalResource.PDF</button>
+                                            <button type="button" tabindex="7" class="btn-info btn-sm" name="exportType" value="2" itag="btnPrint" onclick="return Print();">@GlobalResource.Print</button>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 m-t-sm m-b-n hide" id="dvsearchinfo">
+                                <div class="col-lg-12 col-md-12 col-sm-12 form-inline">
+                                    <span class="label label-warning pull-left hide" id="spnSelectedService" style="margin-right: 5px;">  <i class="fa fa-search"></i> <span id="ServiceIdSearchText"></span>  <i class="fa fa-close" onclick="clearSearch('services')" style="cursor:pointer;"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divQuarterlyIncomeStatementByServices">
+                        </div>
+
+                        @*hidden values*@
+                        @Html.HiddenFor(x => x.FilterServiceID)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="advanceSearchModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn form-horizontal" id="dvAdvanceSearch">
+            <div class="modal-body no-padding">
+                <div class="ibox no-margins">
+                    <div class="ibox-title">
+                        <h5> @GlobalResource.AdvanceSearch  </h5>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">@GlobalResource.Service</label>
+                            <div class="col-lg-8">
+                                @Html.DropDownList("ServiceIDs", Model.ServiceList, GlobalResource.All, new { @multiple = "multiple", @class = "form-control select2dropdown", @tabindex = 10 })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSearch" type="button" class="btn btn-primary " tabindex="11" onclick="return validateAdvanceSearch();">@GlobalResource.Add</button>
+                <button id="btnCancel" type="button" class="btn btn-white closemodal" tabindex="12" data-dismiss="modal">@GlobalResource.Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+    <script type="text/javascript">
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var date = '@Html.Raw(GlobalResource.Date)';
+        var netclosing = '@Html.Raw(LocalResource.NetClosing)';
+        var SelectedService = '@Html.Raw(LocalResource.SelectedService)';;
+    </script>
+    <script src="~/Scripts/app/repquarterlyincomestatementbyservices.js"></script>
+}

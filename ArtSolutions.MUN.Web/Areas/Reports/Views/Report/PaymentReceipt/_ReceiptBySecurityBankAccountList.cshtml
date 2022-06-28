@@ -1,0 +1,162 @@
+﻿@model IEnumerable<ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptBySecurityBankAccountModelList>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+<table class="table discount-table">
+    <thead>
+        <tr>
+            <th> &nbsp;</th>
+            <th class="text-left">@LocalResource.DepositDate </th>
+            <th class="text-left">@LocalResource.DepositNumber </th>
+            <th class="text-left">@LocalResource.ClosingDate </th>
+            <th class="text-left">@LocalResource.ClosingNumber </th>
+            <th class="text-left">@GlobalResource.Name </th>
+            <th class="text-left">@LocalResource.ReceiptDate </th>
+            <th class="text-left">@GlobalResource.ReceiptNumber </th>
+            <th class="text-left">@LocalResource.Cash</th>
+            <th class="text-left">@LocalResource.ChequedelBancoNacional</th>
+            <th class="text-left">@LocalResource.CreditCard</th>
+            <th class="text-left">@LocalResource.BankTransferByBancodeCostaRica</th>
+            <th class="text-left">@LocalResource.ChequedelBancodeCostaRica</th>
+            <th class="text-left">@LocalResource.Adjustment</th>
+            <th class="text-left">@GlobalResource.Bank</th>
+            <th class="text-left">@LocalResource.BankTransferByBancoNacionaldeCostaRica</th>
+            <th class="text-left">@GlobalResource.CreditApplied</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count() == 0)
+        {
+            <tr>
+                <td class="col-lg-12" colspan="17">
+                    <center>@GlobalResource.NoDataMessage</center>
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.Select(d => d.ReceiptDate.Date).OrderBy(d => d).Distinct())
+            {
+                foreach (var objItem in Model.Where(d => d.ReceiptDate.Date == item))
+                {
+                    <tr>
+                        <td class=""> &nbsp;</td>
+                        <td class="text-left">
+                            @objItem.DepositeDate.ToString("d")
+                        </td>
+                        <td class="text-left">
+                            @objItem.DepositeNumber
+                        </td>
+                        <td class="text-left">
+                            @objItem.ClosingDate.ToString("d")
+                        </td>
+                        <td class="text-left">
+                            @objItem.ClosingNumber
+                        </td>
+                        <td class="text-left">
+                            @objItem.AccountDisplayName
+                        </td>
+                        <td class="text-left">
+                            @objItem.ReceiptDate.ToString("d")
+                        </td>
+                        <td class="text-left">
+                            @objItem.ReceiptNumber
+                        </td>
+                        <td class="text-left">
+                            @objItem.Cash.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.ChequedelBancoNacional.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.CreditCard.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.BankTransferByBancodeCostaRica.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.ChequedelBancodeCostaRica.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.Adjustment.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.Bank.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.BankTransferByBancoNacionaldeCostaRica.ToString("C")
+                        </td>
+                        <td class="text-left">
+                            @objItem.ApplyCreditAmount.ToString("C")
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="8" class="text-right" align="right">
+                        <strong>@GlobalResource.Total - @item.ToString("d")  </strong>
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Cash).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.ChequedelBancoNacional).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.CreditCard).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.BankTransferByBancodeCostaRica).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.ChequedelBancodeCostaRica).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Adjustment).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.Bank).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item).Sum(e => e.BankTransferByBancoNacionaldeCostaRica).ToString("C")
+                    </td>
+                    <td class="text-left border-bottom font-bold" align="left">
+                        @Model.Where(d => d.ReceiptDate.Date == item && d.ApplyCreditAmount > 0).Sum(e => e.ApplyCreditAmount).ToString("C")
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="8" class="text-right" align="right">
+                    <strong>@GlobalResource.Total - @Model.FirstOrDefault().BankAccount</strong>
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.Cash).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.ChequedelBancoNacional).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.CreditCard).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.BankTransferByBancodeCostaRica).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.ChequedelBancodeCostaRica).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.Adjustment).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.Bank).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Sum(e => e.BankTransferByBancoNacionaldeCostaRica).ToString("C")
+                </td>
+                <td class="text-left border-bottom font-bold" align="left">
+                    @Model.Where(d => d.ApplyCreditAmount > 0).Sum(d => d.ApplyCreditAmount).ToString("C")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

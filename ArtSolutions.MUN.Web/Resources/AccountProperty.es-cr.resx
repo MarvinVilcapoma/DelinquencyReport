@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Area" xml:space="preserve">
+    <value>Área de Terreno</value>
+  </data>
+  <data name="BlockLocation" xml:space="preserve">
+    <value>Ubicación del Bloque</value>
+  </data>
+  <data name="BuildingType" xml:space="preserve">
+    <value>Tipo de Construcción</value>
+  </data>
+  <data name="CadastralPlanNumber" xml:space="preserve">
+    <value>Plano Catastro</value>
+  </data>
+  <data name="Condo" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="CondoType" xml:space="preserve">
+    <value>Duplicado</value>
+  </data>
+  <data name="Floors" xml:space="preserve">
+    <value>Pisos</value>
+  </data>
+  <data name="FolioReal" xml:space="preserve">
+    <value>Folio Real</value>
+  </data>
+  <data name="GeneralDescriptionOfConstruction" xml:space="preserve">
+    <value>General Description Of Construction</value>
+  </data>
+  <data name="GenralDescriptionOfFacilitiesandComplementaryWork" xml:space="preserve">
+    <value>Descripción general de instalaciones y trabajo complementario</value>
+  </data>
+  <data name="Hydrology" xml:space="preserve">
+    <value>Hidrología</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Nivel (mts.)</value>
+  </data>
+  <data name="LevelType" xml:space="preserve">
+    <value>Tipo de Nivel</value>
+  </data>
+  <data name="MainAccess" xml:space="preserve">
+    <value>Acceso Principal</value>
+  </data>
+  <data name="NewProperty" xml:space="preserve">
+    <value>Nuevo Derecho</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="PredominantMaterialsDescriptionOfConstruction" xml:space="preserve">
+    <value>Materiales predominantes Descripción de la construcción</value>
+  </data>
+  <data name="PredominantMaterialsDescriptionOfFacilitiesandComplementaryWorks" xml:space="preserve">
+    <value>Materiales predominantes Descripción de instalaciones y obras complementarias</value>
+  </data>
+  <data name="PropertyFront" xml:space="preserve">
+    <value>Frente de la Propiedad</value>
+  </data>
+  <data name="PropertyLength" xml:space="preserve">
+    <value>Longitud de Propiedad</value>
+  </data>
+  <data name="PropertyNumber" xml:space="preserve">
+    <value>Número de Finca</value>
+  </data>
+  <data name="Regular" xml:space="preserve">
+    <value>Regularidad</value>
+  </data>
+  <data name="Seat" xml:space="preserve">
+    <value>Asiento</value>
+  </data>
+  <data name="Slope" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="SubEnrollment" xml:space="preserve">
+    <value>Submatricula</value>
+  </data>
+  <data name="TerrainInformation" xml:space="preserve">
+    <value>Información del Terrreno</value>
+  </data>
+  <data name="TotalValueOfConstruction" xml:space="preserve">
+    <value>Valor total de la Construcción</value>
+  </data>
+  <data name="UseofLand" xml:space="preserve">
+    <value>Uso de Suelo</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Tomo</value>
+  </data>
+  <data name="Walls" xml:space="preserve">
+    <value>Paredes</value>
+  </data>
+  <data name="AreaOfBuilding" xml:space="preserve">
+    <value>Área de Construcción</value>
+  </data>
+  <data name="Bathrooms" xml:space="preserve">
+    <value>Baños</value>
+  </data>
+  <data name="BuildingValue" xml:space="preserve">
+    <value>Valor de Construcción (CAJA 41 X CUADRO 42)</value>
+  </data>
+  <data name="CurrentAge" xml:space="preserve">
+    <value>Edad Actual</value>
+  </data>
+  <data name="Heavens" xml:space="preserve">
+    <value>Cielos</value>
+  </data>
+  <data name="NoOfChambers" xml:space="preserve">
+    <value>No. de Cámaras</value>
+  </data>
+  <data name="NoOfFloors" xml:space="preserve">
+    <value>No, Of Floors</value>
+  </data>
+  <data name="Roof" xml:space="preserve">
+    <value>Techo</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="Structure" xml:space="preserve">
+    <value>Estructura</value>
+  </data>
+  <data name="TotalValueOfTheConstruction" xml:space="preserve">
+    <value>Valor total de la Construcción</value>
+  </data>
+  <data name="ValueInSquareMeter" xml:space="preserve">
+    <value>Valor en metro cuadrado (en color)</value>
+  </data>
+  <data name="WallsExternal" xml:space="preserve">
+    <value>Paredes Externas</value>
+  </data>
+  <data name="WallsInternal" xml:space="preserve">
+    <value>Paredes Internas</value>
+  </data>
+  <data name="AddRights" xml:space="preserve">
+    <value>Agregar derechos</value>
+  </data>
+  <data name="ConstructionValue" xml:space="preserve">
+    <value>Valor de Construcción por &lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Contribuyente</value>
+  </data>
+  <data name="Percentage" xml:space="preserve">
+    <value>Porcentaje</value>
+  </data>
+  <data name="Rights" xml:space="preserve">
+    <value>Derechos</value>
+  </data>
+  <data name="RightCode" xml:space="preserve">
+    <value>Código de Derecho</value>
+  </data>
+  <data name="TerrainValue" xml:space="preserve">
+    <value>Valor del Terreno por &lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;</value>
+  </data>
+  <data name="CadastralLocation" xml:space="preserve">
+    <value>Ubicación Catastral</value>
+  </data>
+  <data name="Ceiling" xml:space="preserve">
+    <value>Cielo Raso</value>
+  </data>
+  <data name="ConstructionDescription" xml:space="preserve">
+    <value>Descripción de la Construcción</value>
+  </data>
+  <data name="ConstructionType" xml:space="preserve">
+    <value>Tipo de Construcción</value>
+  </data>
+  <data name="ConstructionYear" xml:space="preserve">
+    <value>Año de Construcción</value>
+  </data>
+  <data name="MaterialType" xml:space="preserve">
+    <value>Tipo de Material</value>
+  </data>
+  <data name="RequiredValidationPropertyRightConsctructionMsg" xml:space="preserve">
+    <value>Añada al menos una descripción de la construcción de cualquiera de derecha</value>
+  </data>
+  <data name="RequiredValidationPropertyRightMsg" xml:space="preserve">
+    <value>Por favor agregue al menos 2 derechos antes de continuar</value>
+  </data>
+  <data name="UnitValue" xml:space="preserve">
+    <value>Valor de Construcción por &lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;</value>
+  </data>
+  <data name="TotalArea" xml:space="preserve">
+    <value>Área Total  (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="AddTitle" xml:space="preserve">
+    <value>Nuevo Derecho</value>
+  </data>
+  <data name="ListTitle" xml:space="preserve">
+    <value>Derechos</value>
+  </data>
+  <data name="BrowserSupportGeoLocationMsg" xml:space="preserve">
+    <value>Su navegador no es compatible con la API de geolocalización</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitud</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitud</value>
+  </data>
+  <data name="MapLocation" xml:space="preserve">
+    <value>Ubicación en el Mapa</value>
+  </data>
+  <data name="NoDetailsAvailableGeoLocationMsg" xml:space="preserve">
+    <value>No hay detalles disponibles para la entrada</value>
+  </data>
+  <data name="PropertyLocation" xml:space="preserve">
+    <value>Ubicación de la Propiedad</value>
+  </data>
+  <data name="SearchLocation" xml:space="preserve">
+    <value>Ubicación de Búsqueda</value>
+  </data>
+  <data name="InvalidAccountProperty" xml:space="preserve">
+    <value>Finca inválida</value>
+  </data>
+  <data name="ViewAccountProperty" xml:space="preserve">
+    <value>Ver Derecho</value>
+  </data>
+  <data name="TotalValue" xml:space="preserve">
+    <value>Valor Actual</value>
+  </data>
+  <data name="Bathroom" xml:space="preserve">
+    <value>Baños</value>
+  </data>
+  <data name="BuildingArea" xml:space="preserve">
+    <value>Área de Construcción (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="ExternalWalls" xml:space="preserve">
+    <value>Paredes Exteriores</value>
+  </data>
+  <data name="InternalWalls" xml:space="preserve">
+    <value>Paredes Internas</value>
+  </data>
+  <data name="NoFloors" xml:space="preserve">
+    <value>No. Pisos</value>
+  </data>
+  <data name="AreaErrMsg" xml:space="preserve">
+    <value>El área total no suma 100%. Por favor, complete el área restante.</value>
+  </data>
+  <data name="CodeErrMsg" xml:space="preserve">
+    <value>El código ya existe</value>
+  </data>
+  <data name="NoMoreAreaMsg" xml:space="preserve">
+    <value>No hay más área disponible para dividir en más derechos</value>
+  </data>
+  <data name="EditAccountProperty" xml:space="preserve">
+    <value>Editar Derecho</value>
+  </data>
+  <data name="EditPropertyLocation" xml:space="preserve">
+    <value>Editar Ubicación de la Propiedad</value>
+  </data>
+  <data name="NewPropertyLocation" xml:space="preserve">
+    <value>Nueva Ubicación de la Propiedad</value>
+  </data>
+  <data name="NoChambers" xml:space="preserve">
+    <value>Número de Aposentos</value>
+  </data>
+  <data name="NewRight" xml:space="preserve">
+    <value>Crear Nuevos Derechos</value>
+  </data>
+  <data name="EditConstructionDescription" xml:space="preserve">
+    <value>Editar Construcción</value>
+  </data>
+  <data name="NewConstructionDescription" xml:space="preserve">
+    <value>Nueva Construcción</value>
+  </data>
+  <data name="BuildingAreaRequiredMsg" xml:space="preserve">
+    <value>El área de construcción debe ser mayor que cero.</value>
+  </data>
+  <data name="UnitValueRequiredMsg" xml:space="preserve">
+    <value>El valor unitario debe ser mayor que cero.</value>
+  </data>
+  <data name="TotalValueRequiredMsg" xml:space="preserve">
+    <value>El valor total debe ser mayor que cero.</value>
+  </data>
+  <data name="TotalValueMaxLengthValidationMsg" xml:space="preserve">
+    <value>Por favor, ingrese no más de 16 caracteres en el valor total.</value>
+  </data>
+  <data name="EditRight" xml:space="preserve">
+    <value>Editar Derecho</value>
+  </data>
+  <data name="CopyConstructionDescription" xml:space="preserve">
+    <value>Copia de Construcción</value>
+  </data>
+  <data name="TerrainValueRangeValidation" xml:space="preserve">
+    <value>Por favor ingrese un valor mayor que 0</value>
+  </data>
+  <data name="ComplementaryArea" xml:space="preserve">
+    <value>Área Complementaria (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="ComplementaryValue" xml:space="preserve">
+    <value>Valor Complementario por &lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;</value>
+  </data>
+  <data name="ConstructionArea" xml:space="preserve">
+    <value>Área de Construcción (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="PropertyFilingHistory" xml:space="preserve">
+    <value>Historial de Declaraciones del Derecho</value>
+  </data>
+  <data name="TerrainArea" xml:space="preserve">
+    <value>Área de Terreno (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="DistributedBetweenRights" xml:space="preserve">
+    <value>Distribuido Entre Derechos</value>
+  </data>
+  <data name="AvailableAreaMsg" xml:space="preserve">
+    <value>El área disponible para dividir en más derechos es: {0} %</value>
+  </data>
+  <data name="PropertyDetailsRequireMsg" xml:space="preserve">
+    <value>Asegúrese de que todos los campos obligatorios estén completos antes de agregar un nuevo derecho.</value>
+  </data>
+  <data name="TotalComplementaryValue" xml:space="preserve">
+    <value>Valor Complementario Total</value>
+  </data>
+  <data name="TotalConstructionValue" xml:space="preserve">
+    <value>Valor Total de la Construcción</value>
+  </data>
+  <data name="TotalTerrainValue" xml:space="preserve">
+    <value>Valor Total del Terreno</value>
+  </data>
+  <data name="BuildingTotalValue" xml:space="preserve">
+    <value>Valor Total de la Construcción</value>
+  </data>
+  <data name="AddConstructions" xml:space="preserve">
+    <value>Añadir Construcción</value>
+  </data>
+  <data name="Constructions" xml:space="preserve">
+    <value>Construcciones</value>
+  </data>
+  <data name="HomogeneousZone" xml:space="preserve">
+    <value>Zona Homogénea</value>
+  </data>
+  <data name="Movement" xml:space="preserve">
+    <value>Movimiento</value>
+  </data>
+  <data name="DateOfMovement" xml:space="preserve">
+    <value>Fecha de Movimiento</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>Número Consecutivo</value>
+  </data>
+  <data name="Services1" xml:space="preserve">
+    <value>Servicios 1</value>
+  </data>
+  <data name="Services2" xml:space="preserve">
+    <value>Servicios 2</value>
+  </data>
+  <data name="AddRight" xml:space="preserve">
+    <value>Añadir Derecho</value>
+  </data>
+  <data name="FactorRegular" xml:space="preserve">
+    <value>Factor Regularidad</value>
+  </data>
+  <data name="SlopePercentage" xml:space="preserve">
+    <value>% Pendiente</value>
+  </data>
+  <data name="ValidRegularFactorValidationMsg" xml:space="preserve">
+    <value>La factor regularidad debe estar entre 0 y 100.</value>
+  </data>
+  <data name="ValidSlopeValidationMsg" xml:space="preserve">
+    <value>La pendiente debe estar entre 0 y 100.</value>
+  </data>
+  <data name="AccounthaveNoRightsText" xml:space="preserve">
+    <value>El Contribuyente {0}{1} no tiene derechos asociados a la fecha:{2}.</value>
+  </data>
+  <data name="MovementDate" xml:space="preserve">
+    <value>Fecha del movimiento</value>
+  </data>
+  <data name="MovementType" xml:space="preserve">
+    <value>Tipo de movimiento</value>
+  </data>
+  <data name="PreviousTotalValue" xml:space="preserve">
+    <value>Valor Anterior</value>
+  </data>
+  <data name="PropertyNo" xml:space="preserve">
+    <value>Num Derecho</value>
+  </data>
+  <data name="TotalRight" xml:space="preserve">
+    <value>Num total de Derechos</value>
+  </data>
+  <data name="UsefulLife" xml:space="preserve">
+    <value>Vida Útil</value>
+  </data>
+  <data name="East" xml:space="preserve">
+    <value>Este</value>
+  </data>
+  <data name="North" xml:space="preserve">
+    <value>Norte</value>
+  </data>
+  <data name="South" xml:space="preserve">
+    <value>Sur</value>
+  </data>
+  <data name="West" xml:space="preserve">
+    <value>Oeste</value>
+  </data>
+  <data name="Adjacent" xml:space="preserve">
+    <value>Colindantes</value>
+  </data>
+  <data name="EditInactiveRightValidationMsg" xml:space="preserve">
+    <value>Usted no puede editar este derecho porque está inactivo. Necesita activarlo primero para continuar.</value>
+  </data>
+  <data name="CopyAccountProperty" xml:space="preserve">
+    <value>Derechos de Copia</value>
+  </data>
+  <data name="ImportAccountPropertyFailedMsg" xml:space="preserve">
+    <value>Se produce un error en la importación de propiedades de la cuenta</value>
+  </data>
+  <data name="AllowOnlyNumericInBuildingAreaMsg" xml:space="preserve">
+    <value>Permitir solo valor numérico en el Área de construcción.</value>
+  </data>
+  <data name="AllowOnlyNumericInCurrentAgeMsg" xml:space="preserve">
+    <value>Permitir solo valor numérico en la edad actual.</value>
+  </data>
+  <data name="AllowOnlyNumericInPercentageMsg" xml:space="preserve">
+    <value>Permitir solo valor numérico en Porcentaje.</value>
+  </data>
+  <data name="AllowOnlyNumericInTerrainAreaMsg" xml:space="preserve">
+    <value>Permitir solo valor numérico en el área del terreno.</value>
+  </data>
+  <data name="OwnerAlreadyAdded" xml:space="preserve">
+    <value>Propietario ya agregado en otro derecho de propiedad</value>
+  </data>
+  <data name="OwnerRequiredForService" xml:space="preserve">
+    <value>Por favor seleccione un dueño para cada servicio</value>
+  </data>
+  <data name="NewRightPopupTitle" xml:space="preserve">
+    <value>Crear Nuevo Derecho</value>
+  </data>
+  <data name="DeleteAccountPropertySuccMsg" xml:space="preserve">
+    <value>Derecho borrado correctamente.</value>
+  </data>
+  <data name="ValidRightCannotDeleted" xml:space="preserve">
+    <value>El derecho no puede ser eliminado, ya que tiene deuda pendiente.</value>
+  </data>
+  <data name="ValidRightCannotInactive" xml:space="preserve">
+    <value>El derecho no se puede inactivar ya que tiene servicios con deudas pendientes.</value>
+  </data>
+  <data name="OwnerRequiredValidationMsg" xml:space="preserve">
+    <value>Contribuyente es requerido!</value>
+  </data>
+  <data name="OriginalRight" xml:space="preserve">
+    <value>Derecho original</value>
+  </data>
+  <data name="NewTerrainArea" xml:space="preserve">
+    <value>Nueva Área de Terreno  (&lt;em&gt;m&lt;/em&gt; &lt;sup&gt;2&lt;/sup&gt;)</value>
+  </data>
+  <data name="NewTotalTerrainValue" xml:space="preserve">
+    <value>Nuevo Valor Total de Terreno</value>
+  </data>
+  <data name="OldTerrainArea" xml:space="preserve">
+    <value>Área de Terreno Original</value>
+  </data>
+  <data name="OldTotalTerrainValue" xml:space="preserve">
+    <value>Valor Total del Terreno Original</value>
+  </data>
+  <data name="ValidatePercentageMsg" xml:space="preserve">
+    <value>El valor porcentual debe ser 100.</value>
+  </data>
+  <data name="CurrentValueFromPropertyTax" xml:space="preserve">
+    <value>Valor Actual Declarado</value>
+  </data>
+  <data name="CurrentValueFromRight" xml:space="preserve">
+    <value>Valor Actual de Derecho de Propiedad</value>
+  </data>
+  <data name="NewCurrentValue" xml:space="preserve">
+    <value>Nuevo Valor Actual</value>
+  </data>
+  <data name="PropertySplitType" xml:space="preserve">
+    <value>Tipo de división de propiedad</value>
+  </data>
+  <data name="CurrentRightCode" xml:space="preserve">
+    <value>Código correcto actual</value>
+  </data>
+  <data name="NewPropertyNumber" xml:space="preserve">
+    <value>Nuevo número de propiedad</value>
+  </data>
+  <data name="OldPropertyNumber" xml:space="preserve">
+    <value>Número de propiedad anterior</value>
+  </data>
+  <data name="UpdateRight" xml:space="preserve">
+    <value>Actualizar a la derecha</value>
+  </data>
+  <data name="RightNumberHistory" xml:space="preserve">
+    <value>Historial del número derecho</value>
+  </data>
+  <data name="ChangeRightCode" xml:space="preserve">
+    <value>Cambiar código derecho</value>
+  </data>
+  <data name="VoidAccountPropertySplitSuccMsg" xml:space="preserve">
+    <value>La división de la propiedad de la cuenta se anuló con éxito</value>
+  </data>
+  <data name="ByAreaValue" xml:space="preserve">
+    <value>Por valor de área</value>
+  </data>
+  <data name="ByPercentage" xml:space="preserve">
+    <value>Por Porcentaje</value>
+  </data>
+  <data name="SplitBy" xml:space="preserve">
+    <value>Dividir Por</value>
+  </data>
+  <data name="AccountPropertyRequired" xml:space="preserve">
+    <value>Propiedad de la cuenta requerida</value>
+  </data>
+</root>

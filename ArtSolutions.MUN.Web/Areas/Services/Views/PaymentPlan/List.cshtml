@@ -1,0 +1,91 @@
+﻿@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.PaymentPlan;
+
+@{
+    ViewBag.Title = LocalResource.ListServicePaymentPlan;
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.ServicePaymentPlan</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                    <div class="ibox-tools">
+                        <a href="@Url.Action("Add", "PaymentPlan", new { area = "Services"})" class="btn btn-primary btn-xs" tabindex="3">@LocalResource.NewServicePaymentPlan</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-lg m-t-sm">
+                        <div class="col-sm-2 col-md-2 col-lg-1">
+                            <button type="button" id="btnrefresh" class="btn btn-white btn-sm" tabindex="4"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+                        </div>
+                        <div class="col-sm-10 col-md-10 col-lg-11">
+                            <div class="input-group">
+                                <input type="text" placeholder="@GlobalResource.Search" class="input-sm form-control readdata" id="txtSearch" tabindex="1"> <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-primary" id="btnSearch" tabindex="2"> @GlobalResource.Go</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-stripped" id="tblPaymentPlan"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+
+        var ActionTypeID = 4;
+        var per = " % ";
+        var listNoDataFound = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var active = '@Html.Raw(GlobalResource.Active)';
+        var inActivebtn ='@Html.Raw(GlobalResource.InActivebtn)';
+        var view ='@Html.Raw(GlobalResource.View)';
+        var edit ='@Html.Raw(GlobalResource.Edit)';
+        var cancel ='@Html.Raw(GlobalResource.Cancel)';
+        var activatedMessage ='@Html.Raw(GlobalResource.ActiveMessage)';
+        var deactivatedMessage ='@Html.Raw(GlobalResource.DeActiveMessage)';
+        var inActiveConfirm ='@Html.Raw(GlobalResource.InActiveConfirm)';
+        var activeConfirm ='@Html.Raw(GlobalResource.ActiveConfirm)';
+        var sureMessage ='@Html.Raw(GlobalResource.SureMessage)';
+        var first ='@Html.Raw(GlobalResource.First)';
+        var last ='@Html.Raw(GlobalResource.Last)';
+        var bTNNext ='@Html.Raw(GlobalResource.Next)';
+        var bTNPrevious ='@Html.Raw(GlobalResource.Previous)';
+        var name = '@Html.Raw(GlobalResource.Name)';
+        var serviceType ='@Html.Raw(GlobalResource.ServiceType)';
+        var downPayment  ='@Html.Raw(GlobalResource.DownPayment)';
+        var monthlyInterest ='@Html.Raw(LocalResource.MonthlyInterest)';
+        var noOfMonths ='@Html.Raw(LocalResource.NoOfMonths)';
+        var actions = '@Html.Raw(GlobalResource.Actions)';
+        var latePaymentInterest = '@Html.Raw(LocalResource.InterestsForLatePayments)';
+    </script>
+
+    <script src="@Url.Content("~/Scripts/app/servicepaymentplan.js")"></script>
+}

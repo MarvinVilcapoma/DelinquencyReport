@@ -1,0 +1,61 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.FinishViewAccountServiceFilingModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="project-list table-responsive" id="divfinishtable">
+            <table class="table table-hover" id="tblFinish">
+                <thead>
+                    <tr>
+                        @*@foreach (var item in Model.HeaderColumnList)
+                            {
+                                <th>@item</th>
+                            }*@
+                        <td>@LocalResource.GroupCode</td>
+                        <td>@GlobalResource.Year</td>
+                        <td>@GlobalResource.Month</td>
+                        <td>@GlobalResource.ServiceCode</td>
+                        <td>@GlobalResource.ServiceName</td>
+                        <td>@LocalResource.TaxNumber</td>
+                        <td>@LocalResource.CustomField1</td>
+                        <td>@LocalResource.LastReading</td>
+                        <td>@LocalResource.CurrentReading</td>
+                        <td>@LocalResource.Difference</td>
+                    </tr>
+                </thead>
+                <tbody class="white-bg">
+                    @foreach (var row in Model.ImportaccountViewModel)
+                    {
+                        <tr>
+                            <td>@row.GroupCode</td>
+                            <td>@row.Year</td>
+                            <td>@row.Month</td>
+                            <td>@row.ServiceCode</td>
+                            <td>@row.ServiceName</td>
+                            <td>@row.TaxNumber</td>
+                            <td>@row.CustomField1</td>
+                            <td>@row.LastReading</td>
+                            <td>@row.CurrentReading</td>
+                            <td>@row.Difference</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="10">
+                            <ul class="pagination list-inline pull-right"></ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    #divfinishtable {
+        height: 700px;
+    }
+</style>
+

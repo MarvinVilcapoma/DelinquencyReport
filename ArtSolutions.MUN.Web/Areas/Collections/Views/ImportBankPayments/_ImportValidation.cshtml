@@ -1,0 +1,128 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.InvalidBankPaymentsModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment;
+
+<h2>@LocalResource.ImportStep3SubTitle</h2>
+<div class="row">
+    <div class="col-lg-6">
+        @Html.HiddenFor(m => m.Note)
+        @Html.HiddenFor(m => m.Date)
+        @Html.HiddenFor(m => m.PaymentOptionID)
+        @Html.HiddenFor(m => m.TotalLinesInFileReceived)
+        @Html.HiddenFor(m => m.TotalLinesWithPayments)
+        @Html.HiddenFor(m => m.TotalCommission)
+        @Html.HiddenFor(m => m.TotalAmount)
+        @Html.HiddenFor(m => m.FileName)
+        <input type="hidden" value="@Model.ValidBankPaymentsStatement.Rows.Count" id="ValidOk" />
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-8">
+                    <label class="col-lg-8 lbl-m-b-none p-l-none">@LocalResource.ValidImportFile: </label>
+                    @if (Model.Valid == true)
+                    {
+                        <span class="label label-success">@LocalResource.Passed</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">@LocalResource.Fail</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Valid == false)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <div class="project-list" id="divtblItems">
+                            <div class="table-responsive m-t">
+                                <table class="table table-hover tblImportError" id="tblValidationResult" data-page-size="15" data-sorting="false">
+                                    <thead>
+                                        <tr>
+                                            <th>@PaymentResource.Contract</th>
+                                            <th>@GlobalResource.TaxNumber</th>
+                                            <th>
+                                                PERIODOREC
+                                            </th>
+                                            <th>
+                                                @ArtSolutions.MUN.Web.Resources.Report.MeterNo
+                                            </th>
+                                            <th>@GlobalResource.ServiceName</th>
+                                            @*<th>@GlobalResource.ReceiptNumber</th>*@
+                                            <th>@GlobalResource.Amount</th>
+                                            <th>@LocalResource.FailReason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ValidBankPaymentsStatement.Rows.Count == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="7" class="text-center">
+                                                    @GlobalResource.NoDataMessage
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.ValidBankPaymentsStatement.Rows)
+                                            {
+                                                <tr>
+                                                    <td class="col-lg-1">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[3])
+                                                    </td>
+                                                    <td class="col-lg-1">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[4])
+                                                    </td>
+                                                    <td class="col-lg-1">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[1])
+                                                    </td>
+                                                    <td class="col-lg-1">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[13])
+                                                    </td>
+                                                    <td class="col-lg-2">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[10])
+                                                    </td>
+                                                    @*<td class="col-lg-1">
+                                                            @Html.Raw(((System.Data.DataRow)item).ItemArray[15])
+                                                        </td>*@
+                                                    <td class="col-lg-2">
+                                                        @*@Html.Raw(((System.Data.DataRow)item).ItemArray[14])*@
+
+                                                        @if (Convert.ToString(((System.Data.DataRow)item).ItemArray[14]) == "")
+                                                        {
+                                                            @Html.Raw(((System.Data.DataRow)item).ItemArray[5])
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Raw(((System.Data.DataRow)item).ItemArray[14])
+                                                        }
+                                                    </td>
+                                                    <td class="col-lg-4">
+                                                        @Html.Raw(((System.Data.DataRow)item).ItemArray[6])
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="7">
+                                                <ul class="pagination pull-right"></ul>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

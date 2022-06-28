@@ -1,0 +1,106 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.BusinessLicenseFilingByFilingTypeModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    ViewBag.Title = LocalResource.BusinessLicenseFilingByFilingTypeTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="8%" class="table-border-center-th">@LocalResource.CustomerNumber</th>
+                    <th width="15%" class="table-border-center-th">@LocalResource.CustomerName</th>
+                    <th width="11%" class="table-border-center-th">@GlobalResource.SocialSecurity</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.FiscalYear</th>
+                    <th width="7%" class="table-border-center-th">@GlobalResource.Year</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.FilingDate</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.IdentityMunicipal</th>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.SalesVolume</th>
+                    <th width="11%" class="table-border-center-th">@LocalResource.OficialPatente</th>
+                    <th width="8%" class="table-border-center-th">@LocalResource.RegistrationDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.BusinessLicenseFilingByFilingTypeList != null && Model.BusinessLicenseFilingByFilingTypeList.Count() > 0)
+                {
+                    foreach (var item in Model.BusinessLicenseFilingByFilingTypeList.OrderBy(g => g.FillingDate))
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.AccountId
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.SocialSecurity
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedFiscalYearID
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FiscalYearID
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedFillingDate
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.AccountIdByFilling
+                            </td>
+                            <td class="table-border-right-td" style="@msoNumberFormat">
+                                @item.SalesVolume.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.FormattedUser
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedDate
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="7" class="table-bg-bold-right-td"> @LocalResource.TotalRadicaciones  </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.BusinessLicenseFilingByFilingTypeList != null && Model.BusinessLicenseFilingByFilingTypeList.Count() > 0)
+                        {
+                            @Model.BusinessLicenseFilingByFilingTypeList.Sum(i => i.SalesVolume).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td colspan="2" class="table-bg-bold-right-td">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

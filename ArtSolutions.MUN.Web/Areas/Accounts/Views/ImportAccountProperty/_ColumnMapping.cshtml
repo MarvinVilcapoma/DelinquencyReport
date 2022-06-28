@@ -1,0 +1,106 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyMappingViewModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty;
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account;
+
+<h2>@LocalResource.MappingNote</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            @Html.HiddenFor(m => m.FileName)
+            <div class="form-group">
+                <label>@LocalResource.GroupCode <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.GroupCode, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.GroupCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.PropertyNumber <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.RightNumber, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.RightNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.CondoType</label>
+                @Html.DropDownListFor(model => Model.Duplicate, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown" })
+                @Html.ValidationMessageFor(m => m.Duplicate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.Condo</label>
+                @Html.DropDownListFor(model => Model.Horizontal, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown" })
+                @Html.ValidationMessageFor(m => m.Horizontal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.RightCode <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.RightCode, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.RightCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.TaxNumber <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.TaxNumber, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.TaxNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@Html.Raw(AccountPropertyResource.TerrainArea) <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.TerrainArea, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.TerrainArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.Percentage</label>
+                @Html.DropDownListFor(model => Model.Percentage, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown" })
+                @Html.ValidationMessageFor(m => m.Percentage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@GlobalResource.Type <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.MaterialType, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.MaterialType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.ConstructionType</label>
+                @Html.DropDownListFor(model => Model.ConstructionType, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown " })
+                @Html.ValidationMessageFor(m => m.ConstructionType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@AccountPropertyResource.CurrentAge</label>
+                @Html.DropDownListFor(model => Model.CurrentAge, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown" })
+                @Html.ValidationMessageFor(m => m.CurrentAge, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>@Html.Raw(@AccountPropertyResource.BuildingArea) <span class="text-danger">&nbsp;*</span></label>
+                @Html.DropDownListFor(model => Model.BuildingArea, Model.HeaderColumnList, LocalResource.SelectColumn, new { @class = "form-control select2dropdown required" })
+                @Html.ValidationMessageFor(m => m.BuildingArea, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>

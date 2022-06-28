@@ -1,0 +1,214 @@
+﻿@model  List<ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel>
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    int CurrentYear = DateTime.Now.Year;
+    int workflowStatusID = Convert.ToInt32(ViewBag.WorkflowStatusID);
+    bool IsNeedToDeleteFilling = Model.Count() > 0 && Model.Where(d =>(d.ServiceID == 18|| d.ServiceID == 19296) &&  d.Year > CurrentYear && d.AnnualIncome > 0).Count() > 0;
+}
+
+<div class="full-height-scroll">
+    @Html.Hidden("IsNeedToDeleteFilling", @IsNeedToDeleteFilling)
+    <div class="table-responsive m-t">
+        <table class="table table-report" id="tblPropertyTransfer">
+            <thead>
+                <tr class="sub-header">
+                    <th>
+                        @GlobalResource.ServiceType
+                    </th>
+                    <th>
+                        @GlobalResource.Service
+                    </th>
+                    <th>
+                        @LocalResource.CustomField1
+                    </th>
+                    <th>
+                        @LocalResource.ServiceID
+                    </th>
+                    <th>
+                        @GlobalResource.Property
+                    </th>
+                    <th>
+                        @GlobalResource.Year
+                    </th>
+                    <th class="text-right">
+                        @LocalResource.AmountToPay
+                    </th>
+                    <th>
+                        @GlobalResource.Owner
+                    </th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model.Where(d => d.Year == CurrentYear && d.GroupID >= 6 && d.GroupID <= 9).OrderBy(d => d.ServiceTypeID).ToList())
+                    {
+                        <tr id="@item.ID">
+                            <td>
+                                @item.LicenseType
+                            </td>
+                            <td class="text-left">
+                                @item.ServiceName
+                            </td>
+                            <td class="text-left">
+                                @item.CustomField1
+                            </td>
+                            <td class="text-left">
+                                <a href="javascript:void(0)" class="lnkViewServicePeriod" data-accountserviceid="@item.ID" style="text-decoration:none;cursor:pointer;"> @item.LicenseNumber </a>
+                            </td>
+                            <td class="text-left">
+                                @if (
+                                    (item.Property == "-")
+                                        &&
+                                    (item.ServiceTypeID == 1 || item.ServiceTypeID == 11 || item.ServiceTypeID == 16 || item.ServiceTypeID == 17 || item.ServiceTypeID == 18 || item.ServiceTypeID == 19 || item.ServiceTypeID == 24 || item.ServiceTypeID == 27)
+                                 )
+                                {
+                                    <a id="addRight" data-AccountServiceID="@item.ID" data-AccountID="@item.AccountID" data-Year="@item.Year" data-rowVersion64="@item.RowVersion64" data-ServiceID="@item.ServiceID" class='text-underline'> @AccountPropertyResource.AddRight </a>
+                                }
+                                else
+                                {
+
+                                    //CO-1151
+                                    if (item.Property != null)
+                                    {
+                                        <a id="viewRight" target="_blank" href='@Url.Content("~/AccountProperty/View?ID=" + item.AccountPropertyID)' class="text-underline">@item.Property</a>
+                                    }
+                                }
+                            </td>
+                            <td class="text-left">
+                                @item.Year
+                            </td>
+                            <td class="text-right">
+                                @item.FormattedAnnualIncome
+                            </td>
+                            <td>
+                                @if (workflowStatusID == 39)
+                                {
+                                    @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                }
+                                else if (workflowStatusID == 40)
+                                {
+                                    if (item.GroupID != 7)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                                else if (workflowStatusID == 41)
+                                {
+                                    if (item.GroupID != 8)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                                else if (workflowStatusID == 42)
+                                {
+                                    if (item.GroupID != 9)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                    foreach (var item in Model.Where(d => d.Year != CurrentYear && d.GroupID >= 6 && d.GroupID <= 9).OrderBy(d => d.ServiceTypeID).ToList())
+                    {
+                        <tr id="@item.ID">
+                            <td>
+                                @item.LicenseType
+                            </td>
+                            <td class="text-left">
+                                @item.ServiceName
+                            </td>
+                            <td class="text-left">
+                                @item.CustomField1
+                            </td>
+                            <td class="text-left">
+                                <a href="javascript:void(0)" class="lnkViewServicePeriod" data-accountserviceid="@item.ID" style="text-decoration:none;cursor:pointer;"> @item.LicenseNumber </a>
+                            </td>
+                            <td class="text-left">
+                                @if (
+                                   (item.Property == "-")
+                                       &&
+                                   (item.ServiceTypeID == 1 || item.ServiceTypeID == 11 || item.ServiceTypeID == 16 || item.ServiceTypeID == 17 || item.ServiceTypeID == 18 || item.ServiceTypeID == 19 || item.ServiceTypeID == 24 || item.ServiceTypeID == 27)
+                                )
+                                {
+                                    <a id="addRight" data-AccountServiceID="@item.ID" data-AccountID="@item.AccountID" data-Year="@item.Year" data-rowVersion64="@item.RowVersion64" data-ServiceID="@item.ServiceID" class='text-underline'> @AccountPropertyResource.AddRight </a>
+                                }
+                                else
+                                {
+
+                                    //CO-1151
+                                    if (item.Property != null)
+                                    {
+                                        <a id="viewRight" target="_blank" href='@Url.Content("~/AccountProperty/View?ID=" + item.AccountPropertyID)' class="text-underline">@item.Property</a>
+                                    }
+                                }
+                            </td>
+                            <td class="text-left">
+                                @item.Year
+                            </td>
+                            <td class="text-right">
+                                @item.FormattedAnnualIncome
+                            </td>
+                            <td>
+                                @if (workflowStatusID == 39)
+                                {
+                                    @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                }
+                                else if (workflowStatusID == 40)
+                                {
+                                    if (item.GroupID != 7)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                                else if (workflowStatusID == 41)
+                                {
+                                    if (item.GroupID != 8)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                                else if (workflowStatusID == 42)
+                                {
+                                    if (item.GroupID != 9)
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @disabled = true })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Owner", new List<SelectListItem>(), GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown Owner" })
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,162 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PaymentPlanByTaxpayerModel
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPaymentPlanResource = ArtSolutions.MUN.Web.Resources.AccountPaymentPlan
+@using HtmlHelpers.BeginCollectionItem;
+
+@{
+
+}
+
+@if (ViewBag.IsTermDetail != true && Model.AccountModel != null)
+{
+    <div class="row">
+        <div class="col-lg-12 m-t-md">
+            <div class="col-lg-12 box-border">
+                <div class="col-lg-4 no-padding">
+                    <strong> @ReportResource.IDNumber  :  </strong>
+                    @Model.AccountModel.TaxNumber
+                </div>
+                <div class="col-lg-8 no-padding text-right">
+                    <strong> @GlobalResource.Name  :  </strong>
+                    @Model.AccountModel.DisplayName
+                </div>
+            </div>
+        </div>
+    </div>
+    if (Model.IsInJudicialCollection != null)
+    {
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 class="text-right text-danger bold">
+                    @GlobalResource.PersonHasaJudicialCollectionMsg
+                </h5>
+            </div>
+        </div>
+    }
+    <div class="table-responsive m-t-md">
+        <table class="table table-report display nowrap paymentPlanByTaxpayerTable">
+            <thead>
+                <tr>
+                    @if (Model.AccountPaymentPlanServiceDetailList != null && Model.AccountPaymentPlanServiceDetailList.Count() > 0)
+                    {
+                        <th style="min-width:10px;" class="text-center">
+                            <input type="checkbox"
+                                   id="SelectedItemAll" name="SelectedItemAll" class="chkAll" />
+                        </th>
+                    }
+                    <th style="min-width:40px;" class="text-center">
+                        @AccountPaymentPlanResource.Concept
+                    </th>
+                    <th style="min-width:350px;" class="text-center">
+                        @GlobalResource.Description
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @GlobalResource.Periods
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @AccountPaymentPlanResource.AmountTotal
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @ArtSolutions.MUN.Web.Resources.Service.StartAmount
+                    </th>
+                    <th style="min-width:100px;" class="text-center">
+                        @AccountPaymentPlanResource.MonthlyAmount
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.AccountPaymentPlanServiceDetailList != null && Model.AccountPaymentPlanServiceDetailList.Count() > 0)
+                {
+                    foreach (var objService in Model.AccountPaymentPlanServiceDetailList.GroupBy(d => d.PaymentPlanNameWithNumber).Select(d => d.Key).Distinct().ToList())
+                    {
+                        <tr>
+                            <td class="text-center"></td>
+                            <td><b>@objService</b></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        foreach (var item in Model.AccountPaymentPlanServiceDetailList.Where(d => d.PaymentPlanNameWithNumber == objService).OrderBy(d=>d.ServiceName))
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <input type="checkbox" id="SelectedItemAll" name="SelectedItemAll"
+                                           dataRowNo="@item.RowNo"
+                                           class="chkSelectedItem collectionItem"
+                                           onclick="GetSelectedItems(this);" />
+                                </td>
+                                <td class="text-center">
+                                    @item.Code
+                                </td>
+                                <td class="text-center">
+                                    @item.ServiceName
+                                </td>
+                                <td class="text-center">
+                                    @if (string.IsNullOrEmpty(item.Periods))
+                                    {
+                                        @Html.Raw(" - ")
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw(item.Periods)
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    @item.TotalAmount.Value.ToString("C")
+                                </td>
+                                <td class="text-center">
+                                    @item.StartAmount.Value.ToString("C")
+                                </td>
+                                <td class="text-center">
+                                    @item.MonthlyAmount.Value.ToString("C")
+                                </td>
+                            </tr>
+                        }
+                    }
+                    <tr class="sub-header font-bold">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">@ArtSolutions.MUN.Web.Resources.COLPayment.TotalAmount</td>
+                        <td></td>
+                        <td class="text-center top-border table-total-amount">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.TotalAmount).Value.ToString("C")</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="sub-header font-bold">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">@AccountPaymentPlanResource.InitialAndMonthlyFeeAmounts</td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center top-border table-total-amount">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.StartAmount).Value.ToString("C")</td>
+                        <td class="text-center top-border table-total-amount">@Model.AccountPaymentPlanServiceDetailList.Sum(e => e.MonthlyAmount).Value.ToString("C")</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="no-data">
+                        <td colspan="6" class="text-center">
+                            @ReportResource.TaxpayerHasNoPaymentArrangementsMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Model.AccountPaymentPlanServiceDetailList != null && Model.AccountPaymentPlanServiceDetailList.Count() > 0)
+        {
+            <div class="form-group pull-right">
+                <button id="btnGoList"
+                        type="button" class="btn btn-sm btn-primary" name="actionType" value="Go"
+                        onclick="GetPaymentPlanDetail()">
+                    @GlobalResource.Go
+                </button>
+            </div>
+        }
+
+    </div>
+}

@@ -1,0 +1,86 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionRevenueBankCollectionModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="table-responsive m-t">
+    <table id="tblRevenueBankCollection" class="table table-report display nowrap">
+        <thead>
+            <tr>
+                <th style="min-width:150px;" class="text-center">
+                    @ReportResource.CollectionConcept
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.PreviousPaid
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.RegularPaid
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.AdvancePaid
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.InterestCondoned
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @ReportResource.PaidInterest
+                </th>
+                <th style="min-width:50px;" class="text-center">
+                    @GlobalResource.Total
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tblDetailRow">
+            @{
+
+                Html.RenderPartial("~/Areas/Reports/Views/Report/Bank/_RevenuefromBankCollectionDetailList.cshtml", Model);
+            }
+
+            @if (Model.TotalRecord > 100)
+            {
+                <tr id="tbodyRevenueBankCollection">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right">
+                        <a id="dailyIncomeStateShowMore"
+                           href="javascript:void(0);"
+                           data-totalrecord="@Model.RevenueBankCollectionList.Count"
+                           data-currentpage="1"
+                           onclick="loadMoreRevenueBankCollection(this);">
+                            @ReportResource.LoadMore ...
+                        </a>
+                    </td>
+                </tr>
+            }
+
+            <tr class="tdTotal">
+                <td class="text-right font-bold">@GlobalResource.Total</td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.PreviousPayment).Value.ToString("C"))
+                </td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.CurrentPayment).Value.ToString("C"))
+                </td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.AdvancePayment).Value.ToString("C"))
+                </td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.ForgiveInterest).Value.ToString("C"))
+                </td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.PaidInterest).Value.ToString("C"))
+                </td>
+                <td class="text-center font-bold">
+                    @Html.Raw(Model.RevenueBankCollectionList.Sum(d => d.Total).Value.ToString("C"))
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+@Html.HiddenFor(x => x.TotalRecord)

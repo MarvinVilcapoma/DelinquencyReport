@@ -1,0 +1,22 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceCollectionDiscountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<div class="full-height-scroll">
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-1 padding-bottom-5">
+                <button type="button" class="btn btn-white btn-sm" value="@GlobalResource.Refresh" onclick="refreshDiscountList(@Model.AccountServiceID)"><i class="fa fa-refresh"></i> @GlobalResource.Refresh</button>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-3 padding-bottom-5">
+                @Html.DropDownList("ddlCollectionDetail", Model.CollectionDetailNameList, GlobalResource.All, new { @class = "form-control select2dropdown", @id = "ddlCollectionDetail" })
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-8 padding-bottom-5">
+                <input type="button" class="btn btn-primary btn-group-sm btn-sm" value="@GlobalResource.Go" onclick="filterDiscountList()">
+            </div>
+        </div>
+        <div id="collectiondiscountlist" class="table-responsive">
+            @Html.Partial("~/Areas/Accounts/Views/AccountService/_CollectionDiscount.cshtml", Model.CollectionDiscount)
+        </div>
+    </div>   
+</div>

@@ -1,0 +1,165 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+
+@{
+    var customField = ViewBag.CustomField;
+}
+
+@using (Ajax.BeginForm("UpdateCustomField", "AccountService", new AjaxOptions { HttpMethod = "POST", OnSuccess = "CustomFieldSuccessCallback(data)" }, new { role = "form", id = "frmAccountService_CustomField", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>
+                    @LocalResource.EditValueOf
+
+                    @if (customField == 1)
+                    {
+                        @Model.SerCustomField1
+                    }
+                    @if (customField == 2)
+                    {
+                        @Model.SerCustomField2
+                    }
+                    @if (customField == 3)
+                    {
+                        @Model.SerCustomField3
+                    }
+                    @if (customField == 4)
+                    {
+                        @Model.SerCustomField4
+                    }
+                    @if (customField == 5)
+                    {
+                        @Model.SerCustomField5
+                    }
+                    @if (customField == 0)
+                    {
+                        @Model.SerCustomDateField
+                    }
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@LocalResource.CurrentValue</label>
+                    <div class="col-lg-8 m-t-xs">
+
+                        @if (customField == 1)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField1, new { @class = "form-control", @disabled = "disabled", maxlength = 250, tabindex = 1 })
+                        }
+
+                        @if (customField == 2)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField2, new { @class = "form-control", @disabled = "disabled", maxlength = 250, tabindex = 1 })
+                        }
+
+                        @if (customField == 3)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField3, new { @class = "form-control", @disabled = "disabled", maxlength = 250, tabindex = 1 })
+                        }
+
+                        @if (customField == 4)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField4, new { @class = "form-control", @disabled = "disabled", maxlength = 250, tabindex = 1 })
+                        }
+
+                        @if (customField == 5)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField5, new { @class = "form-control", @disabled = "disabled", maxlength = 250, tabindex = 1 })
+                        }
+
+                        @if (customField == 0)
+                        {
+                            @Html.TextBoxFor(x => x.CustomDateField, new { @class = "form-control", Value = (Model.CustomDateField.HasValue ? Model.CustomDateField.Value.ToString("d") : null), @disabled = "disabled", tabindex = 1 })
+                        }
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@LocalResource.NewValue <span class="text-danger">*</span></label>
+                    <div class="col-lg-8 m-t-xs">
+
+                        @if (customField == 1)
+                        {
+                            if (Model.IsDateFieldCustomField1 == null || Model.IsDateFieldCustomField1.Value == false)
+                            {
+                                @Html.TextBoxFor(x => x.CustomField1NewValue, new { @class = "required newCustomField form-control", maxlength = 250, tabindex = 2 })
+                                @Html.ValidationMessageFor(x => x.CustomField1NewValue)
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.CustomField1NewValue, new { @class = "required newCustomField inputcustomdate form-control", maxlength = 250, tabindex = 2 })
+                                @Html.ValidationMessageFor(x => x.CustomField1NewValue)
+                            }
+                        }
+
+                        @if (customField == 2)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField2NewValue, new { @class = "required newCustomField form-control", maxlength = 250, tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomField2NewValue)
+                        }
+
+                        @if (customField == 3)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField3NewValue, new { @class = "required newCustomField form-control", maxlength = 250, tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomField3NewValue)
+                        }
+
+                        @if (customField == 4)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField4NewValue, new { @class = "required newCustomField form-control", maxlength = 250, tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomField4NewValue)
+                        }
+
+                        @if (customField == 5)
+                        {
+                            @Html.TextBoxFor(x => x.CustomField5NewValue, new { @class = "required newCustomField form-control", maxlength = 250, tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomField5NewValue)
+                        }
+
+                        @if (customField == 0)
+                        {
+                            @Html.TextBoxFor(x => x.CustomDateFieldNewValue, new { @class = "required newCustomField inputcustomdate form-control", tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomDateFieldNewValue)
+                        }
+                    </div>
+                </div>
+                @if (customField == 1)
+                {
+                    <div class="row form-group">
+                        <label class="col-lg-4 control-label">@GlobalResource.CreatedDate <span class="text-danger">*</span></label>
+                        <div class="col-lg-8 m-t-xs">
+
+
+                            @{ Model.CustomField1UpdateDate = new DateTime(Model.Year, 1, 1); }
+                            @Html.TextBox("CustomField1UpdateDate", Model.CustomField1UpdateDate.HasValue ? Model.CustomField1UpdateDate.Value.ToString("d") : null, new { @class = "required CustomFieldUpdateDate form-control", tabindex = 2 })
+                            @Html.ValidationMessageFor(x => x.CustomField1UpdateDate)
+
+                        </div>
+                    </div>
+                }
+            </div>
+            @Html.HiddenFor(x => x.ID, new { @id = "hfID" })
+            @Html.HiddenFor(x => x.AccountID, new { @id = "hfAccountID" })
+            @Html.HiddenFor(x => x.ServiceID, new { @id = "hfServiceID" })
+            @Html.HiddenFor(x => x.CustomField1, new { @id = "hfCustomField1" })
+            @Html.HiddenFor(x => x.CustomField2, new { @id = "hfCustomField2" })
+            @Html.HiddenFor(x => x.CustomField3, new { @id = "hfCustomField3" })
+            @Html.HiddenFor(x => x.CustomField4, new { @id = "hfCustomField4" })
+            @Html.HiddenFor(x => x.CustomField5, new { @id = "hfCustomField5" })
+            @Html.HiddenFor(x => x.CustomDateField, new { @id = "hfCustomDateField" })
+            @Html.HiddenFor(x => x.Year, new { @id = "hfYear" })
+            @Html.HiddenFor(x => x.RowVersion64, new { @id = "hfRowVersion64" })
+            @Html.HiddenFor(x => x.IsDateFieldCustomField1)
+            @Html.Hidden("hfNewCustomDateField")
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnUpdateCustomField" type="button" class="btn btn-primary" onclick="return SaveCustomField();" tabindex="3">@GlobalResource.Update</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="4">@GlobalResource.Cancel</button>
+    </div>
+}

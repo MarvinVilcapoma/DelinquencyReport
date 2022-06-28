@@ -1,0 +1,110 @@
+﻿@using System.Data;
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+
+<h2>@LocalResource.RecordsToImport</h2>
+<div class="row" style="padding:0px !important;">
+    <div class="col-lg-12">
+        <div class="project-list table-responsive" id="divfinishtable">
+            <table width="100%" class="table table-report border-left footable" id="tblFinish" data-page-size="30" data-sorting="false">
+                <thead>
+                    @if (Model != null && Model.Rows.Count > 0)
+                    {
+                        <tr>
+                            @foreach (DataColumn col in Model.Columns)
+                            {
+                                if (col.ColumnName == "Year")
+                                {
+                                    <th style="min-width:68px;">@GlobalResource.Year</th>
+                                }
+                                else if (col.ColumnName == "Month")
+                                {
+                                    <th style="min-width:48px;">@GlobalResource.Month</th>
+                                }
+                                else if (col.ColumnName == "CATEGORIA")
+                                {
+                                    <th style="min-width:48px;">@GlobalResource.Category</th>
+                                }
+                                else if (col.ColumnName == "TaxNumber")
+                                {
+                                    <th style="min-width:120px;"> @GlobalResource.TaxNumber</th>
+                                }
+                                else if (col.ColumnName == "UBICACION")
+                                {
+                                    <th style="min-width:135px;"> @AccountServiceResource.Location</th>
+                                }
+                                else if (col.ColumnName == "CODIGOM")
+                                {
+                                    <th style="min-width:110px;"> @AccountServiceResource.Codigom</th>
+                                }
+                                else if (col.ColumnName == "LECTURAACT")
+                                {
+                                    <th style="min-width:85px;">@LocalResource.CurrentReading</th>
+                                }
+                                else if (col.ColumnName == "LastReading")
+                                {
+                                    <th style="min-width:85px;"> @AccountServiceResource.LastReading </th>
+                                }
+                                else if (col.ColumnName == "Difference")
+                                {
+                                    <th style="min-width:85px;"> @LocalResource.Difference </th>
+                                }
+                                else if (col.ColumnName == "FECHA")
+                                {
+                                    <th style="min-width:95px;"> @GlobalResource.Date </th>
+                                }
+                            }
+                        </tr>
+                    }
+                </thead>
+                <tbody class="white-bg">
+                    @if (Model != null && Model.Rows.Count > 0)
+                    {
+                        for (int j = 0; j < Model.Rows.Count; j++)
+                        {
+                            var row = Model.Rows[j];
+                            var Year = row["Year"] != null ? Convert.ToString(row["Year"]) : null;
+                            var Month = row["Month"] != null ? Convert.ToString(row["Month"]) : null;
+                            var CATEGORIA = row["CATEGORIA"] != null ? Convert.ToString(row["CATEGORIA"]) : null;
+                            var TaxNumber = row["TaxNumber"] != null ? Convert.ToString(row["TaxNumber"]) : null;
+                            var UBICACION = row["UBICACION"] != null ? Convert.ToString(row["UBICACION"]) : null;
+                            var CODIGOM = row["CODIGOM"] != null ? Convert.ToString(row["CODIGOM"]) : null;
+                            var LECTURAACT = row["LECTURAACT"] != null ? Convert.ToString(row["LECTURAACT"]) : null;
+                            var LastReading = row["LastReading"] != null ? Convert.ToString(row["LastReading"]) : null;
+                            var Difference = row["Difference"] != null ? Convert.ToString(row["Difference"]) : null;
+                            var FECHA = row["FECHA"] != null ? Convert.ToString(row["FECHA"]) : null;
+                            <tr>
+                                <td style="padding:2px 2px 2px 6px !important;">@Year</td>
+                                <td style="padding:2px 2px 2px 6px !important;">@Month</td>
+                                <td style="padding:2px !important;">@CATEGORIA</td>
+                                <td style="padding:2px !important;">@TaxNumber</td>
+                                <td style="padding:2px !important;">@UBICACION</td>
+                                <td style="padding:2px !important;">@CODIGOM</td>
+                                <td style="padding:2px !important;">@LECTURAACT</td>
+                                <td style="padding:2px !important;">@LastReading</td>
+                                <td style="padding:2px !important;">@Difference</td>
+                                <td style="padding:2px !important;">@FECHA</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                @GlobalResource.NoDataMessage
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="10">
+                            <ul class="pagination list-inline pull-right"></ul>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

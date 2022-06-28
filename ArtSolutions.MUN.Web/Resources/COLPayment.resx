@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Adjustment" xml:space="preserve">
+    <value>Adjustment</value>
+  </data>
+  <data name="AllowOnlyNumericInAmountMsg" xml:space="preserve">
+    <value>Allow only numeric value in Amount.</value>
+  </data>
+  <data name="AmountDue" xml:space="preserve">
+    <value>Amount Due</value>
+  </data>
+  <data name="AppliedCredit" xml:space="preserve">
+    <value>Apply Credit Amount</value>
+  </data>
+  <data name="ApplyCredit" xml:space="preserve">
+    <value>Apply Credit</value>
+  </data>
+  <data name="AvailableCredit" xml:space="preserve">
+    <value>Available Credit Amount</value>
+  </data>
+  <data name="ByInvoice" xml:space="preserve">
+    <value>By Invoice</value>
+  </data>
+  <data name="ByOtherService" xml:space="preserve">
+    <value>By Isolated Receipt</value>
+  </data>
+  <data name="ByPaymentPlan" xml:space="preserve">
+    <value>By Payment Plan</value>
+  </data>
+  <data name="ByPropertyTax" xml:space="preserve">
+    <value>By Property Tax</value>
+  </data>
+  <data name="ByService" xml:space="preserve">
+    <value>By Service</value>
+  </data>
+  <data name="CheckNumber" xml:space="preserve">
+    <value>Check/Card Detail</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Contract</value>
+  </data>
+  <data name="CreditNoteSuccessMsg" xml:space="preserve">
+    <value>Credit Note added successfully.</value>
+  </data>
+  <data name="ImportBankPaymentsFailedMsg" xml:space="preserve">
+    <value>Error occur in Bank Payments Import</value>
+  </data>
+  <data name="InternalNotes" xml:space="preserve">
+    <value>Internal Notes</value>
+  </data>
+  <data name="InvoiceAmount" xml:space="preserve">
+    <value>Invoice Amount</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>Invoice Number</value>
+  </data>
+  <data name="IsHaveAccountPaymentPlanMsg" xml:space="preserve">
+    <value>This account has Payment Plan</value>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="ItemList" xml:space="preserve">
+    <value>Item List</value>
+  </data>
+  <data name="LastAsOfDate" xml:space="preserve">
+    <value>Last As of Date</value>
+  </data>
+  <data name="ListPaymentReceipt" xml:space="preserve">
+    <value>Payment Receipts</value>
+  </data>
+  <data name="ManualReceipt" xml:space="preserve">
+    <value>Manual Receipt</value>
+  </data>
+  <data name="ManualReceiptConfirmMsg" xml:space="preserve">
+    <value>Manual Receipt Number: </value>
+  </data>
+  <data name="NewPaymentReceipt" xml:space="preserve">
+    <value>New Payment Receipt</value>
+  </data>
+  <data name="NewPaymentReceiptByInvoice" xml:space="preserve">
+    <value>New Payment Receipt By Invoice</value>
+  </data>
+  <data name="NewPaymentReceiptByOtherService" xml:space="preserve">
+    <value>New Payment Receipt By Isolated Receipt</value>
+  </data>
+  <data name="NewPaymentReceiptByPaymentPlan" xml:space="preserve">
+    <value>New Payment Receipt By Payment Plan</value>
+  </data>
+  <data name="NewPaymentReceiptByPropertyTax" xml:space="preserve">
+    <value>New Payment Receipt By Property Tax</value>
+  </data>
+  <data name="NewPaymentReceiptByService" xml:space="preserve">
+    <value>New Payment Receipt By Service</value>
+  </data>
+  <data name="PaymentDate" xml:space="preserve">
+    <value>Payment Date</value>
+  </data>
+  <data name="PaymentNotes" xml:space="preserve">
+    <value>Payment Notes(Check/Card Detail)</value>
+  </data>
+  <data name="PaymentOption" xml:space="preserve">
+    <value>Payment Option</value>
+  </data>
+  <data name="PostPayment" xml:space="preserve">
+    <value>Make a Payment</value>
+  </data>
+  <data name="PrintReceipt" xml:space="preserve">
+    <value>Print Receipt</value>
+  </data>
+  <data name="PropertyRight" xml:space="preserve">
+    <value>Property Right</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="SelectAllSearchMsg" xml:space="preserve">
+    <value>Search text is required when search is for all year.</value>
+  </data>
+  <data name="SelectInvoice" xml:space="preserve">
+    <value>Please, select invoice.</value>
+  </data>
+  <data name="SelectService" xml:space="preserve">
+    <value>Please, select service.</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TotalAdjustment" xml:space="preserve">
+    <value>Total Adjustment</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Total Amount</value>
+  </data>
+  <data name="TotalBankTransfer" xml:space="preserve">
+    <value>Total Bank Transfer</value>
+  </data>
+  <data name="TotalCash" xml:space="preserve">
+    <value>Total Cash</value>
+  </data>
+  <data name="TotalChequedelBancodeCostaRica" xml:space="preserve">
+    <value>Total Cheque del Banco de Costa Rica</value>
+  </data>
+  <data name="TotalChequedelBancoNacional" xml:space="preserve">
+    <value>Total Cheque del Banco Nacional</value>
+  </data>
+  <data name="TotalCreditCard" xml:space="preserve">
+    <value>Total Credit Card</value>
+  </data>
+  <data name="ValCompareTotalAmount" xml:space="preserve">
+    <value>Total amount should not exceed selected invoice due amount.</value>
+  </data>
+  <data name="ValCompareTotalServiceAmount" xml:space="preserve">
+    <value>Total amount should not exceed item total amount.</value>
+  </data>
+  <data name="ValCreditBalance" xml:space="preserve">
+    <value>Apply credit amount should not exceed the available credit amount.</value>
+  </data>
+  <data name="ValFullDownPaymentMessage" xml:space="preserve">
+    <value>Total amount does not match with down payment amount.</value>
+  </data>
+  <data name="ValFullPaymentMessage" xml:space="preserve">
+    <value>Total amount does not match with monthly installment.</value>
+  </data>
+  <data name="ValMinOneInvoice" xml:space="preserve">
+    <value>Please, select minimum one invoice.</value>
+  </data>
+  <data name="ValMinOneItem" xml:space="preserve">
+    <value>There should be atlease one line item.</value>
+  </data>
+  <data name="ValMinOnePaymentOption" xml:space="preserve">
+    <value>Please, add at least one payment option.</value>
+  </data>
+  <data name="ValPartialPayment" xml:space="preserve">
+    <value>Partial payments are not allowed</value>
+  </data>
+  <data name="ValPaymentOptionCompareItemTotalAmount" xml:space="preserve">
+    <value>Payment option total amount should not exceed selected item total amount.</value>
+  </data>
+  <data name="ValPaymentOptionTotalAmount" xml:space="preserve">
+    <value>Payment option total amount should match with total amount.</value>
+  </data>
+  <data name="ValPaymentProcessedMsg" xml:space="preserve">
+    <value>Payment already precessed.</value>
+  </data>
+  <data name="ValTotalAmountRequired" xml:space="preserve">
+    <value>Total amount should be greater than zero.</value>
+  </data>
+  <data name="ValTotalPayment" xml:space="preserve">
+    <value>Total must be equal to Total Amount.</value>
+  </data>
+  <data name="ViewPaymentReceipt" xml:space="preserve">
+    <value>View Payment Receipt</value>
+  </data>
+  <data name="VoidFinanceMsg" xml:space="preserve">
+    <value>Payment can not be void, either it was cleared or matched.</value>
+  </data>
+  <data name="VoidPayment" xml:space="preserve">
+    <value>Void Payment</value>
+  </data>
+  <data name="VoidSuccessMsg" xml:space="preserve">
+    <value>Payment Receipt voided successfully.</value>
+  </data>
+  <data name="IVAReceipt" xml:space="preserve">
+    <value>Only IVA Payment</value>
+  </data>
+  <data name="ImportBankPaymentProcessInfoMsg" xml:space="preserve">
+    <value>Please wait...\n We are working on import bank payment process.</value>
+  </data>
+  <data name="SameAgreementMsg" xml:space="preserve">
+    <value>The agreement must be the same</value>
+  </data>
+  <data name="FileIsNotInCorrectFormatMsg" xml:space="preserve">
+    <value>File is not in correct format.</value>
+  </data>
+  <data name="FinanceCheckbook" xml:space="preserve">
+    <value>Finance Checkbook</value>
+  </data>
+  <data name="TotalBank" xml:space="preserve">
+    <value>Total Bank</value>
+  </data>
+  <data name="TotalBankTransferByBancodeCostaRica" xml:space="preserve">
+    <value>Total Bank Transfer By Banco de Costa Rica</value>
+  </data>
+  <data name="TotalBankTransferByBancoNacionaldeCostaRica" xml:space="preserve">
+    <value>Total Bank Transfer By Banco Nacional de Costa Rica</value>
+  </data>
+  <data name="ApplybyAmnesty" xml:space="preserve">
+    <value>Apply by Amnesty</value>
+  </data>
+  <data name="RemoveInterests" xml:space="preserve">
+    <value>Remove Interests</value>
+  </data>
+  <data name="ApplyCreditNoteAmount" xml:space="preserve">
+    <value>Apply Credit Note Amount</value>
+  </data>
+  <data name="AvailableCreditNoteAmount" xml:space="preserve">
+    <value>Available Credit Note Amount</value>
+  </data>
+  <data name="CreditNoteApplied" xml:space="preserve">
+    <value>Credit Note Applied</value>
+  </data>
+  <data name="ValCreditNoteBalance" xml:space="preserve">
+    <value>Apply credit note amount must be less than the available credit note amount.</value>
+  </data>
+  <data name="ValCreditNoteBalancePositive" xml:space="preserve">
+    <value>Credit note amount must be positive value</value>
+  </data>
+  <data name="ValCreditCompareItemTotalAmount" xml:space="preserve">
+    <value>Credit total amount should not exceed selected item total amount.</value>
+  </data>
+  <data name="DebitNoteSuccessMsg" xml:space="preserve">
+    <value>Debit Note added successfully.</value>
+  </data>
+  <data name="ByDebitNote" xml:space="preserve">
+    <value>By Debit Note</value>
+  </data>
+  <data name="NewPaymentReceiptByDebitNote" xml:space="preserve">
+    <value>New Payment Receipt By Debit Note</value>
+  </data>
+</root>

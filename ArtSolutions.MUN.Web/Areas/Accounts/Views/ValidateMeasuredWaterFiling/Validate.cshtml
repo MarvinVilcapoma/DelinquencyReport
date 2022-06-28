@@ -1,0 +1,186 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.ImportMeasuredWaterFilingFieldModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ImportAccount;
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global;
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService;
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report;
+
+@{
+    ViewBag.Title = AccountServiceResource.ValidateMeasuredWaterFiling;
+    string hideFileUpload = Model.ProcessDate == null ? "" : "hidden";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountService</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home", new {area = "" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountService", new { area = "Accounts" })">@AccountServiceResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                @using (Ajax.BeginForm("", "", null, new { id = "frmValidateMeasuredWaterFiling", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    @Html.HiddenFor(x => x.UploadedFileNames)
+                    @Html.HiddenFor(x => x.PeriodDate, new { @id = "hdPeriodDate" })
+
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <button id="btnValidate" type="button" class="btn btn-primary @hideFileUpload" name="exportType" value="0" tabindex="5">@GlobalResource.Validate</button>
+                            <button class="btn btn-white" type="button" onclick="location.href='@Url.Content("~/AccountService/List")'" tabindex=9>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+
+
+                    if (@Model.ProcessDate != null)
+                    {
+                        @Html.HiddenFor(x => x.PeriodYear, new { @id = "hdProcessedYear" })
+                        @Html.HiddenFor(x => x.PeriodMonth, new { @id = "hdProcessedMonth" })
+
+                        <div id="divProcessType" class="ibox-content">
+                            <div class="form-group">
+                                <br />
+                                <label class="col-lg-12 text-center fa-15x">
+                                    @Html.Raw(@AccountServiceResource.SystemFoundPreviousWaterReading + " " + @Model.ProcessDate.Value.ToString("d") + " " + @Model.ProcessDate.Value.ToString("h: mm tt"))
+                                </label>
+
+                                <label class="col-lg-12 text-center fa-15x">
+                                    @AccountServiceResource.WhatWouldYouLikeToDo
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <div class="radio">
+                                        @Html.RadioButton("ProcessType", "1", new { @id = "rdlAlreadySavedData", @class = "processtype required" })
+
+                                        <label for="rdlAlreadySavedData" class="font-bold m-t-xxs">
+                                            @AccountServiceResource.WantToProcessAlreadySavedData
+                                        </label>
+                                    </div>
+                                    <br />
+                                    <div class="radio">
+                                        @Html.RadioButton("ProcessType", "2", new { @id = "rdlUploadNewFile", @class = "processtype required" })
+
+                                        <label for="rdlUploadNewFile" class="font-bold m-t-xxs">
+                                            @AccountServiceResource.WantToUploadNewFile
+                                        </label>
+                                    </div>
+                                    <br />
+                                </div>
+                                <div class="col-lg-4"></div>
+                            </div>
+                        </div>
+                    }
+
+                    <div id="divUploadFile" class="ibox-content @hideFileUpload">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label"> @GlobalResource.Period <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                @Html.TextBoxFor(x => x.PeriodDate, new { @class = "form-control periodDate required", tabindex = 3 })
+                                @Html.ValidationMessageFor(x => x.PeriodDate, GlobalResource.RequiredValidationMsg)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.HiddenFor(x => x.type)
+                            <label class="col-lg-4 control-label"> @LocalResource.SelectFile <span class="text-danger">*</span> </label>
+                            <div class="col-lg-5">
+                                <div id="attachmentDropzone" class="dropzone">
+                                    <div id="attachmentPreview" class="dropzone-previews">
+                                    </div>
+                                </div>
+                                <span>@GlobalResource.TextFileFormat</span>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                @using (Ajax.BeginForm("", "", null, new { id = "frmReValidateMeasuredWaterFiling", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+                {
+                    @Html.HiddenFor(x => x.UploadedFileNames)
+                    @Html.HiddenFor(x => x.PeriodDate, new { @id = "hdPeriodDate" })
+
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <button id="btnInconsistencies" type="button" class="btn btn-primary" tabindex="6">@AccountServiceResource.Inconsistencies</button>
+                            <button id="btnHighConsumption" type="button" class="btn btn-primary" tabindex="6">@AccountServiceResource.HighConsumption</button>
+                            <button id="btnReValidate" type="button" class="btn btn-primary" name="exportType" value="0" tabindex="5">@GlobalResource.Validate</button>
+                            @*<button id="btnDownload" type="button" class="btn btn-primary" tabindex="5">@GlobalResource.Download</button>*@
+                            <button id="btnImport" type="button" class="btn btn-primary" tabindex="5">@GlobalResource.Import</button>
+                            <button class="btn btn-white" type="button" onclick="location.href='@Url.Content("~/AccountService/List")'" tabindex=9>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+
+                    <div id="icValidation" class="ibox-content">
+                        <div class="form-group">
+                            <div class="col-lg-12" id="divValidation">
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="measuredwaterfilingmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvmeasuredwaterfiling">
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+
+    <style type="text/css">
+        .footable ul.pagination > li {
+            display: inline !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/footable")
+
+    <script src="~/Scripts/jquery.fileDownload.min.js"></script>
+
+    <script type="text/javascript">
+        var validateMeasuredWaterFillingProcessInfoMsg = '@Html.Raw(AccountServiceResource.ValidateMeasuredWaterFillingProcessInfoMsg)';
+
+        var MaxFilesToUpload = '@Common.MaxFilesToUpload';
+        var uploadfiletypemsg = '@Html.Raw(GlobalResource.Uploadedfiletypemessage)';
+        var removefile = '@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage = '@Html.Raw(GlobalResource.UploadfileInitialMessage)';
+        var Uploadedfilemaxsizemessage = '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)';
+        var Uploadedfilemaxlimitmessage = '@Html.Raw(GlobalResource.Uploadedfilemaxlimitmessage)';
+        var EmptyFileMsg =  '@Html.Raw(GlobalResource.EmptyFileMsg)';
+        var AtleastOneFileRequiredForValidateMeasuredWaterMsg = '@Html.Raw(AccountServiceResource.AtleastOneFileRequiredForValidateMeasuredWaterMsg)';
+        var allowedFileTypes = "text/plain";
+        var maxFileLength = '@Common.MaxFileLengthToUpload';
+        var fileURL = '@Common.FileURL';
+        Dropzone.autoDiscover = false;
+        var importMeasuredWaterFillingProcessInfoMsg = '@Html.Raw(AccountServiceResource.ImportMeasuredWaterFillingProcessInfoMsg)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+    </script>
+    <script src="@Url.Content("~/Scripts/app/validateMeasuredWaterFiling.js")"></script>
+}

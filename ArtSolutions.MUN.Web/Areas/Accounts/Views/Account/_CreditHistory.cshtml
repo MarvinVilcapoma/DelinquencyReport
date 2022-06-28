@@ -1,0 +1,89 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.CreditHistoryModel
+
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("CreditHistory", "Account", new AjaxOptions { HttpMethod = "POST", OnBegin = "return ValidateCreditHistory()", OnSuccess = "CreditHistorySuccessCallback(data)" }, new { role = "form", @id = "frmCreditHistory", @class = "form-horizontal", data_ajax_mode = "replace-with" }))
+{
+    @Html.HiddenFor(a => a.AccountID)
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5> @GlobalResource.CreditHistory </h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Creditbalance</label>
+                    <div class="col-lg-4 m-t-sm">
+                        <label>@Model.CreditBalance.ToString("C")</label>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Date<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(d => d.Date, new { @class = "form-control required" })
+                        @Html.ValidationMessageFor(x => x.Date)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Amount<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextBoxFor(a => a.CreditAmount, new { @class = "form-control text-right required Currencyinputdecimal" })
+                        @Html.ValidationMessageFor(x => x.CreditAmount)
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label class="col-lg-4 control-label">@GlobalResource.Reason<span class="text-danger">&nbsp;*</span></label>
+                    <div class="col-lg-8">
+                        @Html.TextAreaFor(d => d.Reason, new { @class = "form-control required", @rows = 3 })
+                        @Html.ValidationMessageFor(x => x.Reason)
+                    </div>
+                </div>
+                @* Table *@
+                @*<table class="table table-stripped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>@GlobalResource.Date</th>
+                            <th>@GlobalResource.Number</th>
+                            <th>@GlobalResource.Amount</th>
+                            <th>@GlobalResource.PaymentNo</th>
+                            <th>@GlobalResource.Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CreditHistoryModelList.Count > 0)
+                        {
+                            foreach (var item in Model.CreditHistoryModelList)
+                            {
+                                <tr>
+                                    <td>@item.FormattedDate</td>
+                                    <td>@item.Number</td>
+                                    <td>@item.FormattedAmount</td>
+                                    <td>@item.PaymentNumber</td>
+                                    <td>@item.Reason</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    @GlobalResource.NoDataMessage
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>*@
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="btnAddTax" type="submit" class="btn btn-primary">@GlobalResource.Add</button>
+        <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal">@GlobalResource.Cancel</button>
+    </div>
+
+}

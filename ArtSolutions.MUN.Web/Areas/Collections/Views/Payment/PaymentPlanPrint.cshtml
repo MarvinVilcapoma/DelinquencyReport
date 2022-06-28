@@ -1,0 +1,399 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Collections.Models.PaymentPrintModel
+@{
+    Layout = "";
+}
+@{
+    string ServiceName = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>MUNICIPALIDAD DE FLORES</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+    </style>
+    <style>
+        body {
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            color: black !important;
+            font-family: sans-serif !important;
+        }
+
+        .Weight700 {
+            font-weight: 700 !important;
+        }
+
+        .break {
+            page-break-before: always;
+        }
+
+        table {
+            empty-cells: show;
+        }
+
+            table td hr {
+                border-color: black !important;
+            }
+
+        td {
+            padding: 3px 2px !important;
+        }
+        /*table {
+            font-size: small !important;
+        }*/
+
+        table thead tr th {
+            text-align: center !important;
+            padding: 8px 0px;
+        }
+    </style>
+    <style type="text/css" media="print">
+        @@page {
+            size: portrait;
+        }
+        tr {
+            page-break-inside: auto !important;
+            page-break-after: auto !important;
+        }
+    </style>
+</head>
+<body style="width:287px !important;height:auto !important;">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="center Weight700">MUNICIPALIDAD DE FLORES</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">@Html.Raw("Cédula Jurídica 3-014-042091")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">@Html.Raw("Teléfonos: 2265-7109 / 2265-7125 / 2265-7503 / Fax: 2265-5652") </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700" style="font-size:17px !important;">@Html.Raw("Correo electrónico: info@flores.go.cr")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">COMPROBANTE DE INGRESOS</td>
+                </tr>
+                <tr>
+                    <td class="left Weight700">FECHA: @Model.Payment.Date.ToString("d")</td>
+                    <td class="right Weight700">HORA: @Model.Payment.Date.ToString("hh:mm:ss")</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">PAGO DE IMPUESTOS Y SERVICIO</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center Weight700">RECIBO NO. @Model.Payment.Number</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">CONTRIBUYENTE: @Html.Raw(Model.Account.TaxNumber)</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="left">NOMBRE: @Html.Raw(Model.Account.DisplayName)</td>
+                </tr>
+                @*<tr>
+                        <td colspan="2" class="left">@Html.Raw(Model.Account.DisplayName)</td>
+                    </tr>*@
+                <tr>
+                    @{
+                        string accntAddress = Model.Account.Address1;
+                        if (!string.IsNullOrEmpty(Model.Account.Address2))
+                        {
+                            accntAddress = accntAddress + ", " + Model.Account.Address2;
+                        }
+                        if (!string.IsNullOrEmpty(Model.Account.StateName))
+                        {
+                            accntAddress = accntAddress + ", " + Model.Account.StateName + ", ";
+                        }
+                        if (!string.IsNullOrEmpty(Model.Account.City))
+                        { accntAddress = accntAddress + Model.Account.City + ", "; }
+                        if (!string.IsNullOrEmpty(Model.Account.CountyCode))
+                        { accntAddress = accntAddress + " " + Model.Account.CountyCode; }
+                        if (!string.IsNullOrEmpty(Model.Account.ZipPostalCode) && Model.Account.PhoneNumber != "0")
+                        { accntAddress = accntAddress + " " + Model.Account.ZipPostalCode; }
+                        accntAddress = accntAddress + " ";
+                        accntAddress = accntAddress + (string.IsNullOrWhiteSpace(Model.Account.PhoneNumber) || Model.Account.PhoneNumber == "0" ? "" : "P: " + Model.Account.PhoneNumber);
+                    }
+                    <td colspan="2" class="left">DIRECCIÓN: @accntAddress</td>
+                </tr>
+                @*<tr>
+                        @{
+                            string accntAddress = Model.Account.Address1;
+                            if (!string.IsNullOrEmpty(Model.Account.Address2))
+                            {
+                                accntAddress = accntAddress + ", " + Model.Account.Address2;
+                            }
+                            if (!string.IsNullOrEmpty(Model.Account.StateName))
+                            {
+                                accntAddress = accntAddress + ", " + Model.Account.StateName + ", ";
+                            }
+                            if (!string.IsNullOrEmpty(Model.Account.City))
+                            { accntAddress = accntAddress + Model.Account.City + ", "; }
+                            if (!string.IsNullOrEmpty(Model.Account.CountyCode))
+                            { accntAddress = accntAddress + " " + Model.Account.CountyCode; }
+                            if (!string.IsNullOrEmpty(Model.Account.ZipPostalCode) && Model.Account.PhoneNumber != "0")
+                            { accntAddress = accntAddress + " " + Model.Account.ZipPostalCode; }
+                            accntAddress = accntAddress + " ";
+                            accntAddress = accntAddress + (string.IsNullOrWhiteSpace(Model.Account.PhoneNumber) || Model.Account.PhoneNumber == "0" ? "" : "P: " + Model.Account.PhoneNumber);
+                        }
+                        <td colspan="2" class="left">@accntAddress</td>
+                    </tr>*@
+                <tr>
+                    @{ string Periods = string.Join(",", Model.PaymentPlanDetailList.GroupBy(d => d.PaymentPlanNumber).Select(d => new { PaymentPlanNumber = d.Key, Periods = d.Min(k => k.Periods) }).Select(d => d.Periods).ToList());}
+                    <td colspan="2" class="left">CUOTAS PAGADOS: @Html.Raw(Model.PaymentPlanDetailList != null ? Periods : "0") </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        Concepto
+                                    </td>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        HASTA
+                                    </td>
+                                    <td style="border-bottom:2px dashed;border-top:2px dashed;font-weight:700 !important">
+                                        MONTO
+                                    </td>
+                                </tr>
+                                @*@{ bool IsAllowServiceName = true;}*@
+                                @*@foreach (var objServiceName in Model.PaymentPlanDetailList.Where(d => !(d.ServiceID >= 9 && d.ServiceID <= 13)).Select(d => d.ServiceName).Distinct().ToList())
+                                    {
+                                        { IsAllowServiceName = true; }
+                                        foreach (var item in Model.PaymentPlanDetailList.Where(d => d.ServiceName == objServiceName).OrderBy(d => d.FiscalYearID).ThenBy(d => d.SequenceID).ToList())
+                                        {
+                                            if (!(IsAllowServiceName == false))
+                                            {
+                                                { IsAllowServiceName = false; }
+                                                <tr>
+                                                    <td colspan="3">@item.ServiceName</td>
+                                                </tr>
+
+                                            }
+                                            <tr>
+                                                <td colspan="2"></td>
+                                                <td class="right">@Html.Raw(item.Principal + item.Interest.ToString("c"))</td>
+                                            </tr>
+                                        }
+                                    }*@
+                                @*@foreach (var item in Model.PaymentPlanDetailList.Where(d => !(d.ServiceID >= 9 && d.ServiceID <= 13)).GroupBy(d => d.ServiceName).Select(d => new { ServiceName = d.Key, Total = d.Sum(k => k.Principal + k.Interest) }).ToList())*@
+                                @foreach (var item in Model.PaymentPlanDetailList.GroupBy(d => d.ServiceName).Select(d => new { ServiceName = d.Key, Total = d.Sum(k => k.Principal + k.Interest) }).ToList())
+                                {
+                                    <tr>
+                                        <td colspan="3">@item.ServiceName</td>
+                                    </tr>
+                                    <tr>
+
+                                        <td colspan="2"></td>
+                                        <td class="right">@Html.Raw(item.Total.ToString("c"))</td>
+                                    </tr>
+                                }
+                                @*@{ bool IsAllowServiceName = true; }*@
+                                @*@foreach (var objServiceName in Model.PaymentPlanDetailList.Where(d => d.ServiceID >= 9 && d.ServiceID <= 13).Select(d => d.ServiceName).Distinct().ToList())
+                                    {
+
+                                        foreach (var item in Model.PaymentPlanDetailList.Where(d => d.ServiceName == objServiceName).OrderBy(d => d.FiscalYearID).ThenBy(d => d.SequenceID).ToList())
+                                        {
+                                            <tr>
+                                                <td colspan="3">
+                                                    <table>
+                                                        @if (IsAllowServiceName == true)
+                                                        {
+                                                            { IsAllowServiceName = false; }
+                                                            <thead style="font-size:13px !important">
+                                                                <tr>
+                                                                    <th>MEDIDOR</th>
+                                                                    <th>ANTER</th>
+                                                                    <th>ACTUAL</th>
+                                                                    <th>CONSUMO</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        }
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    @item.MeterNumber
+                                                                </td>
+                                                                <td class="right">@Html.Raw(item.PreviousMeasure > 0 ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                                <td class="right">@Html.Raw(item.ActualMeasure > 0 ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                                <td colspan="2" class="right">@Html.Raw(item.WaterConsumption > 0 ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"></td>
+                                                <td class="right">@item.Balance.ToString("c")</td>
+                                            </tr>
+                                        }
+                                    }*@
+                                @*@foreach (var item in Model.PaymentPlanDetailList.Where(d => d.ServiceID >= 9 && d.ServiceID <= 13).GroupBy(d => d.ServiceName).Select(d => new { ServiceName = d.Key, MeterNumber = d.Min(k=>k.MeterNumber), PreviousMeasure = d.Min(k=>k.PreviousMeasure), ActualMeasure=d.Min(k=>k.ActualMeasure), WaterConsumption =d.Min(k=>k.WaterConsumption),Total = d.Sum(k => k.Principal + k.Interest) }).ToList())
+                                    {
+                                            <tr>
+                                                <td colspan="3">
+                                                    <table>
+                                                            <thead style="font-size:13px !important">
+                                                                <tr>
+                                                                    <th>MEDIDOR</th>
+                                                                    <th>ANTER</th>
+                                                                    <th>ACTUAL</th>
+                                                                    <th>CONSUMO</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    @item.MeterNumber
+                                                                </td>
+                                                                <td class="right">@Html.Raw(item.PreviousMeasure > 0 ? item.PreviousMeasure.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                                <td class="right">@Html.Raw(item.ActualMeasure > 0 ? item.ActualMeasure.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                                <td colspan="2" class="right">@Html.Raw(item.WaterConsumption > 0 ? item.WaterConsumption.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"></td>
+                                                <td class="right">@item.Total.ToString("c")</td>
+                                            </tr>
+                                    }*@
+
+                                <tr>
+                                    <td colspan="2" class="right">Sub-total:</td>
+                                    <td class="right">@Model.PaymentPlanDetailList.Sum(d => d.Principal + d.Interest).ToString("c")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right">Intereses:</td>
+                                    <td class="right">@Model.PaymentPlanDetailList.Sum(d => d.LateInterest).ToString("c")</td>
+                                </tr>
+                                @*<tr>
+                                        <td colspan="2" class="right">IVA:</td>
+                                        <td class="right">@Model.PaymentPlanDetailList.Where(d => d.ServiceID >= 9 && d.ServiceID <= 13).Sum(d => d.Charges).ToString("c")</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="right">Multa--->:</td>
+                                        <td class="right">@Model.PaymentPlanDetailList.Where(d => !(d.ServiceID >= 9 && d.ServiceID <= 13)).Sum(d => d.Charges).ToString("c")</td>
+                                    </tr>*@
+                                <tr>
+                                    <td class="center">Total--->:</td>
+                                    <td colspan="2" class="center">@Model.PaymentPlanDetailList.Sum(d => d.Balance).ToString("c")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right">Su pago->:</td>
+                                    <td class="right">@Model.PaymentPlanDetailList.Sum(d => d.Balance).ToString("c")</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="right">Su cambio:</td>
+                                    <td class="right">
+                                        @Html.Raw(System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencySymbol + "0.00")
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:2px dashed"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        EL PAGO DE LOS SERVICIOS POR ADELANTADO NO EXIME EL PAGO DE LA DIFERENCIA POR REAJUSTE TARIFARIO.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Si canceló con cheque su pago queda sujeto a hacerlo efectivo.
+                                        <br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="border-top:2px dashed"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        @{
+                                            ArtSolutions.MUN.Web.Helpers.UserProfileViewModel UserProfile = new ArtSolutions.MUN.Web.Helpers.UserProfile().GetUserByUserIDs(Model.Payment.CreatedUserID.ToString()).FirstOrDefault();
+                                        }
+                                        @Html.Raw("Le atendió: " + (string.IsNullOrEmpty(UserProfile.FullName) ? UserProfile.Email : UserProfile.FullName))
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" style="font-size:14px !important;">
+                                        GRACIAS POR AYUDAR AL PROGRESO
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        ***** DE NUESTRO CANTÓN *****
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    window.onload = function () { window.print(); setTimeout(window.close, 500); };
+</script>
+
+

@@ -1,0 +1,496 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyModel
+
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountResource = ArtSolutions.MUN.Web.Resources.Account
+@using AccountServiceResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using TransferResource = ArtSolutions.MUN.Web.Resources.Transfer
+
+@{
+    /**/
+
+    ViewBag.Title = TransferResource.NewRightMerge;
+}
+
+@using (Ajax.BeginForm("NewMerge", "PropertyTransfer", new AjaxOptions { HttpMethod = "POST", OnSuccess = "UserSuccessCallback(data)" }, new { role = "form", @class = "form-horizontal", id = "form", data_ajax_mode = "replace-with" }))
+{
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-sm-12">
+            <h2>@TransferResource.NewMerge</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="@Url.Action("Index", "Home", new { area = "" })">@GlobalResource.Home</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "PropertyTransfer", new { area = "Collections" })">@TransferResource.TransferList</a>
+                </li>
+                <li class="active">
+                    <strong>@ViewBag.Title</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title ibox-title-with-button">
+                        <h5>@ViewBag.Title</h5>
+                        <div class="ibox-tools">
+                            <div class="btn-group">
+                                <button id="btnSaveWithDropDown" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex=45>
+                                    @GlobalResource.Save
+                                    <span class="caret"></span>
+                                </button>
+                                <button id="btnSaveWithToolTip"
+                                        type="button"
+                                        data-toggle="tooltip"
+                                        data-placement="top" data-container="body"
+                                        title="" data-original-title="@TransferResource.TaxNumberAssociatedWithServicesHasNoRight"
+                                        class="btn btn-primary hide disabled">
+                                    @GlobalResource.Save
+                                    <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a>
+                                            <button id="btnSave" type="submit" name="actionType" value="1">
+                                                @GlobalResource.Save
+                                            </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <button id="btnSaveNew" type="submit" name="actionType" value="2">
+                                                @GlobalResource.SaveNew
+                                            </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button class="btn btn-white" type="button" onclick="location.href='@Url.Content("~/Collections/PropertyTransfer/Index")'" tabindex=46>@GlobalResource.Cancel</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="project-list">
+
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@GlobalResource.AccountProperty <span class="text-danger">&nbsp;*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownList("PropertyID", Model.AccountPropertyList, GlobalResource.DropDownSelectMessage, new
+                               {
+                                   @class = "form-control select2dropdown required",
+                                   tabindex = 2,
+                                   multiple = "multiple"
+                               })
+                                    @Html.ValidationMessage("PropertyID", GlobalResource.RequiredValidationMsg)
+                                    @Html.HiddenFor(d => d.PropertyIDs)
+                                    @Html.HiddenFor(d => d.AccountServiceIDs)
+
+                                </div>
+                                <label class="col-sm-2 control-label">@GlobalResource.Date <span class="text-danger">&nbsp;*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.TextBox("MergetDate", Model.MergetDate, new { @class = "form-control", tabindex = 3 })
+                                    @Html.ValidationMessageFor(x => x.MergetDate)
+                                </div>
+                            </div>
+                            @Html.HiddenFor(d => d.AccountPropertyConstructionDetailJson)
+                            <div class="row form-group">
+                                <div class="divAccountProperty">
+                                    <label class="col-sm-2 control-label">@LocalResource.MovementType <span class="text-danger">&nbsp;*</span></label>
+                                    <div class="col-sm-4">
+                                        @Html.DropDownListFor(x => x.MovementTypeID, Model.MovementList, GlobalResource.DropDownSelectMessage, new
+                                   {
+                                       @class = "form-control select2dropdown required MovementTypeID",
+                                       tabindex = 3
+                                   })
+                                        @Html.ValidationMessageFor(x => x.MovementTypeID)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-title no-top-border">
+                        <div class="row">
+                            <div class="col-lg-10 m-t">
+                                <h4 class="text-uppercase">@LocalResource.Rights</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-content">
+                        <div class="Right-list">
+                            <div class="table-responsive">
+                                <table class="RightsTable footable table table-stripped toggle-arrow-tiny" data-sort="false" width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th data-toggle="true" width="10%">@LocalResource.RightCode</th>
+                                            <th width="20%">@LocalResource.Owner</th>
+                                            <th width="10%" class="text-right">@LocalResource.Percentage </th>
+                                            <th width="10%" class="text-right">@LocalResource.Area (<em>m</em> <sup>2</sup>)</th>
+                                            <th width="13%" class="text-right">@Html.Raw(@LocalResource.TerrainValue) </th>
+                                            <th width="13%" class="text-right">@Html.Raw(@LocalResource.ConstructionValue) </th>
+                                            <th width="13%" class="text-right">@Html.Raw(@LocalResource.CurrentValueFromRight) </th>
+                                            <th width="11%"></th>
+                                            <th data-hide="all">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title no-top-border">
+                        <div class="row">
+                            <div class="col-lg-10 m-t">
+                                <h4 class="text-uppercase">@LocalResource.NewProperty </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="project-list form-horizontal">
+
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@LocalResource.PropertyNumber <span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.PropertyNumber, new { @class = "form-control required", autofocus = "autofocus", maxlength = 10, tabindex = 4 })
+                                    @Html.ValidationMessageFor(d => d.PropertyNumber)
+                                </div>
+                                <label class="col-sm-2 control-label">@LocalResource.CondoType</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(d => d.CondoTypeID, Model.CondoTypeList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCondoType", tabindex = 5 })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@LocalResource.Condo</label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(d => d.CondoID, Model.CondoList, GlobalResource.DropDownSelectMessage, new { @class = "form-control select2dropdown", @id = "ddlCondo", tabindex = 6 })
+                                </div>
+                                <label class="col-sm-2 control-label">@LocalResource.RightCode <span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.RigthNumber, new { @class = "form-control required", maxlength = 10, tabindex = 7 })
+                                    @Html.ValidationMessageFor(d => d.RigthNumber)
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@TransferResource.ToAccountName <span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(x => x.OwnerID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+                              {
+                                  @class = "form-control select2dropdown required",
+                                  tabindex = 8
+                              })
+                                    @Html.ValidationMessageFor(d => d.OwnerID)
+
+                                </div>
+                                <label class="col-sm-2 control-label">@LocalResource.CadastralPlanNumber</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.CadastralPlanNumber, new { @class = "form-control inputnumberwithhyphen", maxlength = 20, tabindex = 9 })
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@Html.Raw(@LocalResource.TerrainArea) <span class="text-danger">*</span></label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.Area, new { @class = "form-control inputdecimal required text-right", maxlength = 12, tabindex = 10 })
+                                    @Html.ValidationMessageFor(d => d.Area)
+                                </div>
+                                <label class="col-sm-2 control-label">@LocalResource.Percentage</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.Percentage, new { @class = "form-control inputdecimal text-right", maxlength = 12, tabindex = 11 })
+                                    @Html.ValidationMessageFor(d => d.Percentage)
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@Html.Raw(@LocalResource.TerrainValue) </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.TerrainValue, new { @class = "form-control text-right", @readonly = true })
+                                </div>
+                                <label class="col-sm-2 control-label">@LocalResource.TotalTerrainValue</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.TotalTerrainValue, new { @class = "form-control text-right", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-sm-2 control-label">@LocalResource.Notes</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.Notes, new { @class = "form-control", maxlength = 500, tabindex = 12 })
+                                </div>
+                                <label class="control-label col-sm-2">@Html.Raw(@LocalResource.NewCurrentValue)</label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(d => d.NewCurrentValue, new { @class = "form-control text-right", @readonly = true })
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div>
+            <div class="row form-group">
+                <label class="col-sm-2 control-label">@TransferResource.ToAccountName <span class="text-danger">&nbsp;*</span></label>
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(x => x.OwnerID, Model.AccountList, GlobalResource.DropDownSelectMessage, new
+               {
+                   @class = "form-control select2dropdown required",
+                   tabindex = 4
+               })
+                </div>
+                <label class="col-sm-2 control-label">@LocalResource.PropertyNumber <span class="text-danger">&nbsp;*</span></label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(d => d.PropertyNumber, new { @class = "form-control", tabindex = 5 })
+                    @Html.ValidationMessageFor(x => x.PropertyNumber)
+                </div>
+            </div>
+            <div class="row form-group">
+                <label class="col-sm-2 control-label">@LocalResource.RightCode <span class="text-danger">&nbsp;*</span></label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(d => d.RigthNumber, new { @class = "form-control", tabindex = 6 })
+                    @Html.ValidationMessageFor(x => x.RigthNumber)
+                </div>
+            </div>
+        </div>*@
+
+                        <div class="NewDivRightsTable">
+                            <div class="Rightlist">
+                                <div class="table-responsive">
+                                    <table class="NewRightsTable footable table table-stripped toggle-arrow-tiny" data-sort="false" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true" width="20%">@GlobalResource.Type</th>
+                                                <th width="20%">@LocalResource.ConstructionType</th>
+                                                <th width="20%" class="text-right">@Html.Raw(@LocalResource.BuildingArea)</th>
+                                                <th width="20%" class="text-right">@Html.Raw(@LocalResource.UnitValue)</th>
+                                                <th width="20%" class="text-right">@LocalResource.BuildingTotalValue</th>
+                                                <th data-hide="all">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ibox-title ibox-title-with-button no-top-border">
+                        <h5>@GlobalResource.Services</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="full-height-scroll">
+                                    <div class="table-responsive m-t">
+                                        <table class="table table-report" id="tblPropertyTransfer">
+                                            <thead>
+                                                <tr class="sub-header">
+                                                    <th>
+                                                        <input type="checkbox" class="chkAll" />
+                                                    </th>
+                                                    <th>
+                                                        @GlobalResource.ServiceType
+                                                    </th>
+                                                    <th>
+                                                        @GlobalResource.Service
+                                                    </th>
+                                                    <th>
+                                                        @AccountServiceResource.CustomField1
+                                                    </th>
+                                                    <th>
+                                                        @AccountServiceResource.ServiceID
+                                                    </th>
+                                                    <th>
+                                                        @GlobalResource.Property
+                                                    </th>
+                                                    <th>
+                                                        @GlobalResource.Year
+                                                    </th>
+                                                    <th class="text-right">
+                                                        @AccountServiceResource.AmountToPay
+                                                    </th>
+                                                    <th>
+                                                        @GlobalResource.Owner
+                                                    </th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody id="AccountServiceList"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal inmodal" id="GeneralDescriptionConstructionmodal" data-mode="" data-code="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divGeneralDescription">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="ServicePeriodDetail" role="dialog" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divServicePeriodDetail">
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/jasnyBootstrapStyles")
+    @Styles.Render("~/plugins/footableStyles")
+    <style>
+        .disable-anchor {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .row1 > table, .row1 > table tr, .row1 > table tr td {
+            border: none !important;
+        }
+
+        .tooltip-inner {           
+            max-width: 100% !important;
+        }
+    </style>
+    <style>
+        #map {
+            height: 300px;
+        }
+
+        #infowindow-content .title {
+            font-weight: bold;
+        }
+
+        #infowindow-content {
+            display: none;
+        }
+
+        #map #infowindow-content {
+            display: inline;
+        }
+
+        .pac-card {
+            margin: 10px 10px 0 0;
+            border-radius: 2px 0 0 2px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            font-family: Roboto;
+        }
+
+        .pac-controls {
+            display: inline-block;
+            padding: 5px 11px;
+        }
+
+            .pac-controls label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+
+        #pac-input {
+            background-color: #fff;
+            font-family: Roboto;
+            font-size: 15px;
+            font-weight: 300;
+            margin-left: 12px;
+            padding: 0 11px 0 0px;
+            text-overflow: ellipsis;
+            width: 450px;
+            border: 0;
+        }
+
+            #pac-input:focus {
+                border-color: #4d90fe;
+            }
+
+        #title {
+            color: #fff;
+            background-color: #4d90fe;
+            font-size: 25px;
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+
+        .pac-container {
+            z-index: 999999 !important;
+        }
+
+        .RightsTable .control-label {
+            padding-top: 3px !important;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/jasnyBootstrap")
+
+    <script type="text/javascript">
+         var isViewMode = false;
+        var noDetailsAvailableGeoLocationMsg = "@Html.Raw(LocalResource.NoDetailsAvailableGeoLocationMsg)";
+        var browserSupportGeoLocationMsg = "@Html.Raw(LocalResource.BrowserSupportGeoLocationMsg)";
+        var PropertyRightvalidationmsg = '@Html.Raw(LocalResource.RequiredValidationPropertyRightMsg)';
+        var AccountServicevalidationmsg = '@Html.Raw(GlobalResource.RequiredValidationAccountServiceMsg)';
+        var Constructionvalidationmsg = '@Html.Raw(LocalResource.RequiredValidationPropertyRightConsctructionMsg)';
+        var ConstructionType = "@Html.Raw(@LocalResource.ConstructionType)";
+
+        var _Type = "@Html.Raw(GlobalResource.Type)";
+        var ConstructionYear="@Html.Raw(@LocalResource.ConstructionYear)";
+        var Years="@Html.Raw(@GlobalResource.Years)";
+        var Status="@Html.Raw(@GlobalResource.Status)";
+        var NoFloors="@Html.Raw(@LocalResource.NoFloors)";
+        var NoChambers="@Html.Raw(@LocalResource.NoChambers)";
+        var InternalWalls="@Html.Raw(@LocalResource.InternalWalls)";
+        var ExternalWalls="@Html.Raw(@LocalResource.ExternalWalls)";
+        var Structure="@Html.Raw(@LocalResource.Structure)";
+        var Roof="@Html.Raw(@LocalResource.Roof)";
+        var Ceiling="@Html.Raw(@LocalResource.Ceiling)";
+        var Floors="@Html.Raw(@LocalResource.Floors)";
+        var Bathroom="@Html.Raw(@LocalResource.Bathroom)";
+        var BuildingArea="@Html.Raw(@LocalResource.BuildingArea)";
+        var UnitValue="@Html.Raw(@LocalResource.UnitValue)";
+        var TotalValue = "@Html.Raw(@LocalResource.BuildingTotalValue)";
+        var AreaErrMsg = "@Html.Raw(@LocalResource.AreaErrMsg)";
+        var NoMoreAreaMsg = "@Html.Raw(@LocalResource.NoMoreAreaMsg)";
+        var CodeErrMsg = "@Html.Raw(@LocalResource.CodeErrMsg)";
+        var EditConstructionDescription = "@Html.Raw(@LocalResource.EditConstructionDescription)";
+        var Update = "@Html.Raw(@GlobalResource.Update)";
+        var BuildingAreaRequiredMsg = "@Html.Raw(@LocalResource.BuildingAreaRequiredMsg)";
+        var UnitValueRequiredMsg = "@Html.Raw(@LocalResource.UnitValueRequiredMsg)";
+        var TotalValueRequiredMsg = "@Html.Raw(@LocalResource.TotalValueRequiredMsg)";
+        var TotalValueMaxLengthValidationMsg = "@Html.Raw(@LocalResource.TotalValueMaxLengthValidationMsg)";
+        var Add = '@Html.Raw(GlobalResource.Add)';
+        var Update = '@Html.Raw(GlobalResource.Update)';
+        var NewRight = '@Html.Raw(LocalResource.NewRight)';
+        var EditRight = '@Html.Raw(LocalResource.EditRight)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var UsefulLife = "@Html.Raw(@LocalResource.UsefulLife)";
+        var CurrentAge = "@Html.Raw(@LocalResource.CurrentAge)";
+        var OwnerAlreadyAdded = "@Html.Raw(@LocalResource.OwnerAlreadyAdded)";
+        var OwnerRequiredForService = "@Html.Raw(@LocalResource.OwnerRequiredForService)";
+
+        $(document).ready(function () {
+            $('.footable').footable();
+        });
+    </script>
+
+    <script type="text/javascript" src="~/Scripts/app/accountpropertymerge.js"></script>
+}

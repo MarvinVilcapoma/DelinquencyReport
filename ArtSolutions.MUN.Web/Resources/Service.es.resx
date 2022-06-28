@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddDiscountDate" xml:space="preserve">
+    <value>Agregar Fechas de Descuento</value>
+  </data>
+  <data name="AddFillingDate" xml:space="preserve">
+    <value>Agregar Fechas de Vencimiento de Radicación</value>
+  </data>
+  <data name="AddPaymentDate" xml:space="preserve">
+    <value>Agregar Fechas de Vencimiento de Pago</value>
+  </data>
+  <data name="AddPaymentGracePeriod" xml:space="preserve">
+    <value>Agregar Fechas de Periodo de Gracia de Pago</value>
+  </data>
+  <data name="AddRow" xml:space="preserve">
+    <value>Agregar Fila</value>
+  </data>
+  <data name="ApplyAlways" xml:space="preserve">
+    <value>Aplicar Siempre</value>
+  </data>
+  <data name="ApplyOn" xml:space="preserve">
+    <value>Aplicar en</value>
+  </data>
+  <data name="AtleastOneRangeRecordRequiredMsg" xml:space="preserve">
+    <value>Usted debe agregar al menos 1 registro por rango.</value>
+  </data>
+  <data name="CalculationDatesPopupTitle" xml:space="preserve">
+    <value>Fechas de Cálculo del Servicio</value>
+  </data>
+  <data name="CalculationFrequency" xml:space="preserve">
+    <value>Frecuencia de Cálculo</value>
+  </data>
+  <data name="ChangeDiscountDate" xml:space="preserve">
+    <value>Cambiar Fechas de Descuento</value>
+  </data>
+  <data name="ChangeFillingDate" xml:space="preserve">
+    <value>Cambiar Fechas de Radicación</value>
+  </data>
+  <data name="ChangePaymentDate" xml:space="preserve">
+    <value>Cambiar Fechas de Vencimiento de Pago</value>
+  </data>
+  <data name="ChangePaymentGracePeriod" xml:space="preserve">
+    <value>Cambiar los Periodos de Gracia de Pago</value>
+  </data>
+  <data name="CollectionField" xml:space="preserve">
+    <value>Campo de Recaudación</value>
+  </data>
+  <data name="CollectionRuleName" xml:space="preserve">
+    <value>Nombre de Regla de Recaudación</value>
+  </data>
+  <data name="CollectionRuleRequired" xml:space="preserve">
+    <value>Al menos una regla de colección es requerida.</value>
+  </data>
+  <data name="CompareAmountValidationMsg" xml:space="preserve">
+    <value>Monto Final {0} debe ser mayor a Monto de Comienzo {1}.</value>
+  </data>
+  <data name="CompareEffectiveDatesValidationMsg" xml:space="preserve">
+    <value>Al menos 1 año de diferencia es requerido para las fechas entre Efectivo Desde y Efectivo Hasta.</value>
+  </data>
+  <data name="ComparePeriodDatesValidationMsg" xml:space="preserve">
+    <value>Fecha de Finalización del Periodo debe ser mayor que Fecha de Inicio del Periodo.</value>
+  </data>
+  <data name="CompareRangeValidationMsg" xml:space="preserve">
+    <value>{0} ({1} - {2}) en conflicto con el rango existente.</value>
+  </data>
+  <data name="ConfirmChangeInputValidationMsg" xml:space="preserve">
+    <value>El cambio en {0} restablecerá todas las fechas de vencimiento.</value>
+  </data>
+  <data name="DeleteFailedErrMsg" xml:space="preserve">
+    <value>No se puede eliminar la regla.</value>
+  </data>
+  <data name="DescriptionLengthValidationMsg" xml:space="preserve">
+    <value>Máximo de Longitud de Descripción excedida.</value>
+  </data>
+  <data name="DiscountDates" xml:space="preserve">
+    <value>Fechas de Descuento</value>
+  </data>
+  <data name="DiscountDatesTitle" xml:space="preserve">
+    <value>Fechas de Descuento de Servicio</value>
+  </data>
+  <data name="DiscountOn" xml:space="preserve">
+    <value>Descuento En</value>
+  </data>
+  <data name="DiscountOnRequired" xml:space="preserve">
+    <value>¡Descuento En requerido!</value>
+  </data>
+  <data name="DiscountPercentageHeaderTitle" xml:space="preserve">
+    <value>% de Descuento</value>
+  </data>
+  <data name="DiscountPercentageRequired" xml:space="preserve">
+    <value>¡Porcentaje de Descuento requerido!</value>
+  </data>
+  <data name="DueDays" xml:space="preserve">
+    <value>Días de Vencimiento</value>
+  </data>
+  <data name="DuplicateServiceName" xml:space="preserve">
+    <value>¡El Nombre del Servicio ya existe!</value>
+  </data>
+  <data name="EditRule" xml:space="preserve">
+    <value>Editar Regla</value>
+  </data>
+  <data name="EditTitle" xml:space="preserve">
+    <value>Editar Servicio</value>
+  </data>
+  <data name="EffectiveFrom" xml:space="preserve">
+    <value>Efectivo Desde</value>
+  </data>
+  <data name="EffectiveTo" xml:space="preserve">
+    <value>Efectivo Hasta</value>
+  </data>
+  <data name="EndDay" xml:space="preserve">
+    <value>Día Final</value>
+  </data>
+  <data name="EndPeriod" xml:space="preserve">
+    <value>Fin del Periodo</value>
+  </data>
+  <data name="FillingDueDates" xml:space="preserve">
+    <value>Fechas de Vencimiento de Radicación</value>
+  </data>
+  <data name="FillingDueDatesTitle" xml:space="preserve">
+    <value>Fechas de Vencimiento de Radicación de Servicio</value>
+  </data>
+  <data name="FillingDueDays" xml:space="preserve">
+    <value>Días de Vencimiento de Radicación</value>
+  </data>
+  <data name="FillingDueOn" xml:space="preserve">
+    <value>Radicación Vence En</value>
+  </data>
+  <data name="FillingDueOnRequired" xml:space="preserve">
+    <value>¡La fecha de “Declaración Vence En” es requerida!</value>
+  </data>
+  <data name="FinalAmount" xml:space="preserve">
+    <value>Monto Final</value>
+  </data>
+  <data name="FixAmount" xml:space="preserve">
+    <value>Monto Fijo</value>
+  </data>
+  <data name="FlatAmount" xml:space="preserve">
+    <value>Monto Fijo</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frecuencia</value>
+  </data>
+  <data name="InvalidServiceNumber" xml:space="preserve">
+    <value>Número de Servicio Inválido</value>
+  </data>
+  <data name="IsEditable" xml:space="preserve">
+    <value>Es Editable</value>
+  </data>
+  <data name="ListTitle" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="MaxCollectionRuleRangeValMsg" xml:space="preserve">
+    <value>Esta regla no se aplicará para aquellos casos que excedan el valor máximo del monto final ingresado, el valor máximo permitido para el campo de monto final: 9999999999999</value>
+  </data>
+  <data name="NewCollectionRule" xml:space="preserve">
+    <value>Nueva Regla de Recaudación</value>
+  </data>
+  <data name="NewRule" xml:space="preserve">
+    <value>Nueva Regla</value>
+  </data>
+  <data name="NewTitle" xml:space="preserve">
+    <value>Nuevo Servicio</value>
+  </data>
+  <data name="OnField" xml:space="preserve">
+    <value>En Campo</value>
+  </data>
+  <data name="PaymentDueDate" xml:space="preserve">
+    <value>Fecha de Vencimiento de Pago</value>
+  </data>
+  <data name="PaymentDueDates" xml:space="preserve">
+    <value>Fechas de Vencimiento de Pago</value>
+  </data>
+  <data name="PaymentDueDatesTitle" xml:space="preserve">
+    <value>Fechas de Vencimiento de Pago de Servicios</value>
+  </data>
+  <data name="PaymentDueDays" xml:space="preserve">
+    <value>Días de Vencimiento de Pago</value>
+  </data>
+  <data name="PaymentDueOn" xml:space="preserve">
+    <value>Pago Vence En</value>
+  </data>
+  <data name="PaymentDueOnRequired" xml:space="preserve">
+    <value>¡La fecha de “Pago Vence En” es requerida!</value>
+  </data>
+  <data name="PaymentGracePeriod" xml:space="preserve">
+    <value>Periodo de Gracia de Pago</value>
+  </data>
+  <data name="PaymentGracePeriodRequired" xml:space="preserve">
+    <value>¡Periodo de Gracia de Pago requerido!</value>
+  </data>
+  <data name="PaymentGracePeriods" xml:space="preserve">
+    <value>Periodos de Gracia de Pagos</value>
+  </data>
+  <data name="PaymentGracePeriodsTitle" xml:space="preserve">
+    <value>Periodos de Pagos de Gracia de Servicio</value>
+  </data>
+  <data name="PercentOfPercentValue" xml:space="preserve">
+    <value>% of % Valor</value>
+  </data>
+  <data name="PercentValue" xml:space="preserve">
+    <value>% Valor</value>
+  </data>
+  <data name="PeriodEndDate" xml:space="preserve">
+    <value>Fecha de Finalización del Periodo</value>
+  </data>
+  <data name="PeriodStartDate" xml:space="preserve">
+    <value>Fecha de Inicio del Periodo</value>
+  </data>
+  <data name="Range" xml:space="preserve">
+    <value>Rango</value>
+  </data>
+  <data name="RangeFeeAndPercentage" xml:space="preserve">
+    <value>Tarifa de Rango y Porcentaje</value>
+  </data>
+  <data name="RangeFlat" xml:space="preserve">
+    <value>Rango Fijo</value>
+  </data>
+  <data name="RangePercentage" xml:space="preserve">
+    <value>Porcentaje de Rango</value>
+  </data>
+  <data name="RangeVariableFlat" xml:space="preserve">
+    <value>Rango Variable Fijo</value>
+  </data>
+  <data name="RangeVariablePercentage" xml:space="preserve">
+    <value>Porcentaje de Rango Variable</value>
+  </data>
+  <data name="RemoveRule" xml:space="preserve">
+    <value>Remover Regla</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>Regla</value>
+  </data>
+  <data name="SelectOptionErrorMsg" xml:space="preserve">
+    <value>Por favor, seleccione al menos una opción.</value>
+  </data>
+  <data name="ServiceLockedMsg" xml:space="preserve">
+    <value>El servicio está bloqueado. Por favor, contacte a su administrador para más detalles.</value>
+  </data>
+  <data name="ServiceRuleTitle" xml:space="preserve">
+    <value>Reglas de Penalidad de Servicio</value>
+  </data>
+  <data name="StartAmount" xml:space="preserve">
+    <value>Monto Inicial</value>
+  </data>
+  <data name="StartDay" xml:space="preserve">
+    <value>Día Inicial</value>
+  </data>
+  <data name="StartPeriod" xml:space="preserve">
+    <value>Periodo de Inicio</value>
+  </data>
+  <data name="UseFixDates" xml:space="preserve">
+    <value>Utilizar Fechas Fijas</value>
+  </data>
+  <data name="UseFixDays" xml:space="preserve">
+    <value>Utilizar Días Fijos</value>
+  </data>
+  <data name="UseFixDueDates" xml:space="preserve">
+    <value>Utilizar Fechas de Vencimiento Fijas</value>
+  </data>
+  <data name="ViewDiscountDates" xml:space="preserve">
+    <value>Ver Fechas de Descuento</value>
+  </data>
+  <data name="ViewFillingDate" xml:space="preserve">
+    <value>Ver Fechas de Vencimiento de Radicación</value>
+  </data>
+  <data name="ViewPaymentDueDates" xml:space="preserve">
+    <value>Ver Fechas de Vencimiento de Pago</value>
+  </data>
+  <data name="ViewPaymentGracePeriods" xml:space="preserve">
+    <value>Ver Periodos de Gracia de Pago</value>
+  </data>
+  <data name="ViewTitle" xml:space="preserve">
+    <value>Ver Servicio</value>
+  </data>
+  <data name="CopyRule" xml:space="preserve">
+    <value>Copiar regla</value>
+  </data>
+  <data name="AddException" xml:space="preserve">
+    <value>Añadir Excención</value>
+  </data>
+  <data name="AddServiceException" xml:space="preserve">
+    <value>Agregar Excención de Servicio</value>
+  </data>
+  <data name="EditServiceException" xml:space="preserve">
+    <value>Editar Excención de Servicio</value>
+  </data>
+  <data name="ExceptionPercentage" xml:space="preserve">
+    <value>Excención %</value>
+  </data>
+  <data name="ExceptionValueDuplicated" xml:space="preserve">
+    <value>Valor de excención duplicado.</value>
+  </data>
+  <data name="ExceptionValueErrMsg" xml:space="preserve">
+    <value>El valor de exención debe ser mayor que 0 y menor o igual a 100.</value>
+  </data>
+  <data name="ExistingExceptionRules" xml:space="preserve">
+    <value>Reglas de Excención Existentes</value>
+  </data>
+  <data name="ServiceException" xml:space="preserve">
+    <value>Excención de Servicio</value>
+  </data>
+  <data name="ViewServiceException" xml:space="preserve">
+    <value>Ver Excención de Servicio</value>
+  </data>
+  <data name="ServiceExceptionAlreadyInUse" xml:space="preserve">
+    <value>Esta excención ya está en uso. Por favor, contacte al administrador para más detalles.</value>
+  </data>
+  <data name="FilingType" xml:space="preserve">
+    <value>Tipo de Archivo</value>
+  </data>
+  <data name="ViewRule" xml:space="preserve">
+    <value>Ver Regla</value>
+  </data>
+  <data name="Factor" xml:space="preserve">
+    <value>Factor</value>
+  </data>
+  <data name="CustomField" xml:space="preserve">
+    <value>Campo Personalizado</value>
+  </data>
+  <data name="AutoCreation" xml:space="preserve">
+    <value>Creación automática</value>
+  </data>
+  <data name="BaseAmount" xml:space="preserve">
+    <value>Cantidad base</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>Habilitar</value>
+  </data>
+  <data name="EndUnit" xml:space="preserve">
+    <value>Unidad final</value>
+  </data>
+  <data name="ExceedBaseAndFee" xml:space="preserve">
+    <value>Superar la base y la tarifa</value>
+  </data>
+  <data name="FactorValue" xml:space="preserve">
+    <value>Valor factorial</value>
+  </data>
+  <data name="StartingUnit" xml:space="preserve">
+    <value>Unidad de arranque</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>Tipo de cuenta</value>
+  </data>
+  <data name="FilingForm" xml:space="preserve">
+    <value>Formulario de presentación</value>
+  </data>
+  <data name="AllowDuplicates" xml:space="preserve">
+    <value>Permite Duplicados</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MultipleServicesPerYear" xml:space="preserve">
+    <value>Múltiples Servicios por Año</value>
+  </data>
+  <data name="CustomDateField" xml:space="preserve">
+    <value>Campo de Fecha Personalizado</value>
+  </data>
+  <data name="TotalValueLabel" xml:space="preserve">
+    <value>Etiqueta de Valor Total</value>
+  </data>
+</root>

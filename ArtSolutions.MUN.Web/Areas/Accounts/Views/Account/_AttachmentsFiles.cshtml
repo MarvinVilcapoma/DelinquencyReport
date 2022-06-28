@@ -1,0 +1,46 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Account
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+<form id="frmAttachments">
+    <div class="modal-body no-padding">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>@LocalResource.NewAttachmentFile</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive m-t">
+                    <table class="table table-hover" id="tblAttachement">
+                        <thead id="tblAttachmentHeadRow">
+                            <tr>
+                                <th class="col-lg-4">@GlobalResource.Type</th>
+                                <th class="col-lg-4">@GlobalResource.Name <span class="text-danger">*</span></th>
+                                <th class="col-lg-4">@GlobalResource.FileName</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblAttachmentRow">
+                            <tr>
+                                <td colspan="3" class="text-center">@GlobalResource.NoDataMessage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <div id="attachmentDropzone" class="dropzone">
+                                <div id="attachmentPreview" class="dropzone-previews">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnAddFile" tabindex="1" disabled>@GlobalResource.Add</button>
+        <button type="button" class="btn btn-white" data-dismiss="modal" tabindex="2">@GlobalResource.Cancel</button>
+    </div>
+</form>

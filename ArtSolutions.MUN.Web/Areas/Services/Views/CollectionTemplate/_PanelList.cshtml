@@ -1,0 +1,10 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Services.Models.ServiceCollectionTemplateModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.ServiceCollectionTemplate
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@foreach (var year in Model.YearList)
+{
+    ViewBag.TemplateYear = year.Text;
+    ViewBag.TemplateYearId = year.Value;
+    @Html.Partial("~/Areas/Services/Views/CollectionTemplate/_PanelDetail.cshtml", Model)
+}   

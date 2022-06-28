@@ -1,0 +1,271 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.SuspensionOrderForWaterServiceModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using ArtSolutions.MUN.Web.Helpers
+
+@{
+    ViewBag.Title = ArtSolutions.MUN.Web.Resources.AccountService.SuspensionOrder;
+
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+         @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <br />
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="60%" colspan="2">
+                            <table cellspacing="0">
+                                <tr>
+                                    <td colspan="2">
+                                        <strong> @GlobalResource.Name  :  </strong>
+                                        @Model.AccountModel.DisplayName
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <strong> @GlobalResource.TaxNumber  :  </strong>
+                                        @Model.AccountModel.TaxNumber
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <strong> @ArtSolutions.MUN.Web.Resources.Account.Address : </strong>
+                                        @Model.AccountModel.Address
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        <br />
+
+        @if (Model.SuspensionOrderForWaterServiceList.Where(x => x.ServiceTypeID == 17).Count() > 0)
+        {
+            //If Water Service Pending
+
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="left padding-top-md" colspan="7">
+                            @ReportResource.SuspensionOrderDesc1
+
+                            <strong>
+                                <u>
+                                    @ReportResource.DefeatedAt
+                                    @DateTime.Now.ToString("D")
+                                </u>
+                            </strong>
+
+                            @ReportResource.SuspensionOrderDesc2
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+
+            <table cellspacing="0" class="report-Table">
+                <thead>
+                    <tr>
+                        <th width="25%" class="table-border-center-th">@ReportResource.Item</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Hydrometer</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Finca</th>
+                        <th width="15%" class="table-border-center-th">@GlobalResource.Principal</th>
+                        <th width="15%" class="table-border-center-th">@ReportResource.Interest</th>
+                        <th width="15%" class="table-border-center-th" colspan="2">@GlobalResource.Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.SuspensionOrderForWaterServiceList != null && Model.SuspensionOrderForWaterServiceList.Count() > 0)
+                    {
+                        foreach (var item in Model.SuspensionOrderForWaterServiceList)
+                        {
+                            <tr>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.ServiceName
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.Meter
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.FincaID
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.TotalPrincipal != null)
+                                    {
+                                        @item.TotalPrincipal.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.TotalInterest != null)
+                                    {
+                                        @item.TotalInterest.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td" colspan="2">
+                                    @if (item.Total != null)
+                                    {
+                                        @item.Total.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td"></td>
+                            <td class="table-bg-bold-center-td">@GlobalResource.Total</td>
+                            <td class="table-bg-bold-center-td">
+                                @Model.SuspensionOrderForWaterServiceList.Sum(x => x.TotalPrincipal).Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-bg-bold-center-td">
+                                @Model.SuspensionOrderForWaterServiceList.Sum(x => x.TotalInterest).Value.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-bg-bold-center-td" colspan="2">
+                                @Model.SuspensionOrderForWaterServiceList.Sum(x => x.Total).Value.ToString(Common.NumberPoints)
+                            </td>
+                            @*<td class="table-bg-bold-center-td"></td>*@
+                        </tr>
+                    }                    
+                </tbody>
+            </table>
+
+            <br />
+
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="left padding-top-md" colspan="7">
+                            @ReportResource.SuspensionOrderDesc3
+                            <strong>@ReportResource.WorkingHours.</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td colspan="1" width="15%"></td>
+                        <td class="center" width="70%" colspan="4">
+                            @ReportResource.SuspensionOrderDesc4
+                        </td>
+                        <td colspan="2" width="15%"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" width="15%"></td>
+                        <td class="center" width="70%" colspan="4">
+                            @ReportResource.SuspensionOrderDesc5
+                        </td>
+                        <td colspan="2" width="15%"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <br />
+            <br />
+
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td colspan="1" width="20%"></td>
+                        <td class="center" width="40%" colspan="4">
+                            <hr />
+                            @if (!string.IsNullOrEmpty(ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username))
+                            {
+                                @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                            }
+                        </td>
+                        <td colspan="2" width="20%"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" width="20%"></td>
+                        <td class="center" width="40%" colspan="4">
+                            @ReportResource.TaxAdministrationDirectorate
+                        </td>
+                        <td colspan="2" width="20%"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="1" width="20%"></td>
+                        <td class="center" width="40%" colspan="4">
+                            @ReportResource.CollectionManagementUnit
+                        </td>
+                        <td colspan="2" width="20%"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td class="left padding-top-md" colspan="7">
+                            <br />
+                            <br />
+                            <hr />
+                            <strong>@ReportResource.ExclusiveuseofAqueducts</strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="left padding-top-md" colspan="7">
+                            <br />
+                            @ReportResource.CutDateandTime : _________________________________________________________________
+                            <br />
+                            <br />
+                            @ReportResource.Commentary __________________________________________________________________________________________
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        }
+        else
+        {
+            //If No Water Service Pending
+
+            <table cellspacing="0" class="report-Table">              
+                <tbody>
+                    <tr>
+                        <td colspan="7" class="table-border-center-td">
+                            <center>
+                                <label>
+                                    @ReportResource.DoesNotHavePendingWaterServicesMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName)
+                                </label>
+                            </center>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+</body>
+</html>

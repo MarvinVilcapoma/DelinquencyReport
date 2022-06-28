@@ -1,0 +1,191 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountPropertyModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@{
+    Model.TerrainValue = 0;
+    Model.TotalTerrainValue = 0;
+}
+
+
+
+<tr data-code="@Model.FincaID">
+    <td class="table-description-field">@Model.FincaID</td>
+    <td>@Model.Owner</td>
+    <td class="text-right">@Html.Raw((Convert.ToDecimal(Model.Percentage.Value) / 100).ToString("P"))</td>
+    <td class="text-right">@Html.Raw(Model.Area.HasValue ? Model.Area.Value.ToString(Common.DecimalPoints) : 0.ToString(Common.DecimalPoints))</td>
+    <td class="text-right">@Html.Raw(Model.TerrainValue.HasValue ? Model.TerrainValue.Value.ToString("C") : 0.ToString("C"))</td>
+    <td class="text-right">@Html.Raw(Model.ContructionValue.HasValue ? Model.ContructionValue.Value.ToString("C") : 0.ToString("C"))</td>
+    <td class="text-right">        
+        <a class="btn btn-white btn-sm btnAddContruction"><i class="fa fa-plus"></i></a>
+    </td>
+    <td class="ConstructionList">
+        @foreach (var objItem in Model.AccountPropertyConstructionDetail)
+        {
+            <div class="row1 border-bottom">
+                <table width="100%">
+                    <tbody>
+                        <tr data-code="@Model.RigthNumber">
+                            <td class="col-lg-11">
+                                <table class="table no-borders">
+                                    <tbody>
+                                        <tr>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @GlobalResource.Type :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.MaterialType
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.ConstructionType :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.ConstructionType
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.ConstructionYear :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.ConstructionYear
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @GlobalResource.Years :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.TotalYears
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @GlobalResource.Status :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Status
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.NoFloors :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Floors
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.NoChambers :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Chambers
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.InternalWalls :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.InternalWalls
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.ExternalWalls :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.ExternalWalls
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.Structure  :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Structure
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.Roof  :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Roof
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.Ceiling  :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Ceiling
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.Floors  :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Floor
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.Bathroom  :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.Bathroom
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @Html.Raw(LocalResource.BuildingArea) :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.BuildingArea.Value.ToString(Common.DecimalPoints)
+                                            </td>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @Html.Raw(LocalResource.UnitValue) :
+                                                </label>
+                                            </td>
+                                            <td class="text-left">
+                                                @objItem.UnitValue.Value.ToString("C")
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="control-label text-right">
+                                                <label class="control-label">
+                                                    @LocalResource.TotalValue :
+                                                </label>
+                                            </td>
+                                            <td class="text-left" colspan="7">
+                                                @objItem.TotalValue.Value.ToString("C")
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-lg-1 text-right">                                
+                                <a class="btn btn-white btn-sm btnEditConstruction" data-type="old" data-id="@objItem.ID"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-white btn-sm btnDeleteConstruction" data-type="old" data-id="@objItem.ID"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </td>
+</tr>
+

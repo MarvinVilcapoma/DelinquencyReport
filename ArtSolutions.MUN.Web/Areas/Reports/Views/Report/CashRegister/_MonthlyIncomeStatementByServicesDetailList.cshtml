@@ -1,0 +1,113 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.MonthlyIncomeStatementByServicesModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+
+
+@if (Model.MonthlyIncomeStatementByServicesList != null && Model.MonthlyIncomeStatementByServicesList.Count() > 0)
+{
+    foreach (var objServiceCode in Model.MonthlyIncomeStatementByServicesList.GroupBy(d => d.Code1).Select(d => d.Key).Distinct().ToList())
+    {
+        foreach (var item in Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode))
+        {
+            <tr>
+                <td class="text-center">@Html.Raw(item.Code1 + " " + item.Code2)</td>
+                <td class="text-center">@item.ServiceName</td>
+                <td class="text-center">
+                    @Html.Raw(0.ToString("C"))
+                    @*@Html.Raw(item.CurrentCharges.ToString("C"))*@
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.CurrentInterest.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @if (item.Code1 + item.Code2 == "131105000000007")
+                    {
+                        @Html.Raw((item.CurrentPayment + Model.MonthlyIncomeStatementByServicesList.Sum(x => x.CurrentCharges)).ToString("C"))
+                    }
+                    else
+                    {
+                        @Html.Raw((item.CurrentPayment - item.CurrentCharges).ToString("C"))
+                    }
+                </td>
+                <td class="text-center">
+                    @Html.Raw(0.ToString("C"))
+                    @*@Html.Raw(item.PreviousCharges.ToString("C"))*@
+                </td>
+                <td class="text-center">
+                    @Html.Raw(item.PreviousInterest.ToString("C"))
+                </td>
+                <td class="text-center">
+                    @if (item.Code1 + item.Code2 == "131105000000007")
+                    {
+                        @Html.Raw((item.PreviousPayment + Model.MonthlyIncomeStatementByServicesList.Sum(x => x.PreviousCharges)).ToString("C"))
+                    }
+                    else
+                    {
+                        @Html.Raw((item.PreviousPayment - item.PreviousCharges).ToString("C"))
+                    }
+
+                </td>
+            </tr>
+        }
+        <tr class="sub-header font-bold">
+            <td></td>
+            <td class="text-center">@Html.Raw(ReportResource.TotalCodeRevenue + ": " + objServiceCode)</td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentCharges).ToString("C")*@
+                @Html.Raw(0.ToString("C"))
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentInterest).ToString("C")
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment).ToString("C")*@
+                @if (objServiceCode == "1311050000000")
+                {
+                    @Html.Raw((Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment)).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw((Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.CurrentPayment) - Model.MonthlyIncomeStatementByServicesList.Where(d=>d.Code1 == objServiceCode).Sum(x => x.CurrentCharges)).ToString("C"))
+                }
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousCharges).ToString("C")*@
+                @Html.Raw(0.ToString("C"))
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousInterest).ToString("C")
+            </td>
+            <td class="text-center top-border table-total-amount">
+                @*@Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment).ToString("C")*@
+                @if (objServiceCode == "1311050000000")
+                {
+                    @Html.Raw((Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment)).ToString("C"))
+                }
+                else
+                {
+                    @Html.Raw((Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousPayment) - Model.MonthlyIncomeStatementByServicesList.Where(d => d.Code1 == objServiceCode).Sum(x => x.PreviousCharges)).ToString("C"))
+                }
+
+            </td>
+        </tr>
+    }
+    <tr class="sub-header font-bold">
+        <td></td>
+        <td class="text-center">@ReportResource.TotalRevenueCurrentMonth</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center top-border table-total-amount">@Model.MonthlyIncomeStatementByServicesList.Sum(x => x.CurrentPayment).ToString("C")</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+    </tr>
+    <tr class="sub-header font-bold">
+        <td></td>
+        <td class="text-center">@ReportResource.TotalIncomePreviousMonth</td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center"></td>
+        <td class="text-center top-border table-total-amount">@Model.MonthlyIncomeStatementByServicesList.Sum(x => x.PreviousPayment).ToString("C")</td>
+    </tr>
+}

@@ -1,0 +1,153 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptPaymentPlanModel
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = LocalResource.ReceiptsByPaymentPlanTitle;
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> @ViewBag.Title </title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body class="white-bg">
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="14%" class="table-border-center-th">@GlobalResource.Name</th>
+                    <th width="9%" class="table-border-center-th">@GlobalResource.IdentityMunicipal</th>
+                    <th width="13%" class="table-border-center-th">@GlobalResource.PaymentPlan</th>
+                    <th width="14%" class="table-border-center-th">@GlobalResource.Principal</th>
+                    <th width="14%" class="table-border-center-th">@LocalResource.Interests</th>
+                    <th width="14%" class="table-border-center-th">@GlobalResource.Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PaymentPlanReceiptDetailList != null && Model.PaymentPlanReceiptDetailList.Count() > 0)
+                {
+                    int currentIndex = 0;
+                    foreach (var item in Model.PaymentPlanReceiptDetailList.OrderBy(g => g.Date))
+                    {
+                        <tr>
+                            <td class="table-border-left-td">
+                                @item.FormattedDate
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.Number
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountDisplayName
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountRegisterNumber
+                            </td>
+                            <td class="table-border-left-td">
+                                @item.AccountPaymentPlanNumber
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Principal.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Interest.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-right-td" style='@msoNumberFormat'>
+                                @item.Payment.ToString(Common.NumberPoints)
+                            </td>
+                        </tr>
+                        if (currentIndex != Model.PaymentPlanReceiptDetailList.Count() - 1)
+                        {
+                            if (item.Date.ToString("MM/dd/yyyy") != Model.PaymentPlanReceiptDetailList[currentIndex + 1].Date.ToString("MM/dd/yyyy"))
+                            {
+                                <tr>
+                                    <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Interest).ToString(Common.NumberPoints)
+                                    </td>
+                                    <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                        @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Payment).ToString(Common.NumberPoints)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total - @item.Date.ToString("d")  </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Principal).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Interest).ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-bg-bold-right-td" style='@msoNumberFormat'>
+                                    @Model.PaymentPlanReceiptDetailList.Where(e => e.Date.ToString("MM/dd/yyyy") == Model.PaymentPlanReceiptDetailList[currentIndex].Date.ToString("MM/dd/yyyy")).Sum(i => i.Payment).ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                        currentIndex++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="table-bg-bold-center-td">
+                            <center> @GlobalResource.NoDataMessage </center>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5" class="table-bg-bold-right-td"> @GlobalResource.Total</td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.PaymentPlanReceiptDetailList != null && Model.PaymentPlanReceiptDetailList.Count() > 0)
+                        {
+                            @Model.PaymentPlanReceiptDetailList.Sum(i => i.Principal).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.PaymentPlanReceiptDetailList != null && Model.PaymentPlanReceiptDetailList.Count() > 0)
+                        {
+                            @Model.PaymentPlanReceiptDetailList.Sum(i => i.Interest).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                    <td class="table-bg-bold-right-td">
+                        @if (Model.PaymentPlanReceiptDetailList != null && Model.PaymentPlanReceiptDetailList.Count() > 0)
+                        {
+                            @Model.PaymentPlanReceiptDetailList.Sum(i => i.Payment).ToString(Common.NumberPoints)
+                        }
+                        else
+                        {
+                            @Html.Raw("0.00")
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PaymentsMadeByTheTaxpayerModel
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.MigrationValidationFactuTitle;
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @@page {
+            size: landscape;
+        }
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.ServiceCode</th>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.ServiceName</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="12%" class="table-border-center-th">@GlobalResource.TaxNumber</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.Payment</th>
+                    <th width="8%" class="table-border-center-th">@ReportResource.RegularPaid</th>
+                    <th width="8%" class="table-border-center-th">@ReportResource.PaidOutAdvanced</th>
+                    <th width="8%" class="table-border-center-th">@ReportResource.PaidFines</th>
+                    <th width="8%" class="table-border-center-th">@ReportResource.PaidInterest</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.Others</th>
+                    <th width="8%" class="table-border-center-th">@GlobalResource.Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PaymentsMadeByTheTaxpayerList != null && Model.PaymentsMadeByTheTaxpayerList.Count() > 0)
+                {
+                    foreach (var item in Model.PaymentsMadeByTheTaxpayerList)
+                    {
+                        if (item.IsVoid == 1)
+                        {
+                            <tr style="color:red;">
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.ServiceCode
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.ServiceName
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.Number
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.DisplayName
+                                </td>
+                                <td class="table-border-left-td" colspan="7">
+                                    @GlobalResource.Voided
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.ServiceCode
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.ServiceName
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.Number
+                                </td>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @item.DisplayName
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.PaymentReceiptType
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.RegularPayment != null)
+                                    {
+                                        @item.RegularPayment.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.AdvancedPayment.ToString(Common.NumberPoints)
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Penalties != null)
+                                    {
+                                        @item.Penalties.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Interest != null)
+                                    {
+                                        @item.Interest.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @if (item.Others != null)
+                                    {
+                                        @item.Others.Value.ToString(Common.NumberPoints)
+                                    }
+                                </td>
+                                <td class="table-border-center-td">
+                                    @item.Total.ToString(Common.NumberPoints)
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    <tr>
+                        <td colspan="4" class="table-bg-bold-center-td"></td>
+                        <td class="table-bg-bold-center-td">
+                            @ReportResource.Totales
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.RegularPayment).Value.ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.AdvancedPayment).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Penalties).Value.ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Interest).Value.ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Others).Value.ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                        <td class="table-bg-bold-center-td">
+                            <label id="lblTotal">
+                                @Model.PaymentsMadeByTheTaxpayerList.Sum(x => x.Total).ToString(Common.NumberPoints)
+                            </label>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="11" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

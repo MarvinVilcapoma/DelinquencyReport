@@ -1,0 +1,84 @@
+﻿@model List<ArtSolutions.MUN.Web.Areas.Reports.Models.ReceiptDetailList>
+@using LocalResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PaymentResource = ArtSolutions.MUN.Web.Resources.COLPayment
+
+<div class="table-responsive">
+    <table id="tblReceiptDetail" class="table table-report" role="grid">
+        <thead>
+            <tr>
+                <th style="min-width:150px;">@GlobalResource.ReceiptNumber</th>
+                <th style="min-width:100px;">@GlobalResource.Date</th>
+                <th style="min-width:150px;">@GlobalResource.Number</th>
+                <th style="min-width:250px;">@GlobalResource.DisplayName</th>
+                <th style="min-width:250px;">@GlobalResource.ServiceType</th>
+                <th style="min-width:150px;">@PaymentResource.InvoiceNumber</th>
+                <th style="min-width:150px;">@LocalResource.DepositNumber</th>
+                <th style="min-width:150px;">@LocalResource.ClosingNumber</th>
+                <th style="min-width:250px;">@GlobalResource.BankAccountNumber</th>
+                <th style="min-width:250px;">@GlobalResource.BankAccountName</th>
+                <th style="min-width:150px;">@GlobalResource.GrantCode</th>
+                <th style="min-width:250px;">@GlobalResource.Grant</th>
+                <th style="min-width:250px;">@GlobalResource.ChecbookName</th>
+                <th class="text-right" style="min-width:100px;">@GlobalResource.Percentage %</th>
+                <th class="text-right" style="min-width:250px;">@LocalResource.TotalAllocated</th>
+                <th class="text-right" style="min-width:250px;">@LocalResource.ReceiptTotalAmount</th>
+                <th style="min-width:250px;">@LocalResource.Collector</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Number</td>
+                        <td>@item.FormattedDate</td>
+                        <td>@item.RegisterNumber</td>
+                        <td>@item.DisplayName</td>
+                        <td>@item.ServiceTypeName</td>
+                        <td>@item.InvoiceNumber</td>
+                        <td>@item.DepositNumber</td>
+                        <td>@item.ClosingNumber</td>
+                        <td>@item.BankAccountCode</td>
+                        <td>@item.BankAccountName</td>
+                        <td>@item.GrantCode</td>
+                        <td>@item.GrantName</td>
+                        <td>@item.ChecbookName</td>
+                        <td class="text-right">@item.FormattedPercentage</td>
+                        <td class="text-right">@item.FormattedTotalAllocated</td>
+                        <td class="text-right">@item.FormattedReceiptTotalAmount</td>
+                        <td>@item.FormattedCashier</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr class="no-data">
+                    <td colspan="17" class="text-center">
+                        @GlobalResource.NoDataMessage
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-right"><b>@GlobalResource.Total : </b></td>
+                <td class="text-right"><b>@Model.Sum(x => x.TotalAllocated).ToString("C")</b></td>
+                <td class="text-right"><b>@Model.Sum(x => x.ReceiptTotalAmount).ToString("C")</b></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

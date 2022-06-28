@@ -1,0 +1,90 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PropertyModel
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    ViewBag.Title = ReportResource.PropertyTitle;
+}
+
+<div class="wrapper wrapper-content fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("ExportProperty", "Report", FormMethod.Post,
+                new { id = "form", @class = "wizard-big" }))
+            {
+                <div class="ibox" id="dviBox">
+                    <div class="ibox-title text-center">
+                        <h2>@Model.ReportCompanyModel.Name</h2>
+                        <h3>@ReportResource.PropertyTitle</h3>
+                        <p>@ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span></p>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-t-sm m-b no-print">
+                            <div class="col-lg-12">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Account</label>
+                                        <div class="form-group w-300">
+                                            @Html.DropDownListFor(x => x.AccountId, new SelectList(Model.AccountList, "id", "text", Model.AccountId), GlobalResource.DropDownSelectMessage, new
+                                            {
+                                                @class = "form-control select2dropdown",
+                                                @onchange = "GetRight();",
+                                                tabindex = 1
+                                            })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@GlobalResource.Property</label>
+                                        <div class="form-group w-200">
+                                            @Html.DropDownListFor(x => x.AccountPropertyID, Model.PropertyList, GlobalResource.DropDownSelectAllMessage, new { @id = "ddlRight", @class = "form-control", tabindex = 2 })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button id="btnGo" type="button" class="btn btn-sm btn-primary m-r-md" name="actionType" value="Go" tabindex="3">@GlobalResource.Go</button>
+                                    </div>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="0" itag="btnExcel" tabindex="5">@GlobalResource.Excel</button>
+                                        <button type="submit" name="exportType" class="btn-success btn-sm m-r-xs" value="1" itag="btnPDF" tabindex="6">@GlobalResource.PDF</button>
+                                        <button type="button" class="btn-info btn-sm" data-type="2" itag="btnPrint" onclick="return Print();" tabindex="7">@GlobalResource.Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="divPropertyReport">
+                        </div>
+                    </div>
+                </div>
+                @Html.HiddenFor(x => x.AccountId, new { @id = "hdAccountID" })
+            }
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    @Styles.Render("~/plugins/select2Styles")
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/dataTables")
+    @Scripts.Render("~/plugins/select2")
+
+    <script type="text/javascript">
+        //Local resource variable
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var next = '@Html.Raw(GlobalResource.Next)';
+        var previous = '@Html.Raw(GlobalResource.Previous)';
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var defaultSelectText = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var AccounthaveNoRightsText = '@Html.Raw(PropertyResource.AccounthaveNoRightsText.Replace("{0}", "{1}").Replace("{2}", DateTime.Now.ToString("d")))';
+    </script>
+
+    <script src="~/Scripts/app/reppropertymovement.js"></script>
+}

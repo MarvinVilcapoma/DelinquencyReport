@@ -1,0 +1,197 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.ControlOfPaymentsMadeInTheBankModel
+@using System.Globalization
+@using ArtSolutions.MUN.Web.Helpers
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.ControlofPaymentsmadeintheBank;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var msoTextFormat = @"mso-number-format:'\@'";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+        @if (!string.IsNullOrEmpty(Model.ServicesNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.ServiceName: </strong>@Model.ServicesNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.BankeNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.Bank: </strong>@Model.BankeNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        @if (!string.IsNullOrEmpty(Model.ContractNames))
+        {
+            <table cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">
+                            <strong>@GlobalResource.Agreement: </strong>@Model.ContractNames
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="15%" class="table-border-center-th">@GlobalResource.ReceiptNumber</th>
+                    <th width="15%" colspan="2" class="table-border-center-th">@ReportResource.IDNumber</th>
+                    <th width="25%" colspan="2" class="table-border-center-th">@ReportResource.TaxpayerName</th>
+                    <th width="25%" colspan="2" class="table-border-center-th">@ReportResource.Concept</th>
+                    <th width="20%" class="table-border-center-th">@GlobalResource.Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ControlOfPaymentsMadeInTheBankList != null && Model.ControlOfPaymentsMadeInTheBankList.Count() > 0)
+                {
+                    foreach (var item in Model.ControlOfPaymentsMadeInTheBankList.GroupBy(d => d.RecieptNumber).Select(d => new { RecieptNumber = d.Key }).ToList())
+                    {
+                        int i = 0;
+
+                        foreach (var objItem in Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber))
+                        {
+                            <tr>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                    @if (i == 0)
+                                    {
+                                        @Html.Raw(objItem.RecieptNumber)
+                                    }
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                    @if (i == 0)
+                                    {
+                                        @Html.Raw(objItem.TaxNumber)
+                                    }
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                    @if (i == 0)
+                                    {
+                                        @Html.Raw(objItem.AccountName)
+                                    }
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw(objItem.ServiceName)
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @Html.Raw(objItem.Amount.Value.ToString(Common.NumberPoints))
+                                </td>
+                            </tr>
+
+                            i = i + 1;
+                        }
+
+                        decimal? delayOnTaxInterest = Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.DelayOnTaxInterest).Value;
+                        decimal? delayInServiceInterest = Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.DelayInServiceInterest).Value;
+
+                        if (delayOnTaxInterest > 0)
+                        {
+
+                            <tr>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw("INTERESES POR MORA EN IMPUESTOS")
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @Html.Raw((delayOnTaxInterest ?? 0).ToString(Common.NumberPoints))
+                                </td>
+                            </tr>
+                        }
+
+                        if (delayInServiceInterest > 0)
+                        {
+                            <tr>
+                                <td class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                </td>
+                                <td colspan="2" class="table-border-center-td" style="@msoTextFormat">
+                                    @Html.Raw("INTERESES POR MORA EN SERVICIOS")
+                                </td>
+                                <td class="table-border-center-td" style='@msoNumberFormat'>
+                                    @Html.Raw((delayInServiceInterest ?? 0).ToString(Common.NumberPoints))
+                                </td>
+                            </tr>
+                        }
+
+                        <tr>
+                            <td colspan="7" class="table-bg-bold-right-td">@ReportResource.TotalByReceipt : </td>
+                            <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                                @Html.Raw((Model.ControlOfPaymentsMadeInTheBankList.Where(d => d.RecieptNumber == item.RecieptNumber).Sum(x => x.Payment) ?? 0).ToString(Common.NumberPoints))
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="7" class="table-bg-bold-right-td">@GlobalResource.Total : </td>
+                        <td class="table-bg-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw((Model.ControlOfPaymentsMadeInTheBankList.Sum(x => x.Payment) ?? 0).ToString(Common.NumberPoints))
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="table-border-td center">
+                            <center>
+                                <label>
+                                    @GlobalResource.NoDataMessage
+                                </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

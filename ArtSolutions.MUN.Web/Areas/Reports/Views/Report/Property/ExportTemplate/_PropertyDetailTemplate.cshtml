@@ -1,0 +1,222 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.PropertyModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using PropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    ViewBag.Title = ReportResource.PropertyTitle;
+    AddressModel addressModel = new AddressModel();
+    if (Model.AccountModel != null && Model.AccountModel.AddressList != null && Model.AccountModel.AddressList.Count() > 0)
+    {
+        addressModel = Model.AccountModel.AddressList.Where(x => x.IsPrimary == true).SingleOrDefault();
+    }
+    var msoNumberFormat = ArtSolutions.MUN.Web.Helpers.UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+    var NumberOfReportColumns = Model.ReportCompanyModel.NumberOfReportColumns - 3;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+        <table cellspacing="0">
+            <tbody>
+                <tr>
+                    <td rowspan="4" width="15%">
+                        <img alt="Company Logo" class="img-responsive" id="img-responsive"
+                             src="http://i0.wp.com/flores.go.cr/wp-content/uploads/2018/08/cropped-Escudo_muni-1-4.png?fit=100%2C100&amp;ssl=1" />
+                    </td>
+                    <td width="65%" colspan="@NumberOfReportColumns">
+                        <h2 class="center">
+                            @Model.ReportCompanyModel.Name
+                        </h2>
+                    </td>
+                    <td width="10%" class="table-bold-right-td">
+                        <label>@GlobalResource.Date:</label>
+                    </td>
+                    <td width="10%" class="right">
+                        @DateTime.Now.ToString("dd-MMM-yyyy")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns">
+                        <h4 class="center">
+                            @GlobalResource.TaxManagement
+                        </h4>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@GlobalResource.Hour:</label>
+                    </td>
+                    <td class="right">
+                        @DateTime.Now.ToString("h: mm tt")
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns">
+                        <h3 class="center">
+                            @Model.ReportCompanyModel.Title
+                        </h3>
+                    </td>
+                    <td class="table-bold-right-td">
+                        <label>@ReportResource.User:</label>
+                    </td>
+                    <td class="right">
+                        @ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@NumberOfReportColumns" class="center">
+                        @ReportResource.Until <span>@Common.CurrentDateTime.ToString("d") </span>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="@Model.ReportCompanyModel.NumberOfReportColumns">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        @if (Model.AccountModel != null)
+        {
+            <table cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td width="30%" rowspan="5" colspan="5" class="table-border-left-td">
+                            <strong> @Model.AccountModel.DisplayName </strong>
+                            <br />
+                            @addressModel.AddressLine1
+                            <br />
+                            @addressModel.AddressLine2
+
+                            @addressModel.City , @addressModel.State , @addressModel.Country
+                            @if (!string.IsNullOrEmpty(addressModel.ZipPostalCode))
+                            {
+                                <span>, @addressModel.ZipPostalCode </span>
+                            }
+                            <br />
+                            <strong> @PropertyResource.TotalRight : </strong>
+                            @if (Model.PropertyMovementList != null && Model.PropertyMovementList.Count() > 0)
+                            {
+                                @Html.Raw(Model.PropertyMovementList.FirstOrDefault().TotalRight)
+                            }
+                            else
+                            {
+                                @Html.Raw("0")
+                            }
+                        </td>
+                        <td width="20%" colspan="1"></td>
+                        <td width="30%" class="table-bold-right-td" colspan="2">
+                            <strong> @GlobalResource.AccountNumber : </strong>
+                        </td>
+                        <td width="20%" class="table-border-right-td">@Model.AccountModel.TaxNumber</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="1"></td>
+                        <td class="table-bold-right-td" colspan="2">
+                            <strong> @ReportResource.CreatedBy : </strong>
+                        </td>
+                        <td class="table-border-right-td">@ArtSolutions.MUN.Web.Helpers.UserSession.Current.Username</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        <br />
+        <br />
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="10%" class="table-border-center-th">@ReportResource.PropertyNumber</th>
+                    <th width="5%" class="table-border-center-th">@ReportResource.RightNumber</th>
+                    <th width="5%" class="table-border-center-th">@PropertyResource.CondoType</th>
+                    <th width="5%" class="table-border-center-th">@PropertyResource.Condo</th>
+                    <th width="10%" class="table-border-center-th">@Html.Raw(@PropertyResource.TotalArea)</th>
+
+                    <th width="20%" class="table-border-center-th">@PropertyResource.TotalValue</th>
+                    <th width="5%" class="table-border-center-th">@PropertyResource.MovementType</th>
+                    <th width="10%" class="table-border-center-th">@PropertyResource.MovementDate</th>
+                    <th width="15%" class="table-border-center-th">@PropertyResource.PreviousTotalValue</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.Who</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Date</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.Time</th>
+                    <th width="20%" class="table-border-center-th">@ReportResource.WhatWasDone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PropertyMovementList != null && Model.PropertyMovementList.Count() > 0)
+                {
+                    foreach (var item in Model.PropertyMovementList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @item.PropertyNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.RigthNumber
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.CondoType
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Condo
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.FormattedTotalArea
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @item.TotalValue.ToString(Common.NumberPoints)
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.MovementType
+                            </td>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.CreatedDate.HasValue ? item.CreatedDate.Value.ToString("d") : "-")
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.PreviousTotalValue.HasValue ? item.PreviousTotalValue.Value.ToString(Common.NumberPoints) : null)
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Who
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Date.ToString("d")
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Date.ToLongTimeString()
+                            </td>
+                            <td class="table-border-center-td">
+                                @item.Note
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="13" class="table-border-td center">
+                            <center>
+                                <label> @ReportResource.DoesNotHavePendingPaymentsForPropertiesMsg.Replace("{0}", Model.AccountModel.TaxNumber).Replace("{1}", Model.AccountModel.DisplayName).Replace("{2}", DateTime.Now.ToString("d"))</label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

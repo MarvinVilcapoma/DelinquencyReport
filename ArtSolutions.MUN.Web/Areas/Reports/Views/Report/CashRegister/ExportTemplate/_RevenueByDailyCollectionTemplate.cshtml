@@ -1,0 +1,109 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Reports.Models.CollectionRevenueDailyCollectionModel
+@using ArtSolutions.MUN.Web.Helpers
+@using System.Globalization
+@using ReportResource = ArtSolutions.MUN.Web.Resources.Report
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+
+@{
+    ViewBag.Title = ReportResource.RevenueDailyCollectionTitle;
+    var msoNumberFormat = UserSession.Current.DecimalPoints > 0 ? string.Format(@"mso-number-format:'\#\,\#\#0\.{0}'", @Common.FormatDecimalPoints) : "mso-number-format:\"" + @"\#\,\#\#0\";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <style>
+        @Html.Raw(File.ReadAllText(Server.MapPath("~/Content/printStyle.css")))
+
+        @Html.Raw("@@page {size: landscape;}")
+    </style>
+</head>
+<body>
+    <div id="divPrint" class="wrapper wrapper-content p-xl">
+
+        @{
+            Html.RenderPartial("~/Areas/Reports/Views/Shared/_CommonHeader.cshtml", Model.ReportCompanyModel);
+        }
+
+        <table cellspacing="0" class="report-Table">
+            <thead>
+                <tr>
+                    <th width="40%" class="table-border-center-th">@ReportResource.CollectionConcept</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.PreviousPaid</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.RegularPaid</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.AdvancePaid</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.InterestCondoned</th>
+                    <th width="10%" class="table-border-center-th">@ReportResource.PaidInterest</th>
+                    <th width="10%" class="table-border-center-th">@GlobalResource.Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RevenueDailyCollectionList != null && Model.RevenueDailyCollectionList.Count() > 0)
+                {
+                    foreach (var item in Model.RevenueDailyCollectionList)
+                    {
+                        <tr>
+                            <td class="table-border-center-td">
+                                @Html.Raw(item.ServiceName)
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.PreviousPayment.HasValue ? item.PreviousPayment.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.CurrentPayment.HasValue ? item.CurrentPayment.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.AdvancePayment.HasValue ? item.AdvancePayment.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.ForgiveInterest.HasValue ? item.ForgiveInterest.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.PaidInterest.HasValue ? item.PaidInterest.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                            <td class="table-border-center-td" style='@msoNumberFormat'>
+                                @Html.Raw(item.Total.HasValue ? item.Total.Value.ToString(Common.NumberPoints) : 0.ToString(Common.NumberPoints))
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="table-bold-right-td">
+                            @Html.Raw(GlobalResource.Total)
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.PreviousPayment).Value.ToString(Common.NumberPoints))
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.CurrentPayment).Value.ToString(Common.NumberPoints))
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.AdvancePayment).Value.ToString(Common.NumberPoints))
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.ForgiveInterest).Value.ToString(Common.NumberPoints))
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.PaidInterest).Value.ToString(Common.NumberPoints))
+                        </td>
+                        <td class="table-bold-center-td" style='@msoNumberFormat'>
+                            @Html.Raw(Model.RevenueDailyCollectionList.Sum(d => d.Total).Value.ToString(Common.NumberPoints))
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="table-border-td center">
+                            <center>
+                                <label> @GlobalResource.NoDataMessage </label>
+                            </center>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,810 @@
+﻿@model ArtSolutions.MUN.Web.Areas.Accounts.Models.AccountServiceModel
+@using ArtSolutions.MUN.Web.Areas.Accounts.Models
+@using ArtSolutions.MUN.Web.Helpers
+@using LocalResource = ArtSolutions.MUN.Web.Resources.AccountService
+@using GlobalResource = ArtSolutions.MUN.Web.Resources.Global
+@using AccountPropertyResource = ArtSolutions.MUN.Web.Resources.AccountProperty
+
+@{
+    /**/
+
+    ViewBag.Title = LocalResource.ViewTitle;
+    ViewBag.TotalValueLabel = Model.TotalValueLabel;
+    string activeCssClass = Model.FrequencyID != 7 || Model.GroupID == (int)EnServiceGroup.License ? "active" : "";
+}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>@GlobalResource.AccountService</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Home" , new {area="" })">@GlobalResource.Home</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List", "AccountService" , new { area="Accounts" })">@LocalResource.ListTitle</a>
+            </li>
+            <li class="active">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class='ibox-title ibox-title-with-button'>
+                    <div class='ibox-tools'>
+                        <h5 class="text-description-field" id="accServiceNote">
+                            @if (!string.IsNullOrEmpty(Model.LicenseNumber))
+                            {
+                                @Html.Raw(Model.AccountName + " - " + Model.LicenseNumber + " - " + Model.Year)
+                            }
+                            else
+                            {
+                                @Html.Raw(Model.AccountName + " - " + Model.Year)
+                            }
+                        </h5>
+                        <div class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" tabindex="1"> @GlobalResource.Action <span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li id="lnkNote"> <a onclick="openNotePopup();"> @GlobalResource.Note </a></li>
+
+                                @if (Model.ServiceID == 9 || Model.ServiceID == 10 || Model.ServiceID == 11 || Model.ServiceID == 12 || Model.ServiceID == 13 || Model.ServiceID == 19287 || Model.ServiceID == 19288 || Model.ServiceID == 19289 || Model.ServiceID == 19290 || Model.ServiceID == 19291)
+                                {
+                                    <li id="lnkSuspensionOrder"><a href="@Url.Action("SuspensionOrder", "AccountService" , new { area="Accounts" ,id=Model.ID })" target="_blank"> @LocalResource.SuspensionOrder </a></li>
+                                }
+
+                                @if (Model.HasPrintTemplate)
+                                {
+                                    if (Model.IsIssued == false)
+                                    {
+                                        <li id="lnkIssue"><a onclick="IssueService();"> @GlobalResource.Issue </a></li>
+                                    }
+                                    <li id="lnkRePrint" class="@(Model.IsIssued == true ? " " : " hide")">
+                                        <a id="aRePrint"
+                                           href="@Url.Action("RePrint", "AccountService" ,
+                                                new { area="Accounts" ,
+                                                    rowVersion64 =Model.RowVersion64,
+                                                    isPrinted =Model.IsPrint,
+                                                    id =Model.ID,
+                                                    serviceTypeID = Model.ServiceTypeID
+                                                })"
+                                           target="_blank">
+                                            @GlobalResource.RePrint
+                                        </a>
+                                    </li>
+                                }
+                                @if (Model.IsLock == false)
+                                {
+                                    <li id="lnkLock"><a onclick="openLockPopup();"> @GlobalResource.Lock </a></li>
+                                }
+                                else
+                                {
+                                    <li id="lnkUnLock"><a onclick="openLockPopup();"> @LocalResource.Unlock </a></li>
+                                }
+                                @if (Model.IsAdjustable && Model.IsLock == false)
+                                {
+                                    <li id="lnkAdjustment"><a onclick="openAdjustmentPopup(@Model.ID,@Model.ServiceID);"> @LocalResource.Adjustment </a></li>
+                                }
+                                @if (Model.AllowExtension)
+                                {
+                                    <li id="lnkExtension"><a onclick="openExtensionPopup(@Model.ID,'@Model.Filling.FirstOrDefault().FillingDueDate');"> @LocalResource.Extension </a></li>
+                                }
+                                @if (Model.IsExtensionAllowed && Model.Year <= DateTime.Now.Year && Model.IsLock == false)
+                                {
+                                    <li id="lnkExemption"><a onclick="openExemptionPopup(@Model.ID);"> @LocalResource.Exemption </a></li>
+                                }
+                                @if (Model.IsCorrectionAllowed && Model.IsLock == false && Model.AllowCollection)
+                                {
+                                    <li id="lnkCorrection"><a onclick="openCorrectionPopup(@Model.ID);"> @LocalResource.Correction </a></li>
+                                }
+                                @if (Model.IsAllowedDelete && Model.IsLock == false)
+                                {
+                                    <li id="btnDelete" data-id="@Model.ID"><a onclick="javascript:void(0);"> @GlobalResource.Delete </a></li>
+                                }
+                                @if (Model.ServiceTypeID == 1 || Model.ServiceTypeID == 11)
+                                {
+                                    <li id="btnRight" data-AccountServiceID="@Model.ID" data-AccountID="0"
+                                        data-Year="@Model.Year" data-rowVersion64="@Model.RowVersion64"
+                                        data-ServiceID="@Model.ServiceID"><a onclick="javascript:void(0);"> @GlobalResource.AssignRight </a></li>
+                                    }
+                                <li id="btnNewService" data-id="@Model.ID">
+                                    @if (@Model.ServiceTypeID == 20)
+                                    {
+                                        <a href="@Url.Content("~/AccountService/Add?accountId=" + Model.OwnerID + "&accountTypeId=" + Model.AccountTypeID + "&serviceType=" + 0)">
+                                            @LocalResource.NewService
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Content("~/AccountService/Add?accountId=" + Model.AccountID + "&accountTypeId=" + Model.AccountTypeID + "&serviceType=" + 0)">
+                                            @LocalResource.NewService
+                                        </a>
+                                    }
+                                </li>
+
+                                @if (Model.ServiceTypeID == 1 || Model.ServiceTypeID == 11)
+                                {
+                                    <li id="lnkEditLicenseNumber"><a onclick="openEditLicenseNumberPopup(@Model.ID);"> @LocalResource.EditLicenseNumber </a></li>
+                                }
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6">
+                            @if (Model.IsTransferService.HasValue && Model.IsTransferService.Value == true)
+                            {
+                                <div class="text-left" id="dvTransferNoteText">
+                                    <span class="fa-stack">
+                                        <i class="fa fa-exclamation-triangle fa-stack-2x"></i>
+                                        <i class="fa fa-exclamation fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    <strong>@LocalResource.TransferNoteText </strong>
+                                </div>
+                            }
+                            @if (Model.IsLock)
+                            {
+                                <div class="text-center" id="dvLockText">
+                                    <h2 style="color:red;">
+                                    <strong>
+                                        <span id="spStatus">
+                                            @if (Model.IsInJudicialCollection == true)
+                                            {
+                                                @GlobalResource.JudicialCollection
+                                            }
+                                            else
+                                            {
+                                                @LocalResource.Locked
+                                            }
+                                        </span>
+                                    </strong>
+                                    </h2>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.DiscountInfoMessage))
+                            {
+                                <h2 class="m-b-md" id="lblDiscountInfo">
+                                    @Html.Raw(Model.DiscountInfoMessage)
+                                </h2>
+                            }
+                            @if (Model.ExtensionEndDate != null && Model.ExtensionEndDate >= Common.CurrentDateTime)
+                            {
+                                <p class="m-b-md" id="lblExtensionInfo">
+                                    @Html.Raw(LocalResource.ExtensionInfoMsg.Replace("{0}", String.Format(new System.Globalization.CultureInfo(UserSession.Current.Language), "{0:MMMM d, yyyy}", Model.ExtensionEndDate))) @Html.Raw("&nbsp;")   <a onclick="viewExtensionPopup(@Model.ExtensionID , @Model.ID);"> @GlobalResource.ViewDetails </a>
+                                </p>
+                            }
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            @if (!string.IsNullOrEmpty(Model.SerCustomField1))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomField1:</div>
+                                    <div class="col-md-5 col-lg-5" style="word-break: break-word;">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Model.CustomField1
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="1"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomField1" style="color:red;word-break: break-word;">
+                                                @Model.CustomField1
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SerCustomField2))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomField2:</div>
+                                    <div class="col-md-5 col-lg-5" style="word-break: break-word;">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Model.CustomField2
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="2"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomField2" style="color:red;word-break: break-word;">
+                                                @Model.CustomField2
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SerCustomField3))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomField3:</div>
+                                    <div class="col-md-5 col-lg-5" style="word-break: break-word;">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Model.CustomField3
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="3"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomField3" style="color:red;word-break: break-word;">
+                                                @Model.CustomField3
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SerCustomField4))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomField4:</div>
+                                    <div class="col-md-5 col-lg-5" style="word-break: break-word;">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Model.CustomField4
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="4"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomField4" style="color:red;word-break: break-word;">
+                                                @Model.CustomField4
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SerCustomField5))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomField5:</div>
+                                    <div class="col-md-5 col-lg-5" style="word-break: break-word;">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Model.CustomField5
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="5"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomField5" style="color:red;word-break: break-word;">
+                                                @Model.CustomField5
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.SerCustomDateField))
+                            {
+                                <div class="row">
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@Model.SerCustomDateField:</div>
+                                    <div class="col-md-5 col-lg-5">
+                                        @if (!Model.IsLock)
+                                        {
+                                            @Html.Raw(Model.CustomDateField == null ? "" : Model.CustomDateField.Value.ToString("d"))
+
+                                            <a id="btnEditCustomField" title="@GlobalResource.Replace" class='btn-xs m-r-sm'
+                                               data-CustomField="0"
+                                               data-SerCustomField1="@Model.SerCustomField1"
+                                               data-SerCustomField2="@Model.SerCustomField2"
+                                               data-SerCustomField3="@Model.SerCustomField3"
+                                               data-SerCustomField4="@Model.SerCustomField4"
+                                               data-SerCustomField5="@Model.SerCustomField5"
+                                               data-SerCustomDateField="@Model.SerCustomDateField"
+                                               data-CustomField1="@Model.CustomField1"
+                                               data-CustomField2="@Model.CustomField2"
+                                               data-CustomField3="@Model.CustomField3"
+                                               data-CustomField4="@Model.CustomField4"
+                                               data-CustomField5="@Model.CustomField5"
+                                               data-CustomDateField="@Model.CustomDateField"
+                                               data-Year="@Model.Year">
+                                                <i class='fa fa-pencil'></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span id="spnCustomDateField" style="color:red;">
+                                                @Html.Raw(Model.CustomDateField == null ? "" : Model.CustomDateField.Value.ToString("d"))
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                @if (!string.IsNullOrEmpty(Model.Property))
+                                {
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@GlobalResource.Property:</div>
+                                    <div class="col-md-5 col-lg-5">
+                                        @if (
+                                            Model.IsDeletedProperty != true
+                                                &&
+                                            Model.ServiceTypeID != 20
+                                         )
+                                        {
+                                            <a id="addRight"
+                                               title="@AccountPropertyResource.EditRight"
+                                               class='btn-xs m-r-sm text-underline'
+                                               data-AccountServiceID="@Model.ID"
+                                               data-AccountID="@Model.AccountID"
+                                               data-Year="@Model.Year"
+                                               data-rowVersion64="@Model.RowVersion64"
+                                               data-ServiceID="@Model.ServiceID"
+                                               data-AccountPropertyID="@Model.AccountPropertyID"
+                                               data-ServiceTypeID="@Model.ServiceTypeID">
+                                                @Model.Property
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(Model.Property)
+                                        }
+                                    </div>
+                                }
+
+                                @if (
+                                (string.IsNullOrEmpty(Model.Property))
+                                &&
+                                (Model.ServiceTypeID == 1 || Model.ServiceTypeID == 11 || Model.ServiceTypeID == 16 || Model.ServiceTypeID == 17
+                                || Model.ServiceTypeID == 18 || Model.ServiceTypeID == 19 || Model.ServiceTypeID == 24
+                                || Model.ServiceTypeID == 27)
+                                )
+                                {
+                                    <div class="col-md-7 col-lg-7 text-right font-bold">@GlobalResource.Property:</div>
+                                    <div class="col-md-5 col-lg-5">
+                                        <a id="addRight"
+                                           title="@AccountPropertyResource.AddRight"
+                                           class='btn-xs m-r-sm'
+                                           data-AccountServiceID="@Model.ID"
+                                           data-AccountID="@Model.AccountID"
+                                           data-Year="@Model.Year"
+                                           data-rowVersion64="@Model.RowVersion64"
+                                           data-ServiceID="@Model.ServiceID"
+                                           data-AccountPropertyID="@Model.AccountPropertyID"
+                                           data-ServiceTypeID="@Model.ServiceTypeID">
+                                            <i class='fa fa-pencil'></i>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clients-list m-n">
+                        <ul class="nav nav-tabs">
+                            <li id="liFilling" class="@activeCssClass"><a data-toggle="tab" href="#tabFilling">@LocalResource.Filling</a></li>
+                            <li id="liDebt" data-accountserviceid="@Model.ID"><a data-toggle="tab" href="#tabDebt">@LocalResource.Debt </a></li>
+                            <li id="liDiscount" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabDiscount"> @GlobalResource.Discount</a></li>
+                            <li id="liPayment" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabPayment"> @LocalResource.PaymentHistory</a></li>
+                            <li id="liAdjustments" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabAdjustments"> @LocalResource.Adjustments</a></li>
+                            <li id="liExemption" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabExemption"> @LocalResource.Exemption</a></li>
+                            <li id="liPaymentPlan" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabPaymentPlan"> @GlobalResource.PaymentPlan</a></li>
+                            <li id="liNote" data-accountserid="@Model.ID"><a data-toggle="tab" href="#tabNote"> @GlobalResource.Notes</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tabFilling" class="tab-pane @activeCssClass">
+                                @if (Model.FilingTypeID != 4)
+                                {
+
+                                    @Html.Partial("~/Areas/Accounts/Views/AccountService/_FillingTab.cshtml", Model.Filling)
+
+                                }
+                                else
+                                {
+                                    @Html.Partial("~/Areas/Accounts/Views/AccountService/_AutoFillingTab.cshtml", Model.Filling)
+                                }
+                            </div>
+                            <div id="tabDebt" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_DebtTab.cshtml", Model.Debt)
+                            </div>
+                            <div id="tabDiscount" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_DiscountTab.cshtml", Model.Discount)
+                            </div>
+                            <div id="tabPayment" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_PaymentHistoryTab.cshtml", Model.PaymentHistory)
+                            </div>
+                            <div id="tabAdjustments" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_AdjustmentList.cshtml", Model)
+                            </div>
+                            <div id="tabExemption" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_ExemptionList.cshtml", Model)
+                            </div>
+                            <div id="tabPaymentPlan" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_AccountPaymentPlanList.cshtml", Model.AccountPaymentPlanList)
+                            </div>
+                            <div id="tabNote" class="tab-pane">
+                                @Html.Partial("~/Areas/Accounts/Views/AccountService/_NoteList.cshtml", Model.NoteList)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnAccountServiceId" value="@Model.ID" />
+<input type="hidden" id="hdnRowVersion64" value="@Model.RowVersion64" />
+<input type="hidden" id="hdnAccountId" value="@Model.AccountID" />
+<input type="hidden" id="hdnAccountPropertyId" value="@Model.AccountPropertyID" />
+<input type="hidden" id="hdnServiceID" value="@Model.ServiceID" />
+<input type="hidden" id="hdnCollectionDetailID" value="@Model.Filling.FirstOrDefault().AccountServiceCollectionDetailId" />
+
+@Html.HiddenFor(x => x.IsPrint, new { id = "hdnIsPrinted" })
+@Html.HiddenFor(x => x.IsDateFieldCustomField1)
+@Html.HiddenFor(x => x.OwnerID)
+
+@*Modal Popup*@
+<div class="modal inmodal" id="licensemodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvLicense">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="taxmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvTax">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="Unitmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvUnit">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="measuredwatermodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvMeasuredWater">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="propertytaxmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvPropertyTax">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="autofillingmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvAutoFilling">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="paymentmodal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated fadeIn" id="dvPayment">
+            @Html.Partial("~/Areas/Accounts/Views/AccountService/_MakePayment.cshtml", Model)
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="noteModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvNoteModal">
+            @Html.Partial("~/Areas/Accounts/Views/AccountService/_AdditionalNote.cshtml", Model.Note)
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="printModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvPrintModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="lockModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvLockModal">
+            @Html.Partial("~/Areas/Accounts/Views/AccountService/_LockPopup.cshtml", Model)
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="adjustmentModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvAdjustmentModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="correctiontModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvCorrectionModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="extensionModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvextensionModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="ExemptionModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="dvExemptionModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="customFieldModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvCustomFieldModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="rightModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvRightModal">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="ExemptionHistory" role="dialog" data-code="" data-mode="" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated fadeIn" id="divExemptionHistory">
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="DeleteConfirmModal" data-accountservicecollectionid="" data-fillingform="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteServiceFiling" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal inmodal" id="DeleteAccServiceConfirmModal" data-accountserviceid="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteService" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal inmodal" id="DeleteAccServiceNoteConfirmModal" data-accountserviceid="" data-isaccountservicenote="" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <form id="frmDeleteService" class="form-horizontal">
+            <div class="modal-content animated fadeIn" id="dvextensionModal">
+                <div class="modal-body no-padding">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5> @GlobalResource.Delete </h5>
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">@GlobalResource.Close</span></button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row form-group">
+                                <label class="col-lg-3 control-label">@GlobalResource.Reason <span class="text-danger">*</span></label>
+                                <div class="col-lg-9">
+                                    @Html.TextArea("txtReason", "", new { @class = "form-control required", @id = "txtReason", rows = "3", tabindex = 1 })
+                                    @Html.ValidationMessage("Reason", GlobalResource.RequiredValidationMsg)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModalDelete" type="button" tabindex="2" class="btn btn-primary">@GlobalResource.Delete </button>
+                    <button id="btnCancel" type="button" class="btn btn-white closemodal" data-dismiss="modal" tabindex="3">@GlobalResource.Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal inmodal" id="EditLicenseNumberModal" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content animated fadeIn" id="dvEditLicenseNumberModal">
+        </div>
+    </div>
+</div>
+
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dropzone/dropZoneStyles")
+    @Styles.Render("~/plugins/select2Styles")
+    @Styles.Render("~/plugins/dataPickerStyles")
+    @Styles.Render("~/plugins/footableStyles")
+    @Styles.Render("~/plugins/sweetAlertStyles")
+    <style>
+        .fa-exclamation-triangle {
+            color: yellow;
+        }
+
+        .fa-exclamation {
+            color: black;
+        }
+    </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/select2")
+    @Scripts.Render("~/plugins/dataPicker")
+    @Scripts.Render("~/plugins/dropZone")
+    @Scripts.Render("~/plugins/footable")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+<script type="text/javascript">
+        var removefile = '@Html.Raw(GlobalResource.RemoveFile)';
+        var dropzonemessage = '@Html.Raw(GlobalResource.UploadfileInitialMessage)';
+        var RequiredFillingMaxValueErrMsg = '@Html.Raw(LocalResource.RequiredFillingMaxValueErrMsg)';
+        var Uploadedfilemaxsizemessage = '@Html.Raw(GlobalResource.Uploadedeachfilemaxsizemessage)';
+        var Uploadedfilemaxlimitmessage = '@Html.Raw(GlobalResource.Uploadedfilemaxlimitmessage)';
+        var RequiredTotalValueErrMsg = '@Html.Raw(LocalResource.RequiredTotalValueErrMsg)';
+        var FillingProcessInfoMsg = '@Html.Raw(LocalResource.FillingProcessInfoMsg)';
+        var allowedFileTypes = '@Html.Raw(Common.AllowedFileTypesToUpload)';
+        var maxFileLength = '@Html.Raw(Common.MaxFileLengthToUpload)';
+        var onlyonefileallowed = '@Html.Raw(GlobalResource.Uploadeddocumentmaxsizemessage)';
+        var invoiceNo = '@Html.Raw(LocalResource.InvoiceNo)';
+        var invoiceGeneratedMsg = '@Html.Raw(LocalResource.InvoiceGeneratedMsg)';
+        var goToFinanceForPaymentMsg = '@Html.Raw(LocalResource.GoToFinanceForPaymentMsg)';
+        var PaymentProcessInfoMsg = '@Html.Raw(LocalResource.PaymentProcessInfoMsg)';
+        var OkMsg = '@Html.Raw(GlobalResource.Ok)';
+        var MaxFilesToUpload = '@Html.Raw(Common.MaxFilesToUpload)';
+        var uploadfiletypemsg = '@Html.Raw(GlobalResource.Uploadedfiletypemessage)';
+        var ValAmountToPay = '@Html.Raw(LocalResource.ValAmountToPay)';
+        var swalTitleText = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancelBtnText = '@Html.Raw(GlobalResource.Cancel)';
+        var ExemptionDeleteText = '@Html.Raw(LocalResource.DeleteExemption)';
+        var ExemptionDeleteAllText = '@Html.Raw(LocalResource.DeleteAllExemption)';
+        var confMessage = '@Html.Raw(GlobalResource.Delete)';
+        var deleteconfirmFillingMsg =  '@Html.Raw(LocalResource.DeleteConfirmFillingMsg)';
+        var updateBtnText = '@Html.Raw(GlobalResource.Update)';
+        var UpdateWaringMsg='@Html.Raw(LocalResource.UpdateWaringMsg)';
+        var issue = '@Html.Raw(GlobalResource.Issue)';
+        var accountserviceRedirectURL = '@Url.Action("View", "AccountService", new { accountServiceID = Model.ID })';
+        var GrossAmountRequiredMessage = '@Html.Raw(LocalResource.GrossAmountRequiredMessage)';
+        var LengthRequiredMessage = '@Html.Raw(LocalResource.LengthRequiredMessage)';
+        var WidthRequiredMessage = '@Html.Raw(LocalResource.WidthRequiredMessage)';
+        var PreviousMeasureRequiredMessage = '@Html.Raw(LocalResource.PreviousMeasureRequiredMessage)';
+        var ActualMeasureRequiredMessage = '@Html.Raw(LocalResource.ActualMeasureRequiredMessage)';
+        var WaterConsumptionErrMsg = '@Html.Raw(LocalResource.WaterConsumptionErrMsg)';
+        var FilingFormID = '@Html.Raw(Model.Filling.FirstOrDefault().FilingFormID.HasValue? Model.Filling.FirstOrDefault().FilingFormID.Value : 0)';
+        var confMsgcustomFieldUpdate = '@Html.Raw(LocalResource.ConfirmationMsgForCustomFieldUpdate)';
+        var yes = '@Html.Raw(GlobalResource.Yes)';
+        var no = '@Html.Raw(GlobalResource.No)';
+        var suremsg = '@Html.Raw(GlobalResource.SureMessage)';
+        var cancel = '@Html.Raw(GlobalResource.Cancel)';
+        var Delete = '@Html.Raw(GlobalResource.Delete)';
+        Dropzone.autoDiscover = false;
+        var dropDownSelectMessage = '@Html.Raw(GlobalResource.DropDownSelectMessage)';
+        var minimumInputSearchCharacterMessage = '@Html.Raw(GlobalResource.MinimumInputSearchCharacterMessage)';
+        var nodatamsg = '@Html.Raw(GlobalResource.NoDataMessage)';
+        var licenseNumberAlreadyExistsMsg = '@Html.Raw(LocalResource.LicenseNumberAlreadyExistsMsg)';
+        var AdjustmentDeleteText = '@Html.Raw(LocalResource.DeleteAdjustment)';
+</script>
+    <script src="~/Scripts/app/accountserviceview.js"></script>
+}
